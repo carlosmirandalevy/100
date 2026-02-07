@@ -176,7 +176,7 @@ const ITEMS = [
     prompt:"Create a [STYLE: photorealistic/digital art/watercolor/oil painting] image of [SUBJECT]. The scene should include [DETAILS: lighting, colors, mood, composition]. Style references: [ARTIST OR STYLE]. Aspect ratio: [16:9/1:1/9:16]. High quality, detailed, professional.",
     promptTip:"Be specific about style, lighting, and mood. Add words like 'cinematic lighting', 'golden hour', 'dramatic shadows', or name specific art styles. More detail = better results.",
     tools:["Midjourney","DALL-E","Leonardo AI","Stable Diffusion","Freepik"],
-    links:[{name:"Midjourney",url:"https://midjourney.com"},{name:"Leonardo AI",url:"https://leonardo.ai"},{name:"Freepik",url:"https://freepik.com"}]},
+    links:[{name:"Midjourney",url:"https://midjourney.com"},{name:"Leonardo AI",url:"https://leonardo.ai"},{name:"Freepik",url:"https://freepik.com"},{name:"See our AI media portfolio",url:"https://xperto.media/portfolio"}]},
 
   {id:22, title:"Design Logos & Branding", subtitle:"Build your visual identity", category:"art",
     description:"Starting a project, brand, or social media page? AI can help you brainstorm logo concepts, color schemes, and brand identity elements. It's a great starting point for your visual identity.",
@@ -184,7 +184,7 @@ const ITEMS = [
     prompt:"I'm creating a brand called [BRAND NAME] for [PURPOSE/INDUSTRY]. The brand personality is [modern/playful/elegant/bold/minimal]. Generate 5 logo concept descriptions including:\n- Icon/symbol idea\n- Font style recommendation\n- Color palette (3-4 colors with hex codes)\n- How the logo should feel and what it communicates\n\nTarget audience: [DESCRIBE YOUR AUDIENCE].",
     promptTip:"Use the text descriptions to create logos in Canva or AI image generators. Ask for 'variations on concept #3' to explore options.",
     tools:["ChatGPT","Midjourney","Canva","Looka"],
-    links:[{name:"Canva",url:"https://www.canva.com"},{name:"Looka",url:"https://looka.com"}]},
+    links:[{name:"Canva",url:"https://www.canva.com"},{name:"Looka",url:"https://looka.com"},{name:"See our AI media portfolio",url:"https://xperto.media/portfolio"}]},
 
   {id:23, title:"Create Color Palettes", subtitle:"Find perfect color combinations", category:"art",
     description:"Choosing colors that work together is an art. AI can suggest harmonious color palettes for any project - whether it's a website, presentation, room design, or art project.",
@@ -192,7 +192,7 @@ const ITEMS = [
     prompt:"Generate 3 color palettes (5 colors each) for a [PROJECT TYPE: website/presentation/poster/brand]. The mood should be [MOOD: energetic/calm/professional/playful/luxurious]. For each palette, provide:\n- Hex codes for each color\n- Color names\n- Which color to use for background, text, accents\n- What emotion each color conveys",
     promptTip:"Mention specific colors you want to include: 'Must include teal' or 'No red tones'. Reference moods like 'sunset vibes' or 'ocean calm' for inspiration.",
     tools:["ChatGPT","Claude","Coolors","Adobe Color"],
-    links:[{name:"Coolors",url:"https://coolors.co"},{name:"Adobe Color",url:"https://color.adobe.com"}]},
+    links:[{name:"Coolors",url:"https://coolors.co"},{name:"Adobe Color",url:"https://color.adobe.com"},{name:"See our AI media portfolio",url:"https://xperto.media/portfolio"}]},
 
   {id:24, title:"Edit & Enhance Photos", subtitle:"Professional photo editing with AI", category:"art",
     description:"AI-powered photo editing tools can remove backgrounds, enhance lighting, fix imperfections, upscale images, and apply artistic filters - all without needing to learn Photoshop.",
@@ -200,7 +200,7 @@ const ITEMS = [
     prompt:"I have a photo that needs editing. Please suggest the best approach for:\n- [DESCRIBE WHAT YOU WANT: remove background / enhance lighting / fix colors / remove object / upscale resolution]\n\nWhich AI tool would work best for this specific edit? Give me step-by-step instructions for the recommended tool.",
     promptTip:"Different tools excel at different tasks. Use Remove.bg for backgrounds, Topaz for upscaling, Lightroom AI for color correction. Ask AI which tool fits your specific need.",
     tools:["Adobe Firefly","Remove.bg","Topaz Photo AI","Canva"],
-    links:[{name:"Remove.bg",url:"https://www.remove.bg"},{name:"Canva",url:"https://www.canva.com"}]},
+    links:[{name:"Remove.bg",url:"https://www.remove.bg"},{name:"Canva",url:"https://www.canva.com"},{name:"See our AI media portfolio",url:"https://xperto.media/portfolio"}]},
 
   {id:25, title:"Generate Wallpapers & Backgrounds", subtitle:"Custom device backgrounds", category:"art",
     description:"Create unique wallpapers for your phone, tablet, or computer that no one else has. AI image generators can create stunning custom backgrounds in any style you can imagine.",
@@ -208,7 +208,7 @@ const ITEMS = [
     prompt:"Generate a [STYLE: minimalist/abstract/nature/cyberpunk/anime/aesthetic] wallpaper for [DEVICE: iPhone 16:9 / desktop 16:9 / iPad 4:3]. Theme: [THEME]. Color palette: [COLORS]. The image should be visually striking but not too busy, so icons and text can be readable on top of it. High resolution, clean composition.",
     promptTip:"For phone wallpapers use portrait orientation, for desktop use landscape. Add 'leave space at the top for clock widget' for phone lock screens.",
     tools:["Midjourney","DALL-E","Leonardo AI","Stable Diffusion","Freepik"],
-    links:[{name:"Midjourney",url:"https://midjourney.com"},{name:"Leonardo AI",url:"https://leonardo.ai"},{name:"Freepik",url:"https://freepik.com"}]},
+    links:[{name:"Midjourney",url:"https://midjourney.com"},{name:"Leonardo AI",url:"https://leonardo.ai"},{name:"Freepik",url:"https://freepik.com"},{name:"See our AI media portfolio",url:"https://xperto.media/portfolio"}]},
 
   {id:26, title:"Design Social Media Graphics", subtitle:"Eye-catching visual content", category:"art",
     description:"Create professional-looking graphics for Instagram stories, YouTube thumbnails, Twitter headers, and more using AI design tools and image generators.",
@@ -216,7 +216,7 @@ const ITEMS = [
     prompt:"Design a [PLATFORM: Instagram post / YouTube thumbnail / Twitter header] graphic for [TOPIC/CONTENT]. Requirements:\n- Eye-catching and scroll-stopping\n- Include space for text overlay\n- Color scheme: [COLORS]\n- Style: [modern/bold/minimal/retro]\n- Dimensions: [1080x1080 / 1280x720 / 1500x500]\n\nSuggest the layout, colors, and imagery to use.",
     promptTip:"Use Canva for adding text on top of AI-generated images. Ask AI for 'YouTube thumbnail ideas for a video about [topic]' to get creative concepts.",
     tools:["Canva","Midjourney","DALL-E","Adobe Express"],
-    links:[{name:"Canva",url:"https://www.canva.com"},{name:"Adobe Express",url:"https://www.adobe.com/express"}]},
+    links:[{name:"Canva",url:"https://www.canva.com"},{name:"Adobe Express",url:"https://www.adobe.com/express"},{name:"See our AI media portfolio",url:"https://xperto.media/portfolio"}]},
 
   {id:27, title:"Create Memes", subtitle:"Humor with AI assistance", category:"art",
     description:"AI can help you create original memes - from generating the image to writing the perfect caption. Combine AI image generation with AI-written humor for viral-worthy content.",
@@ -224,7 +224,7 @@ const ITEMS = [
     prompt:"Generate 5 funny meme ideas about [TOPIC: school life / studying / technology / etc.]. For each meme, provide:\n- The image description (what the meme image should show)\n- The top text\n- The bottom text\n- Why it's funny\n\nMake them relatable to teenagers. Keep the humor clean but genuinely funny.",
     promptTip:"The best memes are relatable. Ask AI for memes about very specific situations: 'Memes about when the teacher says the test is easy'. Use imgflip.com to create them.",
     tools:["ChatGPT","Midjourney","imgflip","Canva"],
-    links:[{name:"imgflip Meme Generator",url:"https://imgflip.com/memegenerator"},{name:"Canva",url:"https://www.canva.com"}]},
+    links:[{name:"imgflip Meme Generator",url:"https://imgflip.com/memegenerator"},{name:"Canva",url:"https://www.canva.com"},{name:"See our AI media portfolio",url:"https://xperto.media/portfolio"}]},
 
   {id:28, title:"Generate Comic Strips", subtitle:"Visual storytelling with AI", category:"art",
     description:"Create your own comic strips using AI to generate artwork and help write dialogue. Tell stories visually without needing to know how to draw.",
@@ -232,7 +232,7 @@ const ITEMS = [
     prompt:"Create a 4-panel comic strip about [TOPIC/STORY]. For each panel, provide:\n- Panel description (visual scene, character positions, expressions)\n- Dialogue/speech bubbles\n- Sound effects if any\n- Narration text if needed\n\nStyle: [manga/western comic/cartoon/minimalist]. Make it funny/dramatic/heartwarming.",
     promptTip:"For consistent characters across panels, describe them in detail once and reference that description. Use tools like Pixton or Canva Comics to assemble the final strip.",
     tools:["ChatGPT","Midjourney","DALL-E","Pixton"],
-    links:[{name:"Pixton",url:"https://www.pixton.com"},{name:"Canva",url:"https://www.canva.com"}]},
+    links:[{name:"Pixton",url:"https://www.pixton.com"},{name:"Canva",url:"https://www.canva.com"},{name:"See our AI media portfolio",url:"https://xperto.media/portfolio"}]},
 
   {id:29, title:"Design Presentation Slides", subtitle:"Beautiful slide decks in minutes", category:"art",
     description:"AI can design professional presentation slides, suggest layouts, create visual content, and even write your speaker notes. No more boring bullet-point slides.",
@@ -240,7 +240,7 @@ const ITEMS = [
     prompt:"Design a [NUMBER]-slide presentation about [TOPIC] for [AUDIENCE]. For each slide, provide:\n- Slide title\n- Key content (max 3-4 bullet points or a visual description)\n- Speaker notes (what to say)\n- Suggested visual or image description\n\nDesign style: [modern minimal / bold colorful / corporate / creative]. Color scheme: [COLORS]. Make it engaging, not a wall of text.",
     promptTip:"Follow the 'one idea per slide' rule. Ask AI for 'presentation design tips' specific to your topic. Use Canva or Beautiful.ai for the visual design.",
     tools:["ChatGPT","Claude","Canva","Beautiful.ai","Gamma"],
-    links:[{name:"Canva Presentations",url:"https://www.canva.com/presentations"},{name:"Gamma",url:"https://gamma.app"}]},
+    links:[{name:"Canva Presentations",url:"https://www.canva.com/presentations"},{name:"Gamma",url:"https://gamma.app"},{name:"See our AI media portfolio",url:"https://xperto.media/portfolio"}]},
 
   {id:30, title:"Create Mood Boards", subtitle:"Visual inspiration collections", category:"art",
     description:"A mood board captures the visual feel of a project. AI can help you define your aesthetic, suggest imagery, and create cohesive visual collections for any creative project.",
@@ -248,7 +248,7 @@ const ITEMS = [
     prompt:"Help me create a mood board for [PROJECT: bedroom redesign / brand identity / photo shoot / fashion collection]. I want the vibe to be [DESCRIBE AESTHETIC: cozy minimalist / bold streetwear / vintage tropical / dark academia]. Suggest:\n- 8-10 visual elements to include\n- Color palette with hex codes\n- Texture and material suggestions\n- Typography style\n- Reference artists or styles\n- Keywords for finding inspiration",
     promptTip:"Use Pinterest or Milanote to create the actual mood board. Generate AI images for elements you can't find. The more specific your aesthetic description, the better.",
     tools:["ChatGPT","Midjourney","Pinterest","Milanote"],
-    links:[{name:"Pinterest",url:"https://www.pinterest.com"},{name:"Milanote",url:"https://milanote.com"}]},
+    links:[{name:"Pinterest",url:"https://www.pinterest.com"},{name:"Milanote",url:"https://milanote.com"},{name:"See our AI media portfolio",url:"https://xperto.media/portfolio"}]},
 
   // ===== MUSIC & AUDIO (31-40) =====
   {id:31, title:"Compose Original Music", subtitle:"Create melodies and full songs", category:"music",
@@ -257,7 +257,7 @@ const ITEMS = [
     prompt:"Compose a [GENRE: jazz/pop/electronic/lo-fi/reggaeton] instrumental track. Mood: [happy/melancholic/energetic/chill]. Tempo: [slow/medium/fast]. Include [INSTRUMENTS: piano, guitar, drums, saxophone]. Length: about 2-3 minutes. The feel should be [DESCRIPTION: like a sunset at the beach / like walking through a city at night].",
     promptTip:"For Suno, write a short style description and lyrics. For pure instrumentals, specify 'no vocals'. Try mixing genres: 'jazz fusion with electronic beats'.",
     tools:["Suno","Udio","AIVA","Soundraw"],
-    links:[{name:"Suno",url:"https://suno.com"},{name:"AIVA",url:"https://www.aiva.ai"}]},
+    links:[{name:"Suno",url:"https://suno.com"},{name:"AIVA",url:"https://www.aiva.ai"},{name:"Listen to our AI-enhanced artists",url:"https://maimusic.org"}]},
 
   {id:32, title:"Create Beats & Instrumentals", subtitle:"Produce backing tracks", category:"music",
     description:"Whether you rap, sing, or just love music production, AI can create custom beats and instrumentals tailored to your style. Perfect for aspiring musicians and content creators.",
@@ -265,7 +265,7 @@ const ITEMS = [
     prompt:"Create a [GENRE] beat at [BPM] BPM. Style: [trap/boom bap/R&B/drill/dancehall]. Include:\n- Hard-hitting drums\n- [Bass style: 808 / deep bass / acoustic]\n- [Melodic elements: piano / synth / guitar]\n- Structure: intro, verse, chorus, verse, chorus, outro\n\nMood: [dark and aggressive / smooth and viby / upbeat and fun]",
     promptTip:"Use specific BPM ranges: trap (130-160), lo-fi (70-90), house (120-130). Ask AI to create variations for verses and choruses to keep it dynamic.",
     tools:["Suno","Udio","Soundraw","BandLab"],
-    links:[{name:"Suno",url:"https://suno.com"},{name:"BandLab",url:"https://www.bandlab.com"}]},
+    links:[{name:"Suno",url:"https://suno.com"},{name:"BandLab",url:"https://www.bandlab.com"},{name:"Listen to our AI-enhanced artists",url:"https://maimusic.org"}]},
 
   {id:33, title:"Generate Sound Effects", subtitle:"Custom audio for any project", category:"music",
     description:"Need sound effects for a video, game, podcast, or presentation? AI can generate custom sound effects that fit your exact needs, from whooshes to explosions to ambient sounds.",
@@ -273,7 +273,7 @@ const ITEMS = [
     prompt:"Generate a sound effect for [CONTEXT: a video game / a podcast intro / a YouTube video]. The sound should be: [DESCRIPTION: a futuristic door opening / a magical sparkle / an ominous bass rumble / a satisfying click]. Duration: [LENGTH]. Style: [realistic/cartoon/sci-fi/fantasy].",
     promptTip:"Be descriptive about the quality: 'crisp and clean', 'deep and rumbling', 'bright and sparkly'. Layer multiple sound effects for richer audio.",
     tools:["ElevenLabs","Suno","Soundraw","Freesound"],
-    links:[{name:"ElevenLabs",url:"https://elevenlabs.io"},{name:"Freesound",url:"https://freesound.org"}]},
+    links:[{name:"ElevenLabs",url:"https://elevenlabs.io"},{name:"Freesound",url:"https://freesound.org"},{name:"Listen to our AI-enhanced artists",url:"https://maimusic.org"}]},
 
   {id:34, title:"Write Song Arrangements", subtitle:"Full orchestration with AI help", category:"music",
     description:"AI can help you arrange music - deciding which instruments play what, when to add harmonies, how to build dynamics, and how to structure a full arrangement from a simple melody.",
@@ -281,7 +281,7 @@ const ITEMS = [
     prompt:"I have a song with these chords: [CHORD PROGRESSION]. Help me create a full arrangement in [GENRE] style. Suggest:\n- Intro (how to start)\n- Instrument layers for each section\n- When to add/remove instruments for dynamics\n- Harmony suggestions for vocals\n- A memorable hook or riff\n- How to build to the climax\n- Outro options",
     promptTip:"If you play an instrument, describe what you have so far. Ask 'What instruments would add warmth to the chorus?' or 'How do I make the bridge more interesting?'",
     tools:["ChatGPT","Claude","AIVA","BandLab"],
-    links:[{name:"AIVA",url:"https://www.aiva.ai"},{name:"BandLab",url:"https://www.bandlab.com"}]},
+    links:[{name:"AIVA",url:"https://www.aiva.ai"},{name:"BandLab",url:"https://www.bandlab.com"},{name:"Listen to our AI-enhanced artists",url:"https://maimusic.org"}]},
 
   {id:35, title:"Create Podcast Scripts", subtitle:"Structure your audio content", category:"music",
     description:"Planning a podcast? AI can help you create episode scripts, talking points, interview questions, and show structures that keep your audience engaged from start to finish.",
@@ -289,7 +289,7 @@ const ITEMS = [
     prompt:"Create a podcast episode script about [TOPIC]. Format: [solo/interview/co-hosted]. Duration: [LENGTH] minutes. Include:\n- Catchy episode title\n- Hook (first 30 seconds to grab attention)\n- Intro with show name and episode context\n- 3-4 main talking points with transition phrases\n- Interesting facts or stories to share\n- Audience engagement moment (question, poll)\n- Outro with call-to-action\n\nTone: [conversational/educational/entertaining/inspiring]",
     promptTip:"If doing interviews, ask AI to generate 10 thoughtful questions. For solo episodes, ask for 'storytelling hooks' that keep listeners engaged.",
     tools:["ChatGPT","Claude","Gemini","Descript"],
-    links:[{name:"Anchor/Spotify for Podcasters",url:"https://podcasters.spotify.com"},{name:"Descript",url:"https://www.descript.com"}]},
+    links:[{name:"Anchor/Spotify for Podcasters",url:"https://podcasters.spotify.com"},{name:"Descript",url:"https://www.descript.com"},{name:"Listen to our AI-enhanced artists",url:"https://maimusic.org"}]},
 
   {id:36, title:"Generate Voice Narrations", subtitle:"Text-to-speech for projects", category:"music",
     description:"AI voice generators can create natural-sounding narrations in multiple languages and voice styles. Perfect for videos, presentations, audiobooks, or any project that needs voiceover.",
@@ -297,7 +297,7 @@ const ITEMS = [
     prompt:"I need a voiceover narration for [PROJECT: a school presentation / a YouTube video / an audiobook]. The text is:\n\n[YOUR TEXT]\n\nVoice style: [warm and friendly / authoritative and professional / energetic and young / calm and soothing]. Language: [English/French/Spanish]. Please suggest the best AI voice tool for this and any tips for making it sound natural.",
     promptTip:"ElevenLabs offers the most natural voices. Add pauses with '...' in your script. Vary sentence length for more natural rhythm. Record yourself first and use AI to enhance.",
     tools:["ElevenLabs","Play.ht","Murf","NaturalReader"],
-    links:[{name:"ElevenLabs",url:"https://elevenlabs.io"},{name:"Play.ht",url:"https://play.ht"}]},
+    links:[{name:"ElevenLabs",url:"https://elevenlabs.io"},{name:"Play.ht",url:"https://play.ht"},{name:"Listen to our AI-enhanced artists",url:"https://maimusic.org"}]},
 
   {id:37, title:"Mix & Master Audio", subtitle:"Professional sound quality with AI", category:"music",
     description:"AI mastering tools can make your recordings sound professional. They analyze your audio and automatically adjust levels, EQ, compression, and stereo width for optimal sound.",
@@ -305,7 +305,7 @@ const ITEMS = [
     prompt:"I have a [TYPE: song/podcast/voiceover] recording that needs professional mixing and mastering. Current issues: [describe problems: too quiet/muddy bass/harsh highs/inconsistent volume]. What specific AI tools should I use, and what settings should I start with? Give me a step-by-step guide for getting professional-quality audio.",
     promptTip:"LANDR and eMastered are great for automatic mastering. For mixing, use AI plugins in your DAW. Always compare before/after on different speakers.",
     tools:["LANDR","eMastered","iZotope","BandLab"],
-    links:[{name:"LANDR",url:"https://www.landr.com"},{name:"BandLab",url:"https://www.bandlab.com"}]},
+    links:[{name:"LANDR",url:"https://www.landr.com"},{name:"BandLab",url:"https://www.bandlab.com"},{name:"Listen to our AI-enhanced artists",url:"https://maimusic.org"}]},
 
   {id:38, title:"Create Ringtones & Alerts", subtitle:"Personalize your devices", category:"music",
     description:"Create unique ringtones and notification sounds using AI music generators. Stand out from everyone else's default sounds with custom audio that matches your personality.",
@@ -313,7 +313,7 @@ const ITEMS = [
     prompt:"Create a short [STYLE: electronic/acoustic/lo-fi/orchestral/8-bit] melody for use as a phone ringtone. Requirements:\n- Length: 15-20 seconds\n- Starts immediately (no long intro)\n- Catchy and recognizable\n- Not annoying when heard repeatedly\n- Ends cleanly (can loop)\n\nMood: [energetic/calm/fun/elegant]",
     promptTip:"Generate a longer piece in Suno and trim the catchiest part. For notification sounds, keep it under 3 seconds. Export as MP3 or M4R (iPhone).",
     tools:["Suno","Soundraw","GarageBand"],
-    links:[{name:"Suno",url:"https://suno.com"},{name:"Soundraw",url:"https://soundraw.io"}]},
+    links:[{name:"Suno",url:"https://suno.com"},{name:"Soundraw",url:"https://soundraw.io"},{name:"Listen to our AI-enhanced artists",url:"https://maimusic.org"}]},
 
   {id:39, title:"Generate Ambient Soundscapes", subtitle:"Focus and relaxation sounds", category:"music",
     description:"Create custom ambient soundscapes for studying, relaxing, sleeping, or meditating. AI can mix rain sounds, nature, lo-fi beats, and atmospheric textures to your preferences.",
@@ -321,7 +321,7 @@ const ITEMS = [
     prompt:"Create a [LENGTH]-minute ambient soundscape for [PURPOSE: studying/sleeping/meditating/relaxing]. Include:\n- [ELEMENTS: gentle rain, distant thunder, fireplace crackling, forest birds, ocean waves, soft piano, lo-fi beats]\n- No sudden loud sounds\n- Smooth, continuous texture\n- Gradually evolving but not distracting\n\nMood: [peaceful/mysterious/cozy/ethereal]",
     promptTip:"Mix natural sounds with subtle music for the best study environment. Ask for 'binaural beats at 40Hz' for focus or 'delta waves' for sleep.",
     tools:["Suno","AIVA","Noisli","myNoise"],
-    links:[{name:"Noisli",url:"https://www.noisli.com"},{name:"myNoise",url:"https://mynoise.net"}]},
+    links:[{name:"Noisli",url:"https://www.noisli.com"},{name:"myNoise",url:"https://mynoise.net"},{name:"Listen to our AI-enhanced artists",url:"https://maimusic.org"}]},
 
   {id:40, title:"Transcribe Audio to Text", subtitle:"Convert speech to writing", category:"music",
     description:"AI can transcribe audio recordings into text with remarkable accuracy. This is invaluable for converting lectures, interviews, podcasts, or meeting recordings into written notes.",
@@ -329,7 +329,7 @@ const ITEMS = [
     prompt:"I have an audio recording of [TYPE: a lecture/interview/meeting/podcast] in [LANGUAGE]. I need it transcribed with:\n- Speaker identification (who said what)\n- Timestamps every few minutes\n- Proper punctuation and paragraphs\n- Key points highlighted or summarized at the end\n\nWhich AI transcription tool gives the best results for [LANGUAGE] audio?",
     promptTip:"Otter.ai is great for English, Whisper (free, by OpenAI) handles many languages. For best results, use clear audio with minimal background noise.",
     tools:["Otter.ai","Whisper","Rev","Descript"],
-    links:[{name:"Otter.ai",url:"https://otter.ai"},{name:"Descript",url:"https://www.descript.com"}]},
+    links:[{name:"Otter.ai",url:"https://otter.ai"},{name:"Descript",url:"https://www.descript.com"},{name:"Listen to our AI-enhanced artists",url:"https://maimusic.org"}]},
 
   // ===== VIDEO & ANIMATION (41-50) =====
   {id:41, title:"Generate Short Videos", subtitle:"AI-powered video creation", category:"video",
@@ -338,7 +338,7 @@ const ITEMS = [
     prompt:"Generate a [LENGTH]-second video clip of [DESCRIPTION: a person walking through a neon-lit city at night / a drone shot over tropical mountains / a product spinning on a clean background]. Style: [cinematic/documentary/social media/artistic]. Camera movement: [slow pan/static/tracking shot/aerial]. Mood: [dramatic/upbeat/serene/mysterious].",
     promptTip:"Start with short 4-second clips and combine them. Be specific about camera angles and movements. Runway and Pika are the current leaders in AI video.",
     tools:["Runway","Pika","Sora","Kling","HeyGen","Freepik"],
-    links:[{name:"Runway",url:"https://runwayml.com"},{name:"Pika",url:"https://pika.art"},{name:"Sora",url:"https://sora.chatgpt.com/"},{name:"Kling AI",url:"https://klingai.com"},{name:"Freepik",url:"https://freepik.com"}]},
+    links:[{name:"Runway",url:"https://runwayml.com"},{name:"Pika",url:"https://pika.art"},{name:"Sora",url:"https://sora.chatgpt.com/"},{name:"Kling AI",url:"https://klingai.com"},{name:"Freepik",url:"https://freepik.com"},{name:"See our AI media portfolio",url:"https://xperto.media/portfolio"}]},
 
   {id:42, title:"Create Animations", subtitle:"Bring ideas to motion", category:"video",
     description:"AI animation tools let you create animated content - from simple motion graphics to character animations. Perfect for school projects, social media, or creative expression.",
@@ -346,7 +346,7 @@ const ITEMS = [
     prompt:"Help me plan a [LENGTH]-second animation about [TOPIC]. I want:\n- Style: [2D cartoon/3D render/motion graphics/anime/stop-motion look]\n- Key scenes/frames described in detail\n- Transition suggestions between scenes\n- Color palette and visual style notes\n- Music/sound suggestions\n\nThe animation is for [PURPOSE: school project/social media/personal art].",
     promptTip:"Use Canva for simple motion graphics, Runway for AI-generated animation, or LottieFiles for web animations. Start simple and build complexity.",
     tools:["Runway","Canva","LottieFiles","Pika"],
-    links:[{name:"Runway",url:"https://runwayml.com"},{name:"Canva",url:"https://www.canva.com"}]},
+    links:[{name:"Runway",url:"https://runwayml.com"},{name:"Canva",url:"https://www.canva.com"},{name:"See our AI media portfolio",url:"https://xperto.media/portfolio"}]},
 
   {id:43, title:"Edit Video Clips", subtitle:"Professional editing made simple", category:"video",
     description:"AI video editing tools can automatically cut, trim, add effects, fix colors, remove backgrounds, and enhance your video footage. Professional results without years of editing experience.",
@@ -354,7 +354,7 @@ const ITEMS = [
     prompt:"I have a [LENGTH]-minute raw video that needs editing for [PLATFORM: YouTube/Instagram/TikTok/school]. Help me plan the edit:\n- Suggest a structure and pacing\n- Where to cut to keep it engaging\n- What transitions would work\n- Color grading style suggestion\n- Music/audio recommendations\n- Text overlay and caption ideas\n\nThe video is about [DESCRIPTION].",
     promptTip:"CapCut has excellent AI editing features and it's free. For auto-captions, use Descript. For removing backgrounds, try Runway's green screen feature.",
     tools:["CapCut","Descript","Runway","DaVinci Resolve"],
-    links:[{name:"CapCut",url:"https://www.capcut.com"},{name:"DaVinci Resolve",url:"https://www.blackmagicdesign.com/products/davinciresolve"}]},
+    links:[{name:"CapCut",url:"https://www.capcut.com"},{name:"DaVinci Resolve",url:"https://www.blackmagicdesign.com/products/davinciresolve"},{name:"See our AI media portfolio",url:"https://xperto.media/portfolio"}]},
 
   {id:44, title:"Add Subtitles Automatically", subtitle:"Accessibility and engagement", category:"video",
     description:"AI can automatically generate accurate subtitles for your videos in any language. This improves accessibility, boosts engagement (most people watch videos on mute), and helps with SEO.",
@@ -362,7 +362,7 @@ const ITEMS = [
     prompt:"I need to add subtitles to a video in [LANGUAGE]. The video is [LENGTH] minutes long. Help me:\n1. Choose the best AI subtitle tool for [LANGUAGE]\n2. Tips for improving accuracy\n3. Best subtitle styling (font, size, color, position)\n4. How to export subtitles in SRT format\n5. How to translate subtitles to [OTHER LANGUAGE]",
     promptTip:"CapCut and Descript have excellent auto-subtitle features. Always review AI-generated subtitles for accuracy. Use contrasting colors for readability.",
     tools:["CapCut","Descript","Veed.io","Kapwing"],
-    links:[{name:"Veed.io",url:"https://www.veed.io"},{name:"Kapwing",url:"https://www.kapwing.com"}]},
+    links:[{name:"Veed.io",url:"https://www.veed.io"},{name:"Kapwing",url:"https://www.kapwing.com"},{name:"See our AI media portfolio",url:"https://xperto.media/portfolio"}]},
 
   {id:45, title:"Create Video Scripts", subtitle:"Structure your video content", category:"video",
     description:"A great video starts with a great script. AI can help you write engaging video scripts with hooks, clear structure, and calls-to-action that keep viewers watching.",
@@ -370,7 +370,7 @@ const ITEMS = [
     prompt:"Write a video script for a [LENGTH]-minute [PLATFORM: YouTube/TikTok/Instagram] video about [TOPIC]. Include:\n- A hook in the first 5 seconds that stops scrolling\n- Clear sections with timing notes\n- B-roll suggestions (what to show on screen)\n- Natural transitions between topics\n- A strong call-to-action at the end\n- [Timestamp markers]\n\nTone: [educational/entertaining/inspirational/funny]. Target audience: [AUDIENCE].",
     promptTip:"For YouTube, front-load value in the first 30 seconds. For TikTok, the hook must be in the first 2 seconds. Always write for spoken delivery, not reading.",
     tools:["ChatGPT","Claude","Gemini"],
-    links:[{name:"ChatGPT",url:"https://chat.openai.com"},{name:"Claude",url:"https://claude.ai"}]},
+    links:[{name:"ChatGPT",url:"https://chat.openai.com"},{name:"Claude",url:"https://claude.ai"},{name:"See our AI media portfolio",url:"https://xperto.media/portfolio"}]},
 
   {id:46, title:"Generate Storyboards", subtitle:"Plan your visual narrative", category:"video",
     description:"Before filming or creating an animation, a storyboard helps you plan each shot. AI can generate detailed storyboard descriptions and even create visual frames for each scene.",
@@ -378,7 +378,7 @@ const ITEMS = [
     prompt:"Create a storyboard for a [LENGTH]-minute video about [TOPIC]. For each panel (8-12 total), provide:\n- Panel number and timestamp\n- Camera angle (close-up, wide shot, aerial, etc.)\n- Scene description (what we see)\n- Action (what's happening)\n- Dialogue or narration text\n- Audio/music notes\n- Transition to next panel",
     promptTip:"Use AI image generators to create visual representations of each panel. Tools like Storyboarder (free) or Canva work great for assembling the final storyboard.",
     tools:["ChatGPT","Midjourney","Canva","Claude"],
-    links:[{name:"Canva",url:"https://www.canva.com"},{name:"ChatGPT",url:"https://chat.openai.com"}]},
+    links:[{name:"Canva",url:"https://www.canva.com"},{name:"ChatGPT",url:"https://chat.openai.com"},{name:"See our AI media portfolio",url:"https://xperto.media/portfolio"}]},
 
   {id:47, title:"Create Video Thumbnails", subtitle:"Click-worthy preview images", category:"video",
     description:"Your thumbnail is the first thing people see. A great thumbnail can 10x your views. AI can help you design eye-catching thumbnails that make people want to click.",
@@ -386,7 +386,7 @@ const ITEMS = [
     prompt:"Design 3 YouTube thumbnail concepts for a video titled '[VIDEO TITLE]'. For each:\n- Image description (what the viewer sees)\n- Text overlay (max 4-5 words, big and bold)\n- Color scheme that pops\n- Facial expression or emotion to convey\n- Why this would make someone click\n\nStyle: [bold and dramatic / clean and modern / fun and colorful]. The thumbnail must be readable at small sizes.",
     promptTip:"Faces with expressions get more clicks. Use contrasting colors (yellow on dark, white on blue). Keep text to 3-5 words maximum. Test with A/B testing.",
     tools:["Midjourney","Canva","DALL-E","Photoshop"],
-    links:[{name:"Canva",url:"https://www.canva.com"},{name:"Midjourney",url:"https://midjourney.com"}]},
+    links:[{name:"Canva",url:"https://www.canva.com"},{name:"Midjourney",url:"https://midjourney.com"},{name:"See our AI media portfolio",url:"https://xperto.media/portfolio"}]},
 
   {id:48, title:"Make Time-Lapse Content", subtitle:"Compress time visually", category:"video",
     description:"Time-lapse videos are mesmerizing. AI can help you plan, create, and edit time-lapse content - or even generate AI time-lapse effects from still images.",
@@ -394,7 +394,7 @@ const ITEMS = [
     prompt:"Help me plan a time-lapse video of [SUBJECT: a drawing being created / a sunset / a plant growing / a city from day to night]. Provide:\n- Camera setup recommendations\n- Interval timing (how often to capture a frame)\n- Estimated total recording time\n- Best software for assembling the time-lapse\n- Music suggestions that match the pace\n- Editing tips for smooth results",
     promptTip:"For AI-generated time-lapses, use Runway's motion tools. For real time-lapses, shoot at consistent intervals. Add gentle music for the best viewing experience.",
     tools:["Runway","CapCut","LumaFusion","Hyperlapse"],
-    links:[{name:"CapCut",url:"https://www.capcut.com"},{name:"Runway",url:"https://runwayml.com"}]},
+    links:[{name:"CapCut",url:"https://www.capcut.com"},{name:"Runway",url:"https://runwayml.com"},{name:"See our AI media portfolio",url:"https://xperto.media/portfolio"}]},
 
   {id:49, title:"Create Video Transitions", subtitle:"Smooth visual flow between scenes", category:"video",
     description:"Creative transitions make videos feel professional and dynamic. AI tools offer smart transitions, and AI can help you plan the perfect transition style for your content.",
@@ -402,7 +402,7 @@ const ITEMS = [
     prompt:"Suggest creative video transition ideas for a [TYPE: travel vlog / educational video / music video / social media content]. For each transition, describe:\n- The visual effect\n- When to use it (between what types of scenes)\n- How to execute it (in-camera or in post)\n- Which editing software handles it best\n\nI want transitions that feel [smooth/dynamic/creative/minimal], not cheesy or overused.",
     promptTip:"Less is more with transitions. Use cuts for fast-paced content, dissolves for emotional moments, and creative transitions sparingly for wow moments.",
     tools:["CapCut","Premiere Pro","DaVinci Resolve","Runway"],
-    links:[{name:"CapCut",url:"https://www.capcut.com"},{name:"DaVinci Resolve",url:"https://www.blackmagicdesign.com/products/davinciresolve"}]},
+    links:[{name:"CapCut",url:"https://www.capcut.com"},{name:"DaVinci Resolve",url:"https://www.blackmagicdesign.com/products/davinciresolve"},{name:"See our AI media portfolio",url:"https://xperto.media/portfolio"}]},
 
   {id:50, title:"Generate Visual Effects", subtitle:"Add movie magic to your videos", category:"video",
     description:"AI VFX tools let you add movie-quality visual effects to your videos - from removing backgrounds to adding fire, weather effects, or sci-fi elements. Hollywood-level effects are now accessible to everyone.",
@@ -410,7 +410,7 @@ const ITEMS = [
     prompt:"I want to add visual effects to my video. The scene shows [DESCRIBE SCENE]. I want to add [EFFECT: explosion / magic spell / weather change / futuristic HUD / superhero powers / object removal]. Suggest:\n1. Best AI tool for this specific effect\n2. Step-by-step process\n3. Tips for making it look realistic\n4. How to match lighting and color with the original footage",
     promptTip:"Runway is the best for AI-powered VFX. For green screen work, shoot against a solid color background. Lighting consistency is key to believable effects.",
     tools:["Runway","After Effects","HitFilm","Unreal Engine"],
-    links:[{name:"Runway",url:"https://runwayml.com"},{name:"HitFilm",url:"https://fxhome.com/product/hitfilm"}]},
+    links:[{name:"Runway",url:"https://runwayml.com"},{name:"HitFilm",url:"https://fxhome.com/product/hitfilm"},{name:"See our AI media portfolio",url:"https://xperto.media/portfolio"}]},
 
   {id:101, title:"Animate Photos & Images", subtitle:"Bring still images to life", category:"video",
     description:"AI can transform static photos and images into animated videos — adding motion, camera movement, and life to any still image. Turn portraits into moving characters, landscapes into cinematic scenes, or product shots into dynamic animations.",
@@ -418,7 +418,7 @@ const ITEMS = [
     prompt:"Animate this [TYPE: portrait photo / landscape / product image / artwork] with the following motion:\n- Camera: [slow zoom in / pan left to right / orbit around subject / pull back to reveal]\n- Subject motion: [hair blowing in wind / blinking and smiling / water flowing / clouds moving]\n- Duration: [4 seconds / 8 seconds]\n- Style: [realistic / cinematic / dreamy / dramatic]\n- Loop: [yes, seamless loop / no, single play]\n\nThe mood should feel [peaceful/energetic/mysterious/epic].",
     promptTip:"Runway and Pika excel at image-to-video. MidJourney can create perfect source images to animate. Start with simple camera movements before adding complex subject motion.",
     tools:["Runway","Pika","MidJourney","Sora","Kling"],
-    links:[{name:"Runway",url:"https://runwayml.com"},{name:"Pika",url:"https://pika.art"},{name:"MidJourney",url:"https://midjourney.com"},{name:"Kling AI",url:"https://klingai.com"}]},
+    links:[{name:"Runway",url:"https://runwayml.com"},{name:"Pika",url:"https://pika.art"},{name:"MidJourney",url:"https://midjourney.com"},{name:"Kling AI",url:"https://klingai.com"},{name:"See our AI media portfolio",url:"https://xperto.media/portfolio"}]},
 
   {id:102, title:"Create Images Using References", subtitle:"Guide AI with your own images", category:"art",
     description:"Use your own photos, characters, or objects as references to generate new AI images. Upload a character and place them in new scenes, use an object as a starting point, or blend multiple references to create something entirely new.",
@@ -426,7 +426,7 @@ const ITEMS = [
     prompt:"Using the attached image as a reference, create a new image where:\n- Subject: [keep the same character/object but place them in a new scene]\n- New scene: [DESCRIPTION: on a tropical beach at sunset / in a futuristic city / in a studio with dramatic lighting]\n- Style: [photorealistic / illustration / oil painting / anime / pixel art]\n- Keep consistent: [face/features / colors / proportions / clothing]\n- Change: [background / lighting / pose / outfit / season]\n\nMaintain the identity and key features of the reference while adapting to the new context.",
     promptTip:"MidJourney's image references and character references are incredibly powerful. In Gemini (NanoBanana), you can upload images directly in your prompt. Use multiple references to combine elements from different sources.",
     tools:["MidJourney","Gemini","DALL-E","Stable Diffusion"],
-    links:[{name:"MidJourney",url:"https://midjourney.com"},{name:"Gemini",url:"https://gemini.google.com"}]},
+    links:[{name:"MidJourney",url:"https://midjourney.com"},{name:"Gemini",url:"https://gemini.google.com"},{name:"See our AI media portfolio",url:"https://xperto.media/portfolio"}]},
 
   {id:105, title:"Create Speaking Avatars", subtitle:"AI-powered video presenters", category:"video",
     description:"Create realistic talking avatars that can present your content, explain concepts, or deliver messages — without ever stepping in front of a camera. Just type your script and choose an avatar. Perfect for educational videos, presentations, product demos, and social media content.",
@@ -434,7 +434,7 @@ const ITEMS = [
     prompt:"I need to create a talking avatar video for [PURPOSE: educational lesson / product demo / social media content / presentation]. Help me:\n1. Write a [LENGTH]-minute script about [TOPIC]\n2. Suggest the best avatar style (professional / casual / animated)\n3. Recommend voice settings (tone, speed, language)\n4. Tips for making it look natural and engaging\n5. Best practices for avatar videos that people actually watch\n\nThe audience is [AUDIENCE] and the tone should be [TONE: professional/friendly/energetic/calm].",
     promptTip:"HeyGen lets you create avatars from your own photo or choose from realistic pre-made ones. Keep scripts conversational — write for speaking, not reading. Add pauses and emphasis for natural delivery.",
     tools:["HeyGen","Synthesia","D-ID","Colossyan"],
-    links:[{name:"HeyGen",url:"https://heygen.com"},{name:"Synthesia",url:"https://www.synthesia.io"},{name:"D-ID",url:"https://www.d-id.com"}]},
+    links:[{name:"HeyGen",url:"https://heygen.com"},{name:"Synthesia",url:"https://www.synthesia.io"},{name:"D-ID",url:"https://www.d-id.com"},{name:"See our AI media portfolio",url:"https://xperto.media/portfolio"}]},
 
   // ===== PRODUCTIVITY (51-60) =====
   {id:51, title:"Create To-Do Lists & Plans", subtitle:"Organize your life with AI", category:"productivity",
@@ -855,5 +855,14 @@ const ITEMS = [
     prompt:"Help me build a personal brand. About me:\n- Name: [YOUR NAME]\n- Age: [AGE]\n- Passions: [LIST]\n- Skills: [LIST]\n- Goals: [WHAT YOU WANT TO BE KNOWN FOR]\n\nCreate:\n1. My personal brand statement (one sentence)\n2. 3 content pillars (topics I should post about)\n3. Bio for Instagram/LinkedIn/TikTok\n4. Content ideas for the first month (12 posts)\n5. Visual style guide (colors, fonts, photo style)\n6. How to tell my story authentically\n7. Networking strategy\n\nMake it authentic, not fake or try-hard.",
     promptTip:"Authenticity beats perfection. Post about what genuinely interests you. Be consistent - post regularly. Engage with others in your niche. Your brand should feel like YOU, amplified.",
     tools:["ChatGPT","Claude","Canva","Linktree"],
-    links:[{name:"Canva",url:"https://www.canva.com"},{name:"Linktree",url:"https://linktr.ee"},{name:"LinkedIn",url:"https://www.linkedin.com"}]}
+    links:[{name:"Canva",url:"https://www.canva.com"},{name:"Linktree",url:"https://linktr.ee"},{name:"LinkedIn",url:"https://www.linkedin.com"}]},
+
+  // ===== LOCAL AI (108) =====
+  {id:108, title:"Run Your Own Local AI (LLM)", subtitle:"Run AI models on your own computer — no internet needed", category:"coding",
+    description:"You don't need to rely on cloud services to use AI. With LM Studio, you can download and run powerful AI language models directly on your computer. It's free, private, and works offline. This is perfect for learning how AI works under the hood, for privacy-sensitive projects, or just for the thrill of having your own AI running locally.",
+    steps:["Go to lmstudio.ai and download LM Studio for your operating system (Windows, Mac, or Linux). Install it like any normal app.","Open LM Studio and browse the model library. Start with a small model like 'Llama 3.1 8B' or 'Mistral 7B' — these work well on most computers.","Click 'Download' on your chosen model. It may take a few minutes depending on the model size (typically 4-8 GB).","Once downloaded, go to the 'Chat' tab, select your model, and start chatting! It works just like ChatGPT but runs entirely on your computer.","Explore the settings to adjust temperature (creativity), max tokens (response length), and system prompts. Try different models to find your favorite."],
+    prompt:"I just installed LM Studio and downloaded my first local LLM. Help me understand: what are the key settings I should experiment with (temperature, top-p, max tokens, system prompt)? Give me a beginner-friendly explanation of each and suggest fun experiments to try.",
+    promptTip:"Ask your local AI to write code, create stories, explain concepts, or help with homework — all completely offline and private. Try comparing responses from different models.",
+    tools:["LM Studio","Ollama"],
+    links:[{name:"LM Studio",url:"https://lmstudio.ai"},{name:"Ollama (alternative)",url:"https://ollama.ai"}]}
 ];
