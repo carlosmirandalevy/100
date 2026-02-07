@@ -1,6 +1,6 @@
 /* ===== 100 Things with AI - Shared JavaScript ===== */
 /* Runs after include.js has injected nav, footer, and widgets */
-document.addEventListener('DOMContentLoaded', function() {
+(function() {
     'use strict';
 
     let lastScrollY = window.scrollY;
@@ -9,7 +9,24 @@ document.addEventListener('DOMContentLoaded', function() {
     const navToggle = document.getElementById('nav-toggle-btn');
     const navLinks = document.getElementById('nav-links');
     if (navToggle) navToggle.addEventListener('click', () => { navLinks.classList.toggle('open'); navToggle.classList.toggle('active'); });
-    if (navLinks) navLinks.querySelectorAll('.nav-link').forEach(l => l.addEventListener('click', () => { navLinks.classList.remove('open'); if(navToggle) navToggle.classList.remove('active'); }));
+
+    // Close mobile menu on any nav link click
+    function closeMobileNav() { if (navLinks) navLinks.classList.remove('open'); if (navToggle) navToggle.classList.remove('active'); }
+    if (navLinks) {
+        navLinks.querySelectorAll('.nav-link:not(.nav-dropdown-trigger)').forEach(l => l.addEventListener('click', closeMobileNav));
+        navLinks.querySelectorAll('.nav-dropdown-item').forEach(l => l.addEventListener('click', closeMobileNav));
+    }
+
+    // Mobile dropdown toggle
+    const dropdownTrigger = document.querySelector('.nav-dropdown-trigger');
+    if (dropdownTrigger) {
+        dropdownTrigger.addEventListener('click', function(e) {
+            if (window.innerWidth <= 1024) {
+                e.preventDefault();
+                this.closest('.nav-dropdown').classList.toggle('open');
+            }
+        });
+    }
 
     // Nav scroll behavior
     const nav = document.getElementById('main-nav');
@@ -86,4 +103,4 @@ document.addEventListener('DOMContentLoaded', function() {
             if (chevron) chevron.classList.toggle('rotated');
         });
     });
-});
+})();

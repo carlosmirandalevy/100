@@ -776,8 +776,8 @@ const ITEMS = [
     tools:["Midjourney","DALL-E","Canva","BioRender"],
     links:[{name:"BioRender",url:"https://www.biorender.com"},{name:"draw.io",url:"https://app.diagrams.net"}]},
 
-  // ===== PERSONAL & FUN (91-100) =====
-  {id:91, title:"Plan Travel Itineraries", subtitle:"AI-powered trip planning", category:"personal",
+  // ===== FUN (91-100+) =====
+  {id:91, title:"Plan Travel Itineraries", subtitle:"AI-powered trip planning", category:"fun",
     description:"Planning a trip? AI creates detailed day-by-day itineraries based on your interests, budget, and travel style. It's like having a personal travel agent who knows every destination.",
     steps:["Share your destination, dates, budget, and interests","Ask AI to create a day-by-day itinerary","Customize based on your preferences","Save restaurant and activity recommendations"],
     prompt:"Plan a [NUMBER]-day trip to [DESTINATION] for [NUMBER] people. Budget: [BUDGET LEVEL: budget/mid-range/luxury]. Interests: [INTERESTS: culture, food, adventure, nightlife, history, nature]. Create:\n- Day-by-day itinerary with times\n- Must-see attractions and hidden gems\n- Restaurant recommendations for each meal\n- Transportation tips between locations\n- Estimated daily costs\n- Packing suggestions\n- Local customs and tips",
@@ -785,7 +785,7 @@ const ITEMS = [
     tools:["ChatGPT","Claude","Perplexity","Google Maps"],
     links:[{name:"Google Maps",url:"https://maps.google.com"},{name:"TripAdvisor",url:"https://www.tripadvisor.com"}]},
 
-  {id:92, title:"Create Recipes from Ingredients", subtitle:"Cook with what you have", category:"personal",
+  {id:92, title:"Create Recipes from Ingredients", subtitle:"Cook with what you have", category:"fun",
     description:"Open your fridge, tell AI what you have, and get creative recipe ideas. No more wasting food or wondering what to cook. AI adapts to dietary restrictions and skill levels too.",
     steps:["List the ingredients you have available","Mention any dietary restrictions or preferences","Ask AI for recipe suggestions","Follow the step-by-step cooking instructions"],
     prompt:"I have these ingredients: [LIST YOUR INGREDIENTS]. Dietary restrictions: [NONE/vegetarian/vegan/gluten-free/etc.]. Cooking skill: [beginner/intermediate/advanced]. Available equipment: [oven/stovetop/microwave/etc.].\n\nSuggest 3 recipes I can make with these ingredients. For each recipe:\n- Name and description\n- Prep and cook time\n- Step-by-step instructions\n- Tips for making it extra delicious\n- What to serve it with",
@@ -793,7 +793,7 @@ const ITEMS = [
     tools:["ChatGPT","Claude","Gemini"],
     links:[{name:"ChatGPT",url:"https://chat.openai.com"},{name:"Allrecipes",url:"https://www.allrecipes.com"}]},
 
-  {id:93, title:"Generate Workout Routines", subtitle:"Personalized fitness plans", category:"personal",
+  {id:93, title:"Generate Workout Routines", subtitle:"Personalized fitness plans", category:"fun",
     description:"AI creates customized workout routines based on your fitness level, goals, available equipment, and time. From home workouts to gym plans, get personalized fitness guidance.",
     steps:["Share your fitness level and goals","Describe available equipment and time","Ask AI to create a workout plan","Follow the routine and track progress"],
     prompt:"Create a [DURATION: 4-week/8-week] workout plan for a [beginner/intermediate/advanced] who wants to [GOAL: build muscle/lose weight/improve endurance/get flexible/general fitness]. Available equipment: [none-bodyweight only/dumbbells/full gym]. Time available: [MINUTES] per session, [DAYS] days per week.\n\nFor each workout day, include:\n- Exercise names with sets and reps\n- Rest periods\n- Proper form tips\n- Warm-up and cool-down\n- Progressive overload plan (how to increase difficulty)",
@@ -801,7 +801,7 @@ const ITEMS = [
     tools:["ChatGPT","Claude","Gemini"],
     links:[{name:"ChatGPT",url:"https://chat.openai.com"},{name:"Nike Training Club",url:"https://www.nike.com/ntc-app"}]},
 
-  {id:94, title:"Create Personal Budgets", subtitle:"Manage your money wisely", category:"personal",
+  {id:94, title:"Create Personal Budgets", subtitle:"Manage your money wisely", category:"fun",
     description:"Financial literacy starts early. AI can help you create a personal budget, track expenses, set savings goals, and understand where your money goes.",
     steps:["List all your income sources","Track your expenses for a month","Ask AI to create a budget plan","Set up tracking in a spreadsheet or app"],
     prompt:"Help me create a monthly budget. My situation:\n- Monthly income: [AMOUNT] (from [SOURCES: allowance/part-time job/etc.])\n- Fixed expenses: [LIST: phone, subscriptions, etc.]\n- Regular spending: [food, transportation, entertainment, etc.]\n- Savings goal: [GOAL AND AMOUNT]\n\nCreate:\n1. A budget breakdown by category\n2. The 50/30/20 rule applied to my income\n3. Tips for reducing spending\n4. A savings plan to reach my goal\n5. A spreadsheet template I can use",
@@ -809,7 +809,7 @@ const ITEMS = [
     tools:["ChatGPT","Claude","Google Sheets","Mint"],
     links:[{name:"Google Sheets",url:"https://sheets.google.com"},{name:"YNAB",url:"https://www.ynab.com"}]},
 
-  {id:95, title:"Design Your Dream Room", subtitle:"Interior design with AI", category:"personal",
+  {id:95, title:"Design Your Dream Room", subtitle:"Interior design with AI", category:"fun",
     description:"Want to redecorate your room? AI can suggest layouts, color schemes, furniture placement, and decor ideas based on your style, budget, and room dimensions.",
     steps:["Describe your room dimensions and current setup","Share your style preferences and budget","Ask AI for design suggestions","Generate visual concepts with AI image tools"],
     prompt:"Help me redesign my [ROOM TYPE: bedroom/study/living room]. Dimensions: [SIZE]. Current furniture I want to keep: [LIST]. My style: [minimalist/cozy/modern/bohemian/gaming/aesthetic]. Budget: [AMOUNT]. \n\nSuggest:\n- Color scheme (wall color, accents)\n- Furniture layout\n- 10 decor items to buy (with estimated prices)\n- Lighting recommendations\n- Organization solutions\n- DIY projects I could do\n\nMake it feel [VIBE: cozy/productive/creative/relaxing].",
@@ -817,7 +817,7 @@ const ITEMS = [
     tools:["ChatGPT","Midjourney","Pinterest","IKEA"],
     links:[{name:"Pinterest",url:"https://www.pinterest.com"},{name:"IKEA",url:"https://www.ikea.com"}]},
 
-  {id:96, title:"Create Personalized Stories", subtitle:"Custom fiction just for you", category:"personal",
+  {id:96, title:"Create Personalized Stories", subtitle:"Custom fiction just for you", category:"fun",
     description:"AI can write personalized stories featuring you, your friends, or any characters in any genre. Interactive fiction, bedtime stories, fan fiction, or original adventures - your imagination leads.",
     steps:["Describe the characters and setting","Choose the genre and tone","Ask AI to write the story","Continue the adventure by adding your choices"],
     prompt:"Write a [GENRE: adventure/mystery/sci-fi/fantasy/romance/comedy] short story. Characters:\n- Main character: [NAME AND DESCRIPTION]\n- Supporting character: [NAME AND DESCRIPTION]\n\nSetting: [WHERE AND WHEN]\nTone: [funny/serious/suspenseful/heartwarming]\nLength: about [WORDS] words\n\nInclude vivid descriptions, dialogue, and an unexpected twist. Make it feel like a real page-turner.",
@@ -825,7 +825,7 @@ const ITEMS = [
     tools:["ChatGPT","Claude","NovelAI"],
     links:[{name:"Claude",url:"https://claude.ai"},{name:"ChatGPT",url:"https://chat.openai.com"}]},
 
-  {id:97, title:"Generate Trivia & Quiz Games", subtitle:"Fun with friends", category:"personal",
+  {id:97, title:"Generate Trivia & Quiz Games", subtitle:"Fun with friends", category:"fun",
     description:"AI creates custom trivia games on any topic. Perfect for game nights, parties, study groups, or just challenging yourself. Multiple formats: quiz bowls, Jeopardy-style, or pub quiz.",
     steps:["Choose topics and difficulty level","Pick a game format","Ask AI to generate questions and answers","Host the game with friends or family"],
     prompt:"Create a trivia game night with [NUMBER] rounds of [NUMBER] questions each. Topics:\nRound 1: [TOPIC: Pop Culture]\nRound 2: [TOPIC: Science]\nRound 3: [TOPIC: Geography]\nRound 4: [TOPIC: Random Fun Facts]\n\nFor each question:\n- Question text\n- 4 multiple choice options (one correct)\n- Brief fun fact explanation after the answer\n\nDifficulty: [easy/medium/hard/mixed]. Include a bonus round!",
@@ -833,7 +833,7 @@ const ITEMS = [
     tools:["ChatGPT","Claude","Kahoot"],
     links:[{name:"Kahoot",url:"https://kahoot.com"},{name:"ChatGPT",url:"https://chat.openai.com"}]},
 
-  {id:98, title:"Plan Events & Parties", subtitle:"Perfect celebrations", category:"personal",
+  {id:98, title:"Plan Events & Parties", subtitle:"Perfect celebrations", category:"fun",
     description:"Planning a birthday party, school event, or gathering? AI helps you organize everything from the theme and decorations to the timeline, food, and activities.",
     steps:["Define the event type, size, and budget","Ask AI to create a comprehensive plan","Organize tasks and delegate","Execute and enjoy!"],
     prompt:"Help me plan a [EVENT TYPE: birthday party/graduation celebration/school event/game night] for [NUMBER] people. Budget: [AMOUNT]. Date: [DATE]. Venue: [home/school/outdoor/rented space].\n\nCreate a complete plan including:\n- Theme ideas (3 options)\n- Decoration list with estimated costs\n- Food and drink menu\n- Activities and entertainment\n- Minute-by-minute event timeline\n- Music playlist suggestions\n- Supplies checklist\n- What to prepare the day before vs. day of",
@@ -841,7 +841,7 @@ const ITEMS = [
     tools:["ChatGPT","Claude","Canva","Spotify"],
     links:[{name:"Canva Invitations",url:"https://www.canva.com/invitations"},{name:"Spotify",url:"https://www.spotify.com"}]},
 
-  {id:99, title:"Create Vision Boards", subtitle:"Visualize your goals", category:"personal",
+  {id:99, title:"Create Vision Boards", subtitle:"Visualize your goals", category:"fun",
     description:"A vision board helps you visualize and manifest your goals. AI can help you define your goals clearly, suggest imagery, and create a digital vision board that inspires you daily.",
     steps:["Reflect on your goals for the next year","Ask AI to help you define specific, achievable goals","Generate visual elements with AI","Assemble your vision board"],
     prompt:"Help me create a vision board for [TIMEFRAME: this year/next 5 years/this semester]. My goals are in these areas:\n- Career/School: [GOAL]\n- Health: [GOAL]\n- Personal Growth: [GOAL]\n- Relationships: [GOAL]\n- Fun/Adventure: [GOAL]\n\nFor each goal:\n1. Make it specific and measurable\n2. Suggest an inspiring image or visual to represent it\n3. Provide an affirmation or quote\n4. Break it into monthly milestones",
@@ -849,13 +849,21 @@ const ITEMS = [
     tools:["ChatGPT","Midjourney","Canva","Pinterest"],
     links:[{name:"Canva",url:"https://www.canva.com"},{name:"Pinterest",url:"https://www.pinterest.com"}]},
 
-  {id:100, title:"Build Your Personal Brand", subtitle:"Stand out online and offline", category:"personal",
+  {id:100, title:"Build Your Personal Brand", subtitle:"Stand out online and offline", category:"fun",
     description:"Your personal brand is how the world sees you. AI can help you define your unique value, create consistent content, build an online presence, and stand out in a crowd.",
     steps:["Define what makes you unique","Create your brand identity (visual + verbal)","Build your online presence","Create content consistently"],
     prompt:"Help me build a personal brand. About me:\n- Name: [YOUR NAME]\n- Age: [AGE]\n- Passions: [LIST]\n- Skills: [LIST]\n- Goals: [WHAT YOU WANT TO BE KNOWN FOR]\n\nCreate:\n1. My personal brand statement (one sentence)\n2. 3 content pillars (topics I should post about)\n3. Bio for Instagram/LinkedIn/TikTok\n4. Content ideas for the first month (12 posts)\n5. Visual style guide (colors, fonts, photo style)\n6. How to tell my story authentically\n7. Networking strategy\n\nMake it authentic, not fake or try-hard.",
     promptTip:"Authenticity beats perfection. Post about what genuinely interests you. Be consistent - post regularly. Engage with others in your niche. Your brand should feel like YOU, amplified.",
     tools:["ChatGPT","Claude","Canva","Linktree"],
     links:[{name:"Canva",url:"https://www.canva.com"},{name:"Linktree",url:"https://linktr.ee"},{name:"LinkedIn",url:"https://www.linkedin.com"}]},
+
+  {id:109, title:"Create a Functional Video Game", subtitle:"Build playable games with AI — from platformers to space shooters", category:"fun",
+    description:"With AI you can create fully functional video games: 2D platformers, 3D platformers, roguelikes, metroidvanias, run-dodge-jump-attack action games, Donkey Kong clones, Space Invaders, Frogger, or your own unique game in the style of Hollow Knight, Stick Fight — you name it. A working prototype can be ready in minutes. The details and quality depend on how much effort you put into refining it, but the core gameplay loop comes together surprisingly fast.",
+    steps:["Describe the type of game you want (genre, mechanics, art style)","Ask AI to generate a single HTML file with all JavaScript, CSS, and SVG graphics embedded","Open the file in your browser and playtest it","Iterate: ask AI to add features, fix bugs, improve graphics, or tweak gameplay"],
+    prompt:"Create a [GENRE: 2D platformer / space shooter / roguelike / endless runner / puzzle game] video game as a single HTML file with all JavaScript and CSS embedded. Use SVG for all graphics (no external images). The game should include:\n- Player character with [run/jump/attack/dodge] controls\n- At least [3] levels or procedurally generated content\n- Enemies or obstacles with different behaviors\n- Score tracking and lives system\n- Game over and restart functionality\n- Smooth animations and responsive controls\n- Sound effects using the Web Audio API\n\nArt style: [pixel art / minimalist / colorful / retro / dark and atmospheric].\nMake the controls feel tight and satisfying.",
+    promptTip:"Start simple — get a basic prototype working first, then add features one at a time. Ask AI to 'add a double jump', 'create a boss enemy', or 'add a particle effect when the player dashes'. Each iteration makes the game better. Save as a single HTML file so anyone can play it by just opening the file.",
+    tools:["ChatGPT","Claude","Gemini"],
+    links:[{name:"Claude",url:"https://claude.ai"},{name:"ChatGPT",url:"https://chat.openai.com"}]},
 
   // ===== LOCAL AI (108) =====
   {id:108, title:"Run Your Own Local AI (LLM)", subtitle:"Run AI models on your own computer — no internet needed", category:"coding",

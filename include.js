@@ -62,12 +62,16 @@
             '<a href="index.html" class="nav-logo"><img src="assets/logos/favicon-32x32.png" alt="CEMI.AI" class="nav-logo-img"> 100 <span>Things with AI</span></a>' +
             '<button class="nav-hamburger" id="nav-toggle-btn" aria-label="Menu"><span></span><span></span><span></span></button>' +
             '<div class="nav-links" id="nav-links">' +
-            '<a href="index.html#showcase" class="nav-link' + active('showcase') + '">' + (isEN ? 'Showcase' : 'Vitrine') + '</a>' +
-            '<a href="toolkit.html" class="nav-link' + active('toolkit') + '">' + (isEN ? 'Toolkit' : 'Boîte à outils') + '</a>' +
-            '<a href="tools.html" class="nav-link' + active('tools') + '">' + (isEN ? 'Tools' : 'Outils') + '</a>' +
-            '<a href="tips.html" class="nav-link' + active('tips') + '">' + (isEN ? 'Tips' : 'Conseils') + '</a>' +
-            '<a href="quickwins.html" class="nav-link' + active('quickwins') + '">' + (isEN ? 'Quick Wins' : 'Victoires rapides') + '</a>' +
-            '<a href="things.html" class="nav-link' + active('things') + '">' + (isEN ? 'The 100 Things' : 'Les 100 choses') + '</a>' +
+            '<a href="things.html" class="nav-link' + active('things') + '">' + (isEN ? '100 Things' : '100 choses') + '</a>' +
+            '<div class="nav-dropdown">' +
+            '<a href="tips.html" class="nav-dropdown-trigger nav-link' + (page === 'tips' || page === 'toolkit' || page === 'quickwins' || page === 'tools' ? ' active' : '') + '">' + (isEN ? 'Using AI' : 'Utiliser l\'IA') + ' <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 4 5 7 8 4"></polyline></svg></a>' +
+            '<div class="nav-dropdown-menu">' +
+            '<a href="tips.html" class="nav-dropdown-item' + active('tips') + '">' + (isEN ? 'Tips' : 'Conseils') + '</a>' +
+            '<a href="toolkit.html" class="nav-dropdown-item' + active('toolkit') + '">' + (isEN ? 'Useful Skills' : 'Compétences utiles') + '</a>' +
+            '<a href="quickwins.html" class="nav-dropdown-item' + active('quickwins') + '">' + (isEN ? 'Quick Wins' : 'Victoires rapides') + '</a>' +
+            '<a href="tools.html" class="nav-dropdown-item' + active('tools') + '">' + (isEN ? 'Tools' : 'Outils') + '</a>' +
+            '</div></div>' +
+            '<a href="showcase.html" class="nav-link' + active('showcase') + '">' + (isEN ? 'Showcase' : 'Vitrine') + '</a>' +
             '<a href="faq.html" class="nav-link' + active('faq') + '">FAQ</a>' +
             '<a href="about.html" class="nav-link' + active('about') + '">' + (isEN ? 'About' : 'À propos') + '</a>' +
             '<button class="nav-search-btn" id="nav-search-btn" aria-label="' + (isEN ? 'Search (Ctrl+K)' : 'Rechercher (Ctrl+K)') + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></button>' +
@@ -89,12 +93,12 @@
             '</div>' +
             '<div class="footer-col"><h4>' + (isEN ? 'Quick Links' : 'Liens rapides') + '</h4><ul class="footer-links">' +
             '<li><a href="index.html">' + (isEN ? 'Home' : 'Accueil') + '</a></li>' +
-            '<li><a href="toolkit.html">' + (isEN ? 'Your AI Toolkit' : 'Votre boîte à outils IA') + '</a></li>' +
+            '<li><a href="toolkit.html">' + (isEN ? 'Useful Skills' : 'Compétences utiles') + '</a></li>' +
             '<li><a href="tools.html">' + (isEN ? 'Our Favorite Tools' : 'Nos outils préférés') + '</a></li>' +
-            '<li><a href="tips.html">' + (isEN ? 'Mega Tips' : 'Méga conseils') + '</a></li>' +
+            '<li><a href="tips.html">' + (isEN ? 'Tips for Using AI' : 'Conseils pour utiliser l\'IA') + '</a></li>' +
             '<li><a href="quickwins.html">' + (isEN ? 'Quick Wins' : 'Victoires rapides') + '</a></li>' +
             '<li><a href="faq.html">FAQ</a></li>' +
-            '<li><a href="things.html">' + (isEN ? 'The 100 Things' : 'Les 100 choses') + '</a></li>' +
+            '<li><a href="things.html">' + (isEN ? '100 Things' : '100 choses') + '</a></li>' +
             '<li><a href="about.html">' + (isEN ? 'About' : 'À propos') + '</a></li>' +
             '</ul></div>' +
             '<div class="footer-col"><h4>' + (isEN ? 'Connect With Us' : 'Contactez-nous') + '</h4>' +
@@ -129,9 +133,8 @@
             '<button id="funfact-close" class="funfact-btn funfact-close-btn" title="' + (isEN ? 'Close' : 'Fermer') + '"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>' +
             '</div></div></div>';
 
-        // Insert footer, scroll-top, funfact before the last script or at end of body
-        var mainScript = document.querySelector('script[src="main.js"]');
-        var insertPoint = mainScript || document.body.lastElementChild;
+        // Insert footer, scroll-top, funfact before the last element in body
+        var insertPoint = document.body.lastElementChild;
         // --- Search Modal ---
         var searchModalHTML = '<div class="search-modal-overlay" id="search-modal-overlay">' +
             '<div class="search-modal">' +
@@ -145,8 +148,9 @@
 
         insertPoint.insertAdjacentHTML('beforebegin', footerHTML + scrollTopHTML + funFactHTML + searchModalHTML);
 
-        // --- Initialize fun facts ---
-        if (typeof FUN_FACTS !== 'undefined') {
+        // --- Initialize fun facts (called after funfacts.js loads) ---
+        function initFunFacts() {
+            if (typeof FUN_FACTS === 'undefined') return;
             var currentFact = -1;
             var factText = document.getElementById('funfact-text');
             var chatgptLink = document.getElementById('funfact-chatgpt');
@@ -176,5 +180,16 @@
                 if (widget) widget.classList.add('visible');
             }, 2000);
         }
+
+        // === Dynamically load funfacts.js then main.js ===
+        var ffScript = document.createElement('script');
+        ffScript.src = 'funfacts.js';
+        ffScript.onload = function() {
+            initFunFacts();
+            var mjScript = document.createElement('script');
+            mjScript.src = 'main.js';
+            document.body.appendChild(mjScript);
+        };
+        document.body.appendChild(ffScript);
     });
 })();

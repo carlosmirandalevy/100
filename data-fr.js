@@ -776,8 +776,8 @@ const ITEMS = [
     tools:["Midjourney","DALL-E","Canva","BioRender"],
     links:[{name:"BioRender",url:"https://www.biorender.com"},{name:"draw.io",url:"https://app.diagrams.net"}]},
 
-  // ===== PERSONNEL & FUN (91-100) =====
-  {id:91, title:"Planifier des itinéraires de voyage", subtitle:"Planification de voyage propulsée par l'IA", category:"personal",
+  // ===== FUN (91-100+) =====
+  {id:91, title:"Planifier des itinéraires de voyage", subtitle:"Planification de voyage propulsée par l'IA", category:"fun",
     description:"Tu planifies un voyage ? L'IA crée des itinéraires détaillés jour par jour en fonction de tes intérêts, budget et style de voyage. Comme un agent de voyage personnel !",
     steps:["Partage ta destination, dates, budget et intérêts","Demande un itinéraire jour par jour","Personnalise selon tes préférences","Sauvegarde les recommandations"],
     prompt:"Planifie un voyage de [NOMBRE] jours à [DESTINATION] pour [NOMBRE] personnes. Budget : [NIVEAU : économique/moyen/luxe]. Intérêts : [CULTURE/GASTRONOMIE/AVENTURE/HISTOIRE/NATURE].\n\nCrée :\n- Itinéraire jour par jour avec horaires\n- Attractions incontournables et pépites cachées\n- Restaurants pour chaque repas\n- Conseils de transport\n- Coûts estimés par jour\n- Suggestions de bagages\n- Coutumes locales et astuces",
@@ -785,7 +785,7 @@ const ITEMS = [
     tools:["ChatGPT","Claude","Perplexity","Google Maps"],
     links:[{name:"Google Maps",url:"https://maps.google.com"},{name:"TripAdvisor",url:"https://www.tripadvisor.com"}]},
 
-  {id:92, title:"Créer des recettes à partir d'ingrédients", subtitle:"Cuisiner avec ce que tu as", category:"personal",
+  {id:92, title:"Créer des recettes à partir d'ingrédients", subtitle:"Cuisiner avec ce que tu as", category:"fun",
     description:"Ouvre ton frigo, dis à l'IA ce que tu as, et obtiens des idées de recettes créatives. Plus de gaspillage alimentaire ni de questionnement sur quoi cuisiner !",
     steps:["Liste les ingrédients disponibles","Mentionne les restrictions alimentaires","Demande des suggestions de recettes","Suis les instructions étape par étape"],
     prompt:"J'ai ces ingrédients : [LISTE TES INGRÉDIENTS]. Restrictions : [AUCUNE/VÉGÉTARIEN/VÉGAN/SANS GLUTEN/ETC.]. Niveau de cuisine : [DÉBUTANT/INTERMÉDIAIRE/AVANCÉ]. Équipement : [FOUR/PLAQUES/MICRO-ONDES/ETC.].\n\nSuggère 3 recettes. Pour chaque recette :\n- Nom et description\n- Temps de préparation et cuisson\n- Instructions étape par étape\n- Astuces pour le rendre encore meilleur\n- Accompagnement suggéré",
@@ -793,7 +793,7 @@ const ITEMS = [
     tools:["ChatGPT","Claude","Gemini"],
     links:[{name:"ChatGPT",url:"https://chat.openai.com"},{name:"Marmiton",url:"https://www.marmiton.org"}]},
 
-  {id:93, title:"Générer des routines d'entraînement", subtitle:"Des plans fitness personnalisés", category:"personal",
+  {id:93, title:"Générer des routines d'entraînement", subtitle:"Des plans fitness personnalisés", category:"fun",
     description:"L'IA crée des routines d'entraînement personnalisées selon ton niveau, tes objectifs, l'équipement disponible et le temps dont tu disposes.",
     steps:["Partage ton niveau et tes objectifs","Décris l'équipement et le temps disponibles","Demande un plan d'entraînement","Suis la routine et note ta progression"],
     prompt:"Crée un plan d'entraînement de [DURÉE : 4/8 semaines] pour un [DÉBUTANT/INTERMÉDIAIRE/AVANCÉ] qui veut [OBJECTIF : musculation/perte de poids/endurance/souplesse/forme générale]. Équipement : [RIEN-POIDS DU CORPS/HALTÈRES/SALLE DE SPORT]. Temps : [MINUTES] par session, [JOURS] jours par semaine.\n\nPour chaque jour :\n- Exercices avec séries et répétitions\n- Temps de repos\n- Conseils de forme\n- Échauffement et retour au calme\n- Plan de progression",
@@ -801,7 +801,7 @@ const ITEMS = [
     tools:["ChatGPT","Claude","Gemini"],
     links:[{name:"ChatGPT",url:"https://chat.openai.com"},{name:"Nike Training Club",url:"https://www.nike.com/ntc-app"}]},
 
-  {id:94, title:"Créer des budgets personnels", subtitle:"Gérer ton argent intelligemment", category:"personal",
+  {id:94, title:"Créer des budgets personnels", subtitle:"Gérer ton argent intelligemment", category:"fun",
     description:"La littératie financière commence tôt. L'IA peut t'aider à créer un budget, suivre tes dépenses, fixer des objectifs d'épargne et comprendre où va ton argent.",
     steps:["Liste toutes tes sources de revenus","Suis tes dépenses pendant un mois","Demande un plan de budget à l'IA","Mets en place le suivi"],
     prompt:"Aide-moi à créer un budget mensuel. Ma situation :\n- Revenus mensuels : [MONTANT] (sources : [ARGENT DE POCHE/PETIT BOULOT/ETC.])\n- Dépenses fixes : [LISTE : téléphone, abonnements, etc.]\n- Dépenses courantes : [NOURRITURE/TRANSPORT/SORTIES/ETC.]\n- Objectif d'épargne : [OBJECTIF ET MONTANT]\n\nCrée :\n1. Répartition par catégorie\n2. Règle 50/30/20 appliquée\n3. Astuces pour réduire les dépenses\n4. Plan d'épargne\n5. Template de tableur",
@@ -809,7 +809,7 @@ const ITEMS = [
     tools:["ChatGPT","Claude","Google Sheets"],
     links:[{name:"Google Sheets",url:"https://sheets.google.com"},{name:"Bankin",url:"https://bankin.com"}]},
 
-  {id:95, title:"Concevoir ta chambre de rêve", subtitle:"Design d'intérieur avec l'IA", category:"personal",
+  {id:95, title:"Concevoir ta chambre de rêve", subtitle:"Design d'intérieur avec l'IA", category:"fun",
     description:"Tu veux redécorer ta chambre ? L'IA peut suggérer des aménagements, des palettes de couleurs, du mobilier et des idées de déco selon ton style et ton budget.",
     steps:["Décris les dimensions et l'état actuel de ta chambre","Partage tes goûts et ton budget","Demande des suggestions de design","Génère des concepts visuels avec l'IA"],
     prompt:"Aide-moi à redécorer ma [TYPE : chambre/bureau/salon]. Dimensions : [TAILLE]. Meubles à garder : [LISTE]. Mon style : [MINIMALISTE/COSY/MODERNE/BOHÈME/GAMING/ESTHÉTIQUE]. Budget : [MONTANT].\n\nSuggère :\n- Palette de couleurs (murs, accents)\n- Disposition des meubles\n- 10 objets déco à acheter (avec prix estimés)\n- Éclairage\n- Solutions de rangement\n- Projets DIY possibles\n\nAmbiance souhaitée : [COSY/PRODUCTIVE/CRÉATIVE/RELAXANTE].",
@@ -817,7 +817,7 @@ const ITEMS = [
     tools:["ChatGPT","Midjourney","Pinterest","IKEA"],
     links:[{name:"Pinterest",url:"https://www.pinterest.com"},{name:"IKEA",url:"https://www.ikea.com"}]},
 
-  {id:96, title:"Créer des histoires personnalisées", subtitle:"De la fiction sur mesure", category:"personal",
+  {id:96, title:"Créer des histoires personnalisées", subtitle:"De la fiction sur mesure", category:"fun",
     description:"L'IA peut écrire des histoires personnalisées avec toi, tes amis ou n'importe quels personnages dans n'importe quel genre. Fiction interactive, histoires du soir, fan fiction — ton imagination guide !",
     steps:["Décris les personnages et le cadre","Choisis le genre et le ton","Demande à l'IA d'écrire l'histoire","Continue l'aventure avec tes choix"],
     prompt:"Écris une [GENRE : aventure/mystère/sci-fi/fantasy/romance/comédie] nouvelle. Personnages :\n- Personnage principal : [NOM ET DESCRIPTION]\n- Personnage secondaire : [NOM ET DESCRIPTION]\n\nCadre : [OÙ ET QUAND]\nTon : [DRÔLE/SÉRIEUX/SUSPENSE/TOUCHANT]\nLongueur : environ [NOMBRE] mots\n\nInclus des descriptions vivantes, des dialogues et un retournement inattendu.",
@@ -825,7 +825,7 @@ const ITEMS = [
     tools:["ChatGPT","Claude","NovelAI"],
     links:[{name:"Claude",url:"https://claude.ai"},{name:"ChatGPT",url:"https://chat.openai.com"}]},
 
-  {id:97, title:"Générer des jeux de trivia et quiz", subtitle:"S'amuser entre amis", category:"personal",
+  {id:97, title:"Générer des jeux de trivia et quiz", subtitle:"S'amuser entre amis", category:"fun",
     description:"L'IA crée des jeux de trivia personnalisés sur n'importe quel sujet. Parfait pour les soirées jeux, les fêtes, les groupes d'étude ou juste pour te challenger.",
     steps:["Choisis les sujets et le niveau","Choisis un format de jeu","Demande à l'IA de générer les questions","Anime le jeu avec tes amis"],
     prompt:"Crée une soirée trivia avec [NOMBRE] manches de [NOMBRE] questions. Sujets :\nManche 1 : [SUJET : Culture pop]\nManche 2 : [SUJET : Sciences]\nManche 3 : [SUJET : Géographie]\nManche 4 : [SUJET : Fun facts]\n\nPour chaque question :\n- Texte de la question\n- 4 choix (un correct)\n- Fun fact après la réponse\n\nDifficulté : [FACILE/MOYEN/DIFFICILE/MIXTE]. Inclus une manche bonus !",
@@ -833,7 +833,7 @@ const ITEMS = [
     tools:["ChatGPT","Claude","Kahoot"],
     links:[{name:"Kahoot",url:"https://kahoot.com"},{name:"ChatGPT",url:"https://chat.openai.com"}]},
 
-  {id:98, title:"Planifier des événements et fêtes", subtitle:"Des célébrations parfaites", category:"personal",
+  {id:98, title:"Planifier des événements et fêtes", subtitle:"Des célébrations parfaites", category:"fun",
     description:"Tu organises un anniversaire, un événement scolaire ou une soirée ? L'IA t'aide à tout organiser — du thème et des décorations au planning et aux activités.",
     steps:["Définis le type d'événement, la taille et le budget","Demande un plan complet à l'IA","Organise les tâches et délègue","Exécute et profite !"],
     prompt:"Aide-moi à planifier un/une [TYPE : fête d'anniversaire/célébration/événement scolaire/soirée jeux] pour [NOMBRE] personnes. Budget : [MONTANT]. Date : [DATE]. Lieu : [MAISON/ÉCOLE/EXTÉRIEUR/SALLE].\n\nCrée un plan complet :\n- 3 idées de thème\n- Liste de décorations avec coûts\n- Menu nourriture et boissons\n- Activités et divertissements\n- Planning minute par minute\n- Suggestions de playlist\n- Checklist de fournitures\n- Quoi préparer la veille vs. le jour même",
@@ -841,7 +841,7 @@ const ITEMS = [
     tools:["ChatGPT","Claude","Canva","Spotify"],
     links:[{name:"Canva Invitations",url:"https://www.canva.com/invitations"},{name:"Spotify",url:"https://www.spotify.com"}]},
 
-  {id:99, title:"Créer des tableaux de vision", subtitle:"Visualiser tes objectifs", category:"personal",
+  {id:99, title:"Créer des tableaux de vision", subtitle:"Visualiser tes objectifs", category:"fun",
     description:"Un tableau de vision t'aide à visualiser et manifester tes objectifs. L'IA peut t'aider à définir clairement tes buts, suggérer des images et créer un tableau qui t'inspire au quotidien.",
     steps:["Réfléchis à tes objectifs","Demande à l'IA de les rendre spécifiques et réalisables","Génère les éléments visuels avec l'IA","Assemble ton tableau de vision"],
     prompt:"Aide-moi à créer un tableau de vision pour [PÉRIODE : cette année/les 5 prochaines années/ce semestre]. Mes objectifs :\n- Carrière/École : [OBJECTIF]\n- Santé : [OBJECTIF]\n- Développement personnel : [OBJECTIF]\n- Relations : [OBJECTIF]\n- Fun/Aventure : [OBJECTIF]\n\nPour chaque objectif :\n1. Rends-le spécifique et mesurable\n2. Suggère une image ou visuel inspirant\n3. Fournis une affirmation ou citation\n4. Découpe en jalons mensuels",
@@ -849,11 +849,19 @@ const ITEMS = [
     tools:["ChatGPT","Midjourney","Canva","Pinterest"],
     links:[{name:"Canva",url:"https://www.canva.com"},{name:"Pinterest",url:"https://www.pinterest.com"}]},
 
-  {id:100, title:"Construire ta marque personnelle", subtitle:"Te démarquer en ligne et hors ligne", category:"personal",
+  {id:100, title:"Construire ta marque personnelle", subtitle:"Te démarquer en ligne et hors ligne", category:"fun",
     description:"Ta marque personnelle, c'est comment le monde te voit. L'IA peut t'aider à définir ta valeur unique, créer du contenu cohérent et te démarquer dans la foule.",
     steps:["Définis ce qui te rend unique","Crée ton identité de marque (visuelle + verbale)","Construis ta présence en ligne","Crée du contenu régulièrement"],
     prompt:"Aide-moi à construire ma marque personnelle. À propos de moi :\n- Nom : [TON NOM]\n- Âge : [ÂGE]\n- Passions : [LISTE]\n- Compétences : [LISTE]\n- Objectifs : [POUR QUOI TU VEUX ÊTRE CONNU]\n\nCrée :\n1. Mon énoncé de marque personnelle (une phrase)\n2. 3 piliers de contenu (sujets sur lesquels poster)\n3. Bio pour Instagram/LinkedIn/TikTok\n4. Idées de contenu pour le premier mois (12 posts)\n5. Guide de style visuel (couleurs, polices, style photo)\n6. Comment raconter mon histoire authentiquement\n7. Stratégie de networking\n\nRends-le authentique, pas artificiel.",
     promptTip:"L'authenticité bat la perfection. Poste sur ce qui t'intéresse vraiment. Sois régulier — poste fréquemment. Interagis avec les autres dans ta niche. Ta marque doit te ressembler, amplifiée.",
     tools:["ChatGPT","Claude","Canva","Linktree"],
-    links:[{name:"Canva",url:"https://www.canva.com"},{name:"Linktree",url:"https://linktr.ee"},{name:"LinkedIn",url:"https://www.linkedin.com"}]}
+    links:[{name:"Canva",url:"https://www.canva.com"},{name:"Linktree",url:"https://linktr.ee"},{name:"LinkedIn",url:"https://www.linkedin.com"}]},
+
+  {id:109, title:"Créer un jeu vidéo fonctionnel", subtitle:"Construis des jeux jouables avec l'IA — des plateformes aux shooters spatiaux", category:"fun",
+    description:"Avec l'IA, tu peux créer des jeux vidéo entièrement fonctionnels : plateformes 2D, plateformes 3D, roguelikes, metroidvanias, jeux d'action courir-esquiver-sauter-attaquer, clones de Donkey Kong, Space Invaders, Frogger, ou ton propre jeu unique dans le style de Hollow Knight, Stick Fight — tu choisis. Un prototype jouable peut être prêt en quelques minutes. Les détails et la qualité dépendent de l'effort que tu y mets, mais la boucle de gameplay principale se met en place étonnamment vite.",
+    steps:["Décris le type de jeu que tu veux (genre, mécaniques, style artistique)","Demande à l'IA de générer un seul fichier HTML avec tout le JavaScript, CSS et graphiques SVG intégrés","Ouvre le fichier dans ton navigateur et teste-le","Itère : demande à l'IA d'ajouter des fonctionnalités, corriger des bugs, améliorer les graphismes ou ajuster le gameplay"],
+    prompt:"Crée un jeu vidéo [GENRE : plateforme 2D / shooter spatial / roguelike / runner infini / jeu de puzzle] dans un seul fichier HTML avec tout le JavaScript et CSS intégrés. Utilise du SVG pour tous les graphismes (pas d'images externes). Le jeu doit inclure :\n- Un personnage joueur avec contrôles [courir/sauter/attaquer/esquiver]\n- Au moins [3] niveaux ou du contenu généré procéduralement\n- Des ennemis ou obstacles avec différents comportements\n- Suivi du score et système de vies\n- Game over et redémarrage\n- Animations fluides et contrôles réactifs\n- Effets sonores avec l'API Web Audio\n\nStyle artistique : [pixel art / minimaliste / coloré / rétro / sombre et atmosphérique].\nLes contrôles doivent être précis et satisfaisants.",
+    promptTip:"Commence simple — fais fonctionner un prototype de base d'abord, puis ajoute des fonctionnalités une par une. Demande à l'IA d'« ajouter un double saut », « créer un boss », ou « ajouter un effet de particules quand le joueur dash ». Chaque itération améliore le jeu. Sauvegarde en un seul fichier HTML pour que n'importe qui puisse y jouer en ouvrant simplement le fichier.",
+    tools:["ChatGPT","Claude","Gemini"],
+    links:[{name:"Claude",url:"https://claude.ai"},{name:"ChatGPT",url:"https://chat.openai.com"}]}
 ];

@@ -36,7 +36,7 @@
             --cat-coding: #a70000;
             --cat-business: #4B775A;
             --cat-science: #2F4F6F;
-            --cat-personal: #D9A441;
+            --cat-fun: #D9A441;
             --radius-sm: 8px;
             --radius-md: 12px;
             --radius-lg: 16px;
@@ -1067,7 +1067,7 @@
             <button class="filter-pill" data-category="coding" style="--pill-color:var(--cat-coding)">Code</button>
             <button class="filter-pill" data-category="business" style="--pill-color:var(--cat-business)">Business</button>
             <button class="filter-pill" data-category="science" style="--pill-color:var(--cat-science)">Sciences</button>
-            <button class="filter-pill" data-category="personal" style="--pill-color:var(--cat-personal)">Personnel</button>
+            <button class="filter-pill" data-category="fun" style="--pill-color:var(--cat-fun)">Fun</button>
         </div>
 
         <div class="results-count" id="results-count">Affichage de 102 sur 107</div>
@@ -1144,7 +1144,7 @@
         coding:       { color: '#a70000', gradient: 'linear-gradient(135deg, #a70000, #D9A441)' },
         business:     { color: '#4B775A', gradient: 'linear-gradient(135deg, #4B775A, #6B9B72)' },
         science:      { color: '#2F4F6F', gradient: 'linear-gradient(135deg, #2F4F6F, #4A7A9F)' },
-        personal:     { color: '#D9A441', gradient: 'linear-gradient(135deg, #D9A441, #E0CBA8)' }
+        fun:          { color: '#D9A441', gradient: 'linear-gradient(135deg, #D9A441, #E0CBA8)' }
     };
 
     function getCategoryGradient(cat) { return (categoryColors[cat] && categoryColors[cat].gradient) || 'linear-gradient(135deg, #a70000, #c43030)'; }

@@ -47,7 +47,7 @@
             <button class="filter-pill" data-category="coding" style="--pill-color:var(--cat-coding)">Coding</button>
             <button class="filter-pill" data-category="business" style="--pill-color:var(--cat-business)">Business</button>
             <button class="filter-pill" data-category="science" style="--pill-color:var(--cat-science)">Science</button>
-            <button class="filter-pill" data-category="personal" style="--pill-color:var(--cat-personal)">Personal</button>
+            <button class="filter-pill" data-category="fun" style="--pill-color:var(--cat-fun)">Fun</button>
         </div>
 
         <div class="results-count" id="results-count">Showing 102 of 107</div>
@@ -85,7 +85,7 @@
         coding:       { color: '#2F4F6F', gradient: 'linear-gradient(135deg, #2F4F6F, #4A7A9F)' },
         business:     { color: '#A67F5B', gradient: 'linear-gradient(135deg, #A67F5B, #C4A882)' },
         science:      { color: '#2F4F6F', gradient: 'linear-gradient(135deg, #2F4F6F, #4A7A9F)' },
-        personal:     { color: '#a70000', gradient: 'linear-gradient(135deg, #a70000, #c43030)' }
+        fun:          { color: '#a70000', gradient: 'linear-gradient(135deg, #a70000, #c43030)' }
     };
 
     function getCategoryGradient(cat) { return (categoryColors[cat] && categoryColors[cat].gradient) || 'linear-gradient(135deg, #a70000, #c43030)'; }
@@ -246,17 +246,17 @@
     // Smooth scroll all anchors
     document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', function(e) { const h = this.getAttribute('href'); if (h && h.length > 1) { const t = document.querySelector(h); if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); } } }));
 
-    // Read search query from URL (cross-page search)
-    const urlParams = new URLSearchParams(window.location.search);
-    const urlQuery = urlParams.get('q');
-    if (urlQuery && searchInput) {
-        searchInput.value = urlQuery;
-        currentSearch = urlQuery;
-        if (searchClear) searchClear.style.display = 'flex';
-    }
-
     // Init — render items, then override nav search for in-page filtering
     function init() {
+        // Read search query from URL (cross-page search)
+        var urlParams = new URLSearchParams(window.location.search);
+        var urlQuery = urlParams.get('q');
+        if (urlQuery && searchInput) {
+            searchInput.value = urlQuery;
+            currentSearch = urlQuery;
+            if (searchClear) searchClear.style.display = 'flex';
+        }
+
         renderItems(currentCategory, currentSearch);
 
         // Override search modal to filter in-page on this page
@@ -287,7 +287,5 @@
 })();
 </script>
 
-<script src="funfacts.js"></script>
-<script src="main.js"></script>
 </body>
 </html>
