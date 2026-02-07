@@ -175,8 +175,8 @@ const ITEMS = [
     steps:["Visualize what you want to create","Write a detailed description (the 'prompt')","Choose an AI image generator","Generate, iterate, and refine your creation"],
     prompt:"Create a [STYLE: photorealistic/digital art/watercolor/oil painting] image of [SUBJECT]. The scene should include [DETAILS: lighting, colors, mood, composition]. Style references: [ARTIST OR STYLE]. Aspect ratio: [16:9/1:1/9:16]. High quality, detailed, professional.",
     promptTip:"Be specific about style, lighting, and mood. Add words like 'cinematic lighting', 'golden hour', 'dramatic shadows', or name specific art styles. More detail = better results.",
-    tools:["Midjourney","DALL-E","Leonardo AI","Stable Diffusion"],
-    links:[{name:"Midjourney",url:"https://midjourney.com"},{name:"Leonardo AI",url:"https://leonardo.ai"}]},
+    tools:["Midjourney","DALL-E","Leonardo AI","Stable Diffusion","Freepik"],
+    links:[{name:"Midjourney",url:"https://midjourney.com"},{name:"Leonardo AI",url:"https://leonardo.ai"},{name:"Freepik",url:"https://freepik.com"}]},
 
   {id:22, title:"Design Logos & Branding", subtitle:"Build your visual identity", category:"art",
     description:"Starting a project, brand, or social media page? AI can help you brainstorm logo concepts, color schemes, and brand identity elements. It's a great starting point for your visual identity.",
@@ -207,8 +207,8 @@ const ITEMS = [
     steps:["Decide the style and theme you want","Write a detailed prompt for the image","Generate at the correct aspect ratio for your device","Download and set as wallpaper"],
     prompt:"Generate a [STYLE: minimalist/abstract/nature/cyberpunk/anime/aesthetic] wallpaper for [DEVICE: iPhone 16:9 / desktop 16:9 / iPad 4:3]. Theme: [THEME]. Color palette: [COLORS]. The image should be visually striking but not too busy, so icons and text can be readable on top of it. High resolution, clean composition.",
     promptTip:"For phone wallpapers use portrait orientation, for desktop use landscape. Add 'leave space at the top for clock widget' for phone lock screens.",
-    tools:["Midjourney","DALL-E","Leonardo AI","Stable Diffusion"],
-    links:[{name:"Midjourney",url:"https://midjourney.com"},{name:"Leonardo AI",url:"https://leonardo.ai"}]},
+    tools:["Midjourney","DALL-E","Leonardo AI","Stable Diffusion","Freepik"],
+    links:[{name:"Midjourney",url:"https://midjourney.com"},{name:"Leonardo AI",url:"https://leonardo.ai"},{name:"Freepik",url:"https://freepik.com"}]},
 
   {id:26, title:"Design Social Media Graphics", subtitle:"Eye-catching visual content", category:"art",
     description:"Create professional-looking graphics for Instagram stories, YouTube thumbnails, Twitter headers, and more using AI design tools and image generators.",
@@ -337,8 +337,8 @@ const ITEMS = [
     steps:["Write a description of the video you want","Choose an AI video generation tool","Generate and review the output","Edit and combine clips as needed"],
     prompt:"Generate a [LENGTH]-second video clip of [DESCRIPTION: a person walking through a neon-lit city at night / a drone shot over tropical mountains / a product spinning on a clean background]. Style: [cinematic/documentary/social media/artistic]. Camera movement: [slow pan/static/tracking shot/aerial]. Mood: [dramatic/upbeat/serene/mysterious].",
     promptTip:"Start with short 4-second clips and combine them. Be specific about camera angles and movements. Runway and Pika are the current leaders in AI video.",
-    tools:["Runway","Pika","Sora","HeyGen"],
-    links:[{name:"Runway",url:"https://runwayml.com"},{name:"Pika",url:"https://pika.art"},{name:"Sora",url:"https://sora.chatgpt.com/"}]},
+    tools:["Runway","Pika","Sora","Kling","HeyGen","Freepik"],
+    links:[{name:"Runway",url:"https://runwayml.com"},{name:"Pika",url:"https://pika.art"},{name:"Sora",url:"https://sora.chatgpt.com/"},{name:"Kling AI",url:"https://klingai.com"},{name:"Freepik",url:"https://freepik.com"}]},
 
   {id:42, title:"Create Animations", subtitle:"Bring ideas to motion", category:"video",
     description:"AI animation tools let you create animated content - from simple motion graphics to character animations. Perfect for school projects, social media, or creative expression.",
@@ -417,8 +417,8 @@ const ITEMS = [
     steps:["Choose a photo or image to animate","Upload to an AI animation tool","Describe the motion you want (camera pan, character movement, etc.)","Generate, review, and refine the animation"],
     prompt:"Animate this [TYPE: portrait photo / landscape / product image / artwork] with the following motion:\n- Camera: [slow zoom in / pan left to right / orbit around subject / pull back to reveal]\n- Subject motion: [hair blowing in wind / blinking and smiling / water flowing / clouds moving]\n- Duration: [4 seconds / 8 seconds]\n- Style: [realistic / cinematic / dreamy / dramatic]\n- Loop: [yes, seamless loop / no, single play]\n\nThe mood should feel [peaceful/energetic/mysterious/epic].",
     promptTip:"Runway and Pika excel at image-to-video. MidJourney can create perfect source images to animate. Start with simple camera movements before adding complex subject motion.",
-    tools:["Runway","Pika","MidJourney","Sora"],
-    links:[{name:"Runway",url:"https://runwayml.com"},{name:"Pika",url:"https://pika.art"},{name:"MidJourney",url:"https://midjourney.com"}]},
+    tools:["Runway","Pika","MidJourney","Sora","Kling"],
+    links:[{name:"Runway",url:"https://runwayml.com"},{name:"Pika",url:"https://pika.art"},{name:"MidJourney",url:"https://midjourney.com"},{name:"Kling AI",url:"https://klingai.com"}]},
 
   {id:102, title:"Create Images Using References", subtitle:"Guide AI with your own images", category:"art",
     description:"Use your own photos, characters, or objects as references to generate new AI images. Upload a character and place them in new scenes, use an object as a starting point, or blend multiple references to create something entirely new.",
@@ -427,6 +427,14 @@ const ITEMS = [
     promptTip:"MidJourney's image references and character references are incredibly powerful. In Gemini (NanoBanana), you can upload images directly in your prompt. Use multiple references to combine elements from different sources.",
     tools:["MidJourney","Gemini","DALL-E","Stable Diffusion"],
     links:[{name:"MidJourney",url:"https://midjourney.com"},{name:"Gemini",url:"https://gemini.google.com"}]},
+
+  {id:105, title:"Create Speaking Avatars", subtitle:"AI-powered video presenters", category:"video",
+    description:"Create realistic talking avatars that can present your content, explain concepts, or deliver messages — without ever stepping in front of a camera. Just type your script and choose an avatar. Perfect for educational videos, presentations, product demos, and social media content.",
+    steps:["Write your script or talking points","Choose an avatar (or upload your own photo)","Select a voice and language","Generate the video and download"],
+    prompt:"I need to create a talking avatar video for [PURPOSE: educational lesson / product demo / social media content / presentation]. Help me:\n1. Write a [LENGTH]-minute script about [TOPIC]\n2. Suggest the best avatar style (professional / casual / animated)\n3. Recommend voice settings (tone, speed, language)\n4. Tips for making it look natural and engaging\n5. Best practices for avatar videos that people actually watch\n\nThe audience is [AUDIENCE] and the tone should be [TONE: professional/friendly/energetic/calm].",
+    promptTip:"HeyGen lets you create avatars from your own photo or choose from realistic pre-made ones. Keep scripts conversational — write for speaking, not reading. Add pauses and emphasis for natural delivery.",
+    tools:["HeyGen","Synthesia","D-ID","Colossyan"],
+    links:[{name:"HeyGen",url:"https://heygen.com"},{name:"Synthesia",url:"https://www.synthesia.io"},{name:"D-ID",url:"https://www.d-id.com"}]},
 
   // ===== PRODUCTIVITY (51-60) =====
   {id:51, title:"Create To-Do Lists & Plans", subtitle:"Organize your life with AI", category:"productivity",
@@ -589,6 +597,14 @@ const ITEMS = [
     promptTip:"Choose the right chart type: bar charts for comparisons, line charts for trends, pie charts for proportions, scatter plots for correlations. Use Chart.js for web or matplotlib for Python.",
     tools:["Claude","ChatGPT","Python","Observable"],
     links:[{name:"Chart.js",url:"https://www.chartjs.org"},{name:"Observable",url:"https://observablehq.com"}]},
+
+  {id:104, title:"Publish a Free Website on GitHub", subtitle:"Share your AI creations with the world", category:"coding",
+    description:"GitHub Pages lets you publish any HTML file as a live website — for free. It's the perfect way to share your interactive AI creations: games, quizzes, portfolios, apps, and more. No hosting fees, no server setup. Just upload your file and get a link anyone can visit.",
+    steps:["Create a free account at github.com","Create a new public repository","Upload your HTML file (name it index.html)","Go to Settings → Pages, select 'main' branch, and save","Your site is live at yourusername.github.io/repo-name/"],
+    prompt:"I created an interactive [TYPE: game / quiz / website / app / portfolio] as a single HTML file using AI. Help me publish it on GitHub Pages step by step. I'm a complete beginner and have never used GitHub before.\n\nPlease explain:\n1. How to create a GitHub account\n2. How to create a repository\n3. How to upload my file\n4. How to enable GitHub Pages\n5. How to share the link\n6. How to update the site later\n7. How to use a custom domain name (optional)\n\nMake it simple — I don't know any coding terms.",
+    promptTip:"Name your main file 'index.html' — this is essential for GitHub Pages. You can host multiple pages and even add images. For a portfolio, consider naming your repo 'yourusername.github.io' to get a clean URL.",
+    tools:["GitHub Pages","ChatGPT","Claude"],
+    links:[{name:"GitHub Pages",url:"https://pages.github.com"},{name:"GitHub",url:"https://github.com"}]},
 
   // ===== BUSINESS & ENTREPRENEURSHIP (71-80) =====
   {id:71, title:"Create Business Plans", subtitle:"Structure your startup idea", category:"business",

@@ -175,8 +175,8 @@ const ITEMS = [
     steps:["Décris l'image que tu veux créer en détail","Précise le style artistique (aquarelle, 3D, anime, etc.)","Génère avec un outil d'IA image","Itère et affine ton prompt pour le résultat parfait"],
     prompt:"Crée une image de [DESCRIPTION DÉTAILLÉE]. Style : [STYLE : aquarelle/art numérique/3D/anime/photoréaliste/impressionniste]. Ambiance : [AMBIANCE : rêveuse/épique/sereine/mystérieuse]. Éclairage : [TYPE : lumière dorée/néon/clair de lune]. Palette de couleurs : [COULEURS].\n\nRapport d'aspect : [16:9/1:1/9:16]. Qualité : ultra détaillée.",
     promptTip:"Plus ta description est détaillée, meilleur sera le résultat. Précise le style, l'éclairage, les couleurs, la composition. Ajoute 'dans le style de [ARTISTE]' pour un look spécifique.",
-    tools:["Midjourney","DALL-E","Stable Diffusion","Leonardo.ai"],
-    links:[{name:"Midjourney",url:"https://www.midjourney.com"},{name:"Leonardo.ai",url:"https://leonardo.ai"}]},
+    tools:["Midjourney","DALL-E","Stable Diffusion","Leonardo.ai","Freepik"],
+    links:[{name:"Midjourney",url:"https://www.midjourney.com"},{name:"Leonardo.ai",url:"https://leonardo.ai"},{name:"Freepik",url:"https://freepik.com"}]},
 
   {id:22, title:"Créer des logos et du branding", subtitle:"Construire ton identité visuelle", category:"art",
     description:"Tu lances un projet, un club, ou une marque personnelle ? L'IA peut t'aider à concevoir des logos, choisir des couleurs et créer une identité visuelle cohérente.",
@@ -207,8 +207,8 @@ const ITEMS = [
     steps:["Choisis le style et les couleurs que tu aimes","Précise les dimensions de ton écran","Génère avec un outil d'IA image","Ajuste et utilise comme fond d'écran"],
     prompt:"Crée un fond d'écran [APPAREIL : téléphone (9:16) / bureau (16:9) / tablette (4:3)]. Style : [ABSTRAIT/NATURE/ESPACE/MINIMALISTE/ANIME/NÉON]. Couleurs dominantes : [COULEURS]. Ambiance : [SEREINE/ÉNERGIQUE/MYSTÉRIEUSE/ESTHÉTIQUE].\n\nPas de texte dans l'image. Très haute résolution. Design épuré qui ne gêne pas les icônes d'applications.",
     promptTip:"Pour les fonds de téléphone, garde le centre simple (c'est là que se trouvent les applis). Crée des séries de fonds d'écran assortis pour téléphone + bureau.",
-    tools:["Midjourney","DALL-E","Stable Diffusion","Leonardo.ai"],
-    links:[{name:"Midjourney",url:"https://www.midjourney.com"},{name:"Leonardo.ai",url:"https://leonardo.ai"}]},
+    tools:["Midjourney","DALL-E","Stable Diffusion","Leonardo.ai","Freepik"],
+    links:[{name:"Midjourney",url:"https://www.midjourney.com"},{name:"Leonardo.ai",url:"https://leonardo.ai"},{name:"Freepik",url:"https://freepik.com"}]},
 
   {id:26, title:"Créer des visuels pour les réseaux sociaux", subtitle:"Du contenu visuel accrocheur", category:"art",
     description:"Des images et graphiques accrocheurs sont essentiels pour les réseaux sociaux. L'IA peut t'aider à créer des visuels professionnels sans compétences en design.",
@@ -337,8 +337,8 @@ const ITEMS = [
     steps:["Écris une description de la vidéo souhaitée","Choisis le style visuel et la durée","Génère avec un outil vidéo IA","Édite et peaufine le résultat"],
     prompt:"Crée une vidéo de [DURÉE] secondes montrant [DESCRIPTION DÉTAILLÉE DE LA SCÈNE]. Style : [RÉALISTE/ANIMÉ/CINÉMATIQUE/RÊVEUR]. Mouvement de caméra : [FIXE/TRAVELLING/ZOOM/ORBITE]. Éclairage : [NATUREL/DRAMATIQUE/NÉON].\n\nRapport d'aspect : [16:9/9:16/1:1].",
     promptTip:"Les outils vidéo IA progressent rapidement. Runway et Pika sont parmi les meilleurs. Commence par des clips courts (4 sec) et assemble-les. Sois très précis dans ta description.",
-    tools:["Runway","Pika","Sora","Kling"],
-    links:[{name:"Runway",url:"https://runwayml.com"},{name:"Pika",url:"https://pika.art"}]},
+    tools:["Runway","Pika","Sora","Kling","Freepik"],
+    links:[{name:"Runway",url:"https://runwayml.com"},{name:"Pika",url:"https://pika.art"},{name:"Sora",url:"https://sora.chatgpt.com/"},{name:"Kling AI",url:"https://klingai.com"},{name:"Freepik",url:"https://freepik.com"}]},
 
   {id:42, title:"Créer des animations", subtitle:"Donner vie aux idées", category:"video",
     description:"De l'animation 2D aux personnages 3D, l'IA rend l'animation accessible à tous. Crée des animations pour des projets scolaires, des réseaux sociaux ou juste pour le plaisir.",
@@ -417,8 +417,8 @@ const ITEMS = [
     steps:["Choisis une photo ou image à animer","Télécharge-la dans un outil d'animation IA","Décris le mouvement souhaité (panoramique, mouvement du sujet, etc.)","Génère, vérifie et affine l'animation"],
     prompt:"Anime cette [TYPE : photo portrait / paysage / image de produit / œuvre d'art] avec le mouvement suivant :\n- Caméra : [zoom lent / panoramique gauche-droite / orbite autour du sujet / recul pour révéler]\n- Mouvement du sujet : [cheveux au vent / clignement et sourire / eau qui coule / nuages en mouvement]\n- Durée : [4 secondes / 8 secondes]\n- Style : [réaliste / cinématique / onirique / dramatique]\n- Boucle : [oui, boucle fluide / non, lecture unique]\n\nL'ambiance doit être [paisible/énergique/mystérieuse/épique].",
     promptTip:"Runway et Pika excellent dans l'image vers vidéo. MidJourney peut créer des images sources parfaites à animer. Commence par des mouvements de caméra simples avant d'ajouter des mouvements complexes du sujet.",
-    tools:["Runway","Pika","MidJourney","Sora"],
-    links:[{name:"Runway",url:"https://runwayml.com"},{name:"Pika",url:"https://pika.art"},{name:"MidJourney",url:"https://midjourney.com"}]},
+    tools:["Runway","Pika","MidJourney","Sora","Kling"],
+    links:[{name:"Runway",url:"https://runwayml.com"},{name:"Pika",url:"https://pika.art"},{name:"MidJourney",url:"https://midjourney.com"},{name:"Kling AI",url:"https://klingai.com"}]},
 
   {id:102, title:"Créer des images avec des références", subtitle:"Guide l'IA avec tes propres images", category:"art",
     description:"Utilise tes propres photos, personnages ou objets comme références pour générer de nouvelles images IA. Télécharge un personnage et place-le dans de nouvelles scènes, utilise un objet comme point de départ, ou combine plusieurs références pour créer quelque chose d'entièrement nouveau.",
@@ -427,6 +427,14 @@ const ITEMS = [
     promptTip:"Les références d'images et de personnages de MidJourney sont incroyablement puissantes. Dans Gemini (NanoBanana), tu peux télécharger des images directement dans ton prompt. Utilise plusieurs références pour combiner des éléments de différentes sources.",
     tools:["MidJourney","Gemini","DALL-E","Stable Diffusion"],
     links:[{name:"MidJourney",url:"https://midjourney.com"},{name:"Gemini",url:"https://gemini.google.com"}]},
+
+  {id:105, title:"Créer des avatars parlants", subtitle:"Présentateurs vidéo propulsés par l'IA", category:"video",
+    description:"Crée des avatars parlants réalistes qui peuvent présenter ton contenu, expliquer des concepts ou livrer des messages — sans jamais passer devant une caméra. Tape ton script et choisis un avatar. Parfait pour les vidéos éducatives, les présentations, les démos de produits et le contenu pour les réseaux sociaux.",
+    steps:["Écris ton script ou tes points de discussion","Choisis un avatar (ou télécharge ta propre photo)","Sélectionne une voix et une langue","Génère la vidéo et télécharge-la"],
+    prompt:"Je dois créer une vidéo avec un avatar parlant pour [OBJECTIF : leçon éducative / démo produit / contenu réseaux sociaux / présentation]. Aide-moi :\n1. Écrire un script de [DURÉE] minutes sur [SUJET]\n2. Suggérer le meilleur style d'avatar (professionnel / décontracté / animé)\n3. Recommander les paramètres de voix (ton, vitesse, langue)\n4. Astuces pour que ça ait l'air naturel et engageant\n5. Bonnes pratiques pour les vidéos d'avatar que les gens regardent vraiment\n\nLe public cible est [PUBLIC] et le ton doit être [TON : professionnel/amical/énergique/calme].",
+    promptTip:"HeyGen te permet de créer des avatars à partir de ta propre photo ou de choisir parmi des avatars réalistes pré-faits. Garde les scripts conversationnels — écris pour parler, pas pour lire. Ajoute des pauses et de l'emphase pour un rendu naturel.",
+    tools:["HeyGen","Synthesia","D-ID","Colossyan"],
+    links:[{name:"HeyGen",url:"https://heygen.com"},{name:"Synthesia",url:"https://www.synthesia.io"},{name:"D-ID",url:"https://www.d-id.com"}]},
 
   // ===== PRODUCTIVITÉ (51-60) =====
   {id:51, title:"Créer des listes de tâches et plans", subtitle:"Organiser ta vie", category:"productivity",
@@ -589,6 +597,14 @@ const ITEMS = [
     promptTip:"Choisis le bon type : barres pour comparer, lignes pour les tendances, scatter pour les corrélations. Chart.js est parfait pour les pages HTML. Plotly crée des graphiques interactifs.",
     tools:["ChatGPT","Claude","Python","Chart.js","Plotly"],
     links:[{name:"Chart.js",url:"https://www.chartjs.org"},{name:"Plotly",url:"https://plotly.com"}]},
+
+  {id:104, title:"Publier un site web gratuit sur GitHub", subtitle:"Partage tes créations IA avec le monde", category:"coding",
+    description:"GitHub Pages te permet de publier n'importe quel fichier HTML comme un site web en ligne — gratuitement. C'est le moyen idéal pour partager tes créations interactives faites avec l'IA : jeux, quiz, portfolios, applis, et plus encore. Pas de frais d'hébergement, pas de serveur à configurer. Télécharge ton fichier et obtiens un lien que tout le monde peut visiter.",
+    steps:["Crée un compte gratuit sur github.com","Crée un nouveau dépôt public","Télécharge ton fichier HTML (nomme-le index.html)","Va dans Settings → Pages, sélectionne la branche 'main' et sauvegarde","Ton site est en ligne à tonnom.github.io/nom-du-depot/"],
+    prompt:"J'ai créé un [TYPE : jeu / quiz / site web / appli / portfolio] interactif en un seul fichier HTML avec l'IA. Aide-moi à le publier sur GitHub Pages étape par étape. Je suis un débutant complet et je n'ai jamais utilisé GitHub.\n\nExplique-moi :\n1. Comment créer un compte GitHub\n2. Comment créer un dépôt (repository)\n3. Comment télécharger mon fichier\n4. Comment activer GitHub Pages\n5. Comment partager le lien\n6. Comment mettre à jour le site plus tard\n7. Comment utiliser un nom de domaine personnalisé (optionnel)\n\nFais-le simple — je ne connais pas les termes techniques.",
+    promptTip:"Nomme ton fichier principal 'index.html' — c'est essentiel pour GitHub Pages. Tu peux héberger plusieurs pages et même ajouter des images. Pour un portfolio, nomme ton dépôt 'tonnomdutilisateur.github.io' pour avoir une URL propre.",
+    tools:["GitHub Pages","ChatGPT","Claude"],
+    links:[{name:"GitHub Pages",url:"https://pages.github.com"},{name:"GitHub",url:"https://github.com"}]},
 
   // ===== BUSINESS & ENTREPRENEURIAT (71-80) =====
   {id:71, title:"Créer des business plans", subtitle:"Structurer ton idée de startup", category:"business",
