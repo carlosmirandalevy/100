@@ -1,5 +1,20 @@
 # Changelog
 
+## [2.1.0] - 2026-02-07
+
+### Added
+- Item 109: "Create a Functional Video Game" (EN + FR) — build playable games with AI
+- Showcase page (showcase.html)
+
+### Changed
+- Consolidated script loading: `include.js` now dynamically loads `funfacts.js` and `main.js` — pages only need `<script src="include.js">` in `<head>`
+- Removed `<script src="funfacts.js">` and `<script src="main.js">` from all 9 HTML pages
+- Renamed "Personal" category to "Fun" across all files (CSS, filter pills, data files)
+- Changed `main.js` from DOMContentLoaded listener to IIFE for compatibility with dynamic loading
+- Fixed `insertPoint` logic in `include.js` to use `document.body.lastElementChild`
+- Renamed "About Your Curator" to "About the 100 Things with AI" with expanded philosophy section
+- Updated README.md with current project structure and file descriptions
+
 ## [2.0.0] - 2026-02-07
 
 ### Added
@@ -47,7 +62,7 @@
   - Coding & Tech (61-70)
   - Business & Entrepreneurship (71-80)
   - Science & Research (81-90)
-  - Personal & Fun (91-100)
+  - Fun (91-100)
 - Each item includes: description, step-by-step guide, ready-to-copy prompt, customization tips, recommended tools, resource links, and CEMI.AI contact
 - Search functionality with debounced filtering
 - Category filter pills (10 categories + All)

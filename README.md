@@ -14,7 +14,7 @@ This project showcases 100 practical things you can do with AI, organized into 1
 
 ## Features
 
-- **100 AI use cases** across 10 categories: Writing, Learning, Art, Music, Video, Productivity, Coding, Business, Science, and Personal
+- **108 AI use cases** across 10 categories: Writing, Learning, Art, Music, Video, Productivity, Coding, Business, Science, and Fun
 - **Ready-to-copy prompts** with one-click copy for each use case
 - **Step-by-step guides** for every item
 - **Showcase section** with real AI projects by Carlos Miranda Levy
@@ -27,15 +27,30 @@ This project showcases 100 practical things you can do with AI, organized into 1
 ## Tech Stack
 
 - Pure HTML, CSS, and vanilla JavaScript (no frameworks, no build step)
-- Google Fonts: Playfair Display, Lora, Source Code Pro
+- Google Fonts: MuseoModerno (display), Inter (body), Source Code Pro (code)
 - Inline SVG icons (Lucide-style)
-- Data-driven architecture with separate `data.js` for all 100 items
+- Data-driven architecture with separate `data.js` for all items
+- `include.js` dynamically injects shared components and loads scripts
 
 ## Project Structure
 
 ```
-index.html          # Complete website (HTML + CSS + JS)
-data.js             # All 100 items data array
+index.html          # Home page
+things.html         # The 100+ things (search, filter, explore)
+tips.html           # Tips for using AI
+toolkit.html        # Useful skills (Markdown, HTML, Mermaid, GitHub Pages)
+tools.html          # Our favorite AI tools
+quickwins.html      # Quick wins to try right now
+showcase.html       # Real AI projects showcase
+faq.html            # Frequently asked questions
+about.html          # About the project and curator
+fr.html             # French version (self-contained)
+include.js          # Shared components (nav, footer, widgets, script loading)
+styles.css          # Shared styles
+main.js             # Shared interactions (nav, search modal, scroll, FAQ)
+funfacts.js         # AI fun facts data
+data.js             # All 108 items data array (English)
+data-fr.js          # All items data array (French)
 README.md           # This file
 CHANGELOG.md        # Version history
 resources/          # Reference materials
@@ -43,9 +58,9 @@ resources/          # Reference materials
 
 ## Deployment
 
-The site is a static single-page application. To deploy:
+The site is a multi-page static application. To deploy:
 
-1. Host `index.html` and `data.js` in the same directory
+1. Host all HTML, JS, and CSS files in the same directory
 2. Serve via GitHub Pages, Netlify, Vercel, or any static hosting
 3. Point your domain (e.g., `100.cemi.ai`) to the hosting
 
