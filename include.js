@@ -70,10 +70,7 @@
             '<a href="things.html" class="nav-link' + active('things') + '">' + (isEN ? 'The 100 Things' : 'Les 100 choses') + '</a>' +
             '<a href="faq.html" class="nav-link' + active('faq') + '">FAQ</a>' +
             '<a href="about.html" class="nav-link' + active('about') + '">' + (isEN ? 'About' : 'À propos') + '</a>' +
-            '<div class="nav-search" id="nav-search">' +
-            '<button class="nav-search-btn" id="nav-search-btn" aria-label="Search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></button>' +
-            '<input type="text" id="nav-search-input" placeholder="' + (isEN ? 'Search...' : 'Rechercher...') + '">' +
-            '</div>' +
+            '<button class="nav-search-btn" id="nav-search-btn" aria-label="' + (isEN ? 'Search (Ctrl+K)' : 'Rechercher (Ctrl+K)') + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></button>' +
             '<a href="' + frPage + '" class="nav-link" title="' + (isEN ? 'Version française' : 'English version') + '">' + (isEN ? 'FR' : 'EN') + '</a>' +
             '<a href="https://cemi.ai" class="nav-link nav-cta" target="_blank">CEMI.AI</a>' +
             '</div></div></nav>';
@@ -135,7 +132,18 @@
         // Insert footer, scroll-top, funfact before the last script or at end of body
         var mainScript = document.querySelector('script[src="main.js"]');
         var insertPoint = mainScript || document.body.lastElementChild;
-        insertPoint.insertAdjacentHTML('beforebegin', footerHTML + scrollTopHTML + funFactHTML);
+        // --- Search Modal ---
+        var searchModalHTML = '<div class="search-modal-overlay" id="search-modal-overlay">' +
+            '<div class="search-modal">' +
+            '<div class="search-modal-input-wrap">' +
+            '<svg class="search-modal-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>' +
+            '<input type="text" id="search-modal-input" placeholder="' + (isEN ? 'Search the 100 things...' : 'Rechercher les 100 choses...') + '" autocomplete="off">' +
+            '<kbd class="search-modal-kbd">ESC</kbd>' +
+            '</div>' +
+            '<div class="search-modal-hint">' + (isEN ? 'Press Enter to search' : 'Appuyez sur Entrée pour rechercher') + ' · <span class="search-modal-shortcut">' + (navigator.platform.indexOf('Mac') > -1 ? '⌘' : 'Ctrl') + '+K</span></div>' +
+            '</div></div>';
+
+        insertPoint.insertAdjacentHTML('beforebegin', footerHTML + scrollTopHTML + funFactHTML + searchModalHTML);
 
         // --- Initialize fun facts ---
         if (typeof FUN_FACTS !== 'undefined') {

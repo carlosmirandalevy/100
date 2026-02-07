@@ -35,39 +35,47 @@ document.addEventListener('DOMContentLoaded', function() {
     // Smooth scroll all anchors on same page
     document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', function(e) { const h = this.getAttribute('href'); if (h && h.length > 1) { const t = document.querySelector(h); if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); } } }));
 
-    // Nav search toggle and redirect
+    // Search modal
+    const searchOverlay = document.getElementById('search-modal-overlay');
+    const searchModalInput = document.getElementById('search-modal-input');
     const navSearchBtn = document.getElementById('nav-search-btn');
-    const navSearchWrap = document.getElementById('nav-search');
-    const navSearchInput = document.getElementById('nav-search-input');
-    if (navSearchBtn && navSearchWrap && navSearchInput) {
-        navSearchBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            if (!navSearchWrap.classList.contains('open')) {
-                navSearchWrap.classList.add('open');
-                navSearchInput.focus();
-            } else if (navSearchInput.value.trim()) {
-                // Navigate to things page with search query
-                const lang = document.documentElement.lang === 'fr' ? 'fr-' : '';
-                window.location.href = lang + 'things.html?q=' + encodeURIComponent(navSearchInput.value.trim());
-            }
-        });
-        navSearchInput.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter' && this.value.trim()) {
+
+    function openSearchModal() {
+        if (!searchOverlay) return;
+        searchOverlay.classList.add('open');
+        if (searchModalInput) { searchModalInput.value = ''; searchModalInput.focus(); }
+    }
+    function closeSearchModal() {
+        if (!searchOverlay) return;
+        searchOverlay.classList.remove('open');
+        if (searchModalInput) searchModalInput.value = '';
+    }
+
+    if (navSearchBtn) navSearchBtn.addEventListener('click', function(e) { e.preventDefault(); openSearchModal(); });
+
+    // Cmd/Ctrl+K shortcut
+    document.addEventListener('keydown', function(e) {
+        if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); openSearchModal(); }
+        if (e.key === 'Escape') closeSearchModal();
+    });
+
+    // Close on backdrop click
+    if (searchOverlay) searchOverlay.addEventListener('click', function(e) { if (e.target === searchOverlay) closeSearchModal(); });
+
+    // ESC kbd badge click
+    const escKbd = searchOverlay ? searchOverlay.querySelector('.search-modal-kbd') : null;
+    if (escKbd) escKbd.addEventListener('click', closeSearchModal);
+
+    // Enter to search — redirect to things.html (unless on things page, handled by things.html script)
+    if (searchModalInput) searchModalInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && this.value.trim()) {
+            const page = document.body.dataset.page;
+            if (page !== 'things') {
                 const lang = document.documentElement.lang === 'fr' ? 'fr-' : '';
                 window.location.href = lang + 'things.html?q=' + encodeURIComponent(this.value.trim());
             }
-            if (e.key === 'Escape') {
-                navSearchWrap.classList.remove('open');
-                this.value = '';
-            }
-        });
-        // Close on click outside
-        document.addEventListener('click', function(e) {
-            if (navSearchWrap.classList.contains('open') && !navSearchWrap.contains(e.target)) {
-                navSearchWrap.classList.remove('open');
-            }
-        });
-    }
+        }
+    });
 
     // FAQ toggles
     document.querySelectorAll('.faq-question').forEach(q => {

@@ -259,17 +259,25 @@
     function init() {
         renderItems(currentCategory, currentSearch);
 
-        // Override nav search to filter in-page on this page
-        var navSearchInput2 = document.getElementById('nav-search-input');
-        if (navSearchInput2) {
-            navSearchInput2.addEventListener('input', function() {
+        // Override search modal to filter in-page on this page
+        var modalInput = document.getElementById('search-modal-input');
+        var modalOverlay = document.getElementById('search-modal-overlay');
+        if (modalInput) {
+            modalInput.addEventListener('input', function() {
                 searchInput.value = this.value;
                 currentSearch = this.value;
                 renderItems(currentCategory, currentSearch);
                 if (searchClear) searchClear.style.display = this.value.length ? 'flex' : 'none';
             });
-            navSearchInput2.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter') e.preventDefault();
+            modalInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' && this.value.trim()) {
+                    e.preventDefault();
+                    if (modalOverlay) modalOverlay.classList.remove('open');
+                    searchInput.value = this.value;
+                    currentSearch = this.value;
+                    renderItems(currentCategory, currentSearch);
+                    if (searchClear) searchClear.style.display = 'flex';
+                }
             });
         }
     }
