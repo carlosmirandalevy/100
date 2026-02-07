@@ -59,7 +59,7 @@
 
         // --- Navigation ---
         var navHTML = '<nav class="nav" id="main-nav"><div class="nav-inner">' +
-            '<a href="index.html" class="nav-logo"><img src="assets/logos/favicon-32x32.png" alt="CEMI.AI" class="nav-logo-img"> 100<span>.cemi.ai</span></a>' +
+            '<a href="index.html" class="nav-logo"><img src="assets/logos/favicon-32x32.png" alt="CEMI.AI" class="nav-logo-img"> 100 <span>Things with AI</span></a>' +
             '<button class="nav-hamburger" id="nav-toggle-btn" aria-label="Menu"><span></span><span></span><span></span></button>' +
             '<div class="nav-links" id="nav-links">' +
             '<a href="index.html#showcase" class="nav-link' + active('showcase') + '">' + (isEN ? 'Showcase' : 'Vitrine') + '</a>' +
@@ -83,7 +83,7 @@
         // --- Footer ---
         var footerHTML = '<footer class="footer"><div class="container"><div class="footer-grid">' +
             '<div class="footer-col">' +
-            '<a href="index.html" class="nav-logo" style="display:inline-flex;align-items:center;gap:8px;margin-bottom:var(--space-md);font-size:1.3rem"><img src="assets/logos/favicon-32x32.png" alt="CEMI.AI" class="nav-logo-img"> 100<span>.cemi.ai</span></a>' +
+            '<a href="index.html" class="nav-logo" style="display:inline-flex;align-items:center;gap:8px;margin-bottom:var(--space-md);font-size:1.3rem"><img src="assets/logos/favicon-32x32.png" alt="CEMI.AI" class="nav-logo-img"> 100 <span>Things with AI</span></a>' +
             '<p class="footer-mantra">&ldquo;' + (isEN
                 ? 'AI is not about doing the same faster and easier &mdash; it is about doing MORE and BETTER than before.'
                 : "L'IA ne consiste pas à faire la même chose plus vite et plus facilement &mdash; il s'agit de faire PLUS et MIEUX qu'avant.") +
