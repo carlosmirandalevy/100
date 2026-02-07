@@ -330,7 +330,7 @@ const ITEMS = [
     prompt:"Generate a [LENGTH]-second video clip of [DESCRIPTION: a person walking through a neon-lit city at night / a drone shot over tropical mountains / a product spinning on a clean background]. Style: [cinematic/documentary/social media/artistic]. Camera movement: [slow pan/static/tracking shot/aerial]. Mood: [dramatic/upbeat/serene/mysterious].",
     promptTip:"Start with short 4-second clips and combine them. Be specific about camera angles and movements. Runway and Pika are the current leaders in AI video.",
     tools:["Runway","Pika","Sora","HeyGen"],
-    links:[{name:"Runway",url:"https://runwayml.com"},{name:"Pika",url:"https://pika.art"}]},
+    links:[{name:"Runway",url:"https://runwayml.com"},{name:"Pika",url:"https://pika.art"},{name:"Sora",url:"https://sora.chatgpt.com/"}]},
 
   {id:42, title:"Create Animations", subtitle:"Bring ideas to motion", category:"video",
     description:"AI animation tools let you create animated content - from simple motion graphics to character animations. Perfect for school projects, social media, or creative expression.",
@@ -403,6 +403,22 @@ const ITEMS = [
     promptTip:"Runway is the best for AI-powered VFX. For green screen work, shoot against a solid color background. Lighting consistency is key to believable effects.",
     tools:["Runway","After Effects","HitFilm","Unreal Engine"],
     links:[{name:"Runway",url:"https://runwayml.com"},{name:"HitFilm",url:"https://fxhome.com/product/hitfilm"}]},
+
+  {id:101, title:"Animate Photos & Images", subtitle:"Bring still images to life", category:"video",
+    description:"AI can transform static photos and images into animated videos — adding motion, camera movement, and life to any still image. Turn portraits into moving characters, landscapes into cinematic scenes, or product shots into dynamic animations.",
+    steps:["Choose a photo or image to animate","Upload to an AI animation tool","Describe the motion you want (camera pan, character movement, etc.)","Generate, review, and refine the animation"],
+    prompt:"Animate this [TYPE: portrait photo / landscape / product image / artwork] with the following motion:\n- Camera: [slow zoom in / pan left to right / orbit around subject / pull back to reveal]\n- Subject motion: [hair blowing in wind / blinking and smiling / water flowing / clouds moving]\n- Duration: [4 seconds / 8 seconds]\n- Style: [realistic / cinematic / dreamy / dramatic]\n- Loop: [yes, seamless loop / no, single play]\n\nThe mood should feel [peaceful/energetic/mysterious/epic].",
+    promptTip:"Runway and Pika excel at image-to-video. MidJourney can create perfect source images to animate. Start with simple camera movements before adding complex subject motion.",
+    tools:["Runway","Pika","MidJourney","Sora"],
+    links:[{name:"Runway",url:"https://runwayml.com"},{name:"Pika",url:"https://pika.art"},{name:"MidJourney",url:"https://midjourney.com"}]},
+
+  {id:102, title:"Create Images Using References", subtitle:"Guide AI with your own images", category:"art",
+    description:"Use your own photos, characters, or objects as references to generate new AI images. Upload a character and place them in new scenes, use an object as a starting point, or blend multiple references to create something entirely new.",
+    steps:["Choose your reference image (character, object, or style)","Upload it to an AI image tool that supports image references","Describe what you want: new scene, style, or variations","Generate and iterate until you get the perfect result"],
+    prompt:"Using the attached image as a reference, create a new image where:\n- Subject: [keep the same character/object but place them in a new scene]\n- New scene: [DESCRIPTION: on a tropical beach at sunset / in a futuristic city / in a studio with dramatic lighting]\n- Style: [photorealistic / illustration / oil painting / anime / pixel art]\n- Keep consistent: [face/features / colors / proportions / clothing]\n- Change: [background / lighting / pose / outfit / season]\n\nMaintain the identity and key features of the reference while adapting to the new context.",
+    promptTip:"MidJourney's image references and character references are incredibly powerful. In Gemini (NanoBanana), you can upload images directly in your prompt. Use multiple references to combine elements from different sources.",
+    tools:["MidJourney","Gemini","DALL-E","Stable Diffusion"],
+    links:[{name:"MidJourney",url:"https://midjourney.com"},{name:"Gemini",url:"https://gemini.google.com"}]},
 
   // ===== PRODUCTIVITY (51-60) =====
   {id:51, title:"Create To-Do Lists & Plans", subtitle:"Organize your life with AI", category:"productivity",

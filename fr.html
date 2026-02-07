@@ -543,6 +543,10 @@
                     <p><strong>Méthode rapide :</strong> Copie le Markdown, colle-le, puis utilise <code>Ctrl+Shift+V</code> (Coller sans formatage). Les titres et les listes seront propres et faciles à formater.</p>
                 </div>
                 <div class="md-tool-item" style="border-left-color:var(--accent-2)">
+                    <h4 style="color:var(--accent-2)">Étape 3 : Télécharger Google Docs en Markdown</h4>
+                    <p>Google Docs peut exporter directement en Markdown ! Va dans <strong>Fichier &rarr; Télécharger &rarr; Markdown (.md)</strong>. Tu obtiens un fichier Markdown propre que tu peux donner à l'IA, utiliser sur GitHub, ou convertir dans n'importe quel format. Ça marche aussi dans l'autre sens &mdash; tu peux ouvrir un fichier <code>.md</code> dans Google Docs et il s'affichera avec tout le formatage.</p>
+                </div>
+                <div class="md-tool-item" style="border-left-color:var(--accent-2)">
                     <h4 style="color:var(--accent-2)">Pourquoi Markdown plutôt que du texte normal ?</h4>
                     <p>Markdown est <strong>propre</strong> &mdash; pas de formatage caché qui casse quand tu copies-colles. C'est <strong>universel</strong> &mdash; ça marche partout. Et c'est <strong>le langage de l'IA</strong> &mdash; tu obtiendras de meilleurs résultats en parlant sa langue.</p>
                 </div>
@@ -816,7 +820,7 @@
             <button class="filter-pill" data-category="personal" style="--pill-color:var(--cat-personal)">Personnel</button>
         </div>
 
-        <div class="results-count" id="results-count">Affichage de 100 sur 100</div>
+        <div class="results-count" id="results-count">Affichage de 102 sur 102</div>
         <div id="items-container"></div>
     </div>
 </section>
@@ -862,7 +866,7 @@
 <!-- ===== PROGRESS TRACKER ===== -->
 <div class="progress-tracker" id="progress-tracker">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"></path></svg>
-    <span id="progress-count">0</span> sur 100 explorés
+    <span id="progress-count">0</span> sur 102 explorés
 </div>
 
 <!-- ===== DATA: THE 100 ITEMS ===== -->
@@ -914,7 +918,7 @@
             return matchCat && matchSearch;
         });
 
-        document.getElementById('results-count').textContent = 'Affichage de ' + filtered.length + ' sur 100';
+        document.getElementById('results-count').textContent = 'Affichage de ' + filtered.length + ' sur ' + ITEMS.length;
 
         if (!filtered.length) {
             container.innerHTML = '<div class="items-empty"><p>Aucun élément ne correspond à ta recherche. Essaie d\'autres mots-clés.</p></div>';

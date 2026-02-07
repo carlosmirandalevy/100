@@ -404,6 +404,22 @@ const ITEMS = [
     tools:["Runway","After Effects","CapCut","HitFilm"],
     links:[{name:"Runway",url:"https://runwayml.com"},{name:"CapCut",url:"https://www.capcut.com"}]},
 
+  {id:101, title:"Animer des photos et images", subtitle:"Donne vie aux images fixes", category:"video",
+    description:"L'IA peut transformer des photos et images statiques en vidéos animées — en ajoutant du mouvement, des déplacements de caméra et de la vie à n'importe quelle image fixe. Transforme des portraits en personnages animés, des paysages en scènes cinématiques ou des photos de produits en animations dynamiques.",
+    steps:["Choisis une photo ou image à animer","Télécharge-la dans un outil d'animation IA","Décris le mouvement souhaité (panoramique, mouvement du sujet, etc.)","Génère, vérifie et affine l'animation"],
+    prompt:"Anime cette [TYPE : photo portrait / paysage / image de produit / œuvre d'art] avec le mouvement suivant :\n- Caméra : [zoom lent / panoramique gauche-droite / orbite autour du sujet / recul pour révéler]\n- Mouvement du sujet : [cheveux au vent / clignement et sourire / eau qui coule / nuages en mouvement]\n- Durée : [4 secondes / 8 secondes]\n- Style : [réaliste / cinématique / onirique / dramatique]\n- Boucle : [oui, boucle fluide / non, lecture unique]\n\nL'ambiance doit être [paisible/énergique/mystérieuse/épique].",
+    promptTip:"Runway et Pika excellent dans l'image vers vidéo. MidJourney peut créer des images sources parfaites à animer. Commence par des mouvements de caméra simples avant d'ajouter des mouvements complexes du sujet.",
+    tools:["Runway","Pika","MidJourney","Sora"],
+    links:[{name:"Runway",url:"https://runwayml.com"},{name:"Pika",url:"https://pika.art"},{name:"MidJourney",url:"https://midjourney.com"}]},
+
+  {id:102, title:"Créer des images avec des références", subtitle:"Guide l'IA avec tes propres images", category:"art",
+    description:"Utilise tes propres photos, personnages ou objets comme références pour générer de nouvelles images IA. Télécharge un personnage et place-le dans de nouvelles scènes, utilise un objet comme point de départ, ou combine plusieurs références pour créer quelque chose d'entièrement nouveau.",
+    steps:["Choisis ton image de référence (personnage, objet ou style)","Télécharge-la dans un outil IA qui prend en charge les références d'images","Décris ce que tu veux : nouvelle scène, style ou variations","Génère et itère jusqu'au résultat parfait"],
+    prompt:"En utilisant l'image jointe comme référence, crée une nouvelle image où :\n- Sujet : [garde le même personnage/objet mais place-le dans une nouvelle scène]\n- Nouvelle scène : [DESCRIPTION : sur une plage tropicale au coucher du soleil / dans une ville futuriste / en studio avec un éclairage dramatique]\n- Style : [photoréaliste / illustration / peinture à l'huile / anime / pixel art]\n- Conserver : [visage/traits / couleurs / proportions / vêtements]\n- Changer : [arrière-plan / éclairage / pose / tenue / saison]\n\nMaintiens l'identité et les caractéristiques clés de la référence tout en s'adaptant au nouveau contexte.",
+    promptTip:"Les références d'images et de personnages de MidJourney sont incroyablement puissantes. Dans Gemini (NanoBanana), tu peux télécharger des images directement dans ton prompt. Utilise plusieurs références pour combiner des éléments de différentes sources.",
+    tools:["MidJourney","Gemini","DALL-E","Stable Diffusion"],
+    links:[{name:"MidJourney",url:"https://midjourney.com"},{name:"Gemini",url:"https://gemini.google.com"}]},
+
   // ===== PRODUCTIVITÉ (51-60) =====
   {id:51, title:"Créer des listes de tâches et plans", subtitle:"Organiser ta vie", category:"productivity",
     description:"L'IA peut transformer un objectif vague en un plan d'action détaillé avec des étapes concrètes, des délais et des priorités. Fini la procrastination !",

@@ -543,6 +543,10 @@
                     <p><strong>Quick method:</strong> Copy the Markdown, paste it, then use <code>Ctrl+Shift+V</code> (Paste without formatting). Headings and lists will be clean and easy to format.</p>
                 </div>
                 <div class="md-tool-item" style="border-left-color:var(--accent-2)">
+                    <h4 style="color:var(--accent-2)">Step 3: Download Google Docs as Markdown</h4>
+                    <p>Google Docs can export directly to Markdown! Go to <strong>File &rarr; Download &rarr; Markdown (.md)</strong>. This gives you a clean Markdown file you can feed back to AI, use in GitHub, or convert to any other format. It works the other way too &mdash; you can open a <code>.md</code> file in Google Docs and it will render with full formatting.</p>
+                </div>
+                <div class="md-tool-item" style="border-left-color:var(--accent-2)">
                     <h4 style="color:var(--accent-2)">Why Markdown over regular text?</h4>
                     <p>Markdown is <strong>clean</strong> &mdash; no hidden formatting that breaks when you copy-paste. It's <strong>universal</strong> &mdash; works everywhere. And it's <strong>how AI thinks</strong> &mdash; you'll get better results when you speak its language.</p>
                 </div>
@@ -816,7 +820,7 @@
             <button class="filter-pill" data-category="personal" style="--pill-color:var(--cat-personal)">Personal</button>
         </div>
 
-        <div class="results-count" id="results-count">Showing 100 of 100</div>
+        <div class="results-count" id="results-count">Showing 102 of 102</div>
         <div id="items-container"></div>
     </div>
 </section>
@@ -862,7 +866,7 @@
 <!-- ===== PROGRESS TRACKER ===== -->
 <div class="progress-tracker" id="progress-tracker">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"></path></svg>
-    <span id="progress-count">0</span> of 100 explored
+    <span id="progress-count">0</span> of 102 explored
 </div>
 
 <!-- ===== DATA: THE 100 ITEMS ===== -->
@@ -914,7 +918,7 @@
             return matchCat && matchSearch;
         });
 
-        document.getElementById('results-count').textContent = 'Showing ' + filtered.length + ' of 100';
+        document.getElementById('results-count').textContent = 'Showing ' + filtered.length + ' of ' + ITEMS.length;
 
         if (!filtered.length) {
             container.innerHTML = '<div class="items-empty"><p>No items match your search. Try different keywords.</p></div>';
