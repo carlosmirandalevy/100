@@ -1,5 +1,34 @@
 # Changelog
 
+## [2.0.0] - 2026-02-07
+
+### Added
+- Multi-page architecture: split monolithic index.html into separate pages (tools, toolkit, tips, things, about, faq, quickwins)
+- Shared component system via include.js (nav, footer, fun facts widget, scroll-to-top, meta tags)
+- Shared styles.css, main.js, and funfacts.js
+- CEMI owl logo with white circle on transparent background
+- Favicons in all sizes (16px–512px), favicon.ico, apple-touch-icon
+- Open Graph image, Twitter card, and share-square for social media
+- site.webmanifest for PWA support
+- GitHub card on tools page
+- Carlos Miranda Levy photo on about page
+- Nav search that redirects to things page with query
+- xperto.academy link in footer
+- maimusic.org links in music-related items
+- xperto.media/portfolio links in visual/video items
+- Google Flow, OpenAI Sora, Kling AI, NanoBanana Pro, Claude Code, Vercel, Google Firestore to tools
+- Quick Wins page
+- FAQ page
+- Fun facts widget with ChatGPT and Perplexity research links
+
+### Changed
+- Renamed site from "100 Things You Can Do with AI" to "100 Things with AI"
+- Renamed "About Your Speaker" to "About Your Curator"
+- Applied CEMI color palette (Rojo Oscuro #a70000, Ocre Amarillo #D9A441, Azul Cobalto #2F4F6F, Verde Tierra #4B775A, Marrón Arcilla #A67F5B, Arena Neutra #E0CBA8)
+- Switched fonts to MuseoModerno (display), Inter (body), Source Code Pro (code)
+- Nav and footer logo now shows owl icon + "100 Things with AI"
+- French translation (fr.html) updated with new palette and branding
+
 ## [1.0.0] - 2025-02-07
 
 ### Added

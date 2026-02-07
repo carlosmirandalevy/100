@@ -1,5 +1,6 @@
 /* ===== 100 Things with AI - Shared JavaScript ===== */
-(function() {
+/* Runs after include.js has injected nav, footer, and widgets */
+document.addEventListener('DOMContentLoaded', function() {
     'use strict';
 
     let lastScrollY = window.scrollY;
@@ -77,4 +78,4 @@
             if (chevron) chevron.classList.toggle('rotated');
         });
     });
-})();
+});

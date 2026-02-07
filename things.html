@@ -255,24 +255,27 @@
         if (searchClear) searchClear.style.display = 'flex';
     }
 
-    // Override nav search to filter in-page on this page
-    const navSearchInput2 = document.getElementById('nav-search-input');
-    const navSearchWrap2 = document.getElementById('nav-search');
-    if (navSearchInput2) {
-        navSearchInput2.addEventListener('input', function() {
-            searchInput.value = this.value;
-            currentSearch = this.value;
-            renderItems(currentCategory, currentSearch);
-            if (searchClear) searchClear.style.display = this.value.length ? 'flex' : 'none';
-        });
-        navSearchInput2.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter') e.preventDefault();
-        });
+    // Init — render items, then override nav search for in-page filtering
+    function init() {
+        renderItems(currentCategory, currentSearch);
+
+        // Override nav search to filter in-page on this page
+        var navSearchInput2 = document.getElementById('nav-search-input');
+        if (navSearchInput2) {
+            navSearchInput2.addEventListener('input', function() {
+                searchInput.value = this.value;
+                currentSearch = this.value;
+                renderItems(currentCategory, currentSearch);
+                if (searchClear) searchClear.style.display = this.value.length ? 'flex' : 'none';
+            });
+            navSearchInput2.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') e.preventDefault();
+            });
+        }
     }
 
-    // Init
-    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => renderItems(currentCategory, currentSearch));
-    else renderItems(currentCategory, currentSearch);
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+    else init();
 })();
 </script>
 
