@@ -161,6 +161,14 @@ const ITEMS = [
     tools:["ChatGPT","Claude","Gemini","Miro"],
     links:[{name:"Coggle",url:"https://coggle.it"},{name:"Miro",url:"https://miro.com"}]},
 
+  {id:103, title:"Get Step-by-Step Instructions", subtitle:"Ask AI how to do anything", category:"learning",
+    description:"One of the most powerful uses of AI is simply asking it how to do something. Whether it's fixing a leaky faucet, setting up software, cooking a recipe, solving a math problem, or filing paperwork — AI can break any task down into clear, numbered steps that anyone can follow.",
+    steps:["Think of something you want to learn how to do","Ask AI to explain it step by step","Ask follow-up questions if any step is unclear","Follow the instructions and ask for help if you get stuck"],
+    prompt:"Explain how to [TASK] step by step. I'm a [beginner/intermediate/advanced] at this. Please:\n- Number each step clearly\n- Keep each step simple and actionable\n- Explain any technical terms in plain language\n- Warn me about common mistakes at each step\n- Tell me what tools or materials I'll need before starting\n- Include tips to make it easier\n\nIf there are multiple ways to do this, recommend the easiest one first.",
+    promptTip:"Be specific about your skill level and context. Instead of 'how to cook pasta', try 'how to cook pasta for the first time, I have no cooking experience, explain everything'. The more context you give, the better the instructions.",
+    tools:["ChatGPT","Claude","Gemini","Perplexity"],
+    links:[{name:"ChatGPT",url:"https://chat.openai.com"},{name:"Claude",url:"https://claude.ai"},{name:"Perplexity",url:"https://perplexity.ai"}]},
+
   // ===== ART & DESIGN (21-30) =====
   {id:21, title:"Generate Digital Artwork", subtitle:"Create images from descriptions", category:"art",
     description:"With AI image generators, you can create stunning digital artwork just by describing what you want. From photorealistic scenes to abstract art, your imagination is the only limit.",

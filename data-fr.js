@@ -161,6 +161,14 @@ const ITEMS = [
     tools:["ChatGPT","Claude","MindMeister","Coggle"],
     links:[{name:"MindMeister",url:"https://www.mindmeister.com"},{name:"Coggle",url:"https://coggle.it"}]},
 
+  {id:103, title:"Obtenir des instructions étape par étape", subtitle:"Demande à l'IA comment faire n'importe quoi", category:"learning",
+    description:"L'une des utilisations les plus puissantes de l'IA est tout simplement de lui demander comment faire quelque chose. Que ce soit réparer un robinet, configurer un logiciel, cuisiner une recette, résoudre un problème de maths ou remplir un formulaire — l'IA peut décomposer n'importe quelle tâche en étapes claires et numérotées que tout le monde peut suivre.",
+    steps:["Pense à quelque chose que tu veux apprendre à faire","Demande à l'IA de t'expliquer étape par étape","Pose des questions de suivi si une étape n'est pas claire","Suis les instructions et demande de l'aide si tu bloques"],
+    prompt:"Explique-moi comment [TÂCHE] étape par étape. Je suis [débutant/intermédiaire/avancé] dans ce domaine. S'il te plaît :\n- Numérote chaque étape clairement\n- Garde chaque étape simple et actionnable\n- Explique les termes techniques en langage simple\n- Préviens-moi des erreurs courantes à chaque étape\n- Dis-moi quels outils ou matériaux je dois préparer avant de commencer\n- Inclus des astuces pour que ce soit plus facile\n\nS'il y a plusieurs façons de faire, recommande la plus simple d'abord.",
+    promptTip:"Sois précis sur ton niveau et ton contexte. Au lieu de 'comment cuisiner des pâtes', essaie 'comment cuisiner des pâtes pour la première fois, je n'ai aucune expérience en cuisine, explique tout'. Plus tu donnes de contexte, meilleures seront les instructions.",
+    tools:["ChatGPT","Claude","Gemini","Perplexity"],
+    links:[{name:"ChatGPT",url:"https://chat.openai.com"},{name:"Claude",url:"https://claude.ai"},{name:"Perplexity",url:"https://perplexity.ai"}]},
+
   // ===== ART & DESIGN (21-30) =====
   {id:21, title:"Générer des œuvres d'art numériques", subtitle:"Créer des images à partir de descriptions", category:"art",
     description:"Décris ce que tu imagines et l'IA le crée sous tes yeux. Des paysages fantastiques aux portraits stylisés, l'art numérique n'a jamais été aussi accessible.",
