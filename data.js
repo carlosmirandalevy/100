@@ -606,6 +606,14 @@ const ITEMS = [
     tools:["GitHub Pages","ChatGPT","Claude"],
     links:[{name:"GitHub Pages",url:"https://pages.github.com"},{name:"GitHub",url:"https://github.com"}]},
 
+  {id:107, title:"Create Diagrams with Mermaid", subtitle:"Flowcharts, timelines, and more from text", category:"coding",
+    description:"Mermaid is a simple text-based language that AI can write for you to create beautiful diagrams — flowcharts, sequence diagrams, timelines, mind maps, Gantt charts, and more. Just describe what you need and AI generates the Mermaid code. Paste it into any Mermaid viewer and you get a professional diagram instantly.",
+    steps:["Describe the diagram you need (flowchart, timeline, process, etc.)","Ask AI to generate Mermaid code for it","Paste the code into a Mermaid live editor or compatible tool","Export as an image or embed in your documents"],
+    prompt:"Create a Mermaid diagram for [DESCRIPTION: a flowchart of the login process / a timeline of the French Revolution / a sequence diagram of an API call / an org chart of our team / a mind map of AI applications]. \n\nRequirements:\n- Use clear, readable labels\n- Add colors or styling to highlight key elements\n- Include all major steps/nodes\n- Make it easy to follow the flow\n\nGive me the Mermaid code I can paste directly into the Mermaid Live Editor.",
+    promptTip:"Use the Mermaid Live Editor (mermaid.live) to instantly preview and export your diagrams. GitHub also renders Mermaid diagrams natively in Markdown files. Claude and ChatGPT both write excellent Mermaid code.",
+    tools:["Claude","ChatGPT","Mermaid Live Editor","GitHub"],
+    links:[{name:"Mermaid Live Editor",url:"https://mermaid.live"},{name:"Mermaid Docs",url:"https://mermaid.js.org"}]},
+
   // ===== BUSINESS & ENTREPRENEURSHIP (71-80) =====
   {id:71, title:"Create Business Plans", subtitle:"Structure your startup idea", category:"business",
     description:"Have a business idea? AI can help you write a professional business plan covering market analysis, financial projections, marketing strategy, and more. Perfect for school projects or real ventures.",

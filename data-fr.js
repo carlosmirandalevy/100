@@ -606,6 +606,14 @@ const ITEMS = [
     tools:["GitHub Pages","ChatGPT","Claude"],
     links:[{name:"GitHub Pages",url:"https://pages.github.com"},{name:"GitHub",url:"https://github.com"}]},
 
+  {id:107, title:"Créer des diagrammes avec Mermaid", subtitle:"Organigrammes, chronologies et plus à partir de texte", category:"coding",
+    description:"Mermaid est un langage textuel simple que l'IA peut écrire pour toi afin de créer de beaux diagrammes — organigrammes, diagrammes de séquence, chronologies, cartes mentales, diagrammes de Gantt et plus encore. Décris ce dont tu as besoin et l'IA génère le code Mermaid. Colle-le dans n'importe quel éditeur Mermaid et tu obtiens un diagramme professionnel instantanément.",
+    steps:["Décris le diagramme dont tu as besoin (organigramme, chronologie, processus, etc.)","Demande à l'IA de générer le code Mermaid","Colle le code dans un éditeur Mermaid en ligne ou un outil compatible","Exporte en image ou intègre dans tes documents"],
+    prompt:"Crée un diagramme Mermaid pour [DESCRIPTION : un organigramme du processus de connexion / une chronologie de la Révolution française / un diagramme de séquence d'un appel API / un organigramme de notre équipe / une carte mentale des applications de l'IA].\n\nExigences :\n- Utilise des labels clairs et lisibles\n- Ajoute des couleurs ou du style pour mettre en valeur les éléments clés\n- Inclus toutes les étapes/nœuds principaux\n- Rends le flux facile à suivre\n\nDonne-moi le code Mermaid que je peux coller directement dans le Mermaid Live Editor.",
+    promptTip:"Utilise le Mermaid Live Editor (mermaid.live) pour prévisualiser et exporter tes diagrammes instantanément. GitHub affiche aussi les diagrammes Mermaid nativement dans les fichiers Markdown. Claude et ChatGPT écrivent tous les deux d'excellent code Mermaid.",
+    tools:["Claude","ChatGPT","Mermaid Live Editor","GitHub"],
+    links:[{name:"Mermaid Live Editor",url:"https://mermaid.live"},{name:"Mermaid Docs",url:"https://mermaid.js.org"}]},
+
   // ===== BUSINESS & ENTREPRENEURIAT (71-80) =====
   {id:71, title:"Créer des business plans", subtitle:"Structurer ton idée de startup", category:"business",
     description:"Tu as une idée de business ? L'IA t'aide à la structurer dans un plan d'affaires complet — de la proposition de valeur aux projections financières.",
