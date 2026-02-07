@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>100 Things You Can Do with AI | CEMI.AI</title>
+    <meta name="description" content="Discover 100 amazing things you can do with AI. A comprehensive guide for students at Lycée Français de Saint Domingue, presented by CEMI.AI">
+    <meta name="author" content="Carlos Miranda Levy - CEMI.AI">
+    <link rel="canonical" href="https://100.cemi.ai">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Lora:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Source+Code+Pro:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a1a;
+            --bg-secondary: #12122a;
+            --bg-card: #1a1a3e;
+            --text-primary: #f0ede6;
+            --text-secondary: #a8a4b8;
+            --accent-1: #7c5cff;
+            --accent-2: #00d4aa;
+            --accent-3: #ff6b9d;
+            --accent-4: #ffa726;
+            --accent-5: #42a5f5;
+            --gradient-hero: linear-gradient(135deg, #7c5cff 0%, #00d4aa 50%, #ff6b9d 100%);
+            --gradient-card: linear-gradient(145deg, #1a1a3e, #12122a);
+            --font-display: 'Playfair Display', Georgia, serif;
+            --font-body: 'Lora', Georgia, serif;
+            --font-code: 'Source Code Pro', monospace;
+            --cat-writing: #7c5cff;
+            --cat-learning: #00d4aa;
+            --cat-art: #ff6b9d;
+            --cat-music: #ffa726;
+            --cat-video: #42a5f5;
+            --cat-productivity: #66bb6a;
+            --cat-coding: #ab47bc;
+            --cat-business: #ffa726;
+            --cat-science: #29b6f6;
+            --cat-personal: #ef5350;
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-full: 100px;
+            --space-xs: 4px;
+            --space-sm: 8px;
+            --space-md: 16px;
+            --space-lg: 24px;
+            --space-xl: 40px;
+            --space-2xl: 64px;
+            --space-3xl: 96px;
+            --transition-fast: 0.2s ease;
+            --transition-normal: 0.35s ease;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+        body { background: var(--bg-primary); color: var(--text-primary); font-family: var(--font-body); font-size: 16px; line-height: 1.7; overflow-x: hidden; }
+        ::selection { background: var(--accent-1); color: #fff; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-primary); }
+        ::-webkit-scrollbar-thumb { background: var(--accent-1); border-radius: 4px; }
+
+        h1, h2, h3, h4, h5, h6 { font-family: var(--font-display); line-height: 1.2; color: var(--text-primary); }
+        h1 { font-size: 3.5rem; font-weight: 900; }
+        h2 { font-size: 2.5rem; font-weight: 700; }
+        h3 { font-size: 1.5rem; font-weight: 700; }
+        h4 { font-size: 1.15rem; font-weight: 700; }
+        a { color: var(--accent-2); text-decoration: none; transition: color var(--transition-fast); }
+        a:hover { color: var(--accent-3); }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+        .section { padding: var(--space-3xl) 0; }
+        .section-header { text-align: center; margin-bottom: var(--space-2xl); }
+        .section-header h2 { margin-bottom: var(--space-sm); }
+        .section-header p { color: var(--text-secondary); font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
+        .gradient-text { background: var(--gradient-hero); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; background-size: 200% 200%; animation: gradient-shift 8s ease infinite; }
+
+        /* ===== NAVIGATION ===== */
+        .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: rgba(10,10,26,0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid rgba(124,92,255,0.05); transition: transform var(--transition-normal), background var(--transition-normal); }
+        .nav.hidden { transform: translateY(-100%); }
+        .nav.scrolled { background: rgba(10,10,26,0.98); box-shadow: 0 4px 30px rgba(0,0,0,0.3); }
+        .nav-inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 70px; }
+        .nav-logo { font-family: var(--font-display); font-size: 1.4rem; font-weight: 900; color: var(--text-primary); text-decoration: none; }
+        .nav-logo span { font-weight: 400; color: var(--accent-2); font-size: 0.9em; }
+        .nav-links { display: flex; align-items: center; gap: var(--space-lg); }
+        .nav-link { font-family: var(--font-body); font-size: 0.88rem; color: var(--text-secondary); text-decoration: none; letter-spacing: 0.05em; text-transform: uppercase; font-weight: 500; transition: color var(--transition-fast); position: relative; }
+        .nav-link:hover, .nav-link.active { color: var(--accent-2); }
+        .nav-link::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px; background: var(--accent-2); transition: width var(--transition-fast); }
+        .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+        .nav-cta { background: var(--gradient-hero); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-weight: 700; }
+        .nav-cta::after { display: none; }
+        .nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
+        .nav-hamburger span { display: block; width: 24px; height: 2px; background: var(--text-primary); border-radius: 2px; transition: all var(--transition-fast); }
+        .nav-hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+        .nav-hamburger.active span:nth-child(2) { opacity: 0; }
+        .nav-hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+        /* ===== HERO ===== */
+        .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; position: relative; overflow: hidden; padding: 100px 24px 60px; }
+        .hero::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(124,92,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(124,92,255,0.03) 1px, transparent 1px); background-size: 60px 60px; z-index: 0; }
+        .hero-number { position: absolute; font-family: var(--font-display); font-size: 25vw; font-weight: 900; background: var(--gradient-hero); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; opacity: 0.06; z-index: 0; user-select: none; line-height: 1; }
+        .hero-orb { position: absolute; border-radius: 50%; filter: blur(80px); z-index: 0; animation: float 8s ease-in-out infinite; }
+        .hero-orb-1 { width: 500px; height: 500px; background: rgba(124,92,255,0.15); top: -10%; right: -5%; animation-delay: 0s; }
+        .hero-orb-2 { width: 400px; height: 400px; background: rgba(0,212,170,0.12); bottom: -10%; left: -5%; animation-delay: -3s; }
+        .hero-orb-3 { width: 300px; height: 300px; background: rgba(255,107,157,0.1); top: 40%; left: 50%; animation-delay: -5s; }
+        .hero-content { position: relative; z-index: 1; max-width: 800px; }
+        .hero-badge { display: inline-block; font-family: var(--font-code); font-size: 0.8rem; padding: 6px 20px; border-radius: var(--radius-full); border: 1px solid rgba(124,92,255,0.3); color: var(--accent-1); margin-bottom: var(--space-lg); letter-spacing: 0.1em; text-transform: uppercase; animation: fadeInUp 0.8s ease forwards; opacity: 0; }
+        .hero-title { font-size: 4.5rem; font-weight: 900; margin-bottom: var(--space-md); animation: fadeInUp 0.8s ease 0.15s forwards; opacity: 0; }
+        .hero-subtitle { font-size: 1.3rem; color: var(--text-secondary); margin-bottom: var(--space-xl); animation: fadeInUp 0.8s ease 0.3s forwards; opacity: 0; }
+        .hero-mantra { border-left: 3px solid var(--accent-2); padding: var(--space-md) var(--space-lg); font-style: italic; font-size: 1.05rem; color: var(--text-secondary); max-width: 700px; margin: 0 auto var(--space-xl); text-align: left; line-height: 1.8; animation: fadeInUp 0.8s ease 0.45s forwards; opacity: 0; }
+        .hero-mantra strong { color: var(--accent-2); font-style: normal; -webkit-text-fill-color: unset; }
+        .hero-cta { display: inline-flex; align-items: center; gap: 10px; padding: 14px 36px; border-radius: var(--radius-full); background: var(--gradient-hero); background-size: 200% 200%; animation: fadeInUp 0.8s ease 0.6s forwards, gradient-shift 4s ease infinite; opacity: 0; color: #fff; font-family: var(--font-body); font-weight: 700; font-size: 1rem; text-decoration: none; border: none; cursor: pointer; transition: transform var(--transition-fast), box-shadow var(--transition-fast); }
+        .hero-cta:hover { transform: translateY(-2px); box-shadow: 0 10px 40px rgba(124,92,255,0.3); color: #fff; }
+        .hero-cta svg { transition: transform var(--transition-fast); }
+        .hero-cta:hover svg { transform: translateY(3px); }
+
+        /* ===== SHOWCASE ===== */
+        .showcase-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-lg); }
+        .showcase-card { background: var(--gradient-card); border: 1px solid rgba(124,92,255,0.08); border-radius: var(--radius-lg); overflow: hidden; transition: all var(--transition-normal); position: relative; }
+        .showcase-card:hover { transform: translateY(-6px); box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .showcase-card-border { height: 4px; }
+        .showcase-card-body { padding: var(--space-lg); }
+        .showcase-card-icon { width: 48px; height: 48px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; margin-bottom: var(--space-md); }
+        .showcase-card-icon svg { width: 24px; height: 24px; stroke: currentColor; stroke-width: 2; fill: none; }
+        .showcase-card h3 { font-size: 1.2rem; margin-bottom: var(--space-sm); }
+        .showcase-card p { color: var(--text-secondary); font-size: 0.92rem; margin-bottom: var(--space-lg); }
+        .showcase-card .card-link { display: inline-flex; align-items: center; gap: 6px; font-size: 0.85rem; font-weight: 600; color: var(--accent-2); }
+        .showcase-card .card-link:hover { gap: 10px; }
+        .showcase-card:nth-child(4), .showcase-card:nth-child(5) { }
+
+        /* ===== MARKDOWN ===== */
+        .markdown-layout { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-xl); align-items: start; }
+        .md-example { background: var(--bg-secondary); border: 1px solid rgba(124,92,255,0.08); border-radius: var(--radius-md); padding: var(--space-lg); font-family: var(--font-code); font-size: 0.85rem; line-height: 1.8; overflow-x: auto; }
+        .md-example .comment { color: #666; }
+        .md-example .syntax { color: var(--accent-2); }
+        .md-example .text { color: var(--text-primary); }
+        .md-preview { background: var(--bg-card); border: 1px solid rgba(124,92,255,0.08); border-radius: var(--radius-md); padding: var(--space-lg); }
+        .md-preview h1, .md-preview h2, .md-preview h3 { margin-bottom: var(--space-sm); }
+        .md-preview p { margin-bottom: var(--space-md); }
+        .md-preview ul, .md-preview ol { margin-left: var(--space-lg); margin-bottom: var(--space-md); }
+        .md-preview code { font-family: var(--font-code); background: rgba(124,92,255,0.1); padding: 2px 6px; border-radius: 4px; font-size: 0.9em; }
+        .md-preview strong { color: var(--accent-2); }
+        .md-preview em { color: var(--accent-3); }
+        .md-steps { margin-top: var(--space-xl); }
+        .md-steps h3 { margin-bottom: var(--space-md); }
+        .md-tool-item { background: var(--bg-card); border-radius: var(--radius-md); padding: var(--space-md) var(--space-lg); margin-bottom: var(--space-md); border-left: 3px solid var(--accent-1); }
+        .md-tool-item h4 { color: var(--accent-2); margin-bottom: var(--space-xs); font-family: var(--font-body); }
+        .md-tool-item p { color: var(--text-secondary); font-size: 0.9rem; }
+        .md-benefits { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); margin-top: var(--space-lg); }
+        .md-benefit { background: var(--bg-card); border-radius: var(--radius-md); padding: var(--space-md); text-align: center; }
+        .md-benefit svg { width: 32px; height: 32px; stroke: var(--accent-2); margin-bottom: var(--space-sm); }
+        .md-benefit h4 { font-size: 0.95rem; margin-bottom: var(--space-xs); }
+        .md-benefit p { font-size: 0.82rem; color: var(--text-secondary); }
+
+        /* ===== ABOUT ===== */
+        .about-layout { display: grid; grid-template-columns: 280px 1fr; gap: var(--space-2xl); align-items: start; }
+        .about-avatar { width: 220px; height: 220px; border-radius: 50%; background: var(--gradient-hero); padding: 4px; margin: 0 auto; }
+        .about-avatar-inner { width: 100%; height: 100%; border-radius: 50%; background: var(--bg-primary); display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 3rem; font-weight: 900; color: var(--accent-2); }
+        .about-name { font-size: 2rem; margin-bottom: var(--space-xs); }
+        .about-title { color: var(--accent-2); font-family: var(--font-code); font-size: 0.9rem; margin-bottom: var(--space-lg); }
+        .about-bio { color: var(--text-secondary); margin-bottom: var(--space-lg); font-size: 0.95rem; }
+        .about-stats { display: flex; gap: var(--space-xl); margin-bottom: var(--space-lg); flex-wrap: wrap; }
+        .about-stat { text-align: center; }
+        .about-stat-number { font-family: var(--font-display); font-size: 2.5rem; font-weight: 900; display: block; }
+        .about-stat-label { font-size: 0.8rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.1em; }
+        .about-recognitions { display: flex; flex-wrap: wrap; gap: var(--space-sm); margin-bottom: var(--space-lg); }
+        .about-recognition { font-family: var(--font-code); font-size: 0.75rem; padding: 5px 14px; border-radius: var(--radius-full); border: 1px solid rgba(124,92,255,0.2); color: var(--accent-1); }
+        .about-quote { border-left: 3px solid var(--accent-3); padding: var(--space-md) var(--space-lg); font-style: italic; color: var(--text-secondary); background: rgba(255,107,157,0.04); border-radius: 0 var(--radius-md) var(--radius-md) 0; }
+        .about-link { display: inline-flex; align-items: center; gap: 8px; margin-top: var(--space-md); color: var(--accent-2); font-weight: 600; }
+
+        /* ===== 100 THINGS ===== */
+        .things-mantra { text-align: center; border: 1px solid rgba(0,212,170,0.2); border-radius: var(--radius-lg); padding: var(--space-lg) var(--space-xl); margin-bottom: var(--space-xl); background: rgba(0,212,170,0.03); max-width: 800px; margin-left: auto; margin-right: auto; margin-bottom: var(--space-xl); }
+        .things-mantra p { font-style: italic; font-size: 1.05rem; color: var(--text-secondary); }
+        .things-mantra strong { color: var(--accent-2); font-style: normal; }
+
+        .search-bar { position: relative; max-width: 600px; margin: 0 auto var(--space-lg); }
+        .search-bar input { width: 100%; padding: 16px 24px 16px 52px; border-radius: var(--radius-full); border: 1px solid rgba(124,92,255,0.1); background: var(--bg-secondary); color: var(--text-primary); font-family: var(--font-body); font-size: 1rem; outline: none; transition: all var(--transition-fast); }
+        .search-bar input:focus { border-color: var(--accent-1); box-shadow: 0 0 0 3px rgba(124,92,255,0.1); }
+        .search-bar input::placeholder { color: var(--text-secondary); }
+        .search-bar .search-icon { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); }
+        .search-bar .search-icon svg { width: 20px; height: 20px; stroke: var(--text-secondary); }
+        .search-clear { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: var(--text-secondary); display: none; width: 24px; height: 24px; align-items: center; justify-content: center; border-radius: 50%; }
+        .search-clear:hover { color: var(--accent-3); }
+
+        .filter-bar { display: flex; gap: var(--space-sm); overflow-x: auto; padding-bottom: var(--space-sm); margin-bottom: var(--space-lg); scrollbar-width: none; -ms-overflow-style: none; justify-content: center; flex-wrap: wrap; }
+        .filter-bar::-webkit-scrollbar { display: none; }
+        .filter-pill { font-family: var(--font-code); font-size: 0.8rem; padding: 8px 20px; border-radius: var(--radius-full); border: 1px solid rgba(124,92,255,0.15); background: transparent; color: var(--text-secondary); cursor: pointer; white-space: nowrap; transition: all var(--transition-fast); }
+        .filter-pill:hover { border-color: var(--accent-1); color: var(--accent-1); }
+        .filter-pill.active { background: var(--gradient-hero); border-color: transparent; color: #fff; font-weight: 600; }
+
+        .results-count { text-align: center; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: var(--space-lg); }
+
+        .item-card { background: var(--gradient-card); border: 1px solid rgba(124,92,255,0.06); border-radius: var(--radius-lg); margin-bottom: var(--space-md); overflow: hidden; transition: all var(--transition-fast); }
+        .item-card:hover { border-color: rgba(124,92,255,0.15); }
+        .item-card.explored { border-left: 3px solid var(--accent-2); }
+        .item-header { display: flex; align-items: center; gap: var(--space-md); padding: var(--space-md) var(--space-lg); cursor: pointer; user-select: none; }
+        .item-number { width: 48px; height: 48px; min-width: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-weight: 900; font-size: 1.05rem; color: #fff; }
+        .item-header-text { flex: 1; }
+        .item-title { font-size: 1.15rem; margin-bottom: 2px; }
+        .item-subtitle { font-size: 0.85rem; color: var(--text-secondary); font-family: var(--font-body); }
+        .item-category-badge { font-family: var(--font-code); font-size: 0.65rem; padding: 3px 10px; border-radius: var(--radius-full); border: 1px solid; white-space: nowrap; text-transform: uppercase; letter-spacing: 0.08em; display: none; }
+        .item-chevron { transition: transform var(--transition-fast); flex-shrink: 0; }
+        .item-chevron svg { width: 20px; height: 20px; stroke: var(--text-secondary); }
+        .item-chevron.rotated { transform: rotate(180deg); }
+
+        .item-body { max-height: 0; overflow: hidden; transition: max-height 0.5s ease, padding 0.3s ease; }
+        .item-body.open { max-height: 2000px; padding: 0 var(--space-lg) var(--space-lg); }
+        .item-description { color: var(--text-secondary); margin-bottom: var(--space-lg); font-size: 0.95rem; }
+        .item-steps { margin-bottom: var(--space-lg); }
+        .item-steps h4 { display: flex; align-items: center; gap: 8px; margin-bottom: var(--space-md); color: var(--accent-2); }
+        .item-steps h4 svg { stroke: var(--accent-2); }
+        .item-steps ol { list-style: none; counter-reset: steps; }
+        .item-steps li { counter-increment: steps; display: flex; align-items: flex-start; gap: var(--space-md); margin-bottom: var(--space-md); font-size: 0.92rem; color: var(--text-secondary); }
+        .item-steps li::before { content: counter(steps); min-width: 32px; height: 32px; border-radius: 50%; background: rgba(124,92,255,0.1); color: var(--accent-1); display: flex; align-items: center; justify-content: center; font-family: var(--font-code); font-size: 0.8rem; font-weight: 600; flex-shrink: 0; }
+
+        .prompt-block { background: #0d0d25; border-left: 3px solid var(--accent-1); border-radius: 0 var(--radius-md) var(--radius-md) 0; padding: var(--space-lg); margin-bottom: var(--space-lg); position: relative; }
+        .prompt-label { font-family: var(--font-code); font-size: 0.75rem; color: var(--accent-1); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: var(--space-sm); display: flex; align-items: center; gap: 6px; }
+        .prompt-label svg { stroke: var(--accent-1); width: 14px; height: 14px; }
+        .prompt-block pre { margin: 0; white-space: pre-wrap; word-break: break-word; }
+        .prompt-block code { font-family: var(--font-code); font-size: 0.85rem; color: var(--text-primary); line-height: 1.7; }
+        .copy-btn { position: absolute; top: var(--space-md); right: var(--space-md); display: inline-flex; align-items: center; gap: 6px; padding: 6px 16px; font-family: var(--font-code); font-size: 0.75rem; border-radius: var(--radius-full); background: var(--accent-2); color: var(--bg-primary); border: none; cursor: pointer; font-weight: 600; transition: all var(--transition-fast); z-index: 2; }
+        .copy-btn:hover { background: var(--accent-3); transform: scale(1.05); }
+        .copy-btn.copied { background: var(--cat-productivity); }
+        .copy-btn svg { width: 14px; height: 14px; stroke: currentColor; fill: none; }
+
+        .tip-box { background: rgba(255,167,38,0.06); border-left: 3px solid var(--accent-4); border-radius: 0 var(--radius-md) var(--radius-md) 0; padding: var(--space-md) var(--space-lg); margin-bottom: var(--space-lg); font-style: italic; font-size: 0.92rem; color: var(--text-secondary); display: flex; align-items: flex-start; gap: 10px; }
+        .tip-box strong { color: var(--accent-4); font-style: normal; }
+        .tip-box svg { stroke: var(--accent-4); flex-shrink: 0; margin-top: 3px; }
+
+        .tools-list { display: flex; flex-wrap: wrap; gap: var(--space-sm); margin-bottom: var(--space-lg); align-items: center; }
+        .tools-label { font-size: 0.82rem; color: var(--text-secondary); display: flex; align-items: center; gap: 6px; margin-right: var(--space-xs); }
+        .tools-label svg { width: 14px; height: 14px; stroke: var(--text-secondary); }
+        .tool-pill { font-family: var(--font-code); font-size: 0.72rem; padding: 5px 14px; border-radius: var(--radius-full); background: rgba(124,92,255,0.08); color: var(--accent-1); border: 1px solid rgba(124,92,255,0.12); white-space: nowrap; }
+
+        .links-list { display: flex; flex-wrap: wrap; gap: var(--space-sm); margin-bottom: var(--space-lg); }
+        .resource-link { display: inline-flex; align-items: center; gap: 6px; font-size: 0.85rem; color: var(--accent-5); padding: 4px 0; }
+        .resource-link svg { width: 14px; height: 14px; stroke: currentColor; }
+        .resource-link:hover { color: var(--accent-2); }
+
+        .contact-link { font-size: 0.85rem; color: var(--accent-3); display: inline-flex; align-items: center; gap: 6px; transition: all var(--transition-fast); }
+        .contact-link:hover { color: var(--accent-2); gap: 10px; }
+        .contact-link svg { width: 14px; height: 14px; stroke: currentColor; fill: none; }
+        .items-empty { text-align: center; padding: var(--space-3xl) 0; color: var(--text-secondary); }
+
+        /* ===== FOOTER ===== */
+        .footer { background: var(--bg-secondary); padding: var(--space-2xl) 0 0; border-top: 1px solid rgba(124,92,255,0.08); }
+        .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: var(--space-xl); padding-bottom: var(--space-2xl); }
+        .footer-col h4 { font-family: var(--font-display); font-size: 1.1rem; margin-bottom: var(--space-md); }
+        .footer-col p { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.7; }
+        .footer-col a { color: var(--text-secondary); font-size: 0.9rem; display: block; padding: 3px 0; }
+        .footer-col a:hover { color: var(--accent-2); }
+        .footer-links { list-style: none; }
+        .footer-links li { margin-bottom: var(--space-xs); }
+        .footer-mantra { font-style: italic; font-size: 0.95rem; color: var(--text-secondary); border-left: 2px solid var(--accent-2); padding-left: var(--space-md); line-height: 1.7; margin-bottom: var(--space-md); }
+        .footer-bottom { border-top: 1px solid rgba(124,92,255,0.08); padding: var(--space-lg) 0; display: flex; align-items: center; justify-content: space-between; font-size: 0.82rem; color: var(--text-secondary); }
+
+        /* ===== SCROLL TO TOP ===== */
+        .scroll-top { position: fixed; bottom: 32px; right: 32px; width: 48px; height: 48px; border-radius: 50%; background: var(--gradient-hero); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 900; opacity: 0; visibility: hidden; transform: translateY(20px); transition: all var(--transition-normal); box-shadow: 0 4px 20px rgba(124,92,255,0.3); }
+        .scroll-top.visible { opacity: 1; visibility: visible; transform: translateY(0); }
+        .scroll-top:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(124,92,255,0.5); }
+        .scroll-top svg { width: 20px; height: 20px; stroke: #fff; stroke-width: 2.5; fill: none; }
+
+        /* ===== PROGRESS TRACKER ===== */
+        .progress-tracker { position: fixed; bottom: 32px; left: 32px; background: var(--bg-card); border: 1px solid rgba(124,92,255,0.15); border-radius: var(--radius-full); padding: 8px 18px; font-family: var(--font-code); font-size: 0.78rem; color: var(--text-secondary); display: flex; align-items: center; gap: 8px; z-index: 900; opacity: 0; visibility: hidden; transition: all var(--transition-normal); }
+        .progress-tracker.visible { opacity: 1; visibility: visible; }
+        .progress-tracker svg { width: 16px; height: 16px; stroke: var(--accent-2); }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-30px); } }
+        @keyframes gradient-shift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+
+        .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .nav-links { display: none; }
+            .nav-links.open { display: flex; flex-direction: column; position: absolute; top: 70px; left: 0; right: 0; background: var(--bg-primary); border-bottom: 1px solid rgba(124,92,255,0.1); padding: var(--space-lg); gap: var(--space-md); }
+            .nav-hamburger { display: flex; }
+            .showcase-grid { grid-template-columns: repeat(2, 1fr); }
+            .about-layout { grid-template-columns: 1fr; text-align: center; }
+            .about-stats { justify-content: center; }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+            .hero-title { font-size: 3.5rem; }
+            .item-category-badge { display: none; }
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 2.2rem; }
+            h2 { font-size: 1.7rem; }
+            .hero-title { font-size: 2.8rem; }
+            .hero-subtitle { font-size: 1.1rem; }
+            .hero-number { font-size: 40vw; }
+            .hero-orb-1 { width: 300px; height: 300px; }
+            .hero-orb-2 { width: 250px; height: 250px; }
+            .hero-orb-3 { width: 200px; height: 200px; }
+            .section { padding: var(--space-2xl) 0; }
+            .showcase-grid { grid-template-columns: 1fr; }
+            .markdown-layout { grid-template-columns: 1fr; }
+            .md-benefits { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr; }
+            .footer-bottom { flex-direction: column; gap: var(--space-sm); text-align: center; }
+            .copy-btn { position: relative; top: auto; right: auto; margin-top: var(--space-sm); }
+            .progress-tracker { bottom: 16px; left: 16px; font-size: 0.7rem; padding: 6px 14px; }
+            .scroll-top { bottom: 20px; right: 20px; width: 42px; height: 42px; }
+        }
+        @media (max-width: 480px) {
+            .container { padding: 0 16px; }
+            .hero { padding: 80px 16px 40px; }
+            .hero-title { font-size: 2.2rem; }
+            .hero-mantra { font-size: 0.92rem; }
+            .item-header { padding: var(--space-md) var(--space-sm); }
+            .item-number { width: 40px; height: 40px; min-width: 40px; font-size: 0.9rem; }
+            .item-title { font-size: 1rem; }
+            .filter-pill { font-size: 0.72rem; padding: 6px 14px; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+            html { scroll-behavior: auto; }
+            .reveal { opacity: 1; transform: none; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ===== NAVIGATION ===== -->
+<nav class="nav" id="main-nav">
+    <div class="nav-inner">
+        <a href="#" class="nav-logo">100<span>.cemi.ai</span></a>
+        <button class="nav-hamburger" id="nav-toggle-btn" aria-label="Menu">
+            <span></span><span></span><span></span>
+        </button>
+        <div class="nav-links" id="nav-links">
+            <a href="#showcase" class="nav-link">Showcase</a>
+            <a href="#markdown" class="nav-link">Markdown</a>
+            <a href="#about" class="nav-link">About</a>
+            <a href="#things" class="nav-link">The 100 Things</a>
+            <a href="https://cemi.ai" class="nav-link nav-cta" target="_blank">CEMI.AI</a>
+        </div>
+    </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section class="hero" id="hero">
+    <div class="hero-orb hero-orb-1"></div>
+    <div class="hero-orb hero-orb-2"></div>
+    <div class="hero-orb hero-orb-3"></div>
+    <div class="hero-number">100</div>
+    <div class="hero-content">
+        <div class="hero-badge">Lycee Francais de Saint Domingue</div>
+        <h1 class="hero-title"><span class="gradient-text">100 Things You Can Do with AI</span></h1>
+        <p class="hero-subtitle">Your complete guide to unlocking the power of Artificial Intelligence</p>
+        <div class="hero-mantra">
+            <p>AI is not about doing the same faster and easier &mdash; it is about doing <strong>MORE</strong> and <strong>BETTER</strong> than before. And about learning to do <strong>new things</strong> and <strong>improve ourselves</strong>.</p>
+        </div>
+        <a href="#showcase" class="hero-cta" id="hero-cta-btn">
+            Start Exploring
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
+        </a>
+    </div>
+</section>
+
+<!-- ===== SHOWCASE ===== -->
+<section class="section" id="showcase">
+    <div class="container">
+        <div class="section-header reveal">
+            <h2 class="gradient-text">See What's Possible</h2>
+            <p>Real projects created with AI &mdash; proof that the future is already here</p>
+        </div>
+        <div class="showcase-grid">
+            <div class="showcase-card reveal reveal-delay-1">
+                <div class="showcase-card-border" style="background:linear-gradient(90deg,#ff6b9d,#ff8a65)"></div>
+                <div class="showcase-card-body">
+                    <div class="showcase-card-icon" style="background:rgba(255,107,157,0.1);color:#ff6b9d">
+                        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect><line x1="7" y1="2" x2="7" y2="22"></line><line x1="17" y1="2" x2="17" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line><line x1="2" y1="7" x2="7" y2="7"></line><line x1="2" y1="17" x2="7" y2="17"></line><line x1="17" y1="7" x2="22" y2="7"></line><line x1="17" y1="17" x2="22" y2="17"></line></svg>
+                    </div>
+                    <h3>35 Videos in 35 Days</h3>
+                    <p>We created 35 commercial videos for Jugueton in just 35 days using AI-powered production workflows.</p>
+                    <a href="https://xperto.media/jugueton" target="_blank" class="card-link">Watch the videos <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg></a>
+                </div>
+            </div>
+            <div class="showcase-card reveal reveal-delay-2">
+                <div class="showcase-card-border" style="background:linear-gradient(90deg,#7c5cff,#a78bfa)"></div>
+                <div class="showcase-card-body">
+                    <div class="showcase-card-icon" style="background:rgba(124,92,255,0.1);color:#7c5cff">
+                        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="11" x2="10" y2="11"></line><line x1="8" y1="9" x2="8" y2="13"></line><line x1="15" y1="12" x2="15.01" y2="12"></line><line x1="18" y1="10" x2="18.01" y2="10"></line><path d="M17.32 5H6.68a4 4 0 00-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 003 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 019.828 16h4.344a2 2 0 011.414.586L17 18c.5.5 1 1 2 1a3 3 0 003-3c0-1.544-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0017.32 5z"></path></svg>
+                    </div>
+                    <h3>Video Game in an Afternoon</h3>
+                    <p>A fully playable video game prototype crafted from concept to completion in a single afternoon.</p>
+                    <a href="https://cary.xperto.media" target="_blank" class="card-link">Play the game <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg></a>
+                </div>
+            </div>
+            <div class="showcase-card reveal reveal-delay-3">
+                <div class="showcase-card-border" style="background:linear-gradient(90deg,#00d4aa,#34d399)"></div>
+                <div class="showcase-card-body">
+                    <div class="showcase-card-icon" style="background:rgba(0,212,170,0.1);color:#00d4aa">
+                        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+                    </div>
+                    <h3>Jazz Band in 3 Hours</h3>
+                    <p>Pachamaima: a complete jazz ensemble with multiple albums, all created in just 3 hours with AI.</p>
+                    <a href="https://pachamaima.com" target="_blank" class="card-link">Listen now <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg></a>
+                </div>
+            </div>
+            <div class="showcase-card reveal reveal-delay-1">
+                <div class="showcase-card-border" style="background:linear-gradient(90deg,#ffa726,#ffcc80)"></div>
+                <div class="showcase-card-body">
+                    <div class="showcase-card-icon" style="background:rgba(255,167,38,0.1);color:#ffa726">
+                        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0118 0v6"></path><path d="M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3zM3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3z"></path></svg>
+                    </div>
+                    <h3>Record Label in a Weekend</h3>
+                    <p>MAI Music: a full record label with 7 unique artists and complete discographies, created in one weekend.</p>
+                    <a href="https://maimusic.org" target="_blank" class="card-link">Explore the label <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg></a>
+                </div>
+            </div>
+            <div class="showcase-card reveal reveal-delay-2">
+                <div class="showcase-card-border" style="background:linear-gradient(90deg,#42a5f5,#64b5f6)"></div>
+                <div class="showcase-card-body">
+                    <div class="showcase-card-icon" style="background:rgba(66,165,245,0.1);color:#42a5f5">
+                        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"></path></svg>
+                    </div>
+                    <h3>AI-Powered Study Materials</h3>
+                    <p>Custom study materials created instantly for kids and students, making learning fun and effective.</p>
+                    <a href="https://carlosmirandalevy.github.io/aiprendizaje/" target="_blank" class="card-link">See the materials <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== CONTENT & FORMAT: FOUNDATIONAL SKILLS ===== -->
+<section class="section" id="markdown" style="background:var(--bg-secondary)">
+    <div class="container">
+        <div class="section-header reveal">
+            <h2 class="gradient-text">Content &amp; Format</h2>
+            <p>Two foundational skills for working with AI</p>
+        </div>
+        <p class="reveal" style="text-align:center;color:var(--text-secondary);max-width:750px;margin:0 auto var(--space-2xl)">When you work with AI, the format of what you give it and what it gives you back matters. Two simple formats will make your AI experience 10x better: <strong style="color:var(--accent-2)">Markdown</strong> for documents and <strong style="color:var(--accent-3)">HTML</strong> for interactive content.</p>
+
+        <!-- MARKDOWN SECTION -->
+        <div class="reveal" style="margin-bottom:var(--space-3xl)">
+            <h3 style="margin-bottom:var(--space-md);display:flex;align-items:center;gap:10px">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--accent-2)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                Markdown &mdash; For Documents &amp; Text
+            </h3>
+            <p style="color:var(--text-secondary);margin-bottom:var(--space-lg);max-width:700px">Markdown is a super simple way to format text. It's what AI uses to format its responses &mdash; headings, bold text, bullet lists, tables. It's clean, free of unnecessary formatting, and easy to read and edit. When you ask AI to create documents, <strong style="color:var(--text-primary)">ask for Markdown format</strong> &mdash; then paste it into Google Docs or your word processor.</p>
+
+            <div class="markdown-layout">
+                <div>
+                    <h4 style="margin-bottom:var(--space-sm);color:var(--accent-2)">What You Type</h4>
+                    <div class="md-example">
+<span class="syntax"># My Report Title</span>
+<span class="syntax">## Introduction</span>
+<span class="text">This is a paragraph with </span><span class="syntax">**bold**</span><span class="text"> and </span><span class="syntax">*italic*</span><span class="text"> text.</span>
+
+<span class="syntax">### Key Points</span>
+<span class="syntax">- First important point</span>
+<span class="syntax">- Second important point</span>
+<span class="syntax">- Third important point</span>
+
+<span class="syntax">| Country   | Capital      |</span>
+<span class="syntax">|-----------|-------------|</span>
+<span class="syntax">| France    | Paris        |</span>
+<span class="syntax">| Japan     | Tokyo        |</span>
+<span class="syntax">| Brazil    | Brasilia     |</span>
+                    </div>
+                </div>
+                <div>
+                    <h4 style="margin-bottom:var(--space-sm);color:var(--accent-3)">What You See</h4>
+                    <div class="md-preview">
+                        <h1 style="font-size:1.6rem;margin-bottom:8px">My Report Title</h1>
+                        <h2 style="font-size:1.25rem;margin-bottom:8px">Introduction</h2>
+                        <p>This is a paragraph with <strong>bold</strong> and <em>italic</em> text.</p>
+                        <h3 style="font-size:1.05rem;margin-bottom:8px">Key Points</h3>
+                        <ul style="margin-left:20px;margin-bottom:12px">
+                            <li>First important point</li>
+                            <li>Second important point</li>
+                            <li>Third important point</li>
+                        </ul>
+                        <table style="width:100%;border-collapse:collapse">
+                            <tr><th style="border-bottom:2px solid var(--accent-1);padding:6px 10px;text-align:left;font-size:0.9rem">Country</th><th style="border-bottom:2px solid var(--accent-1);padding:6px 10px;text-align:left;font-size:0.9rem">Capital</th></tr>
+                            <tr><td style="border-bottom:1px solid rgba(124,92,255,0.1);padding:6px 10px;font-size:0.9rem">France</td><td style="border-bottom:1px solid rgba(124,92,255,0.1);padding:6px 10px;font-size:0.9rem">Paris</td></tr>
+                            <tr><td style="border-bottom:1px solid rgba(124,92,255,0.1);padding:6px 10px;font-size:0.9rem">Japan</td><td style="border-bottom:1px solid rgba(124,92,255,0.1);padding:6px 10px;font-size:0.9rem">Tokyo</td></tr>
+                            <tr><td style="border-bottom:1px solid rgba(124,92,255,0.1);padding:6px 10px;font-size:0.9rem">Brazil</td><td style="border-bottom:1px solid rgba(124,92,255,0.1);padding:6px 10px;font-size:0.9rem">Brasilia</td></tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top:var(--space-xl)">
+                <h4 style="margin-bottom:var(--space-md)">How to Use Markdown with Google Docs</h4>
+                <div class="md-tool-item">
+                    <h4 style="color:var(--accent-2)">Step 1: Ask AI for Markdown</h4>
+                    <p>When asking AI to write a document, add: <code>"Please output in Markdown format"</code>. The result will be clean, well-structured text without any messy formatting.</p>
+                </div>
+                <div class="md-tool-item" style="border-left-color:var(--accent-2)">
+                    <h4 style="color:var(--accent-2)">Step 2: Paste into Google Docs</h4>
+                    <p><strong>Best method:</strong> Install the <strong>"Docs to Markdown"</strong> add-on from Google Workspace Marketplace. It converts Markdown into perfectly formatted Google Docs text with one click.</p>
+                    <p><strong>Quick method:</strong> Copy the Markdown, paste it, then use <code>Ctrl+Shift+V</code> (Paste without formatting). Headings and lists will be clean and easy to format.</p>
+                </div>
+                <div class="md-tool-item" style="border-left-color:var(--accent-2)">
+                    <h4 style="color:var(--accent-2)">Why Markdown over regular text?</h4>
+                    <p>Markdown is <strong>clean</strong> &mdash; no hidden formatting that breaks when you copy-paste. It's <strong>universal</strong> &mdash; works everywhere. And it's <strong>how AI thinks</strong> &mdash; you'll get better results when you speak its language.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- HTML SECTION -->
+        <div class="reveal">
+            <h3 style="margin-bottom:var(--space-md);display:flex;align-items:center;gap:10px">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--accent-3)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+                HTML &mdash; For Interactive Content
+            </h3>
+            <p style="color:var(--text-secondary);margin-bottom:var(--space-lg);max-width:700px">When you want to create something that people can <strong style="color:var(--text-primary)">open in a browser and interact with</strong> &mdash; like a website, a quiz, an interactive chart, or a presentation &mdash; ask AI to give you HTML. <strong style="color:var(--accent-3)">You don't need to learn HTML.</strong> The AI writes all the code for you. You just save the file and open it in Chrome or any browser.</p>
+
+            <div class="markdown-layout">
+                <div>
+                    <h4 style="margin-bottom:var(--space-sm);color:var(--accent-3)">What You Ask AI</h4>
+                    <div class="md-example" style="border-color:rgba(255,107,157,0.15)">
+<span class="text">"Create an interactive quiz about</span>
+<span class="text"> the French Revolution with 10</span>
+<span class="text"> questions, a score tracker, and</span>
+<span class="text"> colorful design. </span>
+<span class="syntax">Give me a single HTML file</span>
+<span class="syntax"> I can open in a browser."</span>
+
+<span class="comment">The AI generates ALL the code:</span>
+<span class="comment">- HTML (the structure)</span>
+<span class="comment">- CSS (the design)</span>
+<span class="comment">- JavaScript (the interactivity)</span>
+
+<span class="comment">You just save it as a .html file</span>
+<span class="comment">and open it! That's it.</span>
+                    </div>
+                </div>
+                <div>
+                    <h4 style="margin-bottom:var(--space-sm);color:var(--accent-3)">What You Get</h4>
+                    <div class="md-preview" style="border-color:rgba(255,107,157,0.15);text-align:center;padding:var(--space-xl)">
+                        <div style="background:var(--gradient-hero);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-family:var(--font-display);font-size:1.5rem;font-weight:700;margin-bottom:12px">French Revolution Quiz</div>
+                        <p style="font-size:0.9rem;margin-bottom:16px">Question 3 of 10</p>
+                        <p style="margin-bottom:16px;font-weight:500">When did the Bastille fall?</p>
+                        <div style="display:flex;flex-direction:column;gap:8px;text-align:left;max-width:280px;margin:0 auto">
+                            <div style="padding:10px 16px;border-radius:8px;border:1px solid rgba(124,92,255,0.2);font-size:0.9rem;cursor:pointer">A) July 14, 1789</div>
+                            <div style="padding:10px 16px;border-radius:8px;border:1px solid rgba(124,92,255,0.2);font-size:0.9rem;cursor:pointer">B) June 20, 1791</div>
+                            <div style="padding:10px 16px;border-radius:8px;border:1px solid rgba(124,92,255,0.2);font-size:0.9rem;cursor:pointer">C) August 10, 1792</div>
+                        </div>
+                        <p style="margin-top:16px;font-family:var(--font-code);font-size:0.8rem;color:var(--accent-2)">Score: 2/2 correct</p>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top:var(--space-xl)">
+                <div class="md-tool-item" style="border-left-color:var(--accent-3)">
+                    <h4 style="color:var(--accent-3)">How It Works &mdash; It's Really This Simple</h4>
+                    <p><strong>1.</strong> Ask AI to create whatever you want as "a single HTML file" &mdash; <strong>2.</strong> Copy the code AI gives you &mdash; <strong>3.</strong> Save it as <code>something.html</code> on your computer &mdash; <strong>4.</strong> Double-click to open in your browser. Done!</p>
+                    <p style="margin-top:8px"><strong>You can share the file</strong> with anyone &mdash; they just open it in their browser. No apps to install, no accounts to create. This very website you're reading right now is an HTML file created with AI.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- WHEN TO USE WHAT -->
+        <div class="reveal" style="margin-top:var(--space-2xl)">
+            <h3 style="text-align:center;margin-bottom:var(--space-lg)">When to Use What</h3>
+            <div class="md-benefits">
+                <div class="md-benefit">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-2)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                    <h4 style="color:var(--accent-2)">Use Markdown</h4>
+                    <p>Essays, reports, notes, study guides, emails, documents you'll paste into Google Docs or Word</p>
+                </div>
+                <div class="md-benefit">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-3)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+                    <h4 style="color:var(--accent-3)">Use HTML</h4>
+                    <p>Quizzes, interactive presentations, games, charts, websites, anything others will view in a browser</p>
+                </div>
+                <div class="md-benefit">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-4)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                    <h4 style="color:var(--accent-4)">Pro Tip</h4>
+                    <p>You don't need to learn either format. Just tell AI what you want and say "in Markdown" or "as an HTML file" &mdash; AI does the rest!</p>
+                </div>
+                <div class="md-benefit">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-1)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                    <h4 style="color:var(--accent-1)">Key Insight</h4>
+                    <p>The more you understand these formats, the more powerful your AI results become. It's about communication, not coding.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== ABOUT ===== -->
+<section class="section" id="about">
+    <div class="container">
+        <div class="section-header reveal">
+            <h2 class="gradient-text">About Your Speaker</h2>
+            <p>Meet Carlos Miranda Levy</p>
+        </div>
+        <div class="about-layout reveal">
+            <div style="display:flex;flex-direction:column;align-items:center">
+                <div class="about-avatar">
+                    <div class="about-avatar-inner">CML</div>
+                </div>
+            </div>
+            <div>
+                <h3 class="about-name">Carlos Miranda Levy</h3>
+                <div class="about-title">Chief Innovation Officer &amp; Director of Transformation | Stanford Fellow | TEDx Speaker</div>
+                <p class="about-bio">With over 25 years of experience in organizational transformation through AI, digital strategy, and human-centered design, Carlos has worked across Caribbean islands, Europe, the Amazon basin, the Andes, Silicon Valley, and Asia. He is a certified lean startup consultant with experience spanning private, public, social, and international sectors. As a pioneer in Latin American internet innovation, he continues to push the boundaries of how AI can augment human creativity and capability.</p>
+
+                <div class="about-stats">
+                    <div class="about-stat">
+                        <span class="about-stat-number gradient-text">25+</span>
+                        <span class="about-stat-label">Years Experience</span>
+                    </div>
+                    <div class="about-stat">
+                        <span class="about-stat-number" style="color:var(--accent-2)">6</span>
+                        <span class="about-stat-label">Continents</span>
+                    </div>
+                    <div class="about-stat">
+                        <span class="about-stat-number" style="color:var(--accent-3)">4</span>
+                        <span class="about-stat-label">AI Frameworks</span>
+                    </div>
+                </div>
+
+                <div class="about-recognitions">
+                    <span class="about-recognition">CNN: 20 Latin American Internet Leaders</span>
+                    <span class="about-recognition">MIT: Emerging Leader &amp; Entrepreneur</span>
+                    <span class="about-recognition">Forbes: 30 Business Promises</span>
+                    <span class="about-recognition">Google: Developing World Scholar</span>
+                    <span class="about-recognition">Stanford: Digital Vision Fellow</span>
+                </div>
+
+                <div class="about-quote">
+                    <p>"Technology that empowers people to transcend circumstances with dignity, inclusion, and equity."</p>
+                </div>
+
+                <a href="https://thesocialentrepreneur.com" target="_blank" class="about-link">
+                    Learn more at thesocialentrepreneur.com
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== THE 100 THINGS ===== -->
+<section class="section" id="things" style="background:var(--bg-secondary)">
+    <div class="container">
+        <div class="section-header reveal">
+            <h2 class="gradient-text">The 100 Things</h2>
+            <p>Explore, learn, and create with AI</p>
+        </div>
+
+        <div class="things-mantra reveal">
+            <p>Remember: AI is not about doing the same faster and easier &mdash; it is about doing <strong>MORE</strong> and <strong>BETTER</strong> than before.</p>
+        </div>
+
+        <div class="search-bar reveal">
+            <div class="search-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            </div>
+            <input type="text" id="search-input" placeholder="Search the 100 things...">
+            <button class="search-clear" id="search-clear" aria-label="Clear search">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+        </div>
+
+        <div class="filter-bar reveal">
+            <button class="filter-pill active" data-category="all">All (100)</button>
+            <button class="filter-pill" data-category="writing" style="--pill-color:var(--cat-writing)">Writing</button>
+            <button class="filter-pill" data-category="learning" style="--pill-color:var(--cat-learning)">Learning</button>
+            <button class="filter-pill" data-category="art" style="--pill-color:var(--cat-art)">Art &amp; Design</button>
+            <button class="filter-pill" data-category="music" style="--pill-color:var(--cat-music)">Music</button>
+            <button class="filter-pill" data-category="video" style="--pill-color:var(--cat-video)">Video</button>
+            <button class="filter-pill" data-category="productivity" style="--pill-color:var(--cat-productivity)">Productivity</button>
+            <button class="filter-pill" data-category="coding" style="--pill-color:var(--cat-coding)">Coding</button>
+            <button class="filter-pill" data-category="business" style="--pill-color:var(--cat-business)">Business</button>
+            <button class="filter-pill" data-category="science" style="--pill-color:var(--cat-science)">Science</button>
+            <button class="filter-pill" data-category="personal" style="--pill-color:var(--cat-personal)">Personal</button>
+        </div>
+
+        <div class="results-count" id="results-count">Showing 100 of 100</div>
+        <div id="items-container"></div>
+    </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <a href="#" class="nav-logo" style="display:inline-block;margin-bottom:var(--space-md);font-size:1.3rem">100<span>.cemi.ai</span></a>
+                <p class="footer-mantra">"AI is not about doing the same faster and easier &mdash; it is about doing MORE and BETTER than before."</p>
+                <a href="https://cemi.ai" target="_blank">Visit CEMI.AI &rarr;</a>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul class="footer-links">
+                    <li><a href="#hero">Home</a></li>
+                    <li><a href="#showcase">Showcase</a></li>
+                    <li><a href="#markdown">Markdown</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#things">The 100 Things</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Connect With Us</h4>
+                <p>Want to learn more about AI and how it can transform your work and learning?</p>
+                <a href="https://cemi.ai" target="_blank" style="margin-top:var(--space-sm);display:inline-block;color:var(--accent-2);font-weight:600">cemi.ai &rarr;</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>Made with AI + Human Creativity | &copy; 2025 <a href="https://cemi.ai" target="_blank">CEMI.AI</a></p>
+            <p>Everything mentioned here is available at <a href="https://100.cemi.ai">100.cemi.ai</a></p>
+        </div>
+    </div>
+</footer>
+
+<!-- ===== SCROLL TO TOP ===== -->
+<button class="scroll-top" id="scroll-top-btn" aria-label="Scroll to top">
+    <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+</button>
+
+<!-- ===== PROGRESS TRACKER ===== -->
+<div class="progress-tracker" id="progress-tracker">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"></path></svg>
+    <span id="progress-count">0</span> of 100 explored
+</div>
+
+<!-- ===== DATA: THE 100 ITEMS ===== -->
+<script src="data.js"></script>
+
+<!-- ===== APPLICATION LOGIC ===== -->
+<script>
+(function() {
+    'use strict';
+
+    const exploredItems = new Set();
+    let currentCategory = 'all';
+    let currentSearch = '';
+    let lastScrollY = window.scrollY;
+    let debounceTimer = null;
+
+    const categoryColors = {
+        writing:      { color: '#7c5cff', gradient: 'linear-gradient(135deg, #7c5cff, #a78bfa)' },
+        learning:     { color: '#00d4aa', gradient: 'linear-gradient(135deg, #00d4aa, #34d399)' },
+        art:          { color: '#ff6b9d', gradient: 'linear-gradient(135deg, #ff6b9d, #f472b6)' },
+        music:        { color: '#ffa726', gradient: 'linear-gradient(135deg, #ffa726, #ffcc80)' },
+        video:        { color: '#42a5f5', gradient: 'linear-gradient(135deg, #42a5f5, #64b5f6)' },
+        productivity: { color: '#66bb6a', gradient: 'linear-gradient(135deg, #66bb6a, #81c784)' },
+        coding:       { color: '#ab47bc', gradient: 'linear-gradient(135deg, #ab47bc, #ce93d8)' },
+        business:     { color: '#ffa726', gradient: 'linear-gradient(135deg, #ff8f00, #ffa726)' },
+        science:      { color: '#29b6f6', gradient: 'linear-gradient(135deg, #0288d1, #29b6f6)' },
+        personal:     { color: '#ef5350', gradient: 'linear-gradient(135deg, #ef5350, #e57373)' }
+    };
+
+    function getCategoryGradient(cat) { return (categoryColors[cat] && categoryColors[cat].gradient) || 'linear-gradient(135deg, #7c5cff, #a78bfa)'; }
+
+    function escapeHtml(str) {
+        if (!str) return '';
+        const d = document.createElement('div');
+        d.appendChild(document.createTextNode(str));
+        return d.innerHTML;
+    }
+
+    function renderItems(filterCat, searchTerm) {
+        filterCat = filterCat || 'all';
+        searchTerm = searchTerm || '';
+        const container = document.getElementById('items-container');
+        if (!container || typeof ITEMS === 'undefined') return;
+
+        const filtered = ITEMS.filter(item => {
+            const matchCat = filterCat === 'all' || item.category === filterCat;
+            const t = searchTerm.toLowerCase();
+            const matchSearch = !t || (item.title + ' ' + item.subtitle + ' ' + item.description + ' ' + item.category).toLowerCase().includes(t);
+            return matchCat && matchSearch;
+        });
+
+        document.getElementById('results-count').textContent = 'Showing ' + filtered.length + ' of 100';
+
+        if (!filtered.length) {
+            container.innerHTML = '<div class="items-empty"><p>No items match your search. Try different keywords.</p></div>';
+            return;
+        }
+
+        container.innerHTML = filtered.map(item => {
+            const grad = getCategoryGradient(item.category);
+            const explored = exploredItems.has(item.id) ? ' explored' : '';
+            return `<div class="item-card${explored}" data-id="${item.id}">
+                <div class="item-header" data-item-id="${item.id}">
+                    <div class="item-number" style="background:${grad}">${item.id}</div>
+                    <div class="item-header-text">
+                        <h3 class="item-title">${escapeHtml(item.title)}</h3>
+                        <p class="item-subtitle">${escapeHtml(item.subtitle)}</p>
+                    </div>
+                    <div class="item-chevron" id="chevron-${item.id}">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </div>
+                </div>
+                <div class="item-body" id="body-${item.id}">
+                    <p class="item-description">${escapeHtml(item.description)}</p>
+                    <div class="item-steps">
+                        <h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg> Step by Step</h4>
+                        <ol>${item.steps.map(s => '<li>' + escapeHtml(s) + '</li>').join('')}</ol>
+                    </div>
+                    <div class="prompt-block" data-prompt="${escapeHtml(item.prompt)}">
+                        <div class="prompt-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg> Ready-to-Use Prompt</div>
+                        <pre><code>${escapeHtml(item.prompt)}</code></pre>
+                        <button class="copy-btn" aria-label="Copy"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"></path></svg><span>Copy</span></button>
+                    </div>
+                    <div class="tip-box"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg> <strong>Customize it:</strong>&nbsp;${escapeHtml(item.promptTip)}</div>
+                    <div class="tools-list">
+                        <span class="tools-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"></path></svg> Tools:</span>
+                        ${item.tools.map(t => '<span class="tool-pill">' + escapeHtml(t) + '</span>').join('')}
+                    </div>
+                    ${item.links ? '<div class="links-list">' + item.links.map(l => '<a href="' + escapeHtml(l.url) + '" target="_blank" class="resource-link"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg> ' + escapeHtml(l.name) + '</a>').join('') + '</div>' : ''}
+                    <a href="https://cemi.ai" target="_blank" class="contact-link"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"></path></svg> Need help? Reach out to us at cemi.AI</a>
+                </div>
+            </div>`;
+        }).join('');
+
+        attachListeners();
+    }
+
+    function attachListeners() {
+        document.querySelectorAll('.item-header').forEach(h => {
+            h.addEventListener('click', () => toggleItem(parseInt(h.dataset.itemId)));
+        });
+        document.querySelectorAll('.copy-btn').forEach(btn => {
+            btn.addEventListener('click', e => {
+                e.stopPropagation();
+                const block = btn.closest('.prompt-block');
+                copyPrompt(btn, block ? block.dataset.prompt : '');
+            });
+        });
+    }
+
+    function toggleItem(id) {
+        const body = document.getElementById('body-' + id);
+        const chevron = document.getElementById('chevron-' + id);
+        if (!body) return;
+        body.classList.toggle('open');
+        if (chevron) chevron.classList.toggle('rotated');
+        if (body.classList.contains('open') && !exploredItems.has(id)) {
+            exploredItems.add(id);
+            updateProgress();
+            const card = body.closest('.item-card');
+            if (card) card.classList.add('explored');
+        }
+    }
+    window.toggleItem = toggleItem;
+
+    function copyPrompt(btn, text) {
+        if (!text) return;
+        navigator.clipboard.writeText(text).then(() => showCopied(btn)).catch(() => {
+            const ta = document.createElement('textarea');
+            ta.value = text; ta.style.cssText = 'position:fixed;opacity:0';
+            document.body.appendChild(ta); ta.select();
+            try { document.execCommand('copy'); showCopied(btn); } catch(e) {}
+            document.body.removeChild(ta);
+        });
+    }
+
+    function showCopied(btn) {
+        const s = btn.querySelector('span');
+        if (s) s.textContent = 'Copied!';
+        btn.classList.add('copied');
+        setTimeout(() => { if (s) s.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+    }
+
+    function updateProgress() {
+        const el = document.getElementById('progress-count');
+        if (el) el.textContent = exploredItems.size;
+        const t = document.getElementById('progress-tracker');
+        if (t && exploredItems.size > 0) t.classList.add('visible');
+    }
+
+    // Nav
+    const navToggle = document.getElementById('nav-toggle-btn');
+    const navLinks = document.getElementById('nav-links');
+    if (navToggle) navToggle.addEventListener('click', () => { navLinks.classList.toggle('open'); navToggle.classList.toggle('active'); });
+    if (navLinks) navLinks.querySelectorAll('.nav-link').forEach(l => l.addEventListener('click', () => { navLinks.classList.remove('open'); if(navToggle) navToggle.classList.remove('active'); }));
+
+    const nav = document.getElementById('main-nav');
+    window.addEventListener('scroll', () => {
+        const y = window.scrollY;
+        if (nav) { nav.classList.toggle('scrolled', y > 50); nav.classList.toggle('hidden', y > lastScrollY && y > 200); if (y <= lastScrollY) nav.classList.remove('hidden'); }
+        lastScrollY = y;
+    }, { passive: true });
+
+    // Scroll animations
+    if ('IntersectionObserver' in window) {
+        const obs = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('active'); obs.unobserve(e.target); } }), { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+        document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+    } else {
+        document.querySelectorAll('.reveal').forEach(el => el.classList.add('active'));
+    }
+
+    // Filters
+    document.querySelectorAll('.filter-pill').forEach(pill => {
+        pill.addEventListener('click', () => {
+            document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+            pill.classList.add('active');
+            currentCategory = pill.dataset.category;
+            renderItems(currentCategory, currentSearch);
+        });
+    });
+
+    // Search
+    const searchInput = document.getElementById('search-input');
+    const searchClear = document.getElementById('search-clear');
+    if (searchInput) searchInput.addEventListener('input', function() {
+        clearTimeout(debounceTimer);
+        const v = this.value;
+        debounceTimer = setTimeout(() => { currentSearch = v; renderItems(currentCategory, currentSearch); }, 250);
+        if (searchClear) searchClear.style.display = v.length ? 'flex' : 'none';
+    });
+    if (searchClear) searchClear.addEventListener('click', () => { searchInput.value = ''; currentSearch = ''; renderItems(currentCategory, currentSearch); searchClear.style.display = 'none'; searchInput.focus(); });
+
+    // Scroll to top
+    const scrollBtn = document.getElementById('scroll-top-btn');
+    window.addEventListener('scroll', () => { if (scrollBtn) scrollBtn.classList.toggle('visible', window.scrollY > 600); }, { passive: true });
+    if (scrollBtn) scrollBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+    // Hero CTA
+    const heroCta = document.getElementById('hero-cta-btn');
+    if (heroCta) heroCta.addEventListener('click', e => { e.preventDefault(); document.querySelector(heroCta.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' }); });
+
+    // Smooth scroll all anchors
+    document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', function(e) { const h = this.getAttribute('href'); if (h && h.length > 1) { const t = document.querySelector(h); if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); } } }));
+
+    // Init
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => renderItems());
+    else renderItems();
+})();
+</script>
+
+</body>
+</html>
