@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Las 100+ Cosas | 100.cemi.ai</title>
+    <meta name="description" content="Explora 100 cosas que puedes hacer con IA. Busca, filtra y descubre formas creativas de usar inteligencia artificial.">
+    <script src="include.js"></script>
+</head>
+<body data-page="things">
+
+<!-- ===== PAGE HERO ===== -->
+<section class="page-hero">
+    <div class="hero-orb hero-orb-1" style="width:300px;height:300px"></div>
+    <div class="hero-orb hero-orb-2" style="width:250px;height:250px"></div>
+    <div class="page-hero-content">
+        <h1><span class="gradient-text">Las 100 Cosas</span></h1>
+        <p>Explora, aprende y crea con IA</p>
+    </div>
+</section>
+
+<!-- ===== THE 100 THINGS ===== -->
+<section class="section" id="things" style="background:var(--bg-secondary)">
+    <div class="container">
+        <div class="things-mantra reveal">
+            <p>Recuerda: La IA no se trata de hacer lo mismo más rápido y fácil &mdash; se trata de hacer <strong>MÁS</strong> y <strong>MEJOR</strong> que antes.</p>
+        </div>
+
+        <div class="search-bar reveal">
+            <div class="search-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            </div>
+            <input type="text" id="search-input" placeholder="Buscar en las 100 cosas...">
+            <button class="search-clear" id="search-clear" aria-label="Limpiar búsqueda">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+        </div>
+
+        <div class="filter-bar reveal">
+            <button class="filter-pill active" data-category="all">Todas (100)</button>
+            <button class="filter-pill" data-category="writing" style="--pill-color:var(--cat-writing)">Escritura</button>
+            <button class="filter-pill" data-category="learning" style="--pill-color:var(--cat-learning)">Aprendizaje</button>
+            <button class="filter-pill" data-category="art" style="--pill-color:var(--cat-art)">Arte y Diseño</button>
+            <button class="filter-pill" data-category="music" style="--pill-color:var(--cat-music)">Música</button>
+            <button class="filter-pill" data-category="video" style="--pill-color:var(--cat-video)">Video</button>
+            <button class="filter-pill" data-category="productivity" style="--pill-color:var(--cat-productivity)">Productividad</button>
+            <button class="filter-pill" data-category="coding" style="--pill-color:var(--cat-coding)">Programación</button>
+            <button class="filter-pill" data-category="business" style="--pill-color:var(--cat-business)">Negocios</button>
+            <button class="filter-pill" data-category="science" style="--pill-color:var(--cat-science)">Ciencia</button>
+            <button class="filter-pill" data-category="fun" style="--pill-color:var(--cat-fun)">Diversión</button>
+        </div>
+
+        <div class="results-count" id="results-count">Mostrando 102 de 107</div>
+        <div id="items-container"></div>
+    </div>
+</section>
+
+<!-- ===== PROGRESS TRACKER ===== -->
+<div class="progress-tracker" id="progress-tracker">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"></path></svg>
+    <span id="progress-count">0</span> de <span id="total-count">107</span> explorados
+</div>
+
+<!-- ===== DATA: THE 100 ITEMS ===== -->
+<script src="data-es.js"></script>
+
+<!-- ===== ITEMS APPLICATION LOGIC ===== -->
+<script>
+(function() {
+    'use strict';
+
+    const exploredItems = new Set();
+    let currentCategory = 'all';
+    let currentSearch = '';
+    let lastScrollY = window.scrollY;
+    let debounceTimer = null;
+
+    const categoryColors = {
+        writing:      { color: '#a70000', gradient: 'linear-gradient(135deg, #a70000, #c43030)' },
+        learning:     { color: '#D9A441', gradient: 'linear-gradient(135deg, #D9A441, #E0CBA8)' },
+        art:          { color: '#2F4F6F', gradient: 'linear-gradient(135deg, #2F4F6F, #4A7A9F)' },
+        music:        { color: '#4B775A', gradient: 'linear-gradient(135deg, #4B775A, #6B9B72)' },
+        video:        { color: '#A67F5B', gradient: 'linear-gradient(135deg, #A67F5B, #C4A882)' },
+        productivity: { color: '#4B775A', gradient: 'linear-gradient(135deg, #4B775A, #6B9B72)' },
+        coding:       { color: '#2F4F6F', gradient: 'linear-gradient(135deg, #2F4F6F, #4A7A9F)' },
+        business:     { color: '#A67F5B', gradient: 'linear-gradient(135deg, #A67F5B, #C4A882)' },
+        science:      { color: '#2F4F6F', gradient: 'linear-gradient(135deg, #2F4F6F, #4A7A9F)' },
+        fun:          { color: '#a70000', gradient: 'linear-gradient(135deg, #a70000, #c43030)' }
+    };
+
+    function getCategoryGradient(cat) { return (categoryColors[cat] && categoryColors[cat].gradient) || 'linear-gradient(135deg, #a70000, #c43030)'; }
+
+    function escapeHtml(str) {
+        if (!str) return '';
+        const d = document.createElement('div');
+        d.appendChild(document.createTextNode(str));
+        return d.innerHTML;
+    }
+
+    function renderItems(filterCat, searchTerm) {
+        filterCat = filterCat || 'all';
+        searchTerm = searchTerm || '';
+        const container = document.getElementById('items-container');
+        if (!container || typeof ITEMS === 'undefined') return;
+
+        const filtered = ITEMS.filter(item => {
+            const matchCat = filterCat === 'all' || item.category === filterCat;
+            const t = searchTerm.toLowerCase();
+            const matchSearch = !t || (item.title + ' ' + item.subtitle + ' ' + item.description + ' ' + item.category).toLowerCase().includes(t);
+            return matchCat && matchSearch;
+        });
+
+        document.getElementById('results-count').textContent = 'Mostrando ' + filtered.length + ' de ' + ITEMS.length;
+
+        if (!filtered.length) {
+            container.innerHTML = '<div class="items-empty"><p>No se encontraron resultados. Intenta con otras palabras.</p></div>';
+            return;
+        }
+
+        container.innerHTML = filtered.map(item => {
+            const grad = getCategoryGradient(item.category);
+            const explored = exploredItems.has(item.id) ? ' explored' : '';
+            return `<div class="item-card${explored}" data-id="${item.id}">
+                <div class="item-header" data-item-id="${item.id}">
+                    <div class="item-number" style="background:${grad}">${item.id}</div>
+                    <div class="item-header-text">
+                        <h3 class="item-title">${escapeHtml(item.title)}</h3>
+                        <p class="item-subtitle">${escapeHtml(item.subtitle)}</p>
+                    </div>
+                    <div class="item-chevron" id="chevron-${item.id}">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </div>
+                </div>
+                <div class="item-body" id="body-${item.id}">
+                    <p class="item-description">${escapeHtml(item.description)}</p>
+                    <div class="item-steps">
+                        <h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg> Paso a paso</h4>
+                        <ol>${item.steps.map(s => '<li>' + escapeHtml(s) + '</li>').join('')}</ol>
+                    </div>
+                    <div class="prompt-block" data-prompt="${escapeHtml(item.prompt)}">
+                        <div class="prompt-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg> Prompt listo para usar</div>
+                        <pre><code>${escapeHtml(item.prompt)}</code></pre>
+                        <button class="copy-btn" aria-label="Copiar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"></path></svg><span>Copiar</span></button>
+                    </div>
+                    <div class="tip-box"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg> <strong>Personalízalo:</strong>&nbsp;${escapeHtml(item.promptTip)}</div>
+                    <div class="tools-list">
+                        <span class="tools-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"></path></svg> Herramientas:</span>
+                        ${item.tools.map(t => '<span class="tool-pill">' + escapeHtml(t) + '</span>').join('')}
+                    </div>
+                    ${item.links ? '<div class="links-list">' + item.links.map(l => '<a href="' + escapeHtml(l.url) + '" target="_blank" class="resource-link"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg> ' + escapeHtml(l.name) + '</a>').join('') + '</div>' : ''}
+                    <a href="https://cemi.ai" target="_blank" class="contact-link"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"></path></svg> ¿Necesitas ayuda? Contáctanos en cemi.AI</a>
+                </div>
+            </div>`;
+        }).join('');
+
+        attachListeners();
+    }
+
+    function attachListeners() {
+        document.querySelectorAll('.item-header').forEach(h => {
+            h.addEventListener('click', () => toggleItem(parseInt(h.dataset.itemId)));
+        });
+        document.querySelectorAll('.copy-btn').forEach(btn => {
+            btn.addEventListener('click', e => {
+                e.stopPropagation();
+                const block = btn.closest('.prompt-block');
+                copyPrompt(btn, block ? block.dataset.prompt : '');
+            });
+        });
+    }
+
+    function toggleItem(id) {
+        const body = document.getElementById('body-' + id);
+        const chevron = document.getElementById('chevron-' + id);
+        if (!body) return;
+        body.classList.toggle('open');
+        if (chevron) chevron.classList.toggle('rotated');
+        if (body.classList.contains('open') && !exploredItems.has(id)) {
+            exploredItems.add(id);
+            updateProgress();
+            const card = body.closest('.item-card');
+            if (card) card.classList.add('explored');
+        }
+    }
+    window.toggleItem = toggleItem;
+
+    function copyPrompt(btn, text) {
+        if (!text) return;
+        navigator.clipboard.writeText(text).then(() => showCopied(btn)).catch(() => {
+            const ta = document.createElement('textarea');
+            ta.value = text; ta.style.cssText = 'position:fixed;opacity:0';
+            document.body.appendChild(ta); ta.select();
+            try { document.execCommand('copy'); showCopied(btn); } catch(e) {}
+            document.body.removeChild(ta);
+        });
+    }
+
+    function showCopied(btn) {
+        const s = btn.querySelector('span');
+        if (s) s.textContent = '¡Copiado!';
+        btn.classList.add('copied');
+        setTimeout(() => { if (s) s.textContent = 'Copiar'; btn.classList.remove('copied'); }, 2000);
+    }
+
+    function updateProgress() {
+        const el = document.getElementById('progress-count');
+        if (el) el.textContent = exploredItems.size;
+        const t = document.getElementById('progress-tracker');
+        if (t && exploredItems.size > 0) t.classList.add('visible');
+    }
+
+    // Scroll animations
+    if ('IntersectionObserver' in window) {
+        const obs = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('active'); obs.unobserve(e.target); } }), { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+        document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+    } else {
+        document.querySelectorAll('.reveal').forEach(el => el.classList.add('active'));
+    }
+
+    // Filters
+    document.querySelectorAll('.filter-pill').forEach(pill => {
+        pill.addEventListener('click', () => {
+            document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+            pill.classList.add('active');
+            currentCategory = pill.dataset.category;
+            renderItems(currentCategory, currentSearch);
+        });
+    });
+
+    // Search
+    const searchInput = document.getElementById('search-input');
+    const searchClear = document.getElementById('search-clear');
+    if (searchInput) searchInput.addEventListener('input', function() {
+        clearTimeout(debounceTimer);
+        const v = this.value;
+        debounceTimer = setTimeout(() => { currentSearch = v; renderItems(currentCategory, currentSearch); }, 250);
+        if (searchClear) searchClear.style.display = v.length ? 'flex' : 'none';
+    });
+    if (searchClear) searchClear.addEventListener('click', () => { searchInput.value = ''; currentSearch = ''; renderItems(currentCategory, currentSearch); searchClear.style.display = 'none'; searchInput.focus(); });
+
+    // Scroll to top
+    const scrollBtn = document.getElementById('scroll-top-btn');
+    window.addEventListener('scroll', () => { if (scrollBtn) scrollBtn.classList.toggle('visible', window.scrollY > 600); }, { passive: true });
+    if (scrollBtn) scrollBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+    // Smooth scroll all anchors
+    document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', function(e) { const h = this.getAttribute('href'); if (h && h.length > 1) { const t = document.querySelector(h); if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); } } }));
+
+    // Init — render items, then override nav search for in-page filtering
+    function init() {
+        // Read search query from URL (cross-page search)
+        var urlParams = new URLSearchParams(window.location.search);
+        var urlQuery = urlParams.get('q');
+        if (urlQuery && searchInput) {
+            searchInput.value = urlQuery;
+            currentSearch = urlQuery;
+            if (searchClear) searchClear.style.display = 'flex';
+        }
+
+        renderItems(currentCategory, currentSearch);
+
+        // Override search modal to filter in-page on this page
+        var modalInput = document.getElementById('search-modal-input');
+        var modalOverlay = document.getElementById('search-modal-overlay');
+        if (modalInput) {
+            modalInput.addEventListener('input', function() {
+                searchInput.value = this.value;
+                currentSearch = this.value;
+                renderItems(currentCategory, currentSearch);
+                if (searchClear) searchClear.style.display = this.value.length ? 'flex' : 'none';
+            });
+            modalInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' && this.value.trim()) {
+                    e.preventDefault();
+                    if (modalOverlay) modalOverlay.classList.remove('open');
+                    searchInput.value = this.value;
+                    currentSearch = this.value;
+                    renderItems(currentCategory, currentSearch);
+                    if (searchClear) searchClear.style.display = 'flex';
+                }
+            });
+        }
+    }
+
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+    else init();
+})();
+</script>
+
+</body>
+</html>

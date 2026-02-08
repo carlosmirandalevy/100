@@ -17,16 +17,15 @@
         navLinks.querySelectorAll('.nav-dropdown-item').forEach(l => l.addEventListener('click', closeMobileNav));
     }
 
-    // Mobile dropdown toggle
-    const dropdownTrigger = document.querySelector('.nav-dropdown-trigger');
-    if (dropdownTrigger) {
-        dropdownTrigger.addEventListener('click', function(e) {
+    // Mobile dropdown toggle (supports multiple dropdowns: Using AI + Language)
+    document.querySelectorAll('.nav-dropdown-trigger').forEach(function(trigger) {
+        trigger.addEventListener('click', function(e) {
             if (window.innerWidth <= 1024) {
                 e.preventDefault();
                 this.closest('.nav-dropdown').classList.toggle('open');
             }
         });
-    }
+    });
 
     // Nav scroll behavior
     const nav = document.getElementById('main-nav');
@@ -83,13 +82,14 @@
     const escKbd = searchOverlay ? searchOverlay.querySelector('.search-modal-kbd') : null;
     if (escKbd) escKbd.addEventListener('click', closeSearchModal);
 
-    // Enter to search — redirect to things.html (unless on things page, handled by things.html script)
+    // Enter to search — redirect to things page (unless already on things page)
     if (searchModalInput) searchModalInput.addEventListener('keydown', function(e) {
         if (e.key === 'Enter' && this.value.trim()) {
             const page = document.body.dataset.page;
             if (page !== 'things') {
-                const lang = document.documentElement.lang === 'fr' ? 'fr-' : '';
-                window.location.href = lang + 'things.html?q=' + encodeURIComponent(this.value.trim());
+                const lang = document.documentElement.lang || 'en';
+                const prefix = lang === 'en' ? '' : lang + '-';
+                window.location.href = prefix + 'things.html?q=' + encodeURIComponent(this.value.trim());
             }
         }
     });
