@@ -135,5 +135,36 @@
     </div>
 </section>
 
+
+<script>
+(function() {
+    var gm = null;
+    function openShowcaseGame(src, title) {
+        if (!gm) {
+            gm = document.createElement('div');
+            gm.className = 'game-modal-overlay';
+            gm.innerHTML = '<div class="game-modal"><div class="game-modal-header"><span class="game-modal-title"></span><div class="game-modal-actions"><button class="game-modal-close" aria-label="Close"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button></div></div><div class="game-modal-body"><iframe class="game-modal-iframe" sandbox="allow-scripts allow-same-origin"></iframe></div></div>';
+            document.body.appendChild(gm);
+            gm.querySelector('.game-modal-close').addEventListener('click', closeG);
+            gm.addEventListener('click', function(e) { if (e.target === gm) closeG(); });
+        }
+        gm.querySelector('.game-modal-title').textContent = title;
+        var iframe = gm.querySelector('.game-modal-iframe');
+        iframe.src = src;
+        iframe.onload = function() { setTimeout(function() { try { iframe.contentWindow.focus(); } catch(e) {} }, 100); };
+        requestAnimationFrame(function() { gm.classList.add('open'); });
+        document.addEventListener('keydown', escG);
+    }
+    function closeG() {
+        if (!gm) return;
+        gm.classList.remove('open');
+        var iframe = gm.querySelector('.game-modal-iframe');
+        if (iframe) iframe.removeAttribute('src');
+        document.removeEventListener('keydown', escG);
+    }
+    function escG(e) { if (e.key === 'Escape') closeG(); }
+    window.openShowcaseGame = openShowcaseGame;
+})();
+</script>
 </body>
 </html>
