@@ -24,7 +24,7 @@
 
     // === Inject Open Graph & Twitter Card meta (if not already present) ===
     if (!document.querySelector('meta[property="og:title"]')) {
-        var title = document.title || '100 Things to Do with AI | CEMI.AI';
+        var title = document.title || '100+ Things to Do with AI | CEMI.AI';
         var desc = (document.querySelector('meta[name="description"]') || {}).content || 'Discover 100+ amazing things you can do with AI. A comprehensive guide by CEMI.AI.';
         var ogTags = [
             ['property', 'og:type', 'website'],
@@ -51,9 +51,9 @@
     // === UI Strings for all supported languages ===
     var STRINGS = {
         en: {
-            things: '100 Things', usingAI: 'Using AI', tips: 'Tips', skills: 'Useful Skills',
+            things: '100+ Things', usingAI: 'Using AI', tips: 'Tips', skills: 'Useful Skills',
             quickWins: 'Quick Wins', tools: 'Tools', showcase: 'Showcase', about: 'About',
-            searchLabel: 'Search (Ctrl+K)', searchPlaceholder: 'Search the 100 things...',
+            searchLabel: 'Search (Ctrl+K)', searchPlaceholder: 'Search the 100+ things...',
             searchHint: 'Press Enter to search', scrollTop: 'Scroll to top',
             funFact: 'AI Fun Fact', anotherFact: 'Another fact',
             researchChatGPT: 'Research on ChatGPT', researchPerplexity: 'Research on Perplexity',
@@ -67,9 +67,9 @@
             availableAt: 'Everything mentioned here is available at'
         },
         fr: {
-            things: '100 choses', usingAI: "Utiliser l'IA", tips: 'Conseils', skills: 'Comp\u00e9tences utiles',
+            things: '100+ choses', usingAI: "Utiliser l'IA", tips: 'Conseils', skills: 'Comp\u00e9tences utiles',
             quickWins: 'Victoires rapides', tools: 'Outils', showcase: 'Vitrine', about: '\u00c0 propos',
-            searchLabel: 'Rechercher (Ctrl+K)', searchPlaceholder: 'Rechercher les 100 choses...',
+            searchLabel: 'Rechercher (Ctrl+K)', searchPlaceholder: 'Rechercher les 100+ choses...',
             searchHint: 'Appuyez sur Entr\u00e9e pour rechercher', scrollTop: 'Retour en haut',
             funFact: "Fait amusant sur l'IA", anotherFact: 'Un autre fait',
             researchChatGPT: 'Rechercher sur ChatGPT', researchPerplexity: 'Rechercher sur Perplexity',
@@ -83,9 +83,9 @@
             availableAt: 'Tout ce qui est mentionn\u00e9 ici est disponible sur'
         },
         es: {
-            things: '100 cosas', usingAI: 'Usar IA', tips: 'Consejos', skills: 'Habilidades \u00fatiles',
+            things: '100+ cosas', usingAI: 'Usar IA', tips: 'Consejos', skills: 'Habilidades \u00fatiles',
             quickWins: 'Victorias r\u00e1pidas', tools: 'Herramientas', showcase: 'Vitrina', about: 'Acerca de',
-            searchLabel: 'Buscar (Ctrl+K)', searchPlaceholder: 'Buscar las 100 cosas...',
+            searchLabel: 'Buscar (Ctrl+K)', searchPlaceholder: 'Buscar las 100+ cosas...',
             searchHint: 'Presiona Enter para buscar', scrollTop: 'Volver arriba',
             funFact: 'Dato curioso sobre IA', anotherFact: 'Otro dato',
             researchChatGPT: 'Investigar en ChatGPT', researchPerplexity: 'Investigar en Perplexity',
@@ -99,9 +99,9 @@
             availableAt: 'Todo lo mencionado aqu\u00ed est\u00e1 disponible en'
         },
         pt: {
-            things: '100 coisas', usingAI: 'Usar IA', tips: 'Dicas', skills: 'Habilidades \u00fateis',
+            things: '100+ coisas', usingAI: 'Usar IA', tips: 'Dicas', skills: 'Habilidades \u00fateis',
             quickWins: 'Vit\u00f3rias r\u00e1pidas', tools: 'Ferramentas', showcase: 'Vitrine', about: 'Sobre',
-            searchLabel: 'Pesquisar (Ctrl+K)', searchPlaceholder: 'Pesquisar as 100 coisas...',
+            searchLabel: 'Pesquisar (Ctrl+K)', searchPlaceholder: 'Pesquisar as 100+ coisas...',
             searchHint: 'Pressione Enter para pesquisar', scrollTop: 'Voltar ao topo',
             funFact: 'Curiosidade sobre IA', anotherFact: 'Outra curiosidade',
             researchChatGPT: 'Pesquisar no ChatGPT', researchPerplexity: 'Pesquisar no Perplexity',
@@ -115,9 +115,9 @@
             availableAt: 'Tudo mencionado aqui est\u00e1 dispon\u00edvel em'
         },
         de: {
-            things: '100 Dinge', usingAI: 'KI nutzen', tips: 'Tipps', skills: 'N\u00fctzliche F\u00e4higkeiten',
+            things: '100+ Dinge', usingAI: 'KI nutzen', tips: 'Tipps', skills: 'N\u00fctzliche F\u00e4higkeiten',
             quickWins: 'Schnelle Erfolge', tools: 'Werkzeuge', showcase: 'Vitrine', about: '\u00dcber uns',
-            searchLabel: 'Suchen (Ctrl+K)', searchPlaceholder: 'Die 100 Dinge durchsuchen...',
+            searchLabel: 'Suchen (Ctrl+K)', searchPlaceholder: 'Die 100+ Dinge durchsuchen...',
             searchHint: 'Enter dr\u00fccken zum Suchen', scrollTop: 'Nach oben',
             funFact: 'KI-Funfakt', anotherFact: 'Noch ein Fakt',
             researchChatGPT: 'Auf ChatGPT recherchieren', researchPerplexity: 'Auf Perplexity recherchieren',
@@ -131,9 +131,9 @@
             availableAt: 'Alles hier Erw\u00e4hnte ist verf\u00fcgbar auf'
         },
         it: {
-            things: '100 cose', usingAI: "Usare l'IA", tips: 'Consigli', skills: 'Competenze utili',
+            things: '100+ cose', usingAI: "Usare l'IA", tips: 'Consigli', skills: 'Competenze utili',
             quickWins: 'Vittorie rapide', tools: 'Strumenti', showcase: 'Vetrina', about: 'Chi siamo',
-            searchLabel: 'Cerca (Ctrl+K)', searchPlaceholder: 'Cerca le 100 cose...',
+            searchLabel: 'Cerca (Ctrl+K)', searchPlaceholder: 'Cerca le 100+ cose...',
             searchHint: 'Premi Invio per cercare', scrollTop: 'Torna su',
             funFact: "Curiosit\u00e0 sull'IA", anotherFact: "Un'altra curiosit\u00e0",
             researchChatGPT: 'Cerca su ChatGPT', researchPerplexity: 'Cerca su Perplexity',
@@ -227,7 +227,7 @@
 
         // --- Navigation ---
         var navHTML = '<nav class="nav" id="main-nav"><div class="nav-inner">' +
-            '<a href="' + ph('index') + '" class="nav-logo"><img src="assets/logos/favicon-32x32.png" alt="CEMI.AI" class="nav-logo-img"> 100 <span>Things to Do with AI</span></a>' +
+            '<a href="' + ph('index') + '" class="nav-logo"><img src="assets/logos/favicon-32x32.png" alt="CEMI.AI" class="nav-logo-img"> 100+ <span>Things to Do with AI</span></a>' +
             '<button class="nav-hamburger" id="nav-toggle-btn" aria-label="Menu"><span></span><span></span><span></span></button>' +
             '<div class="nav-links" id="nav-links">' +
             '<a href="' + ph('things') + '" class="nav-link' + active('things') + '">' + S.things + '</a>' +
@@ -252,7 +252,7 @@
         // --- Footer ---
         var footerHTML = '<footer class="footer"><div class="container"><div class="footer-grid">' +
             '<div class="footer-col">' +
-            '<a href="' + ph('index') + '" class="nav-logo" style="display:inline-flex;align-items:center;gap:8px;margin-bottom:var(--space-md);font-size:1.3rem"><img src="assets/logos/favicon-32x32.png" alt="CEMI.AI" class="nav-logo-img"> 100 <span>Things to Do with AI</span></a>' +
+            '<a href="' + ph('index') + '" class="nav-logo" style="display:inline-flex;align-items:center;gap:8px;margin-bottom:var(--space-md);font-size:1.3rem"><img src="assets/logos/favicon-32x32.png" alt="CEMI.AI" class="nav-logo-img"> 100+ <span>Things to Do with AI</span></a>' +
             '<p class="footer-mantra">&ldquo;' + S.mantra + '&rdquo;</p>' +
             '<a href="https://cemi.ai" target="_blank">' + S.visit + ' CEMI.AI &rarr;</a>' +
             '</div>' +

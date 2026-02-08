@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Breakout — Prompt</title>
+<style>
+  body { background:#0a0a1a; color:#e0e0e0; font-family:'Courier New',monospace; margin:0; padding:40px 20px; line-height:1.8; }
+  .container { max-width:800px; margin:0 auto; }
+  h1 { color:#0f0; font-size:1.4rem; margin-bottom:8px; }
+  .label { color:#888; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.15em; margin-bottom:4px; }
+  .prompt { background:#111; border:1px solid #333; border-radius:8px; padding:24px; white-space:pre-wrap; font-size:0.92rem; line-height:1.9; color:#0f0; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="label">Prompt used to generate the game</div>
+  <h1>Breakout</h1>
+  <div class="prompt">Create a complete Breakout/brick-breaker arcade game as a single HTML file with all JavaScript, CSS, and audio embedded. No external dependencies.
+
+**DISPLAY &amp; LAYOUT**
+- Use an HTML5 &lt;canvas&gt; element for all game rendering
+- The game must be fully responsive and playable in vertical/portrait orientation on mobile phones
+- On desktop, center the canvas with a max width of 480px; on mobile, fill the screen width
+- The canvas height should be approximately 1.5× the width (portrait ratio)
+- Use a dark background (#0a0a1a) with a subtle particle/starfield effect (small dots that slowly drift)
+
+**PLAYER**
+- A paddle at the bottom of the screen, rendered as a simple rounded rectangle
+- Moves left and right only, stays within screen bounds
+- The ball bounces off the paddle with varying angles depending on impact position:
+  - Hitting the paddle edges = sharper bounce angles
+  - Hitting the paddle center = straighter (more vertical) bounce
+- Paddle width can be extended by power-ups
+
+**BALL**
+- One ball initially, starts stuck to the paddle center
+- Press space/enter or tap launch button to release the ball
+- Ball bounces off walls (left, right, top) and the paddle
+- Ball speed increases slightly with each new wave
+- When ball falls below the paddle, lose a life and reset
+- Multi-ball power-up can create up to 3 balls simultaneously
+
+**BRICKS**
+- 6 rows × 8 columns of bricks in a grid near the top
+- Each row has a different color (top to bottom): red, orange, yellow, green, cyan, blue
+- Top rows are worth more points: 60 (red), 50 (orange), 40 (yellow), 30 (green), 20 (cyan), 10 (blue)
+- Bricks are destroyed when hit by the ball
+- When all bricks are cleared, start a new wave with faster ball speed
+
+**POWER-UPS**
+- Power-ups drop from destroyed bricks with ~15% probability
+- Power-ups fall slowly downward and must be caught by the paddle
+- Types of power-ups:
+  - Wide Paddle (green): Increases paddle width for 10 seconds
+  - Multi-Ball (blue): Splits the ball into 3 balls
+  - Extra Life (red heart): Adds one life
+- Power-ups are rendered as colored circles with icons/letters
+
+**GAME PROGRESSION**
+- Start with 3 lives (shown as ball icons at top-left)
+- Each wave, the ball speed increases by ~8%
+- Display current wave number below the score
+- Game ends when all lives are lost
+
+**SCORING &amp; UI**
+- Score displayed at top-center in a bold monospace font
+- High score tracked in localStorage, displayed at top-right
+- Lives shown as small ball icons at top-left
+- Wave number shown below the score
+- "START" screen with title "BREAKOUT", controls information, and "TAP OR PRESS ENTER"
+- "GAME OVER" screen with final score, high score, and restart prompt
+- Ball sticks to paddle at start of each life (press launch button to release)
+
+**CONTROLS — KEYBOARD**
+- Left Arrow or A: move paddle left
+- Right Arrow or D: move paddle right
+- Space or Enter: launch ball / start game / restart game
+
+**CONTROLS — ON-SCREEN BUTTONS (VIRTUAL GAMEPAD)**
+- Show on-screen control buttons at all times (not just mobile) so the game is always playable with touch or mouse clicks
+- Bottom-left: LEFT and RIGHT arrow buttons side by side (square-ish with rounded corners)
+- Bottom-right: A LAUNCH button (circular, orange/red color)
+- Buttons must be semi-transparent (opacity ~0.35), become more opaque when pressed (~0.7)
+- Buttons are rendered as HTML elements overlaid on the canvas (not drawn on canvas) so they respond to touch events reliably
+- Support multi-touch: player can hold a direction and launch simultaneously
+- Buttons should be large enough to tap comfortably on a phone (minimum 60px)
+- Use `touchstart`/`touchend` events (not click) for zero-delay response, but also support mouse events for desktop
+
+**SOUND EFFECTS (Web Audio API)**
+- All sounds generated programmatically using the Web Audio API (OscillatorNode + GainNode) — no audio files
+- Paddle hit: short "ping" sound at medium pitch (around 440Hz)
+- Brick hit: higher-pitched "tink" (pitch varies by brick row — top rows = higher pitch, ~600-900Hz)
+- Wall bounce: very short, quiet tap (~300Hz, brief duration)
+- Life lost: descending tone sequence (sad sound)
+- Power-up catch: ascending cheerful tone sequence
+- All bricks cleared: triumphant ascending fanfare
+- Game over: descending tone sequence (longer, sadder)
+- Keep all sounds short and arcade-style
+
+**VISUAL EFFECTS**
+- Particle explosions when bricks are destroyed (color matches brick)
+- Particles drift outward and fade over ~0.3-0.5 seconds
+- Subtle background starfield/particles that slowly drift downward
+- Paddle glows briefly when hit by ball
+
+**PERFORMANCE**
+- Use requestAnimationFrame for the game loop
+- Delta-time based movement so speed is consistent across frame rates
+- Efficient collision detection (check ball against visible bricks only)
+
+**CODE QUALITY**
+- Well-structured, readable JavaScript
+- Game states: START, PLAYING, GAME_OVER
+- IMPORTANT: Call initGame() BOTH when starting from the title screen AND when restarting after game over. The code that transitions from START to PLAYING must call initGame() unconditionally — do NOT only call it on restart. All game arrays (bricks, balls, paddle, powerups, particles) must be initialized before the first frame of gameplay or the draw function will crash on undefined.
+- All game logic in a single self-contained script — no globals leaking (use IIFE or module pattern)
+- Clean separation of update and render logic
+- Consistent naming conventions</div>
+</div>
+</body>
+</html>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The 100+ Things | 100.cemi.ai</title>
-    <meta name="description" content="Explore 100 things you can do with AI. Search, filter, and discover creative ways to use artificial intelligence.">
+    <meta name="description" content="Explore 100+ things you can do with AI. Search, filter, and discover creative ways to use artificial intelligence.">
     <script src="include.js"></script>
 </head>
 <body data-page="things" data-fr="fr-things.html">
@@ -14,7 +14,7 @@
     <div class="hero-orb hero-orb-1" style="width:300px;height:300px"></div>
     <div class="hero-orb hero-orb-2" style="width:250px;height:250px"></div>
     <div class="page-hero-content">
-        <h1><span class="gradient-text">The 100 Things</span></h1>
+        <h1><span class="gradient-text">The 100+ Things</span></h1>
         <p>Explore, learn, and create with AI</p>
     </div>
 </section>
@@ -30,14 +30,14 @@
             <div class="search-icon">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
             </div>
-            <input type="text" id="search-input" placeholder="Search the 100 things...">
+            <input type="text" id="search-input" placeholder="Search the 100+ things...">
             <button class="search-clear" id="search-clear" aria-label="Clear search">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
             </button>
         </div>
 
         <div class="filter-bar reveal">
-            <button class="filter-pill active" data-category="all">All (100)</button>
+            <button class="filter-pill active" data-category="all">All (100+)</button>
             <button class="filter-pill" data-category="writing" style="--pill-color:var(--cat-writing)">Writing</button>
             <button class="filter-pill" data-category="learning" style="--pill-color:var(--cat-learning)">Learning</button>
             <button class="filter-pill" data-category="art" style="--pill-color:var(--cat-art)">Art &amp; Design</button>
@@ -58,10 +58,12 @@
 <!-- ===== PROGRESS TRACKER ===== -->
 <div class="progress-tracker" id="progress-tracker">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"></path></svg>
-    <span id="progress-count">0</span> of <span id="total-count">107</span> explored
+    <span id="progress-count">0</span> of <span id="total-count">119</span> explored
 </div>
 
 <!-- ===== DATA: THE 100 ITEMS ===== -->
+<script src="ascii-examples.js"></script>
+<script src="game-examples.js"></script>
 <script src="data.js"></script>
 
 <!-- ===== ITEMS APPLICATION LOGIC ===== -->
@@ -120,6 +122,7 @@
         container.innerHTML = filtered.map(item => {
             const grad = getCategoryGradient(item.category);
             const explored = exploredItems.has(item.id) ? ' explored' : '';
+            var examples = item.examples || (window.ASCII_EXAMPLES && ASCII_EXAMPLES[item.id]) || (window.GAME_EXAMPLES && GAME_EXAMPLES[item.id]) || null;
             return `<div class="item-card${explored}" data-id="${item.id}">
                 <div class="item-header" data-item-id="${item.id}">
                     <div class="item-number" style="background:${grad}">${item.id}</div>
@@ -143,12 +146,12 @@
                         <button class="copy-btn" aria-label="Copy"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"></path></svg><span>Copy</span></button>
                     </div>
                     <div class="tip-box"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg> <strong>Customize it:</strong>&nbsp;${escapeHtml(item.promptTip)}</div>
+                    ${examples ? '<div class="examples-section"><div class="examples-heading"><svg width="16" height="16" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg> Examples</div>' + (examples[0] && examples[0].type==='game' && window.GAME_EXAMPLES_INTRO ? '<p class="examples-intro">' + escapeHtml(GAME_EXAMPLES_INTRO[document.documentElement.lang] || GAME_EXAMPLES_INTRO.en) + '</p>' : '') + '<div class="examples-grid">' + examples.map((ex,ei) => '<div class="example-card"><div class="example-card-preview">' + (ex.type==='static' ? '<div class="example-art">' + escapeHtml(ex.art) + '</div>' : ex.type==='game' ? '<div class="example-game-placeholder">' + (ex.heroImg ? '<img src="' + ex.heroImg + '" alt="' + escapeHtml(ex.title) + '">' : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"></rect><line x1="6" y1="12" x2="10" y2="12"></line><line x1="8" y1="10" x2="8" y2="14"></line><circle cx="17" cy="11" r="1"></circle><circle cx="15" cy="13" r="1"></circle></svg>') + '</div>' : '<div class="example-anim-placeholder"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>' + escapeHtml(ex.title) + '</div>') + '</div><div class="example-card-footer"><span class="example-card-title">' + escapeHtml(ex.title) + '</span>' + (ex.type==='game' ? '<div class="example-game-btns"><button class="example-play-btn" data-game-src="' + ex.gameSrc + '" data-game-title="' + escapeHtml(ex.title) + '">Play</button><button class="example-prompt-btn" data-prompt-src="' + ex.promptSrc + '" data-game-title="' + escapeHtml(ex.title) + '">Prompt</button><a class="example-dl-btn" href="' + ex.gameSrc + '" download>Download</a></div>' : '<button class="example-btn" data-item-idx="' + item.id + '" data-ex-idx="' + ei + '">' + (ex.type==='static' ? 'View' : 'Play') + '</button>') + '</div></div>').join('') + '</div></div>' : ''}
                     <div class="tools-list">
                         <span class="tools-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"></path></svg> Tools:</span>
                         ${item.tools.map(t => '<span class="tool-pill">' + escapeHtml(t) + '</span>').join('')}
                     </div>
                     ${item.links ? '<div class="links-list">' + item.links.map(l => '<a href="' + escapeHtml(l.url) + '" target="_blank" class="resource-link"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg> ' + escapeHtml(l.name) + '</a>').join('') + '</div>' : ''}
-                    ${item.examples ? '<div class="examples-section"><div class="examples-heading"><svg width="16" height="16" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg> Examples</div><div class="examples-grid">' + item.examples.map((ex,ei) => '<div class="example-card"><div class="example-card-preview">' + (ex.type==='static' ? '<div class="example-art">' + escapeHtml(ex.art) + '</div>' : '<div class="example-anim-placeholder"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>' + escapeHtml(ex.title) + '</div>') + '</div><div class="example-card-footer"><span class="example-card-title">' + escapeHtml(ex.title) + '</span><button class="example-btn" data-item-idx="' + item.id + '" data-ex-idx="' + ei + '">' + (ex.type==='static' ? 'View' : 'Play') + '</button></div></div>').join('') + '</div></div>' : ''}
                     <a href="https://cemi.ai" target="_blank" class="contact-link"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"></path></svg> Need help? Reach out to us at cemi.AI</a>
                 </div>
             </div>`;
@@ -174,7 +177,20 @@
                 var itemId = parseInt(btn.dataset.itemIdx);
                 var exIdx = parseInt(btn.dataset.exIdx);
                 var item = ITEMS.find(i => i.id === itemId);
-                if (item && item.examples && item.examples[exIdx]) openAsciiModal(item.examples[exIdx]);
+                var exs = item && (item.examples || (window.ASCII_EXAMPLES && ASCII_EXAMPLES[itemId]));
+                if (exs && exs[exIdx]) openAsciiModal(exs[exIdx]);
+            });
+        });
+        document.querySelectorAll('.example-play-btn').forEach(btn => {
+            btn.addEventListener('click', e => {
+                e.stopPropagation();
+                openGameModal(btn.dataset.gameSrc, btn.dataset.gameTitle, 'game');
+            });
+        });
+        document.querySelectorAll('.example-prompt-btn').forEach(btn => {
+            btn.addEventListener('click', e => {
+                e.stopPropagation();
+                openGameModal(btn.dataset.promptSrc, btn.dataset.gameTitle, 'prompt');
             });
         });
     }
@@ -192,7 +208,7 @@
         asciiModalEl.querySelector('.ascii-modal-title').textContent = ex.title;
         asciiModalEl.querySelector('.ascii-modal-prompt-text').textContent = ex.prompt;
         var content = asciiModalEl.querySelector('.ascii-modal-content');
-        if (ex.type === 'static') {
+        if (ex.type === 'static' && !ex.html) {
             content.innerHTML = '<pre class="ascii-modal-art">' + escapeHtml(ex.art) + '</pre>';
         } else {
             content.innerHTML = '';
@@ -213,6 +229,67 @@
         document.removeEventListener('keydown', asciiModalEsc);
     }
     function asciiModalEsc(e) { if (e.key === 'Escape') closeAsciiModal(); }
+
+    var gameModalEl = null;
+    function openGameModal(src, title, mode) {
+        var lang = document.documentElement.lang || 'en';
+        var copyLabels = {en:'Copy',fr:'Copier',es:'Copiar',pt:'Copiar',de:'Kopieren',it:'Copia',ja:'\u30b3\u30d4\u30fc',zh:'\u590d\u5236'};
+        var copiedLabels = {en:'Copied!',fr:'Copi\u00e9 !',es:'\u00a1Copiado!',pt:'Copiado!',de:'Kopiert!',it:'Copiato!',ja:'\u30b3\u30d4\u30fc\u3057\u307e\u3057\u305f',zh:'\u5df2\u590d\u5236'};
+        var copyLabel = copyLabels[lang] || copyLabels.en;
+        var copiedLabel = copiedLabels[lang] || copiedLabels.en;
+        if (!gameModalEl) {
+            gameModalEl = document.createElement('div');
+            gameModalEl.className = 'game-modal-overlay';
+            gameModalEl.innerHTML = '<div class="game-modal"><div class="game-modal-header"><span class="game-modal-title"></span><div class="game-modal-actions"><button class="game-modal-copy-btn" style="display:none"></button><button class="game-modal-close" aria-label="Close"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button></div></div><div class="game-modal-body"><iframe class="game-modal-iframe" sandbox="allow-scripts allow-same-origin"></iframe></div></div>';
+            document.body.appendChild(gameModalEl);
+            gameModalEl.querySelector('.game-modal-close').addEventListener('click', closeGameModal);
+            gameModalEl.addEventListener('click', function(e) { if (e.target === gameModalEl) closeGameModal(); });
+            gameModalEl.querySelector('.game-modal-copy-btn').addEventListener('click', function() {
+                var iframe = gameModalEl.querySelector('.game-modal-iframe');
+                var btn = this;
+                try {
+                    var doc = iframe.contentDocument || iframe.contentWindow.document;
+                    var promptEl = doc.querySelector('.prompt');
+                    var text = promptEl ? promptEl.textContent : '';
+                    if (text) {
+                        navigator.clipboard.writeText(text).then(function() {
+                            btn.textContent = copiedLabel;
+                            btn.classList.add('copied');
+                            setTimeout(function() { btn.textContent = copyLabel; btn.classList.remove('copied'); }, 2000);
+                        }).catch(function() {
+                            var ta = document.createElement('textarea');
+                            ta.value = text; ta.style.cssText = 'position:fixed;opacity:0';
+                            document.body.appendChild(ta); ta.select();
+                            try { document.execCommand('copy'); btn.textContent = copiedLabel; btn.classList.add('copied'); setTimeout(function() { btn.textContent = copyLabel; btn.classList.remove('copied'); }, 2000); } catch(e) {}
+                            document.body.removeChild(ta);
+                        });
+                    }
+                } catch(e) {}
+            });
+        }
+        gameModalEl.querySelector('.game-modal-title').textContent = title;
+        var iframe = gameModalEl.querySelector('.game-modal-iframe');
+        iframe.src = src;
+        iframe.onload = function() { setTimeout(function() { try { iframe.contentWindow.focus(); } catch(e) {} }, 100); };
+        var copyBtn = gameModalEl.querySelector('.game-modal-copy-btn');
+        if (mode === 'prompt') {
+            copyBtn.textContent = copyLabel;
+            copyBtn.style.display = '';
+            copyBtn.classList.remove('copied');
+        } else {
+            copyBtn.style.display = 'none';
+        }
+        requestAnimationFrame(function() { gameModalEl.classList.add('open'); });
+        document.addEventListener('keydown', gameModalEsc);
+    }
+    function closeGameModal() {
+        if (!gameModalEl) return;
+        gameModalEl.classList.remove('open');
+        var iframe = gameModalEl.querySelector('.game-modal-iframe');
+        if (iframe) iframe.removeAttribute('src');
+        document.removeEventListener('keydown', gameModalEsc);
+    }
+    function gameModalEsc(e) { if (e.key === 'Escape') closeGameModal(); }
 
     function toggleItem(id) {
         const body = document.getElementById('body-' + id);

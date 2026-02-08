@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Space Invaders — Prompt</title>
+<style>
+  body { background:#0a0a1a; color:#e0e0e0; font-family:'Courier New',monospace; margin:0; padding:40px 20px; line-height:1.8; }
+  .container { max-width:800px; margin:0 auto; }
+  h1 { color:#0f0; font-size:1.4rem; margin-bottom:8px; }
+  .label { color:#888; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.15em; margin-bottom:4px; }
+  .prompt { background:#111; border:1px solid #333; border-radius:8px; padding:24px; white-space:pre-wrap; font-size:0.92rem; line-height:1.9; color:#0f0; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="label">Prompt used to generate the game</div>
+  <h1>Space Invaders</h1>
+  <div class="prompt">Create a complete Space Invaders arcade game as a single HTML file with all JavaScript, CSS, and audio embedded. No external dependencies.
+
+**DISPLAY &amp; LAYOUT**
+- Use an HTML5 &lt;canvas&gt; element for all game rendering
+- The game must be fully responsive and playable in vertical/portrait orientation on mobile phones
+- On desktop, center the canvas with a max width of 480px; on mobile, fill the screen width
+- The canvas height should be approximately 1.5× the width (portrait ratio)
+- Use a black (#000) background with a subtle starfield (randomly placed small dots that slowly scroll down)
+
+**PLAYER**
+- A spaceship at the bottom of the screen, rendered as a simple but recognizable shape (triangle/arrow with details, drawn via canvas — no images)
+- Moves left and right only, stays within screen bounds
+- Fires upward when the fire button is pressed
+- Fire rate: max 3 bullets on screen at once (no bullet spam)
+- Starts with 3 lives, shown as small ship icons at the top-left
+
+**ENEMIES**
+- A grid of 5 columns × 4 rows of alien invaders
+- Each alien is drawn as a simple pixel-art-style shape on canvas (two alternating frames for animation)
+- The formation moves sideways, and when any alien reaches the screen edge, the entire formation drops down one row and reverses direction
+- Movement speed increases as fewer aliens remain
+- Random aliens fire bullets downward at intervals
+- Each alien destroyed = +10 points (bottom row), +20 (second row), +30 (third row), +40 (top row)
+
+**SHIELDS / BARRIERS**
+- 4 destructible barriers positioned between the player and enemies
+- Barriers are made of small blocks that get destroyed piece by piece when hit by any bullet (player or enemy)
+- Barriers are green (#0f0) and visually crumble as they take damage
+
+**MYSTERY SHIP**
+- A bonus UFO that occasionally flies across the top of the screen (left to right or right to left, random)
+- Worth a random bonus: 50, 100, 150, or 300 points
+- Appears approximately every 25-30 seconds
+
+**GAME PROGRESSION**
+- When all aliens are destroyed, a new wave starts with faster aliens
+- Display the current wave number
+- Enemies start one row lower with each new wave (up to a limit)
+
+**SCORING &amp; UI**
+- Score displayed at top-center in a retro pixel font style (use canvas text)
+- High score tracked in localStorage, displayed at top-right
+- Lives shown as small ship icons at top-left
+- Wave number shown below the score
+- "GAME OVER" screen with final score, high score, and "TAP TO RESTART" / "PRESS ENTER TO RESTART"
+- "START" screen with title and "TAP TO START" / "PRESS ENTER TO START"
+
+**CONTROLS — KEYBOARD**
+- Left Arrow or A: move left
+- Right Arrow or D: move right
+- Space or Up Arrow: fire
+- Enter: start/restart
+
+**CONTROLS — ON-SCREEN BUTTONS (VIRTUAL GAMEPAD)**
+- Show on-screen control buttons at all times (not just mobile) so the game is always playable with touch or mouse clicks
+- Bottom-left: LEFT and RIGHT arrow buttons side by side
+- Bottom-right: A FIRE button (larger, circular, red/orange)
+- Buttons must be semi-transparent (opacity ~0.4), become more opaque when pressed (~0.7)
+- Buttons are rendered as HTML elements overlaid on the canvas (not drawn on canvas) so they respond to touch events reliably
+- Support multi-touch: player can hold a direction and fire simultaneously
+- Buttons should be large enough to tap comfortably on a phone (minimum 60px)
+- Use `touchstart`/`touchend` events (not click) for zero-delay response, but also support mouse events for desktop
+
+**SOUND EFFECTS (Web Audio API)**
+- All sounds generated programmatically using the Web Audio API (OscillatorNode + GainNode) — no audio files
+- Player shoot: short high-pitched "pew" (quick frequency sweep down)
+- Enemy destroyed: brief noise burst / explosion
+- Player hit: lower-pitched explosion, slightly longer
+- Mystery ship appears: a clearly audible repeating two-tone low-frequency pulse (alternating ~120Hz and ~180Hz) that plays continuously every 0.3 seconds while the UFO is on screen — this is the signature UFO sound and must be noticeable
+- Mystery ship destroyed: ascending tone sweep (rewarding sound)
+- Game over: descending tone sequence
+- New wave: short ascending fanfare
+- Keep all sounds short and retro-sounding
+
+**PERFORMANCE**
+- Use requestAnimationFrame for the game loop
+- Delta-time based movement so speed is consistent across frame rates
+- Efficient collision detection (only check active bullets against active targets)
+
+**CODE QUALITY**
+- Well-structured, readable JavaScript
+- Game states: START, PLAYING, GAME_OVER
+- IMPORTANT: Call initGame() BOTH when starting from the title screen AND when restarting after game over. The code that transitions from START to PLAYING must call initGame() unconditionally — do NOT only call it on restart. All game arrays (enemies, bullets, barriers, particles) must be initialized before the first frame of gameplay or the draw function will crash on undefined.
+- All game logic in a single self-contained script — no globals leaking (use IIFE or module pattern)</div>
+</div>
+</body>
+</html>

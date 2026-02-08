@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Frogger — Prompt</title>
+<style>
+  body { background:#0a0a1a; color:#e0e0e0; font-family:'Courier New',monospace; margin:0; padding:40px 20px; line-height:1.8; }
+  .container { max-width:800px; margin:0 auto; }
+  h1 { color:#0f0; font-size:1.4rem; margin-bottom:8px; }
+  .label { color:#888; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.15em; margin-bottom:4px; }
+  .prompt { background:#111; border:1px solid #333; border-radius:8px; padding:24px; white-space:pre-wrap; font-size:0.92rem; line-height:1.9; color:#0f0; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="label">Prompt used to generate the game</div>
+  <h1>Frogger</h1>
+  <div class="prompt">Create a complete Frogger arcade game as a single HTML file with all JavaScript, CSS, and audio embedded. No external dependencies.
+
+**DISPLAY &amp; LAYOUT**
+- Use an HTML5 &lt;canvas&gt; element for all game rendering
+- The game must be fully responsive and playable in vertical/portrait orientation on mobile phones
+- On desktop, center the canvas with a max width of 480px; on mobile, fill the screen width
+- The canvas height should be approximately 1.5× the width (portrait ratio)
+- Colorful top-down view of a road + river scene
+
+**GAMEPLAY — Frogger-style**
+- A frog character starts at the bottom of the screen
+- Goal: cross busy roads (with cars/trucks) and a river (with logs/turtles) to reach safe zones at the top
+- The screen is divided into lanes:
+  - Bottom: safe starting zone (green grass)
+  - 4-5 lanes of road with vehicles moving left/right at different speeds
+  - Middle: safe median zone (green grass)
+  - 4-5 lanes of river with logs and turtle groups moving left/right
+  - Top: 5 lily pad / home slots the frog must reach — these MUST be clearly visible (bright green lily pads with a pulsing outline and a small pulsing yellow dot indicator so the player knows exactly where to land)
+- The frog moves in grid-based hops (one lane at a time) in 4 directions (up, down, left, right)
+- On road: getting hit by a vehicle = lose a life
+- On river: frog must land on logs or turtles — falling in water = lose a life
+- Frog rides on logs/turtles (moves with them horizontally)
+- Going off-screen left/right on a log = lose a life
+- Fill all 5 home slots to complete the level
+- Each new level: vehicles and river objects move faster
+- Timer bar at bottom — running out = lose a life
+- 3 lives, shown as frog icons top-left
+
+**VEHICLES (road lanes)**
+- Cars: small, move at medium speed
+- Trucks: longer, move slower
+- Mix of left-moving and right-moving lanes
+- Different colors per lane
+
+**RIVER OBJECTS**
+- Logs: various lengths (short=2 cells, medium=3, long=4), move horizontally
+- Turtle groups: groups of 2-3, some groups periodically dive underwater (blink then disappear briefly) — frog falls if on a diving turtle group
+- Mix of left-moving and right-moving lanes
+- IMPORTANT: When the frog is standing on a log or turtle, the frog must visually drift with it — update the frog's X position by adding the object's velocity each frame. Do NOT snap the frog back to the grid while riding a river object. Only snap to grid position when the frog is on land or hopping to a new lane.
+
+**FROG**
+- Drawn as a simple but recognizable frog shape on canvas (green body, big eyes)
+- Hop animation (brief stretch/squash when moving)
+- Faces the direction of movement
+- When on a log/turtle, slides with it
+
+**CONTROLS — KEYBOARD**
+- Arrow keys or WASD: hop in 4 directions
+- Enter/Space: start/restart
+- Movement is discrete hops (one press = one hop), not continuous
+
+**CONTROLS — VIRTUAL JOYSTICK**
+- A virtual analog joystick in the bottom-left area of the screen
+- Rendered as HTML elements overlaid on the canvas:
+  - Outer ring: circle, ~120px diameter, semi-transparent white border
+  - Inner knob: circle, ~50px, semi-transparent white fill
+- How it works:
+  - Touch/drag the inner knob in a direction
+  - When the knob is dragged past a threshold (~30% of radius) in any cardinal direction (up/down/left/right), it triggers ONE hop in that direction
+  - After a hop triggers, there's a short cooldown (~250ms) before another hop can trigger
+  - The knob snaps back to center on release
+  - Diagonal drags snap to the nearest cardinal direction
+- Also support mouse drag for desktop testing
+- The joystick should feel responsive and natural
+- Bottom-right: a small START/RESTART button for beginning the game (since joystick handles movement)
+
+**SOUND EFFECTS (Web Audio API, no audio files)**
+- Hop: short "boing" sound (quick pitch up then down)
+- Car hit: low crunch/thud
+- Water splash: noise burst with pitch sweep down
+- Reach home slot: cheerful ascending tone
+- Level complete (all 5 slots filled): triumphant fanfare
+- Timer warning (last 5 seconds): repeating beep
+- Game over: sad descending tones
+- Keep sounds short and retro
+
+**SCORING &amp; UI**
+- +10 points per forward hop (first time reaching that row)
+- +50 points for reaching a home slot
+- +500 bonus for filling all 5 home slots
+- Time bonus: remaining time × 2
+- Score top-center, high score (localStorage) top-right
+- Lives as frog icons top-left
+- Level number below score
+- Timer bar across the bottom of the play area (green→yellow→red as time runs out)
+- Start screen with title "FROGGER", controls info, point values
+- Game over screen with score, high score, restart prompt
+
+**CODE**
+- IIFE pattern, requestAnimationFrame, delta-time movement
+- Game states: START, PLAYING, GAME_OVER
+- IMPORTANT: Call initGame() BOTH when starting from the title screen AND when restarting after game over. The code that transitions from START to PLAYING must call initGame() unconditionally — do NOT only call it on restart. All game arrays (vehicles, riverObjects, homes, particles) must be initialized before the first frame of gameplay or the draw function will crash on undefined.
+- No external dependencies
+- Particle/splash effects on death
+- Clean, well-structured JavaScript
+- Grid-based positioning for lanes and movement
+- IMPORTANT: Vehicles, logs, and turtles must be moving and visible on the title screen (START state) and game-over screen — pre-initialize them before the game loop starts and update their positions every frame regardless of game state. Draw them behind a semi-transparent overlay on the title/game-over screens so the player sees the game world in motion before starting.
+- IMPORTANT: River objects (logs and turtles) must update their positions EVERY frame during gameplay, not only when the frog is standing on a river lane. Move the river-object position update loop OUTSIDE the "is frog on river?" conditional — just like vehicles are updated unconditionally. The frog-riding and drowning checks should remain inside the river-lane conditional, but the position/wrapping/diving updates must happen regardless. Otherwise logs and turtles appear frozen when the frog is on land.
+- IMPORTANT: The 5 home slots (lily pads) MUST be aligned to the same grid the frog hops on. The frog's X position is gridX * CELL + CELL/2, so each home slot X must also be gridX * CELL + CELL/2 for specific gridX values (e.g. 1, 3, 5, 7, 9 for 12 columns). Do NOT use fractional or non-grid-aligned spacing like dividing the screen into 6 equal parts — this places homes between grid cells, making them unreachable. The home row must be exactly ONE lane above the last safe grass zone after the river, with no extra "home" type lanes or wall lanes between the river and the homes that would kill the frog before it can reach the lily pads. Use only ONE lane with type "home"; lanes above it should be "wall" type (impassable).
+- IMPORTANT: Initialization order matters. The pre-init calls (initVehicles, initRiverObjects, initHomes) must appear AFTER the lanes[] configuration array and AFTER the init function definitions in the source code. JavaScript hoists var declarations but not their assignments, so placing the pre-init calls above the lanes[] definition will cause a crash (lanes is undefined).</div>
+</div>
+</body>
+</html>

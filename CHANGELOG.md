@@ -1,5 +1,31 @@
 # Changelog
 
+## [2.2.0] - 2026-02-08
+
+### Added
+- Items 117–120: Interactive Dashboards, Scenario Simulations, Resume Screening, Client Research (business category)
+- 5 playable game demos (Breakout, Frogger, Space Invaders, Rogue, Soccer) with prompts and downloadable HTML
+- Game demo cards on Showcase page with in-page modal playback
+- Hero images for each game demo in card previews
+- ASCII art examples for item 110 (static art with View modal)
+- ASCII art animation examples for item 111 (iframe-based Play modal)
+- Game examples file (game-examples.js) and ASCII examples file (ascii-examples.js)
+- Rogue game: CGA color palette, Code Page 437 characters, diagonal movement, help/instructions screen
+- Soccer game: halftime animation, goalkeeper AI improvements, 2-minute halves
+
+### Changed
+- Rebranded "100 Things" to "100+ Things" across all 8 languages (nav, titles, headings, search, manifest)
+- Updated "Video Game in an Afternoon" showcase card to describe Caribbean sea turtle educational game
+- Removed duplicate "La Travesia de Cary" showcase card
+- Showcase SVG icons now inline with card titles instead of separate icon boxes
+- Examples section now renders before tools list in item expanded view
+- Game card footer: responsive layout with name on one line, buttons wrapping below
+- Game modal iframes auto-focus on load for immediate keyboard input
+- Mobile hamburger menu: "Using AI" dropdown now collapsed by default (no empty space)
+- Item body max-height increased to 10000px to prevent content truncation on mobile
+- Examples grid fixed to 3 columns (was auto-fit 4)
+- Filter pill updated to "All (100+)"
+
 ## [2.1.0] - 2026-02-07
 
 ### Added

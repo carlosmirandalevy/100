@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rogue — Prompt</title>
+<style>
+  body { background:#000000; color:#aaaaaa; font-family:'Courier New',monospace; margin:0; padding:40px 20px; line-height:1.8; }
+  .container { max-width:800px; margin:0 auto; }
+  h1 { color:#ffff55; font-size:1.4rem; margin-bottom:8px; }
+  .label { color:#aa5500; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.15em; margin-bottom:4px; }
+  .prompt { background:#000000; border:1px solid #aa5500; border-radius:0; padding:24px; white-space:pre-wrap; font-size:0.92rem; line-height:1.9; color:#55ff55; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="label">Prompt used to generate the game</div>
+  <h1>Rogue</h1>
+  <div class="prompt">Create a complete roguelike dungeon crawler inspired by the classic PC Rogue (1980s DOS version) as a single HTML file with all JavaScript, CSS, and audio embedded. No external dependencies.
+
+**DISPLAY &amp; LAYOUT — 1980s PC DOS AESTHETIC**
+- Use an HTML5 &lt;canvas&gt; element with a monospace font to render the ASCII dungeon map using Code Page 437 extended ASCII characters
+- The game must be fully responsive and playable in portrait on mobile and landscape on desktop
+- On desktop, center the game with a max width of 800px; on mobile, fill the screen width
+- Layout (top to bottom): stats bar → canvas (dungeon map) → message log (last 3 messages) → virtual controls
+- **Authentic DOS terminal aesthetic**: pure black background (#000000), CGA 16-color palette for all characters
+- The viewport follows the player and shows a scrolling portion of the map. Full map: 48×28 tiles. Viewport adjusts to available screen space.
+- **Tight line height for continuous borders**: The cell height (vertical spacing between character rows) must equal the font size exactly (`cellH = fontSize`), NOT `fontSize * 1.35` or any multiplier &gt; 1. This ensures that box-drawing characters like ║ on consecutive rows form continuous vertical lines with no visible gaps. The text baseline should be 'top' so characters tile seamlessly.
+- All UI elements (stats bar, messages, buttons, overlays) must use the CGA color palette — no modern gradients or rounded corners
+
+**CGA 16-COLOR PALETTE**
+Use ONLY these colors (the classic CGA/DOS palette):
+- BLACK:#000000, BLUE:#0000aa, GREEN:#00aa00, CYAN:#00aaaa
+- RED:#aa0000, MAGENTA:#aa00aa, BROWN:#aa5500, LGRAY:#aaaaaa
+- DGRAY:#555555, LBLUE:#5555ff, LGREEN:#55ff55, LCYAN:#55ffff
+- LRED:#ff5555, LMAGENTA:#ff55ff, YELLOW:#ffff55, WHITE:#ffffff
+
+**MODAL COMPATIBILITY (CRITICAL)**
+- The entire game is wrapped in a single root &lt;div&gt; (#rogue-root). It must NEVER use window.alert(), window.confirm(), or window.prompt()
+- All in-game dialogs (inventory, item selection, confirmations, prompts) are rendered as child elements INSIDE #rogue-root
+- Keyboard listener on document should check that the game root is active/visible before handling keys
+- The game should set root.rogueCleanup = function(){...} that removes all event listeners and stops the game loop, so a parent modal can call it on close
+- All element sizing is relative to the container, not the window/viewport
+
+**DUNGEON GENERATION**
+- Procedural dungeon for each floor: 6–9 rectangular rooms (random size 4–10 wide, 3–7 tall) connected by L-shaped corridors
+- Rooms must not overlap (leave at least 1 tile gap)
+- Corridors carved through walls; where a corridor meets a room border, place a door (+)
+- Stairs down in a random room (not the starting room); stairs up in the starting room (except floor 1)
+- 10 dungeon floors. The Amulet of Yendor appears on floor 10.
+
+**TILES &amp; CODE PAGE 437 ASCII SYMBOLS**
+Room walls use double-line box-drawing characters (like the original PC Rogue):
+- ═ (U+2550) horizontal wall | ║ (U+2551) vertical wall
+- ╔ (U+2554) top-left corner | ╗ (U+2557) top-right corner
+- ╚ (U+255A) bottom-left corner | ╝ (U+255D) bottom-right corner
+- Color: BROWN (#aa5500) when visible, dark brown (#442200) when explored
+
+Other tiles:
+- · (U+00B7, middle dot) floor tile (DGRAY #555555)
+- ░ (U+2591, light shade) corridor / passage (DGRAY #555555)
+- + door (YELLOW #ffff55)
+- ≡ (U+2261) stairs up/down (LGREEN #55ff55)
+- █ (U+2588) solid wall blocks where appropriate
+
+Characters:
+- ☺ (U+263A, smiley face) player (YELLOW #ffff55) — like the original PC Rogue
+- * gold pile (YELLOW #ffff55)
+- : food (BROWN #aa5500)
+- ! potion (LMAGENTA #ff55ff)
+- ? scroll (LCYAN #55ffff)
+- ) weapon (WHITE #ffffff)
+- ] armor (LBLUE #5555ff)
+- ♦ (U+2666) or ☼ Amulet of Yendor (LMAGENTA, pulsing)
+
+Monsters use their letter (A-Z) with individual CGA colors by danger level:
+- B=Bat (BROWN), K=Kobold (GREEN), S=Snake (LGREEN), E=Emu (BROWN)
+- H=Hobgoblin (CYAN), O=Orc (LRED), Z=Zombie (DGRAY), C=Centaur (YELLOW)
+- T=Troll (LGREEN), W=Wraith (LMAGENTA), G=Griffin (LCYAN), V=Vampire (LRED), D=Dragon (LRED)
+
+- Explored but not visible tiles: dimmer versions (~30-40% brightness of original). Unexplored = hidden (black).
+
+**PLAYER**
+- Starts floor 1 in a random room. Symbol: ☺ (U+263A smiley face, like original PC Rogue)
+- Stats: HP 20/20, STR 4, DEF 2, Level 1, XP 0, Gold 0, Hunger 300
+- XP from kills → level up at thresholds (each level needs more XP). Level up: +5 max HP (heal to max), +1 STR, +1 DEF
+- Hunger decreases by 1 each turn. At 0: lose 1 HP/turn. Food restores 150 hunger.
+- Inventory: up to 20 item slots (a–t). One weapon and one armor can be equipped at a time.
+- Equipped weapon adds bonus to attack; equipped armor adds bonus to defense.
+
+**MONSTERS (13 types, appear based on dungeon depth)**
+B=Bat (fast,weak), K=Kobold, S=Snake, E=Emu, H=Hobgoblin, O=Orc, Z=Zombie, C=Centaur, T=Troll, W=Wraith, G=Griffin, V=Vampire, D=Dragon (boss-tier)
+- Each has: HP, ATK, DEF, XP reward, minimum floor to appear
+- Difficulty scales with depth: deeper floors spawn tougher monsters
+- AI: if a monster can see the player (same lit room, or adjacent in corridor), move toward player. If adjacent, attack. Otherwise wander randomly.
+- Monsters act after the player moves (turn-based). 3–6 monsters per floor (more on deeper floors).
+
+**ITEMS**
+- Weapons: Dagger(+1), Short Sword(+2), Long Sword(+3), Mace(+4), Two-Handed Sword(+5). Symbol: )
+- Armor: Leather(+1), Chain Mail(+2), Scale Mail(+3), Plate Mail(+4), Dragon Scale(+5). Symbol: ]
+- Potions: Healing(+10 HP), Extra Healing(+25 HP), Strength(+1 permanent STR), Poison(-3 HP, -1 STR). Symbol: !
+- Scrolls: Teleport(random room), Magic Map(reveal entire floor), Lightning(8 dmg to all visible monsters), Identify(reveal all items). Symbol: ?
+- Food: Ration(+150 hunger). Symbol: :
+- Gold: 5–25 per pile, auto-collected on step. Symbol: *
+- Amulet of Yendor: floor 10 only, picking it up wins the game. Symbol: ♦ (U+2666, pulsing LMAGENTA)
+- 4–8 items per floor (more on deeper floors). Better items appear deeper.
+
+**COMBAT**
+- Melee only: bump into a monster to attack (and vice versa)
+- Damage = max(0, attacker_STR + weapon_bonus + rand(0, level) − defender_DEF − armor_bonus − rand(0, 2))
+- If damage is 0, it's a miss. Minimum 1 damage on a hit.
+- Display messages: "You hit the [monster] for [N]" / "The [monster] hits you for [N]" / "You defeated the [monster]!" / "You missed"
+
+**FOG OF WAR**
+- Entering a room reveals the entire room (walls, floor, contents)
+- In corridors, only tiles within 2 steps are visible
+- Previously seen areas remain "explored" (shown dimmer, entities hidden)
+- Monsters and items only shown in currently visible tiles
+
+**CONTROLS — KEYBOARD**
+- Arrow keys / WASD / HJKL (vi-style) / Numpad 8/2/4/6: move 4 directions
+- YUBN (vi-style) / Numpad 7/9/1/3: move diagonally
+- Home/End/PgUp/PgDn: diagonal movement (up-left, down-left, up-right, down-right)
+- Numpad 5 / . / Space: wait one turn
+- &gt; or Enter on stairs: descend/ascend
+- g or ,: pick up item
+- i: open inventory
+- e: equip (prompts which item)
+- q: use/quaff (prompts which item)
+- d: drop (prompts which item)
+- ? (Shift+/) or F1: open help/instructions screen
+- Escape: cancel/close overlay
+
+**DIAGONAL KEY MAP (vi-keys / Numpad / Navigation):**
+  y (Numpad7/Home) = up-left | u (Numpad9/PgUp) = up-right
+  h (Numpad4/←) = left       | l (Numpad6/→) = right
+  b (Numpad1/End) = down-left | n (Numpad3/PgDn) = down-right
+  k (Numpad8/↑) = up         | j (Numpad2/↓) = down
+  . (Numpad5/Space) = wait
+
+**CONTROLS — VIRTUAL GAMEPAD (always visible, works with touch AND mouse)**
+All controls are HTML elements overlaid on the game (NOT drawn on canvas), attached to #rogue-root.
+
+D-pad (bottom-left): a 3×3 grid of buttons for 8-directional movement.
+  Row 1: [↖] [↑] [↗]
+  Row 2: [←] [·] [→]
+  Row 3: [↙] [↓] [↘]
+  Center button is wait/skip turn.
+  Each button ~48px, semi-transparent (0.35 opacity), brighter on press (0.7).
+  Use touchstart/touchend + mousedown/mouseup for zero-delay input.
+
+Action buttons (bottom-right): a 2×4 grid:
+  [&gt;]  [GET] [⏳] [?]
+  [INV] [USE] [EQP]
+  - &gt; = descend/ascend stairs
+  - GET = pick up item from ground
+  - ⏳ = wait one turn
+  - ? = open help/instructions screen
+  - INV = open inventory
+  - USE = use/quaff an item (opens item selector)
+  - EQP = equip an item (opens item selector)
+  Labels must be translated per language (keep short: 2-4 chars).
+
+**VIRTUAL ITEM SELECTOR (for "which item?" prompts)**
+When the game needs the player to choose an item (equip, use, drop):
+- Show a scrollable overlay INSIDE #rogue-root (not a browser dialog)
+- Dark semi-transparent background
+- Title bar: "Use which item?" (translated)
+- List of relevant items as large tappable rows: "[a] Short Sword (+2)" — each row at least 44px tall for easy tapping
+- Tapping a row selects that item, closes overlay, performs the action
+- CANCEL button at the bottom to dismiss
+- On keyboard: pressing a slot letter (a–t) or Escape works the same way
+- IMPORTANT: This must work inside a modal (no window.alert/prompt)
+
+**HELP / INSTRUCTIONS SCREEN**
+- Pressing ? (Shift+/) or F1 opens a help overlay inside #rogue-root
+- The help button (labeled "?") is also available in the action button grid (LGRAY color)
+- The help screen displays:
+  a) Game History: brief paragraph about Rogue's origins (Michael Toy, Glenn Wichman, 1980, Unix, procedural generation, permadeath)
+  b) Gameplay Overview: 6 bullet points covering floors, combat, items, amulet goal, permadeath, food, exploration
+  c) Keyboard Controls: table of all movement, action, and menu keys
+  d) Symbols Reference: table of every map character and what it represents
+- Styled with the DOS/CGA aesthetic (dark background, colored text, section dividers)
+- Scrollable if content exceeds viewport height
+- Closes on Escape, clicking the X/Close button, clicking outside, or pressing ? again
+- Section headers are translated via the i18n system; symbol reference stays English (symbols are universal)
+- Can be opened from title, play, inventory, or game-over screens; returns to previous state on close
+- Uses game state ST_HELP (value 6) and remembers the previous state to restore on close
+
+**INVENTORY OVERLAY**
+- Pressing INV or 'i' opens a full-screen (within root) overlay showing all inventory items
+- Each item shown as a tappable row with slot letter, name, stats, and [EQUIP] / [USE] / [DROP] action buttons
+- Currently equipped weapon and armor are highlighted
+- CLOSE button at top or Escape to dismiss
+- Must be scrollable if many items
+
+**8-LANGUAGE SUPPORT**
+Languages: English (en), French (fr), Spanish (es), Portuguese (pt), German (de), Italian (it), Japanese (ja), Chinese Simplified (zh)
+
+- Language selector on the title screen: 8 buttons/flags, one per language
+- ALL user-facing text must be translated: stat labels, messages, item names, monster names, button labels, overlay text, game-over/win text
+- Translation structure: use arrays indexed by language index, e.g. STRINGS.hit = ['You hit...','Vous frappez...','Golpeas...', ...]
+- Detect language from document.documentElement.lang as default, or accept data-lang attribute on #rogue-root (for modal embedding). Fall back to 'en'.
+- CJK notes: Japanese uses katakana for monster/item names, Chinese uses simplified characters. No artificial spaces in CJK text. Keep brand names in Latin characters.
+- Action button labels translated (short: 2–4 chars max).
+
+**SOUND EFFECTS (Web Audio API)**
+All sounds via OscillatorNode + GainNode — no audio files.
+- Footstep: very quiet tick (~0.02s, 300Hz, vol 0.03)
+- Attack hit: short thud (~0.08s, 150Hz, vol 0.15)
+- Monster killed: crunchy burst (noise + tone, ~0.12s)
+- Player hurt: descending thud (~0.1s, 200→100Hz)
+- Item pickup: cheerful ascending ping (~0.1s, 500→800Hz)
+- Level up: 3-note ascending fanfare
+- Stairs: descending sweep (~0.15s, 400→200Hz)
+- Potion: bubbly oscillation (~0.15s)
+- Game over: sad 4-note descending sequence
+- Victory: triumphant 5-note ascending sequence
+- Keep all sounds short, subtle, retro. Init AudioContext on first user interaction.
+
+**GAME STATES**
+- TITLE: ASCII art title "ROGUE", subtitle (translated), language selector, START button, brief instructions. The dungeon is NOT generated yet.
+- PLAY: Main gameplay (turn-based, canvas renders map)
+- INV: Inventory overlay visible (game paused)
+- PROMPT: Item selection overlay visible (game paused)
+- OVER: Death screen — score, floor reached, cause of death, RESTART button
+- WIN: Victory screen — score, turns taken, RESTART button
+- HELP: Help/instructions overlay visible (game paused, returns to previous state on close)
+
+**TITLE SCREEN**
+- Large ASCII-art "ROGUE" title in YELLOW (#ffff55), framed with double-line box-drawing characters (╔═╗║╚═╝)
+- Translated subtitle in BROWN (#aa5500) and instructions
+- Language selector: 8 labeled buttons (EN, FR, ES, PT, DE, IT, JA, ZH) — tapping one changes the language and updates all title text immediately
+- START button (also responds to Enter key)
+- Brief instructions (translated): movement, combat, goal
+
+**GAME OVER / WIN SCREEN**
+- Centered overlay within root
+- Shows: score (gold collected + XP), floor reached, turns taken, cause of death (game over) or victory message (win)
+- RESTART button (also Enter key)
+- All text translated
+
+**CODE QUALITY**
+- IIFE pattern, strict mode
+- requestAnimationFrame for render loop, but only re-render when dirty flag is set (turn-based: mark dirty after player action)
+- IMPORTANT: initGame() must be called unconditionally BOTH when starting from the title screen AND when restarting. All arrays (map, monsters, items, rooms, inventory) must be initialized before the first frame of gameplay or rendering will crash on undefined.
+- Clean separation: generation, entities, combat, rendering, UI, input
+- No external dependencies. Single self-contained HTML file.
+- All event listeners scoped to #rogue-root children or document (with active check). Cleanup function removes everything.</div>
+</div>
+</body>
+</html>

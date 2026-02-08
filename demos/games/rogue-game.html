@@ -1,0 +1,1456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
+<title>Rogue</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{height:100%;overflow:hidden;background:#000000;font-family:'Courier New',Courier,monospace;}
+#rogue-root{width:100%;max-width:800px;height:100%;margin:0 auto;display:flex;flex-direction:column;background:#000000;color:#aaaaaa;position:relative;overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none;}
+#rogue-stats{padding:3px 6px;font-size:11px;color:#aa5500;background:#000000;border-bottom:1px solid #555500;white-space:nowrap;overflow:hidden;flex-shrink:0;display:flex;justify-content:space-between;gap:6px;}
+#rogue-stats span{white-space:nowrap;}
+.stat-warn{color:#ff5555!important;}
+.stat-good{color:#55ff55!important;}
+#rogue-canvas-wrap{flex:1;overflow:hidden;position:relative;min-height:0;}
+#rogue-canvas{display:block;width:100%;height:100%;}
+#rogue-msgs{padding:3px 6px;font-size:10px;color:#aaaaaa;background:#000000;border-top:1px solid #555500;height:42px;overflow:hidden;flex-shrink:0;line-height:1.35;}
+#rogue-msgs .msg-warn{color:#ff5555;}
+#rogue-msgs .msg-good{color:#55ff55;}
+#rogue-msgs .msg-item{color:#55ffff;}
+#rogue-controls{display:flex;justify-content:space-between;align-items:start;padding:6px 8px;background:#000000;flex-shrink:0;gap:8px;border-top:1px solid #555500;}
+.ctrl-grid{display:grid;gap:2px;}
+.dpad{grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);}
+.actions{grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(2,1fr);}
+.ctrl-btn{width:46px;height:46px;background:rgba(85,85,0,0.2);border:1px solid rgba(170,170,0,0.3);color:#aa5500;font-size:15px;border-radius:3px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-direction:column;line-height:1;transition:background 0.1s;}
+.ctrl-btn:active,.ctrl-btn.pressed{background:rgba(170,170,0,0.4);color:#ffff55;}
+.ctrl-btn .lbl{font-size:8px;margin-top:1px;opacity:0.7;}
+.act-stairs{color:#55ff55;}
+.act-get{color:#55ffff;}
+.act-wait{color:#aaaaaa;}
+.act-inv{color:#ffff55;}
+.act-use{color:#ff55ff;}
+.act-eqp{color:#5555ff;}
+.act-help{color:#aaaaaa;}
+#rogue-overlay{position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.92);display:none;flex-direction:column;align-items:center;justify-content:flex-start;z-index:20;color:#aaaaaa;font-family:'Courier New',Courier,monospace;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:16px;}
+#rogue-overlay.show{display:flex;}
+.ov-title{color:#ffff55;font-size:20px;font-weight:bold;margin:12px 0 8px;text-align:center;}
+.ov-sub{color:#aaaaaa;font-size:12px;margin:4px 0;text-align:center;}
+.ov-text{color:#aaaaaa;font-size:11px;margin:4px 0;text-align:center;line-height:1.5;}
+.ov-score{color:#ffff55;font-size:16px;margin:8px 0;}
+.ov-btn{background:rgba(85,85,0,0.25);border:1px solid #aa5500;color:#ffff55;padding:10px 28px;font-size:14px;font-family:inherit;cursor:pointer;border-radius:3px;margin:8px 4px;min-width:70px;text-align:center;}
+.ov-btn:active{background:rgba(170,170,0,0.4);}
+.ov-btn.red{border-color:#aa0000;color:#ff5555;background:rgba(170,0,0,0.15);}
+.ov-btn.red:active{background:rgba(170,0,0,0.35);}
+.lang-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin:12px 0;}
+.lang-btn{background:rgba(85,85,0,0.15);border:1px solid rgba(170,170,0,0.25);color:#aaaaaa;padding:8px 14px;font-size:13px;font-family:inherit;cursor:pointer;border-radius:3px;min-width:44px;text-align:center;}
+.lang-btn:active,.lang-btn.sel{background:rgba(85,85,0,0.35);border-color:#aa5500;color:#ffff55;}
+.inv-list{width:100%;max-width:400px;margin:8px 0;}
+.inv-row{display:flex;align-items:center;padding:8px 10px;border-bottom:1px solid #555500;cursor:pointer;min-height:42px;gap:8px;}
+.inv-row:active{background:rgba(85,85,0,0.2);}
+.inv-slot{color:#ffff55;font-size:13px;width:20px;flex-shrink:0;}
+.inv-name{flex:1;color:#aaaaaa;font-size:12px;}
+.inv-eqp{color:#55ff55;font-size:10px;}
+.inv-acts{display:flex;gap:4px;}
+.inv-act{background:rgba(85,85,0,0.15);border:1px solid rgba(170,170,0,0.25);color:#aaaaaa;padding:4px 8px;font-size:10px;border-radius:3px;cursor:pointer;}
+.inv-act:active{background:rgba(170,170,0,0.35);}
+.prompt-box{width:100%;max-width:380px;margin:8px 0;}
+.prompt-row{display:flex;align-items:center;padding:10px 12px;border-bottom:1px solid #555500;cursor:pointer;min-height:44px;gap:8px;}
+.prompt-row:active{background:rgba(85,85,0,0.2);}
+.prompt-slot{color:#ffff55;width:20px;font-size:13px;flex-shrink:0;}
+.prompt-name{flex:1;color:#aaaaaa;font-size:12px;}
+.ascii-title{font-size:10px;color:#ffff55;line-height:1.15;white-space:pre;text-align:center;margin:8px 0;}
+.instructions{color:#aa5500;font-size:10px;line-height:1.6;text-align:center;max-width:360px;margin:6px auto;}
+.help-content{width:100%;max-width:440px;text-align:left;padding:0 8px;}
+.help-section{margin:10px 0 6px;color:#ffff55;font-size:13px;font-weight:bold;border-bottom:1px solid #555500;padding-bottom:3px;}
+.help-history{color:#aa5500;font-size:10px;line-height:1.5;font-style:italic;margin:4px 0 8px;}
+.help-list{color:#aaaaaa;font-size:10px;line-height:1.7;margin:4px 0;padding-left:12px;}
+.help-list li{list-style:none;margin:1px 0;}
+.help-list li::before{content:"- ";color:#555500;}
+.help-keys{width:100%;border-collapse:collapse;font-size:10px;margin:4px 0;}
+.help-keys td{padding:2px 6px;vertical-align:top;}
+.help-keys td:first-child{color:#55ffff;white-space:nowrap;min-width:100px;}
+.help-keys td:last-child{color:#aaaaaa;}
+.help-sym{width:100%;border-collapse:collapse;font-size:10px;margin:4px 0;}
+.help-sym td{padding:1px 6px;vertical-align:top;}
+.help-sym td:first-child{color:#ffff55;white-space:nowrap;width:40px;text-align:center;}
+.help-sym td:last-child{color:#aaaaaa;}
+@media(max-width:400px){
+  .ctrl-btn{width:40px;height:40px;font-size:13px;}
+  .ctrl-btn .lbl{font-size:7px;}
+  #rogue-stats{font-size:10px;}
+  #rogue-msgs{font-size:9px;height:38px;}
+}
+@media(min-height:800px){
+  .ctrl-btn{width:52px;height:52px;}
+}
+</style>
+</head>
+<body>
+<div id="rogue-root">
+  <div id="rogue-stats"></div>
+  <div id="rogue-canvas-wrap"><canvas id="rogue-canvas"></canvas></div>
+  <div id="rogue-msgs"></div>
+  <div id="rogue-controls">
+    <div class="ctrl-grid dpad" id="rogue-dpad"></div>
+    <div class="ctrl-grid actions" id="rogue-actions"></div>
+  </div>
+  <div id="rogue-overlay"></div>
+</div>
+
+<script>
+(function(){'use strict';
+
+// ═══════════════════════════════════════════════════
+// LANGUAGES & TRANSLATIONS
+// ═══════════════════════════════════════════════════
+var LANGS=['en','fr','es','pt','de','it','ja','zh'];
+var LANG_LABELS=['EN','FR','ES','PT','DE','IT','JA','ZH'];
+var li=0; // current language index
+
+// Translation strings: S[key] = [en, fr, es, pt, de, it, ja, zh]
+var S={
+title:['ROGUE','ROGUE','ROGUE','ROGUE','ROGUE','ROGUE','ROGUE','ROGUE'],
+subtitle:['Explore the Dungeon of Doom','Explorez le Donjon du Destin','Explora la Mazmorra del Destino','Explore a Masmorra da Perdição','Erkunde den Kerker des Verderbens','Esplora il Sotterraneo del Destino','運命のダンジョンを探索せよ','探索末日地牢'],
+press_start:['Press START or ENTER','Appuyez sur START ou ENTRÉE','Pulsa START o ENTER','Pressione START ou ENTER','Drücke START oder ENTER','Premi START o INVIO','STARTまたはENTERを押す','按START或回车开始'],
+instructions:['Move: D-pad / Arrow keys / WASD\nAttack: Bump into enemies\nGoal: Find the Amulet on Floor 10','Déplacement: D-pad / Flèches / ZQSD\nAttaque: Foncez sur les ennemis\nObjectif: Trouvez l\'Amulette à l\'Étage 10','Mover: D-pad / Flechas / WASD\nAtacar: Choca contra enemigos\nObjetivo: Encuentra el Amuleto en el Piso 10','Mover: D-pad / Setas / WASD\nAtacar: Colida com inimigos\nObjetivo: Encontre o Amuleto no Andar 10','Bewegen: D-pad / Pfeile / WASD\nAngriff: Gegen Feinde laufen\nZiel: Finde das Amulett auf Ebene 10','Muovi: D-pad / Frecce / WASD\nAttacca: Vai addosso ai nemici\nObiettivo: Trova l\'Amuleto al Piano 10','移動：D-pad／矢印／WASD\n攻撃：敵にぶつかる\n目標：10階のアミュレットを見つけろ','移动：D-pad/方向键/WASD\n攻击：撞向敌人\n目标：在第10层找到护身符'],
+floor:['Floor','Étage','Piso','Andar','Ebene','Piano','階','层'],
+hunger:['Hunger','Faim','Hambre','Fome','Hunger','Fame','空腹','饥饿'],
+full:['Full','Rassasié','Lleno','Saciado','Satt','Sazio','満腹','饱食'],
+normal:['Normal','Normal','Normal','Normal','Normal','Normale','普通','正常'],
+hungry:['Hungry','Affamé','Hambriento','Faminto','Hungrig','Affamato','空腹','饥饿'],
+weak:['Weak','Faible','Débil','Fraco','Schwach','Debole','衰弱','虚弱'],
+faint:['Faint','Épuisé','Desmayo','Desmaio','Ohnmacht','Svenuto','瀕死','昏厥'],
+starving:['Starving!','Affamé!','Muriéndose!','Morrendo!','Verhungernd!','Morendo!','餓死寸前！','快饿死了！'],
+hit:['You hit the {0} for {1}','Vous frappez {0}: {1} dégâts','Golpeas a {0}: {1} daño','Você acerta {0}: {1} dano','Du triffst {0}: {1} Schaden','Colpisci {0}: {1} danni','{0}に{1}ダメージ','你击中{0}，造成{1}伤害'],
+miss:['You miss the {0}','Vous ratez {0}','Fallas contra {0}','Você erra {0}','Du verfehlst {0}','Manchi {0}','{0}を外した','你没打中{0}'],
+kill:['You defeated the {0}!','Vous avez vaincu {0} !','¡Derrotaste a {0}!','Você derrotou {0}!','Du hast {0} besiegt!','Hai sconfitto {0}!','{0}を倒した！','你击败了{0}！'],
+m_hit:['The {0} hits you for {1}','{0} vous frappe: {1} dégâts','{0} te golpea: {1} daño','{0} te acerta: {1} dano','{0} trifft dich: {1} Schaden','{0} ti colpisce: {1} danni','{0}から{1}ダメージ','{0}击中你，造成{1}伤害'],
+m_miss:['The {0} misses you','{0} vous rate','{0} te falla','{0} te erra','{0} verfehlt dich','{0} ti manca','{0}の攻撃を避けた','{0}没打中你'],
+pickup:['Picked up: {0}','Ramassé: {0}','Recogiste: {0}','Pegou: {0}','Aufgehoben: {0}','Raccolto: {0}','{0}を拾った','捡起了{0}'],
+gold_get:['Found {0} gold','Trouvé {0} or','Encontraste {0} oro','Encontrou {0} ouro','{0} Gold gefunden','Trovato {0} oro','{0}ゴールド入手','获得{0}金币'],
+equip:['Equipped: {0}','Équipé: {0}','Equipado: {0}','Equipou: {0}','Ausgerüstet: {0}','Equipaggiato: {0}','{0}を装備','装备了{0}'],
+unequip:['Unequipped: {0}','Déséquipé: {0}','Desequipado: {0}','Desequipou: {0}','Abgelegt: {0}','Rimosso: {0}','{0}を外した','卸下了{0}'],
+use_item:['Used: {0}','Utilisé: {0}','Usaste: {0}','Usou: {0}','Benutzt: {0}','Usato: {0}','{0}を使った','使用了{0}'],
+drop_item:['Dropped: {0}','Jeté: {0}','Soltaste: {0}','Largou: {0}','Fallen gelassen: {0}','Lasciato: {0}','{0}を捨てた','丢弃了{0}'],
+heal:['Healed {0} HP','{0} PV restaurés','Curaste {0} PV','Curou {0} PV','{0} LP geheilt','{0} PV curati','HP{0}回復','恢复了{0}点生命'],
+str_up:['STR increased!','FOR augmentée !','¡FUE aumentada!','FOR aumentou!','STÄ erhöht!','FOR aumentata!','力が上がった！','力量提升了！'],
+poison:['Poisoned! Lost HP and STR','Empoisonné ! PV et FOR perdus','¡Envenenado! Perdiste PV y FUE','Envenenado! Perdeu PV e FOR','Vergiftet! LP und STÄ verloren','Avvelenato! PV e FOR persi','毒だ！HPと力が減った','中毒了！失去生命和力量'],
+teleport:['Teleported!','Téléporté !','¡Teletransportado!','Teletransportou!','Teleportiert!','Teletrasportato!','テレポートした！','传送了！'],
+map_reveal:['Map revealed!','Carte révélée !','¡Mapa revelado!','Mapa revelado!','Karte enthüllt!','Mappa rivelata!','マップが明らかに！','地图已揭示！'],
+lightning:['Lightning strikes all foes!','La foudre frappe tous les ennemis !','¡El rayo golpea a todos!','Raio atinge todos os inimigos!','Blitz trifft alle Feinde!','Il fulmine colpisce tutti!','雷が全敵を襲う！','闪电击中所有敌人！'],
+identify:['Items revealed!','Objets révélés !','¡Objetos revelados!','Itens revelados!','Gegenstände enthüllt!','Oggetti rivelati!','アイテムが判明！','物品已鉴定！'],
+lvl_up:['Level up! You are now level {0}','Niveau supérieur ! Niveau {0}','¡Subiste al nivel {0}!','Subiu para o nível {0}!','Level-Up! Du bist jetzt Level {0}','Livello su! Ora sei livello {0}','レベルアップ！レベル{0}に','升级了！你现在{0}级'],
+descend:['You descend to floor {0}','Vous descendez à l\'étage {0}','Bajas al piso {0}','Você desce para o andar {0}','Du steigst auf Ebene {0} hinab','Scendi al piano {0}','第{0}階へ降りた','你下到了第{0}层'],
+no_stairs:['No stairs here','Pas d\'escalier ici','No hay escaleras aquí','Sem escadas aqui','Keine Treppe hier','Nessuna scala qui','ここに階段はない','这里没有楼梯'],
+nothing_here:['Nothing to pick up','Rien à ramasser','Nada que recoger','Nada para pegar','Nichts aufzuheben','Niente da raccogliere','何もない','没有可捡的东西'],
+inv_full:['Inventory full!','Inventaire plein !','¡Inventario lleno!','Inventário cheio!','Inventar voll!','Inventario pieno!','持ち物がいっぱい！','背包已满！'],
+nothing_use:['Nothing to use','Rien à utiliser','Nada que usar','Nada para usar','Nichts zu benutzen','Niente da usare','使えるものがない','没有可用的东西'],
+nothing_equip:['Nothing to equip','Rien à équiper','Nada que equipar','Nada para equipar','Nichts auszurüsten','Niente da equipaggiare','装備できるものがない','没有可装备的东西'],
+nothing_drop:['Nothing to drop','Rien à jeter','Nada que soltar','Nada para largar','Nichts abzulegen','Niente da lasciare','捨てるものがない','没有可丢弃的东西'],
+eat:['Ate a food ration. +150 hunger','Mangé une ration. +150 faim','Comiste una ración. +150 hambre','Comeu uma ração. +150 fome','Ration gegessen. +150 Hunger','Mangiato una razione. +150 fame','食料を食べた。空腹+150','吃了口粮。饥饿+150'],
+won:['You found the Amulet of Yendor!\nYou win!','Vous avez trouvé l\'Amulette de Yendor !\nVous gagnez !','¡Encontraste el Amuleto de Yendor!\n¡Ganaste!','Você encontrou o Amuleto de Yendor!\nVocê venceu!','Du hast das Amulett von Yendor gefunden!\nDu gewinnst!','Hai trovato l\'Amuleto di Yendor!\nHai vinto!','イェンダーのアミュレットを発見！\nクリア！','你找到了延多的护身符！\n你赢了！'],
+died:['You died on floor {0}','Vous êtes mort à l\'étage {0}','Moriste en el piso {0}','Você morreu no andar {0}','Du bist auf Ebene {0} gestorben','Sei morto al piano {0}','第{0}階で死亡','你死在了第{0}层'],
+game_over:['GAME OVER','GAME OVER','FIN DEL JUEGO','FIM DE JOGO','GAME OVER','GAME OVER','ゲームオーバー','游戏结束'],
+victory:['VICTORY!','VICTOIRE !','¡VICTORIA!','VITÓRIA!','SIEG!','VITTORIA!','勝利！','胜利！'],
+score:['Score','Score','Puntos','Pontos','Punkte','Punti','スコア','得分'],
+turns:['Turns','Tours','Turnos','Turnos','Züge','Turni','ターン','回合'],
+restart:['RESTART','REJOUER','REINICIAR','REINICIAR','NEUSTART','RICOMINCIA','リスタート','重新开始'],
+start:['START','DÉMARRER','INICIAR','INICIAR','STARTEN','INIZIA','スタート','开始'],
+inventory:['INVENTORY','INVENTAIRE','INVENTARIO','INVENTÁRIO','INVENTAR','INVENTARIO','持ち物','背包'],
+close:['CLOSE','FERMER','CERRAR','FECHAR','SCHLIEßEN','CHIUDI','閉じる','关闭'],
+cancel:['CANCEL','ANNULER','CANCELAR','CANCELAR','ABBRECHEN','ANNULLA','キャンセル','取消'],
+use_which:['Use which item?','Utiliser quel objet ?','¿Usar qué objeto?','Usar qual item?','Welchen Gegenstand benutzen?','Usare quale oggetto?','どれを使う？','使用哪个物品？'],
+equip_which:['Equip which item?','Équiper quel objet ?','¿Equipar qué objeto?','Equipar qual item?','Welchen Gegenstand ausrüsten?','Equipaggiare quale?','どれを装備する？','装备哪个物品？'],
+drop_which:['Drop which item?','Jeter quel objet ?','¿Soltar qué objeto?','Largar qual item?','Welchen Gegenstand ablegen?','Lasciare quale?','どれを捨てる？','丢弃哪个物品？'],
+btn_stairs:['▼','▼','▼','▼','▼','▼','▼','▼'],
+btn_get:['GET','OBT','COG','PEG','NHM','PRD','拾','拾'],
+btn_wait:['⏳','⏳','⏳','⏳','⏳','⏳','⏳','⏳'],
+btn_inv:['INV','INV','INV','INV','INV','INV','持物','背包'],
+btn_use:['USE','UTL','USR','USR','NTZ','USA','使','用'],
+btn_eqp:['EQP','ÉQP','EQP','EQP','AUS','EQP','装','装'],
+killed_by:['Killed by: {0}','Tué par: {0}','Matado por: {0}','Morto por: {0}','Getötet von: {0}','Ucciso da: {0}','死因：{0}','死因：{0}'],
+the_hunger:['starvation','la faim','el hambre','a fome','Hunger','la fame','餓死','饥饿'],
+btn_help:['?','?','?','?','?','?','?','?'],
+help_title:['HELP','AIDE','AYUDA','AJUDA','HILFE','AIUTO','ヘルプ','帮助'],
+help_history:['HISTORY','HISTOIRE','HISTORIA','HISTÓRIA','GESCHICHTE','STORIA','歴史','历史'],
+help_overview:['GAMEPLAY','JEU','JUEGO','JOGO','SPIELABLAUF','GIOCO','ゲーム概要','玩法概述'],
+help_controls:['CONTROLS','CONTRÔLES','CONTROLES','CONTROLES','STEUERUNG','CONTROLLI','操作方法','操作说明'],
+help_symbols:['SYMBOLS','SYMBOLES','SÍMBOLOS','SÍMBOLOS','SYMBOLE','SIMBOLI','シンボル','符号说明'],
+help_history_text:['Rogue was created by Michael Toy and Glenn Wichman in 1980 for Unix. It pioneered procedural dungeon generation and permadeath, inspiring an entire genre of "roguelike" games.','Rogue a été créé par Michael Toy et Glenn Wichman en 1980 pour Unix. Il a été le pionnier de la génération procédurale de donjons et de la mort permanente, inspirant tout un genre de jeux «roguelike».','Rogue fue creado por Michael Toy y Glenn Wichman en 1980 para Unix. Fue pionero en la generación procedural de mazmorras y la muerte permanente, inspirando todo un género de juegos «roguelike».','Rogue foi criado por Michael Toy e Glenn Wichman em 1980 para Unix. Foi pioneiro na geração procedural de masmorras e na morte permanente, inspirando todo um gênero de jogos "roguelike".','Rogue wurde 1980 von Michael Toy und Glenn Wichman für Unix entwickelt. Es war wegweisend für prozedurale Dungeon-Generierung und Permadeath und inspirierte ein ganzes Genre von „Roguelike"-Spielen.','Rogue è stato creato da Michael Toy e Glenn Wichman nel 1980 per Unix. Ha introdotto la generazione procedurale dei sotterranei e la morte permanente, ispirando un intero genere di giochi "roguelike".','Rogueは1980年にMichael ToyとGlenn WichmanによりUnix向けに作られました。手続き型ダンジョン生成とパーマデスを開拓し、「ローグライク」というジャンル全体に影響を与えました。','Rogue由Michael Toy和Glenn Wichman于1980年为Unix创作。它开创了程序化地牢生成和永久死亡机制，启发了整个"类Rogue"游戏类型。'],
+help_ov1:['Descend through 10 dungeon floors','Descendez 10 étages de donjon','Desciende por 10 pisos de mazmorra','Desça por 10 andares de masmorra','Steige durch 10 Dungeon-Ebenen hinab','Scendi attraverso 10 piani del sotterraneo','10階のダンジョンを降りていく','穿过10层地牢'],
+help_ov2:['Fight monsters, collect weapons, armor, potions, scrolls, food, and gold','Combattez des monstres, collectez armes, armures, potions, parchemins, nourriture et or','Lucha contra monstruos, recoge armas, armaduras, pociones, pergaminos, comida y oro','Lute contra monstros, colete armas, armaduras, poções, pergaminhos, comida e ouro','Bekämpfe Monster, sammle Waffen, Rüstungen, Tränke, Schriftrollen, Essen und Gold','Combatti mostri, raccogli armi, armature, pozioni, rotoli, cibo e oro','モンスターと戦い、武器・防具・薬・巻物・食料・金を集める','战斗怪物，收集武器、盔甲、药水、卷轴、食物和金币'],
+help_ov3:['Find the Amulet of Yendor on floor 10 and escape','Trouvez l\'Amulette de Yendor à l\'étage 10 et évadez-vous','Encuentra el Amuleto de Yendor en el piso 10 y escapa','Encontre o Amuleto de Yendor no andar 10 e fuja','Finde das Amulett von Yendor auf Ebene 10 und fliehe','Trova l\'Amuleto di Yendor al piano 10 e fuggi','10階でイェンダーのアミュレットを見つけて脱出','在第10层找到延多的护身符并逃离'],
+help_ov4:['Permadeath: when you die, it\'s game over','Mort permanente: quand vous mourez, c\'est fini','Muerte permanente: cuando mueres, se acaba','Morte permanente: quando morre, acabou','Permadeath: Wenn du stirbst, ist das Spiel vorbei','Morte permanente: quando muori, è game over','パーマデス：死んだらゲームオーバー','永久死亡：一旦死亡，游戏结束'],
+help_ov5:['Eat food to avoid starving','Mangez pour ne pas mourir de faim','Come para no morir de hambre','Coma para não morrer de fome','Iss, um nicht zu verhungern','Mangia per non morire di fame','食料を食べて餓死を防ぐ','吃食物以免饿死'],
+help_ov6:['Explore rooms and corridors, find stairs to go deeper','Explorez salles et couloirs, trouvez les escaliers','Explora salas y pasillos, encuentra las escaleras','Explore salas e corredores, encontre as escadas','Erkunde Räume und Gänge, finde Treppen','Esplora stanze e corridoi, trova le scale','部屋と通路を探索し、階段を見つけてさらに深く','探索房间和走廊，找到楼梯向下']
+};
+
+// Monster names: MN[char] = [en,fr,es,pt,de,it,ja,zh]
+var MN={
+B:['Bat','Chauve-souris','Murciélago','Morcego','Fledermaus','Pipistrello','コウモリ','蝙蝠'],
+K:['Kobold','Kobold','Kobold','Kobold','Kobold','Coboldo','コボルド','狗头人'],
+S:['Snake','Serpent','Serpiente','Cobra','Schlange','Serpente','ヘビ','蛇'],
+E:['Emu','Émeu','Emú','Emu','Emu','Emù','エミュー','鸸鹋'],
+H:['Hobgoblin','Hobgobelin','Hobgoblin','Hobgoblin','Hobgoblin','Hobgoblin','ホブゴブリン','大地精'],
+O:['Orc','Orque','Orco','Orc','Ork','Orco','オーク','兽人'],
+Z:['Zombie','Zombie','Zombi','Zumbi','Zombie','Zombie','ゾンビ','僵尸'],
+C:['Centaur','Centaure','Centauro','Centauro','Zentaur','Centauro','ケンタウロス','半人马'],
+T:['Troll','Troll','Trol','Troll','Troll','Troll','トロル','巨魔'],
+W:['Wraith','Spectre','Espectro','Espectro','Geist','Spettro','レイス','幽灵'],
+G:['Griffin','Griffon','Grifo','Grifo','Greif','Grifone','グリフォン','狮鹫'],
+V:['Vampire','Vampire','Vampiro','Vampiro','Vampir','Vampiro','ヴァンパイア','吸血鬼'],
+D:['Dragon','Dragon','Dragón','Dragão','Drache','Drago','ドラゴン','龙']
+};
+
+// Item names: keyed arrays
+var IN={
+dagger:['Dagger','Dague','Daga','Adaga','Dolch','Pugnale','ダガー','匕首'],
+short_sword:['Short Sword','Épée courte','Espada corta','Espada curta','Kurzschwert','Spada corta','ショートソード','短剑'],
+long_sword:['Long Sword','Épée longue','Espada larga','Espada longa','Langschwert','Spada lunga','ロングソード','长剑'],
+mace:['Mace','Masse','Maza','Maça','Streitkolben','Mazza','メイス','钉头锤'],
+two_handed:['Two-Handed Sword','Épée à deux mains','Espada a dos manos','Espada de duas mãos','Zweihänder','Spadone','両手剣','双手剑'],
+leather:['Leather Armor','Armure de cuir','Armadura de cuero','Armadura de couro','Lederrüstung','Armatura di cuoio','レザーアーマー','皮甲'],
+chain:['Chain Mail','Cotte de mailles','Cota de mallas','Cota de malha','Kettenhemd','Cotta di maglia','チェインメイル','锁子甲'],
+scale:['Scale Mail','Armure d\'écailles','Cota de escamas','Cota de escamas','Schuppenpanzer','Armatura a scaglie','スケイルメイル','鳞甲'],
+plate:['Plate Mail','Armure de plates','Armadura de placas','Armadura de placas','Plattenpanzer','Armatura a piastre','プレートメイル','板甲'],
+dragon_armor:['Dragon Scale','Écailles de dragon','Escamas de dragón','Escamas de dragão','Drachenschuppen','Scaglie di drago','ドラゴンスケイル','龙鳞甲'],
+heal_pot:['Healing Potion','Potion de soin','Poción de curación','Poção de cura','Heiltrank','Pozione curativa','回復の薬','治疗药水'],
+xheal_pot:['Extra Healing','Grande potion','Poción superior','Poção superior','Großer Heiltrank','Pozione potente','大回復の薬','强效治疗药水'],
+str_pot:['Strength Potion','Potion de force','Poción de fuerza','Poção de força','Stärketrank','Pozione di forza','力の薬','力量药水'],
+poison_pot:['Poison','Poison','Veneno','Veneno','Gift','Veleno','毒薬','毒药'],
+tele_scroll:['Scroll of Teleport','Parchemin de téléportation','Pergamino de teletransporte','Pergaminho de teletransporte','Schriftrolle der Teleportation','Rotolo di teletrasporto','テレポートの巻物','传送卷轴'],
+map_scroll:['Scroll of Mapping','Parchemin de cartographie','Pergamino de mapa','Pergaminho de mapa','Schriftrolle der Kartografie','Rotolo di mappatura','地図の巻物','地图卷轴'],
+light_scroll:['Scroll of Lightning','Parchemin de foudre','Pergamino de rayo','Pergaminho de raio','Schriftrolle des Blitzes','Rotolo del fulmine','雷の巻物','闪电卷轴'],
+id_scroll:['Scroll of Identify','Parchemin d\'identification','Pergamino de identificación','Pergaminho de identificação','Schriftrolle der Identifikation','Rotolo di identificazione','鑑定の巻物','鉴定卷轴'],
+food:['Food Ration','Ration','Ración','Ração','Ration','Razione','食料','口粮'],
+amulet:['Amulet of Yendor','Amulette de Yendor','Amuleto de Yendor','Amuleto de Yendor','Amulett von Yendor','Amuleto di Yendor','イェンダーのアミュレット','延多的护身符']
+};
+
+function t(k){return S[k]?(S[k][li]||S[k][0]):k;}
+function tf(k){var s=t(k);var a=Array.prototype.slice.call(arguments,1);return s.replace(/\{(\d+)\}/g,function(m,i){return a[+i];});}
+function mn(ch){return MN[ch]?(MN[ch][li]||MN[ch][0]):ch;}
+function itn(k){return IN[k]?(IN[k][li]||IN[k][0]):k;}
+
+// ═══════════════════════════════════════════════════
+// CONSTANTS
+// ═══════════════════════════════════════════════════
+var MAP_W=48,MAP_H=28,MAX_ROOMS=9,MIN_ROOMS=6,MAX_FLOOR=10,MAX_INV=20;
+var WALL=0,FLOOR=1,CORR=2,DOOR=3,DN=4,UP=5;
+var ST_TITLE=0,ST_PLAY=1,ST_INV=2,ST_PROMPT=3,ST_OVER=4,ST_WIN=5,ST_HELP=6;
+
+// ═══════════════════════════════════════════════════
+// MONSTER DEFS: [char, hp, atk, def, xp, minFloor, speed]
+// ═══════════════════════════════════════════════════
+var MDEFS=[
+{ch:'B',hp:3,atk:2,def:0,xp:1,mn:1},
+{ch:'K',hp:5,atk:3,def:1,xp:2,mn:1},
+{ch:'S',hp:4,atk:4,def:1,xp:3,mn:1},
+{ch:'E',hp:6,atk:3,def:1,xp:2,mn:2},
+{ch:'H',hp:8,atk:4,def:2,xp:4,mn:2},
+{ch:'O',hp:10,atk:5,def:3,xp:5,mn:3},
+{ch:'Z',hp:12,atk:4,def:2,xp:4,mn:3},
+{ch:'C',hp:15,atk:6,def:4,xp:8,mn:4},
+{ch:'T',hp:20,atk:7,def:4,xp:10,mn:5},
+{ch:'W',hp:18,atk:8,def:3,xp:12,mn:6},
+{ch:'G',hp:25,atk:9,def:5,xp:15,mn:7},
+{ch:'V',hp:22,atk:10,def:4,xp:18,mn:8},
+{ch:'D',hp:40,atk:13,def:8,xp:30,mn:9}
+];
+
+// Item templates
+var WEAPONS=[
+{id:'dagger',bonus:1,mn:1},{id:'short_sword',bonus:2,mn:1},{id:'long_sword',bonus:3,mn:3},
+{id:'mace',bonus:4,mn:5},{id:'two_handed',bonus:5,mn:7}
+];
+var ARMORS=[
+{id:'leather',bonus:1,mn:1},{id:'chain',bonus:2,mn:2},{id:'scale',bonus:3,mn:4},
+{id:'plate',bonus:4,mn:6},{id:'dragon_armor',bonus:5,mn:8}
+];
+var POTIONS=[
+{id:'heal_pot',effect:'heal'},{id:'xheal_pot',effect:'xheal'},
+{id:'str_pot',effect:'str'},{id:'poison_pot',effect:'poison'}
+];
+var SCROLLS=[
+{id:'tele_scroll',effect:'teleport'},{id:'map_scroll',effect:'map'},
+{id:'light_scroll',effect:'lightning'},{id:'id_scroll',effect:'identify'}
+];
+
+// XP thresholds for level up
+var XP_TABLE=[0,10,25,50,100,175,275,400,600,900,1200,1600,2100,2700,3500,4500,6000,8000,10000];
+
+// ═══════════════════════════════════════════════════
+// GAME STATE
+// ═══════════════════════════════════════════════════
+var state,map,rooms,visible,explored,monsters,items,messages;
+var player,dFloor,turnCount,dirty,gameActive,animFrame;
+var promptCb,promptFilter;
+
+// ═══════════════════════════════════════════════════
+// DOM
+// ═══════════════════════════════════════════════════
+var root,canvas,ctx,statsEl,msgsEl,overlay,dpadEl,actionsEl;
+var viewCols,viewRows,cellW,cellH,fontSize;
+
+// ═══════════════════════════════════════════════════
+// AUDIO
+// ═══════════════════════════════════════════════════
+var audioCtx=null;
+function ensureAudio(){
+  if(!audioCtx){try{audioCtx=new(window.AudioContext||window.webkitAudioContext)();}catch(e){}}
+  if(audioCtx&&audioCtx.state==='suspended')audioCtx.resume();
+}
+function playTone(freq,dur,vol,type,sweep){
+  if(!audioCtx)return;
+  var o=audioCtx.createOscillator();
+  var g=audioCtx.createGain();
+  o.type=type||'square';
+  o.frequency.setValueAtTime(freq,audioCtx.currentTime);
+  if(sweep)o.frequency.linearRampToValueAtTime(sweep,audioCtx.currentTime+dur);
+  g.gain.setValueAtTime(vol||0.1,audioCtx.currentTime);
+  g.gain.linearRampToValueAtTime(0,audioCtx.currentTime+dur);
+  o.connect(g);g.connect(audioCtx.destination);
+  o.start();o.stop(audioCtx.currentTime+dur);
+}
+function sndStep(){playTone(300,0.02,0.02,'square');}
+function sndHit(){playTone(150,0.08,0.12,'sawtooth',100);}
+function sndKill(){playTone(200,0.06,0.15,'sawtooth',400);setTimeout(function(){playTone(500,0.08,0.1,'square',200);},60);}
+function sndHurt(){playTone(200,0.1,0.15,'sawtooth',80);}
+function sndPickup(){playTone(500,0.05,0.1,'sine',800);setTimeout(function(){playTone(700,0.05,0.1,'sine',900);},50);}
+function sndLevelUp(){playTone(400,0.08,0.12,'square');setTimeout(function(){playTone(500,0.08,0.12,'square');},100);setTimeout(function(){playTone(700,0.12,0.15,'square');},200);}
+function sndStairs(){playTone(400,0.15,0.1,'triangle',200);}
+function sndPotion(){playTone(600,0.04,0.08,'sine',400);setTimeout(function(){playTone(400,0.04,0.08,'sine',700);},50);setTimeout(function(){playTone(700,0.04,0.08,'sine',500);},100);}
+function sndDeath(){playTone(300,0.15,0.15,'sawtooth',200);setTimeout(function(){playTone(250,0.15,0.12,'sawtooth',150);},180);setTimeout(function(){playTone(200,0.2,0.12,'sawtooth',80);},360);}
+function sndWin(){playTone(400,0.1,0.12,'square',500);setTimeout(function(){playTone(500,0.1,0.12,'square',600);},120);setTimeout(function(){playTone(600,0.1,0.12,'square',700);},240);setTimeout(function(){playTone(700,0.15,0.15,'square',900);},360);}
+
+// ═══════════════════════════════════════════════════
+// UTILITIES
+// ═══════════════════════════════════════════════════
+function rand(a,b){return a+Math.floor(Math.random()*(b-a+1));}
+function clamp(v,lo,hi){return v<lo?lo:v>hi?hi:v;}
+function dist(x1,y1,x2,y2){return Math.abs(x1-x2)+Math.abs(y1-y2);}
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+// ═══════════════════════════════════════════════════
+// DUNGEON GENERATION
+// ═══════════════════════════════════════════════════
+function generateLevel(fl){
+  map=[];visible=[];explored=[];
+  for(var y=0;y<MAP_H;y++){
+    map[y]=[];visible[y]=[];explored[y]=[];
+    for(var x=0;x<MAP_W;x++){map[y][x]=WALL;visible[y][x]=false;explored[y][x]=false;}
+  }
+  rooms=[];
+  var attempts=0,target=rand(MIN_ROOMS,MAX_ROOMS);
+  while(rooms.length<target&&attempts<300){
+    var rw=rand(4,10),rh=rand(3,7);
+    var rx=rand(1,MAP_W-rw-2),ry=rand(1,MAP_H-rh-2);
+    var ok=true;
+    for(var i=0;i<rooms.length;i++){
+      var r=rooms[i];
+      if(rx<=r.x+r.w&&rx+rw>=r.x-1&&ry<=r.y+r.h&&ry+rh>=r.y-1){ok=false;break;}
+    }
+    if(ok){
+      rooms.push({x:rx,y:ry,w:rw,h:rh});
+      for(var y=ry;y<ry+rh;y++)for(var x=rx;x<rx+rw;x++)map[y][x]=FLOOR;
+    }
+    attempts++;
+  }
+  if(rooms.length<2){rooms=[];rooms.push({x:2,y:2,w:8,h:5});rooms.push({x:20,y:10,w:8,h:5});
+    for(var i=0;i<rooms.length;i++){var r=rooms[i];for(var y=r.y;y<r.y+r.h;y++)for(var x=r.x;x<r.x+r.w;x++)map[y][x]=FLOOR;}}
+  // Connect rooms
+  for(var i=0;i<rooms.length-1;i++)connectRooms(rooms[i],rooms[i+1]);
+  // Extra connections for loops
+  if(rooms.length>3){var ei=rand(0,rooms.length-3);connectRooms(rooms[ei],rooms[ei+2]);}
+  // Place doors
+  placeDoors();
+  // Stairs
+  var startR=rooms[0],endR=rooms[rooms.length-1];
+  if(fl<MAX_FLOOR){
+    var sx=rand(endR.x,endR.x+endR.w-1),sy=rand(endR.y,endR.y+endR.h-1);
+    map[sy][sx]=DN;
+  }
+  if(fl>1){
+    var ux=rand(startR.x,startR.x+startR.w-1),uy=rand(startR.y,startR.y+startR.h-1);
+    map[uy][ux]=UP;
+  }
+  // Player position
+  player.x=rand(startR.x,startR.x+startR.w-1);
+  player.y=rand(startR.y,startR.y+startR.h-1);
+  // Spawn monsters
+  monsters=[];
+  var mc=rand(3,3+Math.floor(fl*0.5));
+  for(var i=0;i<mc;i++)spawnMonster(fl);
+  // Spawn items
+  items=[];
+  var ic=rand(3,4+Math.floor(fl*0.4));
+  for(var i=0;i<ic;i++)spawnItem(fl);
+  // Gold piles
+  var gc=rand(1,3);
+  for(var i=0;i<gc;i++){
+    var p=randFloor();
+    if(p)items.push({x:p.x,y:p.y,type:'gold',id:'gold',amount:rand(5,10+fl*3),ch:'*',color:'#ffff55'});
+  }
+  // Amulet on final floor
+  if(fl===MAX_FLOOR){
+    var ar=rooms[rand(1,rooms.length-1)];
+    var ax=rand(ar.x,ar.x+ar.w-1),ay=rand(ar.y,ar.y+ar.h-1);
+    items.push({x:ax,y:ay,type:'amulet',id:'amulet',ch:'\u2666',color:'#ff55ff'}); // ♦ diamond
+  }
+  updateFOV();
+}
+
+function connectRooms(r1,r2){
+  var x1=Math.floor(r1.x+r1.w/2),y1=Math.floor(r1.y+r1.h/2);
+  var x2=Math.floor(r2.x+r2.w/2),y2=Math.floor(r2.y+r2.h/2);
+  if(Math.random()<0.5){carveH(x1,x2,y1);carveV(y1,y2,x2);}
+  else{carveV(y1,y2,x1);carveH(x1,x2,y2);}
+}
+function carveH(x1,x2,y){
+  var s=Math.min(x1,x2),e=Math.max(x1,x2);
+  for(var x=s;x<=e;x++){if(y>=0&&y<MAP_H&&x>=0&&x<MAP_W&&map[y][x]===WALL)map[y][x]=CORR;}
+}
+function carveV(y1,y2,x){
+  var s=Math.min(y1,y2),e=Math.max(y1,y2);
+  for(var y=s;y<=e;y++){if(y>=0&&y<MAP_H&&x>=0&&x<MAP_W&&map[y][x]===WALL)map[y][x]=CORR;}
+}
+function placeDoors(){
+  for(var i=0;i<rooms.length;i++){
+    var r=rooms[i];
+    for(var x=r.x;x<r.x+r.w;x++){
+      if(r.y>0&&map[r.y-1][x]===CORR)map[r.y-1][x]=DOOR;
+      if(r.y+r.h<MAP_H&&map[r.y+r.h][x]===CORR)map[r.y+r.h][x]=DOOR;
+    }
+    for(var y=r.y;y<r.y+r.h;y++){
+      if(r.x>0&&map[y][r.x-1]===CORR)map[y][r.x-1]=DOOR;
+      if(r.x+r.w<MAP_W&&map[y][r.x+r.w]===CORR)map[y][r.x+r.w]=DOOR;
+    }
+  }
+}
+function randFloor(){
+  for(var a=0;a<100;a++){
+    var ri=rand(0,rooms.length-1),r=rooms[ri];
+    var x=rand(r.x,r.x+r.w-1),y=rand(r.y,r.y+r.h-1);
+    if(map[y][x]===FLOOR&&!(x===player.x&&y===player.y)){
+      var ok=true;
+      for(var j=0;j<monsters.length;j++){if(monsters[j].x===x&&monsters[j].y===y){ok=false;break;}}
+      if(ok)for(var j=0;j<items.length;j++){if(items[j].x===x&&items[j].y===y){ok=false;break;}}
+      if(ok)return{x:x,y:y};
+    }
+  }
+  return null;
+}
+
+// ═══════════════════════════════════════════════════
+// SPAWN
+// ═══════════════════════════════════════════════════
+function spawnMonster(fl){
+  var eligible=[];
+  for(var i=0;i<MDEFS.length;i++){if(MDEFS[i].mn<=fl)eligible.push(MDEFS[i]);}
+  if(!eligible.length)return;
+  // Bias toward harder monsters on deeper floors
+  var def=eligible[rand(Math.max(0,eligible.length-4),eligible.length-1)];
+  var p=randFloor();
+  if(!p)return;
+  var sc=1+fl*0.08; // scaling
+  monsters.push({
+    x:p.x,y:p.y,ch:def.ch,hp:Math.ceil(def.hp*sc),maxHp:Math.ceil(def.hp*sc),
+    atk:Math.ceil(def.atk*sc),def:def.def,xp:def.xp,awake:false
+  });
+}
+function spawnItem(fl){
+  var p=randFloor();if(!p)return;
+  var roll=Math.random();
+  if(roll<0.25){
+    // Weapon
+    var eligible=WEAPONS.filter(function(w){return w.mn<=fl+1;});
+    var w=eligible[rand(0,eligible.length-1)];
+    items.push({x:p.x,y:p.y,type:'weapon',id:w.id,bonus:w.bonus,ch:')',color:'#ffffff'});
+  }else if(roll<0.45){
+    // Armor
+    var eligible=ARMORS.filter(function(a){return a.mn<=fl+1;});
+    var a=eligible[rand(0,eligible.length-1)];
+    items.push({x:p.x,y:p.y,type:'armor',id:a.id,bonus:a.bonus,ch:']',color:'#5555ff'});
+  }else if(roll<0.65){
+    // Potion
+    var pot=POTIONS[rand(0,POTIONS.length-1)];
+    items.push({x:p.x,y:p.y,type:'potion',id:pot.id,effect:pot.effect,ch:'!',color:'#ff55ff'});
+  }else if(roll<0.80){
+    // Scroll
+    var sc=SCROLLS[rand(0,SCROLLS.length-1)];
+    items.push({x:p.x,y:p.y,type:'scroll',id:sc.id,effect:sc.effect,ch:'?',color:'#55ffff'});
+  }else{
+    // Food
+    items.push({x:p.x,y:p.y,type:'food',id:'food',ch:':',color:'#aa5500'});
+  }
+}
+
+// ═══════════════════════════════════════════════════
+// FOV
+// ═══════════════════════════════════════════════════
+function updateFOV(){
+  for(var y=0;y<MAP_H;y++)for(var x=0;x<MAP_W;x++)visible[y][x]=false;
+  var pr=getPlayerRoom();
+  if(pr){
+    for(var y=pr.y-1;y<=pr.y+pr.h;y++)
+      for(var x=pr.x-1;x<=pr.x+pr.w;x++)
+        if(x>=0&&x<MAP_W&&y>=0&&y<MAP_H){visible[y][x]=true;explored[y][x]=true;}
+  }
+  // Adjacent tiles always visible
+  for(var dy=-1;dy<=1;dy++)for(var dx=-1;dx<=1;dx++){
+    var nx=player.x+dx,ny=player.y+dy;
+    if(nx>=0&&nx<MAP_W&&ny>=0&&ny<MAP_H){visible[ny][nx]=true;explored[ny][nx]=true;}
+  }
+  // Extended corridor vision
+  if(!pr){
+    for(var dy=-2;dy<=2;dy++)for(var dx=-2;dx<=2;dx++){
+      var nx=player.x+dx,ny=player.y+dy;
+      if(nx>=0&&nx<MAP_W&&ny>=0&&ny<MAP_H&&map[ny][nx]!==WALL){visible[ny][nx]=true;explored[ny][nx]=true;}
+    }
+  }
+}
+function getPlayerRoom(){
+  for(var i=0;i<rooms.length;i++){
+    var r=rooms[i];
+    if(player.x>=r.x&&player.x<r.x+r.w&&player.y>=r.y&&player.y<r.y+r.h)return r;
+  }
+  return null;
+}
+function inSameRoom(ax,ay,bx,by){
+  for(var i=0;i<rooms.length;i++){
+    var r=rooms[i];
+    if(ax>=r.x&&ax<r.x+r.w&&ay>=r.y&&ay<r.y+r.h&&bx>=r.x&&bx<r.x+r.w&&by>=r.y&&by<r.y+r.h)return true;
+  }
+  return false;
+}
+
+// ═══════════════════════════════════════════════════
+// COMBAT
+// ═══════════════════════════════════════════════════
+function doAttack(atkSTR,atkLvl,defDEF){
+  var atk=atkSTR+rand(0,atkLvl);
+  var def=defDEF+rand(0,2);
+  var dmg=atk-def;
+  if(dmg<=0)return 0;
+  return Math.max(1,dmg);
+}
+function playerAttack(m){
+  var wpnBonus=player.weapon?player.weapon.bonus:0;
+  var dmg=doAttack(player.str+wpnBonus,player.level,m.def);
+  if(dmg>0){
+    m.hp-=dmg;
+    addMsg(tf('hit',mn(m.ch),dmg));
+    sndHit();
+    if(m.hp<=0){
+      addMsg(tf('kill',mn(m.ch)),'good');
+      sndKill();
+      player.xp+=m.xp;
+      checkLevelUp();
+      monsters.splice(monsters.indexOf(m),1);
+    }
+  }else{
+    addMsg(tf('miss',mn(m.ch)));
+  }
+}
+function monsterAttack(m){
+  var armBonus=player.armor?player.armor.bonus:0;
+  var dmg=doAttack(m.atk,1,player.def+armBonus);
+  if(dmg>0){
+    player.hp-=dmg;
+    addMsg(tf('m_hit',mn(m.ch),dmg),'warn');
+    sndHurt();
+    if(player.hp<=0){
+      player.hp=0;
+      addMsg(t('game_over'),'warn');
+      player.killedBy=mn(m.ch);
+      gameOver();
+    }
+  }else{
+    addMsg(tf('m_miss',mn(m.ch)));
+  }
+}
+function checkLevelUp(){
+  while(player.level<XP_TABLE.length&&player.xp>=XP_TABLE[player.level]){
+    player.level++;
+    player.maxHp+=5;
+    player.hp=player.maxHp;
+    player.str+=1;
+    player.def+=1;
+    addMsg(tf('lvl_up',player.level),'good');
+    sndLevelUp();
+  }
+}
+
+// ═══════════════════════════════════════════════════
+// PLAYER ACTIONS
+// ═══════════════════════════════════════════════════
+function movePlayer(dx,dy){
+  if(state!==ST_PLAY)return;
+  var nx=player.x+dx,ny=player.y+dy;
+  if(nx<0||nx>=MAP_W||ny<0||ny>=MAP_H)return;
+  var tile=map[ny][nx];
+  if(tile===WALL)return;
+  // Monster?
+  for(var i=0;i<monsters.length;i++){
+    if(monsters[i].x===nx&&monsters[i].y===ny){
+      playerAttack(monsters[i]);
+      endTurn();
+      return;
+    }
+  }
+  player.x=nx;player.y=ny;
+  sndStep();
+  // Auto-pickup gold
+  for(var i=items.length-1;i>=0;i--){
+    var it=items[i];
+    if(it.x===nx&&it.y===ny&&it.type==='gold'){
+      player.gold+=it.amount;
+      addMsg(tf('gold_get',it.amount),'item');
+      sndPickup();
+      items.splice(i,1);
+    }
+  }
+  // Check for amulet
+  for(var i=items.length-1;i>=0;i--){
+    var it=items[i];
+    if(it.x===nx&&it.y===ny&&it.type==='amulet'){
+      items.splice(i,1);
+      sndWin();
+      winGame();
+      return;
+    }
+  }
+  updateFOV();
+  endTurn();
+}
+function pickUp(){
+  if(state!==ST_PLAY)return;
+  for(var i=items.length-1;i>=0;i--){
+    var it=items[i];
+    if(it.x===player.x&&it.y===player.y&&it.type!=='gold'){
+      if(player.inv.length>=MAX_INV){addMsg(t('inv_full'),'warn');return;}
+      player.inv.push(it);
+      items.splice(i,1);
+      addMsg(tf('pickup',itemName(it)),'item');
+      sndPickup();
+      endTurn();
+      return;
+    }
+  }
+  addMsg(t('nothing_here'));
+}
+function descend(){
+  if(state!==ST_PLAY)return;
+  if(map[player.y][player.x]===DN){
+    dFloor++;
+    sndStairs();
+    addMsg(tf('descend',dFloor));
+    generateLevel(dFloor);
+    dirty=true;
+  }else if(map[player.y][player.x]===UP){
+    // Could add ascending, but classic Rogue is down only until amulet
+    addMsg(t('no_stairs'));
+  }else{
+    addMsg(t('no_stairs'));
+  }
+}
+function waitTurn(){
+  if(state!==ST_PLAY)return;
+  endTurn();
+}
+function endTurn(){
+  turnCount++;
+  // Hunger
+  player.hunger=Math.max(0,player.hunger-1);
+  if(player.hunger===0){
+    player.hp--;
+    if(player.hp<=0){
+      player.hp=0;
+      player.killedBy=t('the_hunger');
+      gameOver();
+      return;
+    }
+  }
+  // Monster turns
+  processMonsters();
+  dirty=true;
+}
+
+// ═══════════════════════════════════════════════════
+// INVENTORY
+// ═══════════════════════════════════════════════════
+function itemName(it){
+  var n=itn(it.id);
+  if(it.type==='weapon')n+=' (+'+it.bonus+')';
+  if(it.type==='armor')n+=' (+'+it.bonus+')';
+  return n;
+}
+function equipItem(idx){
+  var it=player.inv[idx];
+  if(!it)return;
+  if(it.type==='weapon'){
+    if(player.weapon===it){player.weapon=null;addMsg(tf('unequip',itemName(it)));
+    }else{player.weapon=it;addMsg(tf('equip',itemName(it)),'item');}
+  }else if(it.type==='armor'){
+    if(player.armor===it){player.armor=null;addMsg(tf('unequip',itemName(it)));
+    }else{player.armor=it;addMsg(tf('equip',itemName(it)),'item');}
+  }
+  dirty=true;
+}
+function useItem(idx){
+  var it=player.inv[idx];
+  if(!it)return;
+  if(it.type==='potion'){
+    player.inv.splice(idx,1);
+    if(player.weapon===it)player.weapon=null;
+    if(player.armor===it)player.armor=null;
+    if(it.effect==='heal'){var h=Math.min(10,player.maxHp-player.hp);player.hp+=h;addMsg(tf('heal',h),'good');sndPotion();}
+    else if(it.effect==='xheal'){var h=Math.min(25,player.maxHp-player.hp);player.hp+=h;addMsg(tf('heal',h),'good');sndPotion();}
+    else if(it.effect==='str'){player.str++;addMsg(t('str_up'),'good');sndPotion();}
+    else if(it.effect==='poison'){player.hp=Math.max(1,player.hp-3);player.str=Math.max(1,player.str-1);addMsg(t('poison'),'warn');sndHurt();}
+    addMsg(tf('use_item',itemName(it)),'item');
+    endTurn();
+  }else if(it.type==='scroll'){
+    player.inv.splice(idx,1);
+    if(player.weapon===it)player.weapon=null;
+    if(player.armor===it)player.armor=null;
+    if(it.effect==='teleport'){
+      var r=rooms[rand(0,rooms.length-1)];
+      player.x=rand(r.x,r.x+r.w-1);player.y=rand(r.y,r.y+r.h-1);
+      updateFOV();addMsg(t('teleport'),'item');sndStairs();
+    }else if(it.effect==='map'){
+      for(var y=0;y<MAP_H;y++)for(var x=0;x<MAP_W;x++)explored[y][x]=true;
+      addMsg(t('map_reveal'),'item');sndPickup();
+    }else if(it.effect==='lightning'){
+      var count=0;
+      for(var i=monsters.length-1;i>=0;i--){
+        if(visible[monsters[i].y][monsters[i].x]){monsters[i].hp-=8;count++;
+          if(monsters[i].hp<=0){player.xp+=monsters[i].xp;monsters.splice(i,1);}
+        }
+      }
+      addMsg(t('lightning'),'good');sndKill();checkLevelUp();
+    }else if(it.effect==='identify'){
+      addMsg(t('identify'),'item');sndPickup();
+    }
+    addMsg(tf('use_item',itemName(it)),'item');
+    endTurn();
+  }else if(it.type==='food'){
+    player.inv.splice(idx,1);
+    player.hunger=Math.min(500,player.hunger+150);
+    addMsg(t('eat'),'good');sndPotion();
+    endTurn();
+  }
+}
+function dropItem(idx){
+  var it=player.inv[idx];
+  if(!it)return;
+  if(player.weapon===it)player.weapon=null;
+  if(player.armor===it)player.armor=null;
+  it.x=player.x;it.y=player.y;
+  items.push(it);
+  player.inv.splice(idx,1);
+  addMsg(tf('drop_item',itemName(it)));
+  endTurn();
+  dirty=true;
+}
+
+// ═══════════════════════════════════════════════════
+// MONSTER AI
+// ═══════════════════════════════════════════════════
+function processMonsters(){
+  for(var i=0;i<monsters.length;i++){
+    var m=monsters[i];
+    // Wake up if visible
+    if(visible[m.y][m.x]||inSameRoom(m.x,m.y,player.x,player.y)||dist(m.x,m.y,player.x,player.y)<=3)m.awake=true;
+    if(!m.awake)continue;
+    var dx=player.x-m.x,dy=player.y-m.y;
+    // Adjacent? Attack
+    if(Math.abs(dx)<=1&&Math.abs(dy)<=1){
+      monsterAttack(m);
+      if(state===ST_OVER)return;
+      continue;
+    }
+    // Move toward player (simple pathfinding)
+    var sx=dx>0?1:dx<0?-1:0;
+    var sy=dy>0?1:dy<0?-1:0;
+    // Try primary direction, then alternates
+    var moves=[];
+    if(sx!==0&&sy!==0)moves.push([sx,sy]);
+    if(sx!==0)moves.push([sx,0]);
+    if(sy!==0)moves.push([0,sy]);
+    // Random wander if can't see player
+    if(!visible[m.y][m.x]&&!inSameRoom(m.x,m.y,player.x,player.y)){
+      moves=[]; var dirs=[[-1,0],[1,0],[0,-1],[0,1]];
+      var d=dirs[rand(0,3)];moves.push(d);
+    }
+    var moved=false;
+    for(var j=0;j<moves.length&&!moved;j++){
+      var nx=m.x+moves[j][0],ny=m.y+moves[j][1];
+      if(nx<0||nx>=MAP_W||ny<0||ny>=MAP_H)continue;
+      var t2=map[ny][nx];
+      if(t2===WALL)continue;
+      if(nx===player.x&&ny===player.y)continue;
+      var blocked=false;
+      for(var k=0;k<monsters.length;k++){if(k!==i&&monsters[k].x===nx&&monsters[k].y===ny){blocked=true;break;}}
+      if(!blocked){m.x=nx;m.y=ny;moved=true;}
+    }
+  }
+}
+
+// ═══════════════════════════════════════════════════
+// MESSAGES
+// ═══════════════════════════════════════════════════
+function addMsg(text,cls){
+  messages.push({text:text,cls:cls||''});
+  if(messages.length>50)messages.shift();
+  showMessages();
+}
+function showMessages(){
+  var last=messages.slice(-3);
+  var html='';
+  for(var i=0;i<last.length;i++){
+    var c=last[i].cls?'msg-'+last[i].cls:'';
+    html+='<div'+(c?' class="'+c+'"':'')+'>'+ esc(last[i].text)+'</div>';
+  }
+  msgsEl.innerHTML=html;
+}
+
+// ═══════════════════════════════════════════════════
+// CGA/DOS COLOR PALETTE
+// ═══════════════════════════════════════════════════
+// Mimics the classic CGA 16-color palette
+var CGA={
+  BLACK:'#000000',BLUE:'#0000aa',GREEN:'#00aa00',CYAN:'#00aaaa',
+  RED:'#aa0000',MAGENTA:'#aa00aa',BROWN:'#aa5500',LGRAY:'#aaaaaa',
+  DGRAY:'#555555',LBLUE:'#5555ff',LGREEN:'#55ff55',LCYAN:'#55ffff',
+  LRED:'#ff5555',LMAGENTA:'#ff55ff',YELLOW:'#ffff55',WHITE:'#ffffff'
+};
+// Monster colors by character (varies by danger)
+var MCOL={
+  B:CGA.BROWN,K:CGA.GREEN,S:CGA.LGREEN,E:CGA.BROWN,
+  H:CGA.CYAN,O:CGA.LRED,Z:CGA.DGRAY,C:CGA.YELLOW,
+  T:CGA.LGREEN,W:CGA.LMAGENTA,G:CGA.LCYAN,V:CGA.LRED,D:CGA.LRED
+};
+
+// ═══════════════════════════════════════════════════
+// ROOM WALL DETECTION (for box-drawing characters)
+// ═══════════════════════════════════════════════════
+function getWallChar(mx,my){
+  // Determine if this wall tile borders a room, and which box-drawing char to use
+  // Check adjacency to non-wall tiles
+  var up=my>0&&map[my-1][mx]!==WALL;
+  var dn=my<MAP_H-1&&map[my+1][mx]!==WALL;
+  var lt=mx>0&&map[my][mx-1]!==WALL;
+  var rt=mx<MAP_W-1&&map[my][mx+1]!==WALL;
+  // Check adjacency to other wall tiles
+  var wUp=my>0&&map[my-1][mx]===WALL;
+  var wDn=my<MAP_H-1&&map[my+1][mx]===WALL;
+  var wLt=mx>0&&map[my][mx-1]===WALL;
+  var wRt=mx<MAP_W-1&&map[my][mx+1]===WALL;
+  // Check if this wall is part of a room border
+  var isRoomWall=false;
+  for(var i=0;i<rooms.length;i++){
+    var r=rooms[i];
+    // Wall is adjacent to this room (on the border ring)
+    if(mx>=r.x-1&&mx<=r.x+r.w&&my>=r.y-1&&my<=r.y+r.h){
+      if(mx===r.x-1||mx===r.x+r.w||my===r.y-1||my===r.y+r.h){
+        isRoomWall=true;break;
+      }
+    }
+  }
+  if(!isRoomWall)return '\u2591'; // ░ for non-room walls (corridor walls)
+  // Determine corner vs edge
+  // Top-left corner: floor to bottom-right
+  var flDR=mx<MAP_W-1&&my<MAP_H-1&&map[my+1][mx+1]!==WALL;
+  var flDL=mx>0&&my<MAP_H-1&&map[my+1][mx-1]!==WALL;
+  var flUR=mx<MAP_W-1&&my>0&&map[my-1][mx+1]!==WALL;
+  var flUL=mx>0&&my>0&&map[my-1][mx-1]!==WALL;
+  // Corner detection: check if two perpendicular sides have wall neighbors
+  // and the diagonal has floor
+  if(wDn&&wRt&&flDR&&!dn&&!rt)return '\u2554'; // ╔ top-left
+  if(wDn&&wLt&&flDL&&!dn&&!lt)return '\u2557'; // ╗ top-right
+  if(wUp&&wRt&&flUR&&!up&&!rt)return '\u255A'; // ╚ bottom-left
+  if(wUp&&wLt&&flUL&&!up&&!lt)return '\u255D'; // ╝ bottom-right
+  // Horizontal wall (floor above or below)
+  if(up||dn)return '\u2550'; // ═ horizontal
+  // Vertical wall (floor left or right)
+  if(lt||rt)return '\u2551'; // ║ vertical
+  // Default wall
+  return '\u2588'; // █ solid block
+}
+
+// ═══════════════════════════════════════════════════
+// RENDERING
+// ═══════════════════════════════════════════════════
+function resizeCanvas(){
+  var wrap=document.getElementById('rogue-canvas-wrap');
+  var w=wrap.clientWidth,h=wrap.clientHeight;
+  fontSize=Math.max(11,Math.min(20,Math.floor(w/32)));
+  canvas.width=w;canvas.height=h;
+  ctx.font=fontSize+'px "Courier New",Courier,monospace';
+  cellW=ctx.measureText('M').width;
+  cellH=fontSize;
+  viewCols=Math.min(MAP_W,Math.floor(w/cellW));
+  viewRows=Math.min(MAP_H,Math.floor(h/cellH));
+}
+function render(){
+  if(!dirty&&state===ST_PLAY){animFrame=requestAnimationFrame(render);return;}
+  dirty=false;
+  ctx.fillStyle=CGA.BLACK;
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+  if(state===ST_TITLE){animFrame=requestAnimationFrame(render);return;}
+  if(!map||!map.length){animFrame=requestAnimationFrame(render);return;}
+  ctx.font=fontSize+'px "Courier New",Courier,monospace';
+  ctx.textBaseline='top';
+  var vx=clamp(player.x-Math.floor(viewCols/2),0,Math.max(0,MAP_W-viewCols));
+  var vy=clamp(player.y-Math.floor(viewRows/2),0,Math.max(0,MAP_H-viewRows));
+  var now=Date.now();
+  for(var row=0;row<viewRows;row++){
+    for(var col=0;col<viewCols;col++){
+      var mx=vx+col,my=vy+row;
+      if(mx>=MAP_W||my>=MAP_H)continue;
+      var ch='',color=CGA.BLACK;
+      if(mx===player.x&&my===player.y){
+        ch='\u263A';color=CGA.YELLOW; // ☺ smiley face player
+      }else if(visible[my][mx]){
+        // Monster?
+        var mon=null;
+        for(var mi=0;mi<monsters.length;mi++){if(monsters[mi].x===mx&&monsters[mi].y===my){mon=monsters[mi];break;}}
+        if(mon){ch=mon.ch;color=MCOL[mon.ch]||CGA.LRED;}
+        else{
+          // Item?
+          var itm=null;
+          for(var ii=0;ii<items.length;ii++){if(items[ii].x===mx&&items[ii].y===my){itm=items[ii];break;}}
+          if(itm){
+            ch=itm.ch;color=itm.color||CGA.WHITE;
+            if(itm.type==='amulet'){
+              var pulse=0.6+0.4*Math.sin(now*0.005);
+              var g=Math.floor(pulse*85);
+              color='rgb(255,'+g+',255)';
+              dirty=true; // keep animating
+            }
+          }else{
+            var tile=map[my][mx];
+            if(tile===WALL){ch=getWallChar(mx,my);color=CGA.BROWN;}
+            else if(tile===FLOOR){ch='\u00B7';color=CGA.DGRAY;} // · middle dot
+            else if(tile===CORR){ch='\u2591';color=CGA.DGRAY;} // ░ light shade
+            else if(tile===DOOR){ch='+';color=CGA.YELLOW;}
+            else if(tile===DN){ch='\u2261';color=CGA.LGREEN;} // ≡ stairs
+            else if(tile===UP){ch='\u2261';color=CGA.LGREEN;} // ≡ stairs
+          }
+        }
+      }else if(explored[my][mx]){
+        var tile=map[my][mx];
+        if(tile===WALL){ch=getWallChar(mx,my);color='#442200';}
+        else if(tile===FLOOR){ch='\u00B7';color='#222222';}
+        else if(tile===CORR){ch='\u2591';color='#222222';}
+        else if(tile===DOOR){ch='+';color='#443300';}
+        else if(tile===DN){ch='\u2261';color='#003300';}
+        else if(tile===UP){ch='\u2261';color='#003300';}
+      }
+      if(ch){
+        ctx.fillStyle=color;
+        ctx.fillText(ch,col*cellW,row*cellH);
+      }
+    }
+  }
+  // Stats
+  updateStats();
+  animFrame=requestAnimationFrame(render);
+}
+function updateStats(){
+  if(!player)return;
+  var hungerLvl;
+  if(player.hunger>250)hungerLvl=t('full');
+  else if(player.hunger>150)hungerLvl=t('normal');
+  else if(player.hunger>75)hungerLvl=t('hungry');
+  else if(player.hunger>30)hungerLvl=t('weak');
+  else if(player.hunger>0)hungerLvl=t('faint');
+  else hungerLvl=t('starving');
+  var hungerCls=player.hunger<=30?'stat-warn':player.hunger>250?'stat-good':'';
+  var hpCls=player.hp<=player.maxHp*0.3?'stat-warn':'';
+  statsEl.innerHTML=
+    '<span class="'+hpCls+'">HP:'+player.hp+'/'+player.maxHp+'</span>'+
+    '<span>STR:'+player.str+(player.weapon?'+'+player.weapon.bonus:'')+'</span>'+
+    '<span>DEF:'+player.def+(player.armor?'+'+player.armor.bonus:'')+'</span>'+
+    '<span>Lv:'+player.level+'</span>'+
+    '<span>XP:'+player.xp+'</span>'+
+    '<span style="color:#ffff55">Au:'+player.gold+'</span>'+
+    '<span>'+t('floor')+':'+dFloor+'</span>'+
+    '<span class="'+hungerCls+'">'+hungerLvl+'</span>';
+}
+
+// ═══════════════════════════════════════════════════
+// OVERLAYS
+// ═══════════════════════════════════════════════════
+function showOverlay(html){overlay.innerHTML=html;overlay.classList.add('show');}
+function hideOverlay(){overlay.classList.remove('show');overlay.innerHTML='';}
+
+function showTitle(){
+  state=ST_TITLE;
+  var ascii=
+' \u2554\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2557\n'+
+' \u2551  ____   ___   ____ _   _ _____  \u2551\n'+
+' \u2551 |  _ \\ / _ \\ / ___| | | | ____| \u2551\n'+
+' \u2551 | |_) | | | | |  _| | | |  _|   \u2551\n'+
+' \u2551 |  _ <| |_| | |_| | |_| | |___  \u2551\n'+
+' \u2551 |_| \\_\\\\___/ \\____|\\___/|_____| \u2551\n'+
+' \u255A\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u255D\n';
+  var h='<div class="ascii-title">'+esc(ascii)+'</div>';
+  h+='<div class="ov-sub" style="color:#aa5500;">'+esc(t('subtitle'))+'</div>';
+  h+='<div class="lang-grid">';
+  for(var i=0;i<LANGS.length;i++){
+    h+='<button class="lang-btn'+(i===li?' sel':'')+'" data-li="'+i+'">'+LANG_LABELS[i]+'</button>';
+  }
+  h+='</div>';
+  h+='<div class="instructions">'+esc(t('instructions')).replace(/\n/g,'<br>')+'</div>';
+  h+='<div class="ov-sub">'+esc(t('press_start'))+'</div>';
+  h+='<button class="ov-btn start-btn">'+esc(t('start'))+'</button>';
+  showOverlay(h);
+  // Event listeners
+  var langBtns=overlay.querySelectorAll('.lang-btn');
+  for(var i=0;i<langBtns.length;i++){
+    langBtns[i].addEventListener('click',function(e){
+      li=parseInt(this.dataset.li);
+      showTitle(); // re-render
+    });
+  }
+  var startBtn=overlay.querySelector('.start-btn');
+  if(startBtn)startBtn.addEventListener('click',function(){ensureAudio();startGame();});
+}
+
+function showInventoryOv(){
+  state=ST_INV;
+  var h='<div class="ov-title">'+esc(t('inventory'))+'</div>';
+  h+='<div class="inv-list">';
+  if(!player.inv.length){h+='<div class="ov-sub" style="margin:20px 0;">'+esc(t('nothing_here'))+'</div>';}
+  for(var i=0;i<player.inv.length;i++){
+    var it=player.inv[i];
+    var slot=String.fromCharCode(97+i);
+    var eqp='';
+    if(player.weapon===it)eqp=' [W]';
+    if(player.armor===it)eqp=' [A]';
+    h+='<div class="inv-row" data-idx="'+i+'">';
+    h+='<span class="inv-slot">'+slot+'</span>';
+    h+='<span class="inv-name">'+esc(itemName(it)+(eqp))+'</span>';
+    h+='<span class="inv-acts">';
+    if(it.type==='weapon'||it.type==='armor')h+='<button class="inv-act" data-act="equip" data-idx="'+i+'">'+esc(t('btn_eqp'))+'</button>';
+    if(it.type==='potion'||it.type==='scroll'||it.type==='food')h+='<button class="inv-act" data-act="use" data-idx="'+i+'">'+esc(t('btn_use'))+'</button>';
+    h+='<button class="inv-act" data-act="drop" data-idx="'+i+'">DROP</button>';
+    h+='</span></div>';
+  }
+  h+='</div>';
+  h+='<button class="ov-btn close-btn">'+esc(t('close'))+'</button>';
+  showOverlay(h);
+  // Events
+  var acts=overlay.querySelectorAll('.inv-act');
+  for(var i=0;i<acts.length;i++){
+    acts[i].addEventListener('click',function(e){
+      e.stopPropagation();
+      var idx=parseInt(this.dataset.idx);
+      var act=this.dataset.act;
+      hideOverlay();
+      state=ST_PLAY;
+      if(act==='equip')equipItem(idx);
+      else if(act==='use')useItem(idx);
+      else if(act==='drop')dropItem(idx);
+      dirty=true;
+    });
+  }
+  overlay.querySelector('.close-btn').addEventListener('click',function(){hideOverlay();state=ST_PLAY;dirty=true;});
+}
+
+function showItemPrompt(titleKey,filterFn,cb){
+  state=ST_PROMPT;
+  promptCb=cb;
+  var eligible=[];
+  for(var i=0;i<player.inv.length;i++){if(filterFn(player.inv[i]))eligible.push({item:player.inv[i],idx:i});}
+  if(!eligible.length){
+    state=ST_PLAY;
+    if(titleKey==='use_which')addMsg(t('nothing_use'));
+    else if(titleKey==='equip_which')addMsg(t('nothing_equip'));
+    else addMsg(t('nothing_drop'));
+    dirty=true;return;
+  }
+  var h='<div class="ov-title">'+esc(t(titleKey))+'</div>';
+  h+='<div class="prompt-box">';
+  for(var i=0;i<eligible.length;i++){
+    var e=eligible[i];
+    var slot=String.fromCharCode(97+e.idx);
+    var eqp='';
+    if(player.weapon===e.item)eqp=' [W]';
+    if(player.armor===e.item)eqp=' [A]';
+    h+='<div class="prompt-row" data-idx="'+e.idx+'">';
+    h+='<span class="prompt-slot">'+slot+'</span>';
+    h+='<span class="prompt-name">'+esc(itemName(e.item)+eqp)+'</span>';
+    h+='</div>';
+  }
+  h+='</div>';
+  h+='<button class="ov-btn red cancel-btn">'+esc(t('cancel'))+'</button>';
+  showOverlay(h);
+  var rows=overlay.querySelectorAll('.prompt-row');
+  for(var i=0;i<rows.length;i++){
+    rows[i].addEventListener('click',function(){
+      var idx=parseInt(this.dataset.idx);
+      hideOverlay();state=ST_PLAY;
+      promptCb(idx);dirty=true;
+    });
+  }
+  overlay.querySelector('.cancel-btn').addEventListener('click',function(){hideOverlay();state=ST_PLAY;dirty=true;});
+}
+
+function showGameOverOv(){
+  var h='<div class="ov-title" style="color:#ff5555;">'+esc(t('game_over'))+'</div>';
+  h+='<div class="ov-sub">'+esc(tf('died',dFloor))+'</div>';
+  if(player.killedBy)h+='<div class="ov-sub" style="color:#ff5555;">'+esc(tf('killed_by',player.killedBy))+'</div>';
+  h+='<div class="ov-score" style="color:#ffff55;">'+esc(t('score'))+': '+(player.gold+player.xp)+'</div>';
+  h+='<div class="ov-sub">'+esc(t('turns'))+': '+turnCount+'</div>';
+  h+='<button class="ov-btn restart-btn">'+esc(t('restart'))+'</button>';
+  showOverlay(h);
+  overlay.querySelector('.restart-btn').addEventListener('click',function(){hideOverlay();startGame();});
+}
+
+function showWinOv(){
+  var h='<div class="ov-title" style="color:#ffff55;">'+esc(t('victory'))+'</div>';
+  h+='<div class="ov-text" style="white-space:pre-line;color:#55ff55;">'+esc(t('won'))+'</div>';
+  h+='<div class="ov-score" style="color:#ffff55;">'+esc(t('score'))+': '+(player.gold+player.xp)+'</div>';
+  h+='<div class="ov-sub">'+esc(t('floor'))+': '+dFloor+' | '+esc(t('turns'))+': '+turnCount+'</div>';
+  h+='<button class="ov-btn restart-btn">'+esc(t('restart'))+'</button>';
+  showOverlay(h);
+  overlay.querySelector('.restart-btn').addEventListener('click',function(){hideOverlay();startGame();});
+}
+
+// ═══════════════════════════════════════════════════
+// HELP SCREEN
+// ═══════════════════════════════════════════════════
+var prevStateBeforeHelp=ST_PLAY;
+function showHelpOv(){
+  prevStateBeforeHelp=state;
+  state=ST_HELP;
+  var h='<div class="ov-title">'+esc(t('help_title'))+'</div>';
+  h+='<div class="help-content">';
+  // History
+  h+='<div class="help-section">'+esc(t('help_history'))+'</div>';
+  h+='<div class="help-history">'+esc(t('help_history_text'))+'</div>';
+  // Gameplay overview
+  h+='<div class="help-section">'+esc(t('help_overview'))+'</div>';
+  h+='<ul class="help-list">';
+  h+='<li>'+esc(t('help_ov1'))+'</li>';
+  h+='<li>'+esc(t('help_ov2'))+'</li>';
+  h+='<li>'+esc(t('help_ov3'))+'</li>';
+  h+='<li>'+esc(t('help_ov4'))+'</li>';
+  h+='<li>'+esc(t('help_ov5'))+'</li>';
+  h+='<li>'+esc(t('help_ov6'))+'</li>';
+  h+='</ul>';
+  // Controls
+  h+='<div class="help-section">'+esc(t('help_controls'))+'</div>';
+  h+='<table class="help-keys">';
+  h+='<tr><td>Arrow / WASD / hjkl</td><td>Move (4-dir)</td></tr>';
+  h+='<tr><td>y/u/b/n / Numpad 7/9/1/3</td><td>Move (diagonal)</td></tr>';
+  h+='<tr><td>Home/PgUp/End/PgDn</td><td>Move (diagonal)</td></tr>';
+  h+='<tr><td>. / Numpad 5</td><td>Wait</td></tr>';
+  h+='<tr><td>&gt; / Enter</td><td>Stairs (descend/ascend)</td></tr>';
+  h+='<tr><td>g / , (comma)</td><td>Get item</td></tr>';
+  h+='<tr><td>i</td><td>Inventory</td></tr>';
+  h+='<tr><td>q</td><td>Use / Quaff</td></tr>';
+  h+='<tr><td>e</td><td>Equip</td></tr>';
+  h+='<tr><td>? / F1</td><td>Help</td></tr>';
+  h+='<tr><td>Escape</td><td>Close / Cancel</td></tr>';
+  h+='</table>';
+  // Symbols
+  h+='<div class="help-section">'+esc(t('help_symbols'))+'</div>';
+  h+='<table class="help-sym">';
+  h+='<tr><td>\u263A</td><td>You (the player)</td></tr>';
+  h+='<tr><td>\u2550\u2551\u2554\u2557\u255A\u255D</td><td>Room walls</td></tr>';
+  h+='<tr><td>\u00B7</td><td>Room floor</td></tr>';
+  h+='<tr><td>\u2591</td><td>Corridor</td></tr>';
+  h+='<tr><td>+</td><td>Door</td></tr>';
+  h+='<tr><td>\u2261</td><td>Stairs</td></tr>';
+  h+='<tr><td>*</td><td>Gold</td></tr>';
+  h+='<tr><td>)</td><td>Weapon</td></tr>';
+  h+='<tr><td>]</td><td>Armor</td></tr>';
+  h+='<tr><td>!</td><td>Potion</td></tr>';
+  h+='<tr><td>?</td><td>Scroll</td></tr>';
+  h+='<tr><td>:</td><td>Food</td></tr>';
+  h+='<tr><td>\u2666</td><td>Amulet of Yendor</td></tr>';
+  h+='<tr><td>B, K, S ...</td><td>Monsters</td></tr>';
+  h+='</table>';
+  h+='</div>'; // help-content
+  h+='<button class="ov-btn close-btn" style="margin:12px 0 20px;">'+esc(t('close'))+'</button>';
+  showOverlay(h);
+  // Close button event
+  overlay.querySelector('.close-btn').addEventListener('click',function(){closeHelp();});
+  // Click outside content to close
+  overlay.addEventListener('click',function(e){if(e.target===overlay)closeHelp();});
+}
+function closeHelp(){
+  hideOverlay();
+  state=prevStateBeforeHelp;
+  dirty=true;
+  // Re-show the appropriate overlay if needed
+  if(state===ST_TITLE)showTitle();
+  else if(state===ST_INV)showInventoryOv();
+  else if(state===ST_OVER)showGameOverOv();
+  else if(state===ST_WIN)showWinOv();
+}
+
+// ═══════════════════════════════════════════════════
+// GAME MANAGEMENT
+// ═══════════════════════════════════════════════════
+function initGame(){
+  player={x:0,y:0,hp:20,maxHp:20,str:4,def:2,level:1,xp:0,gold:0,hunger:300,inv:[],weapon:null,armor:null,killedBy:null};
+  dFloor=1;turnCount=0;messages=[];
+  monsters=[];items=[];map=[];rooms=[];
+  visible=[];explored=[];
+  generateLevel(1);
+  dirty=true;
+}
+function startGame(){
+  initGame();
+  hideOverlay();
+  state=ST_PLAY;
+  dirty=true;
+  updateBtnLabels();
+}
+function gameOver(){
+  state=ST_OVER;
+  sndDeath();
+  dirty=true;
+  setTimeout(function(){showGameOverOv();},300);
+}
+function winGame(){
+  state=ST_WIN;
+  dirty=true;
+  setTimeout(function(){showWinOv();},300);
+}
+
+// ═══════════════════════════════════════════════════
+// INPUT - KEYBOARD
+// ═══════════════════════════════════════════════════
+function handleKey(e){
+  // Check game is visible/active
+  if(!root||root.offsetParent===null&&!root.closest('body'))return;
+  // Help can be opened from most states; F1 or ? (Shift+/)
+  if(e.key==='F1'||(e.key==='?'&&state!==ST_PROMPT)){
+    e.preventDefault();
+    if(state===ST_HELP){closeHelp();return;}
+    showHelpOv();
+    return;
+  }
+  if(state===ST_HELP){
+    if(e.key==='Escape'){closeHelp();e.preventDefault();}
+    return;
+  }
+  if(state===ST_TITLE){
+    if(e.key==='Enter'){ensureAudio();startGame();e.preventDefault();}
+    return;
+  }
+  if(state===ST_OVER||state===ST_WIN){
+    if(e.key==='Enter'){hideOverlay();startGame();e.preventDefault();}
+    return;
+  }
+  if(state===ST_INV||state===ST_PROMPT){
+    if(e.key==='Escape'){hideOverlay();state=ST_PLAY;dirty=true;e.preventDefault();return;}
+    if(state===ST_PROMPT&&promptCb){
+      var code=e.key.toLowerCase().charCodeAt(0);
+      if(code>=97&&code<=116){ // a-t
+        var idx=code-97;
+        if(idx<player.inv.length){
+          hideOverlay();state=ST_PLAY;promptCb(idx);dirty=true;e.preventDefault();
+        }
+      }
+    }
+    if(state===ST_INV){
+      // Press letter to toggle equip or use
+      var code=e.key.toLowerCase().charCodeAt(0);
+      if(code>=97&&code<=116){
+        var idx=code-97;
+        if(idx<player.inv.length){
+          var it=player.inv[idx];
+          hideOverlay();state=ST_PLAY;
+          if(it.type==='weapon'||it.type==='armor')equipItem(idx);
+          else if(it.type==='potion'||it.type==='scroll'||it.type==='food')useItem(idx);
+          dirty=true;e.preventDefault();
+        }
+      }
+    }
+    return;
+  }
+  if(state!==ST_PLAY)return;
+  var k=e.key;
+  var c=e.code;
+  var moved=false;
+  // Movement — arrow keys, WASD, vi-keys (hjklyubn), numpad
+  if(k==='ArrowUp'||k==='w'||k==='k'||c==='Numpad8'){movePlayer(0,-1);moved=true;}
+  else if(k==='ArrowDown'||k==='s'||k==='j'||c==='Numpad2'){movePlayer(0,1);moved=true;}
+  else if(k==='ArrowLeft'||k==='a'||k==='h'||c==='Numpad4'){movePlayer(-1,0);moved=true;}
+  else if(k==='ArrowRight'||k==='d'||k==='l'||c==='Numpad6'){movePlayer(1,0);moved=true;}
+  // Diagonals: vi-keys, shifted vi-keys, numpad, and Home/End/PgUp/PgDn
+  else if(k==='y'||k==='Y'||k==='Home'||c==='Numpad7'){movePlayer(-1,-1);moved=true;}
+  else if(k==='u'||k==='U'||k==='PageUp'||c==='Numpad9'){movePlayer(1,-1);moved=true;}
+  else if(k==='b'||k==='B'||k==='End'||c==='Numpad1'){movePlayer(-1,1);moved=true;}
+  else if(k==='n'||k==='N'||k==='PageDown'||c==='Numpad3'){movePlayer(1,1);moved=true;}
+  // Wait in place
+  else if(k===' '||k==='.'||k==='Clear'||c==='Numpad5'){waitTurn();moved=true;}
+  // Actions
+  else if(k==='>'||k==='Enter'){descend();}
+  else if(k==='g'||k===','){pickUp();}
+  else if(k==='i'){showInventoryOv();}
+  else if(k==='e'){showItemPrompt('equip_which',function(it){return it.type==='weapon'||it.type==='armor';},equipItem);}
+  else if(k==='q'){showItemPrompt('use_which',function(it){return it.type==='potion'||it.type==='scroll'||it.type==='food';},useItem);}
+  else if(k==='Escape'){/* nothing in play state */}
+  if(moved||k==='>'||k==='g'||k===','||k==='Enter')e.preventDefault();
+}
+
+// ═══════════════════════════════════════════════════
+// VIRTUAL CONTROLS
+// ═══════════════════════════════════════════════════
+function setupControls(){
+  // D-pad
+  var dirs=[
+    {dx:-1,dy:-1,label:'↖'},{dx:0,dy:-1,label:'↑'},{dx:1,dy:-1,label:'↗'},
+    {dx:-1,dy:0,label:'←'},{dx:0,dy:0,label:'·'},{dx:1,dy:0,label:'→'},
+    {dx:-1,dy:1,label:'↙'},{dx:0,dy:1,label:'↓'},{dx:1,dy:1,label:'↘'}
+  ];
+  var dhtml='';
+  for(var i=0;i<dirs.length;i++){
+    dhtml+='<button class="ctrl-btn" data-dx="'+dirs[i].dx+'" data-dy="'+dirs[i].dy+'">'+dirs[i].label+'</button>';
+  }
+  dpadEl.innerHTML=dhtml;
+  var dbtns=dpadEl.querySelectorAll('.ctrl-btn');
+  for(var i=0;i<dbtns.length;i++){
+    (function(btn){
+      var handler=function(e){
+        e.preventDefault();ensureAudio();
+        var dx=parseInt(btn.dataset.dx),dy=parseInt(btn.dataset.dy);
+        if(state===ST_TITLE){startGame();return;}
+        if(state===ST_OVER||state===ST_WIN){hideOverlay();startGame();return;}
+        if(dx===0&&dy===0)waitTurn();
+        else movePlayer(dx,dy);
+      };
+      btn.addEventListener('touchstart',handler,{passive:false});
+      btn.addEventListener('mousedown',function(e){if(e.button===0)handler(e);});
+    })(dbtns[i]);
+  }
+  // Action buttons
+  updateBtnLabels();
+  var actHandlers={
+    'stairs':function(){ensureAudio();descend();},
+    'get':function(){ensureAudio();pickUp();},
+    'wait':function(){ensureAudio();waitTurn();},
+    'help':function(){ensureAudio();showHelpOv();},
+    'inv':function(){ensureAudio();showInventoryOv();},
+    'use':function(){ensureAudio();showItemPrompt('use_which',function(it){return it.type==='potion'||it.type==='scroll'||it.type==='food';},useItem);},
+    'eqp':function(){ensureAudio();showItemPrompt('equip_which',function(it){return it.type==='weapon'||it.type==='armor';},equipItem);}
+  };
+  var abtns=actionsEl.querySelectorAll('.ctrl-btn');
+  for(var i=0;i<abtns.length;i++){
+    (function(btn){
+      var act=btn.dataset.act;
+      if(!actHandlers[act])return;
+      var handler=function(e){
+        e.preventDefault();
+        if(act==='help'){actHandlers[act]();return;}
+        if(state===ST_TITLE){ensureAudio();startGame();return;}
+        if(state===ST_OVER||state===ST_WIN){hideOverlay();startGame();return;}
+        if(state!==ST_PLAY)return;
+        actHandlers[act]();
+      };
+      btn.addEventListener('touchstart',handler,{passive:false});
+      btn.addEventListener('mousedown',function(e){if(e.button===0)handler(e);});
+    })(abtns[i]);
+  }
+}
+function updateBtnLabels(){
+  actionsEl.innerHTML=
+    '<button class="ctrl-btn act-stairs" data-act="stairs"><span>▼</span><span class="lbl">'+esc(t('btn_stairs'))+'</span></button>'+
+    '<button class="ctrl-btn act-get" data-act="get"><span>⬆</span><span class="lbl">'+esc(t('btn_get'))+'</span></button>'+
+    '<button class="ctrl-btn act-wait" data-act="wait"><span>·</span><span class="lbl">'+esc(t('btn_wait'))+'</span></button>'+
+    '<button class="ctrl-btn act-help" data-act="help"><span>?</span><span class="lbl">'+esc(t('btn_help'))+'</span></button>'+
+    '<button class="ctrl-btn act-inv" data-act="inv"><span>☰</span><span class="lbl">'+esc(t('btn_inv'))+'</span></button>'+
+    '<button class="ctrl-btn act-use" data-act="use"><span>!</span><span class="lbl">'+esc(t('btn_use'))+'</span></button>'+
+    '<button class="ctrl-btn act-eqp" data-act="eqp"><span>⚔</span><span class="lbl">'+esc(t('btn_eqp'))+'</span></button>';
+  // Re-attach events since we replaced innerHTML
+  var abtns=actionsEl.querySelectorAll('.ctrl-btn');
+  var actHandlers={
+    'stairs':function(){ensureAudio();descend();},
+    'get':function(){ensureAudio();pickUp();},
+    'wait':function(){ensureAudio();waitTurn();},
+    'help':function(){ensureAudio();showHelpOv();},
+    'inv':function(){ensureAudio();showInventoryOv();},
+    'use':function(){ensureAudio();showItemPrompt('use_which',function(it){return it.type==='potion'||it.type==='scroll'||it.type==='food';},useItem);},
+    'eqp':function(){ensureAudio();showItemPrompt('equip_which',function(it){return it.type==='weapon'||it.type==='armor';},equipItem);}
+  };
+  for(var i=0;i<abtns.length;i++){
+    (function(btn){
+      var act=btn.dataset.act;
+      if(!actHandlers[act])return;
+      var handler=function(e){
+        e.preventDefault();
+        if(act==='help'){actHandlers[act]();return;}
+        if(state===ST_TITLE){ensureAudio();startGame();return;}
+        if(state===ST_OVER||state===ST_WIN){hideOverlay();startGame();return;}
+        if(state!==ST_PLAY)return;
+        actHandlers[act]();
+      };
+      btn.addEventListener('touchstart',handler,{passive:false});
+      btn.addEventListener('mousedown',function(e){if(e.button===0)handler(e);});
+    })(abtns[i]);
+  }
+}
+
+// ═══════════════════════════════════════════════════
+// RESIZE
+// ═══════════════════════════════════════════════════
+function onResize(){
+  resizeCanvas();
+  dirty=true;
+}
+
+// ═══════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════
+function init(){
+  root=document.getElementById('rogue-root');
+  canvas=document.getElementById('rogue-canvas');
+  ctx=canvas.getContext('2d');
+  statsEl=document.getElementById('rogue-stats');
+  msgsEl=document.getElementById('rogue-msgs');
+  overlay=document.getElementById('rogue-overlay');
+  dpadEl=document.getElementById('rogue-dpad');
+  actionsEl=document.getElementById('rogue-actions');
+
+  // Detect language from html lang or data-lang
+  var detLang=root.dataset.lang||document.documentElement.lang||'en';
+  detLang=detLang.substring(0,2).toLowerCase();
+  var idx=LANGS.indexOf(detLang);
+  if(idx>=0)li=idx;
+
+  resizeCanvas();
+  setupControls();
+  document.addEventListener('keydown',handleKey);
+  window.addEventListener('resize',onResize);
+
+  // Prevent scrolling on touch
+  root.addEventListener('touchmove',function(e){e.preventDefault();},{passive:false});
+
+  state=ST_TITLE;
+  messages=[];
+  dirty=true;
+  showTitle();
+  animFrame=requestAnimationFrame(render);
+
+  // Cleanup function for modal embedding
+  root.rogueCleanup=function(){
+    document.removeEventListener('keydown',handleKey);
+    window.removeEventListener('resize',onResize);
+    if(animFrame)cancelAnimationFrame(animFrame);
+    gameActive=false;
+  };
+}
+
+init();
+})();
+</script>
+</body>
+</html>

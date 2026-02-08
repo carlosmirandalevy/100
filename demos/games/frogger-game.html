@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Frogger</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;background:#1a1a2e;touch-action:none;user-select:none;-webkit-user-select:none}
+#wrap{position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:center}
+canvas{display:block;background:#1a1a2e}
+#joystick-container{position:absolute;bottom:24px;left:24px;width:120px;height:120px;z-index:10;opacity:0.6;transition:opacity 0.15s}
+#joystick-container.active{opacity:0.9}
+#joystick-outer{width:100%;height:100%;border:3px solid rgba(255,255,255,0.4);border-radius:50%;position:relative}
+#joystick-knob{width:50px;height:50px;background:rgba(255,255,255,0.5);border-radius:50%;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);cursor:pointer;touch-action:none}
+#btn-start{position:absolute;bottom:32px;right:24px;width:80px;height:50px;border:2px solid rgba(255,255,255,0.4);border-radius:12px;background:rgba(40,180,80,0.2);color:#fff;font:bold 13px monospace;display:flex;align-items:center;justify-content:center;opacity:0.5;transition:opacity 0.15s;cursor:pointer;z-index:10;-webkit-tap-highlight-color:transparent}
+#btn-start.active{opacity:0.8;background:rgba(40,180,80,0.4)}
+</style>
+</head>
+<body>
+<div id="wrap">
+  <canvas id="c"></canvas>
+  <div id="joystick-container">
+    <div id="joystick-outer">
+      <div id="joystick-knob"></div>
+    </div>
+  </div>
+  <div id="btn-start">START</div>
+</div>
+<script>
+(function(){
+"use strict";
+
+// ── Canvas setup ──
+var canvas = document.getElementById("c");
+var ctx = canvas.getContext("2d");
+var W, H, SCALE;
+
+function resize(){
+  var ww = window.innerWidth, wh = window.innerHeight;
+  var maxW = Math.min(480, ww);
+  var maxH = wh;
+  var ratio = 1.5;
+  if(maxW * ratio > maxH){ maxW = maxH / ratio; }
+  W = Math.floor(maxW);
+  H = Math.floor(W * ratio);
+  canvas.width = W;
+  canvas.height = H;
+  SCALE = W / 480;
+}
+resize();
+window.addEventListener("resize", resize);
+
+// ── Audio (Web Audio API) ──
+var audioCtx = null;
+function ensureAudio(){ if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
+
+function playTone(freq, dur, type, vol, sweep){
+  if(!audioCtx) return;
+  var osc = audioCtx.createOscillator();
+  var gain = audioCtx.createGain();
+  osc.type = type || "square";
+  osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+  if(sweep) osc.frequency.exponentialRampToValueAtTime(sweep, audioCtx.currentTime + dur);
+  gain.gain.setValueAtTime(vol || 0.1, audioCtx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + dur);
+  osc.connect(gain);
+  gain.connect(audioCtx.destination);
+  osc.start(audioCtx.currentTime);
+  osc.stop(audioCtx.currentTime + dur);
+}
+
+function playNoise(dur, vol){
+  if(!audioCtx) return;
+  var buf = audioCtx.createBuffer(1, audioCtx.sampleRate * dur, audioCtx.sampleRate);
+  var data = buf.getChannelData(0);
+  for(var i = 0; i < data.length; i++) data[i] = (Math.random() * 2 - 1);
+  var src = audioCtx.createBufferSource();
+  src.buffer = buf;
+  var gain = audioCtx.createGain();
+  gain.gain.setValueAtTime(vol || 0.08, audioCtx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + dur);
+  src.connect(gain);
+  gain.connect(audioCtx.destination);
+  src.start();
+}
+
+var sfx = {
+  hop: function(){ playTone(440, 0.08, "sine", 0.08, 660); },
+  carHit: function(){ playNoise(0.2, 0.15); playTone(80, 0.2, "sawtooth", 0.12, 40); },
+  splash: function(){ playNoise(0.18, 0.12); playTone(300, 0.18, "sine", 0.08, 60); },
+  home: function(){
+    playTone(523, 0.1, "sine", 0.08);
+    setTimeout(function(){ playTone(659, 0.1, "sine", 0.08); }, 100);
+    setTimeout(function(){ playTone(784, 0.15, "sine", 0.08); }, 200);
+  },
+  levelComplete: function(){
+    playTone(523, 0.12, "square", 0.08);
+    setTimeout(function(){ playTone(659, 0.12, "square", 0.08); }, 120);
+    setTimeout(function(){ playTone(784, 0.12, "square", 0.08); }, 240);
+    setTimeout(function(){ playTone(1047, 0.25, "square", 0.08); }, 360);
+  },
+  timerWarning: function(){ playTone(880, 0.08, "square", 0.06); },
+  gameOver: function(){
+    playTone(392, 0.2, "square", 0.1);
+    setTimeout(function(){ playTone(330, 0.2, "square", 0.1); }, 200);
+    setTimeout(function(){ playTone(262, 0.4, "square", 0.1); }, 400);
+  }
+};
+
+// ── Input ──
+var keys = { up:false, down:false, left:false, right:false, enter:false };
+var keyPressed = { up:false, down:false, left:false, right:false };
+
+document.addEventListener("keydown", function(e){
+  ensureAudio();
+  var key = e.key.toLowerCase();
+  if(key==="arrowup"||key==="w"){ if(!keys.up){ keyPressed.up=true; } keys.up=true; }
+  if(key==="arrowdown"||key==="s"){ if(!keys.down){ keyPressed.down=true; } keys.down=true; }
+  if(key==="arrowleft"||key==="a"){ if(!keys.left){ keyPressed.left=true; } keys.left=true; }
+  if(key==="arrowright"||key==="d"){ if(!keys.right){ keyPressed.right=true; } keys.right=true; }
+  if(key==="enter"||key===" ") keys.enter=true;
+  if(["arrowup","arrowdown","arrowleft","arrowright"," "].indexOf(key)>=0) e.preventDefault();
+});
+
+document.addEventListener("keyup", function(e){
+  var key = e.key.toLowerCase();
+  if(key==="arrowup"||key==="w") keys.up=false;
+  if(key==="arrowdown"||key==="s") keys.down=false;
+  if(key==="arrowleft"||key==="a") keys.left=false;
+  if(key==="arrowright"||key==="d") keys.right=false;
+  if(key==="enter"||key===" ") keys.enter=false;
+});
+
+// ── Virtual Joystick ──
+var joystickContainer = document.getElementById("joystick-container");
+var joystickKnob = document.getElementById("joystick-knob");
+var joystickActive = false;
+var joystickOrigin = {x:0, y:0};
+var joystickRadius = 60;
+var joystickThreshold = 20;
+var joystickCooldown = 0;
+
+function getJoystickCenter(){
+  var rect = document.getElementById("joystick-outer").getBoundingClientRect();
+  return {x: rect.left + rect.width/2, y: rect.top + rect.height/2};
+}
+
+function handleJoystickStart(ex, ey){
+  ensureAudio();
+  joystickActive = true;
+  joystickOrigin = getJoystickCenter();
+  joystickContainer.classList.add("active");
+  handleJoystickMove(ex, ey);
+}
+
+function handleJoystickMove(ex, ey){
+  if(!joystickActive) return;
+  var dx = ex - joystickOrigin.x;
+  var dy = ey - joystickOrigin.y;
+  var dist = Math.sqrt(dx*dx + dy*dy);
+
+  // Limit knob movement
+  var maxDist = joystickRadius - 25;
+  if(dist > maxDist){
+    dx = dx/dist * maxDist;
+    dy = dy/dist * maxDist;
+  }
+
+  joystickKnob.style.transform = "translate("+(dx-25)+"px, "+(dy-25)+"px)";
+
+  // Trigger hops when threshold crossed (with cooldown)
+  if(joystickCooldown <= 0 && dist > joystickThreshold){
+    var angle = Math.atan2(dy, dx);
+    // Snap to cardinal directions
+    if(Math.abs(dx) > Math.abs(dy)){
+      // Left or right
+      if(dx > 0){ keyPressed.right = true; joystickCooldown = 0.25; }
+      else { keyPressed.left = true; joystickCooldown = 0.25; }
+    } else {
+      // Up or down
+      if(dy > 0){ keyPressed.down = true; joystickCooldown = 0.25; }
+      else { keyPressed.up = true; joystickCooldown = 0.25; }
+    }
+  }
+}
+
+function handleJoystickEnd(){
+  joystickActive = false;
+  joystickContainer.classList.remove("active");
+  joystickKnob.style.transform = "translate(-25px, -25px)";
+}
+
+// Touch events
+joystickKnob.addEventListener("touchstart", function(e){
+  e.preventDefault();
+  handleJoystickStart(e.touches[0].clientX, e.touches[0].clientY);
+}, {passive:false});
+
+document.addEventListener("touchmove", function(e){
+  if(joystickActive){
+    e.preventDefault();
+    handleJoystickMove(e.touches[0].clientX, e.touches[0].clientY);
+  }
+}, {passive:false});
+
+document.addEventListener("touchend", function(e){
+  if(joystickActive) handleJoystickEnd();
+}, {passive:false});
+
+// Mouse events for desktop
+joystickKnob.addEventListener("mousedown", function(e){
+  e.preventDefault();
+  handleJoystickStart(e.clientX, e.clientY);
+});
+
+document.addEventListener("mousemove", function(e){
+  if(joystickActive) handleJoystickMove(e.clientX, e.clientY);
+});
+
+document.addEventListener("mouseup", function(e){
+  if(joystickActive) handleJoystickEnd();
+});
+
+// Start button
+var btnStart = document.getElementById("btn-start");
+function startPressed(){
+  ensureAudio();
+  keys.enter = true;
+  btnStart.classList.add("active");
+  setTimeout(function(){
+    keys.enter = false;
+    btnStart.classList.remove("active");
+  }, 150);
+}
+btnStart.addEventListener("touchstart", function(e){ e.preventDefault(); startPressed(); }, {passive:false});
+btnStart.addEventListener("click", startPressed);
+
+// ── Constants ──
+var CELL = 40;
+var COLS = 12;
+var ROWS = 18;
+var LANE_HEIGHT = CELL;
+
+// ── Game state ──
+var STATE_START=0, STATE_PLAYING=1, STATE_OVER=2;
+var state = STATE_START;
+var score, lives, level, highScore;
+var frog, vehicles, riverObjects, homes, particles;
+var timer, maxTimer, timerWarningPlayed;
+var highestRow;
+
+highScore = parseInt(localStorage.getItem("frogger_hi")) || 0;
+level = 1;
+
+function initGame(){
+  score = 0;
+  lives = 3;
+  level = 1;
+  timer = 30;
+  maxTimer = 30;
+  timerWarningPlayed = false;
+  highestRow = ROWS - 2;
+  initFrog();
+  initVehicles();
+  initRiverObjects();
+  initHomes();
+  particles = [];
+}
+
+// ── Frog ──
+function initFrog(){
+  frog = {
+    gridX: Math.floor(COLS/2),
+    gridY: ROWS - 2,
+    x: 0,
+    y: 0,
+    dir: 0, // 0=up, 1=right, 2=down, 3=left
+    hopProgress: 0,
+    hopCooldown: 0,
+    onRiver: false,
+    ridingObject: null,
+    invuln: 0
+  };
+  updateFrogPosition();
+}
+
+function updateFrogPosition(){
+  frog.x = frog.gridX * CELL + CELL/2;
+  frog.y = frog.gridY * LANE_HEIGHT + LANE_HEIGHT/2;
+}
+
+function drawFrog(fx, fy, dir, hopProg){
+  ctx.save();
+  ctx.translate(fx*SCALE, fy*SCALE);
+  ctx.scale(SCALE, SCALE);
+
+  // Rotate based on direction
+  var rotations = [0, Math.PI/2, Math.PI, -Math.PI/2];
+  ctx.rotate(rotations[dir]);
+
+  // Hop animation (squash/stretch)
+  var squash = 1;
+  if(hopProg > 0){
+    squash = 1 + Math.sin(hopProg * Math.PI) * 0.3;
+  }
+  ctx.scale(1, squash);
+
+  // Body
+  ctx.fillStyle = "#4f4";
+  ctx.beginPath();
+  ctx.ellipse(0, 0, 12, 14, 0, 0, Math.PI*2);
+  ctx.fill();
+
+  // Eyes
+  ctx.fillStyle = "#ff0";
+  ctx.beginPath();
+  ctx.ellipse(-6, -8, 5, 5, 0, 0, Math.PI*2);
+  ctx.ellipse(6, -8, 5, 5, 0, 0, Math.PI*2);
+  ctx.fill();
+
+  // Pupils
+  ctx.fillStyle = "#000";
+  ctx.beginPath();
+  ctx.ellipse(-6, -8, 2, 3, 0, 0, Math.PI*2);
+  ctx.ellipse(6, -8, 2, 3, 0, 0, Math.PI*2);
+  ctx.fill();
+
+  // Mouth
+  ctx.strokeStyle = "#000";
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.arc(0, -2, 4, 0.2, Math.PI-0.2);
+  ctx.stroke();
+
+  ctx.restore();
+}
+
+// ── Lanes & backgrounds ──
+var lanes = [
+  {type:"grass", color:"#4a4"},  // 17 - start zone (row 0 from bottom)
+  {type:"grass", color:"#4a4"},  // 16
+  {type:"road", color:"#444", dir:1, speed:60, vehType:"car", vehColor:"#f44"},   // 15
+  {type:"road", color:"#444", dir:-1, speed:70, vehType:"car", vehColor:"#ff4"},  // 14
+  {type:"road", color:"#444", dir:1, speed:50, vehType:"truck", vehColor:"#44f"}, // 13
+  {type:"road", color:"#444", dir:-1, speed:80, vehType:"car", vehColor:"#f4f"},  // 12
+  {type:"road", color:"#444", dir:1, speed:65, vehType:"car", vehColor:"#4ff"},   // 11
+  {type:"grass", color:"#4a4"},  // 10 - median
+  {type:"river", color:"#36c", dir:-1, speed:50, objType:"log", objLen:3},        // 9
+  {type:"river", color:"#36c", dir:1, speed:60, objType:"turtle", objLen:3, dive:true}, // 8
+  {type:"river", color:"#36c", dir:-1, speed:45, objType:"log", objLen:4},        // 7
+  {type:"river", color:"#36c", dir:1, speed:70, objType:"log", objLen:2},         // 6
+  {type:"river", color:"#36c", dir:-1, speed:55, objType:"turtle", objLen:2, dive:false}, // 5
+  {type:"grass", color:"#4a4"},  // 4 - safe zone above river
+  {type:"home", color:"#282"},   // 3 - home row (lily pads)
+  {type:"wall", color:"#161"},   // 2 - top border
+  {type:"wall", color:"#161"},   // 1 - top border
+  {type:"wall", color:"#161"}    // 0 - top border
+];
+
+function drawLanes(){
+  for(var i=0; i<lanes.length; i++){
+    var lane = lanes[i];
+    var y = (ROWS - 1 - i) * LANE_HEIGHT;
+    ctx.fillStyle = lane.color;
+    ctx.fillRect(0, y*SCALE, W, LANE_HEIGHT*SCALE);
+
+    // River waves
+    if(lane.type === "river"){
+      ctx.fillStyle = "rgba(255,255,255,0.1)";
+      for(var j=0; j<COLS; j++){
+        var waveOffset = Math.sin(Date.now()*0.002 + j*0.5) * 2;
+        ctx.fillRect(j*CELL*SCALE, (y+waveOffset+LANE_HEIGHT*0.3)*SCALE, CELL*0.8*SCALE, 3*SCALE);
+      }
+    }
+  }
+}
+
+// ── Vehicles ──
+function initVehicles(){
+  vehicles = [];
+  for(var i=0; i<lanes.length; i++){
+    var lane = lanes[i];
+    if(lane.type !== "road") continue;
+    var row = ROWS - 1 - i;
+    var count = Math.floor(2 + Math.random()*2);
+    for(var j=0; j<count; j++){
+      var startX = j * (COLS / count) * CELL + Math.random()*CELL;
+      vehicles.push({
+        x: startX,
+        y: row * LANE_HEIGHT + LANE_HEIGHT/2,
+        row: row,
+        dir: lane.dir,
+        speed: lane.speed + level * 8,
+        type: lane.vehType,
+        color: lane.vehColor,
+        w: lane.vehType === "truck" ? CELL*2.5 : CELL*1.5,
+        h: LANE_HEIGHT * 0.7
+      });
+    }
+  }
+}
+
+function drawVehicle(v){
+  ctx.save();
+  ctx.translate(v.x*SCALE, v.y*SCALE);
+  ctx.scale(SCALE, SCALE);
+
+  var hw = v.w/2, hh = v.h/2;
+
+  // Body
+  ctx.fillStyle = v.color;
+  ctx.fillRect(-hw, -hh, v.w, v.h);
+
+  // Windows
+  ctx.fillStyle = "rgba(100,150,200,0.6)";
+  if(v.type === "truck"){
+    ctx.fillRect(-hw+4, -hh+4, v.w*0.3, v.h-8);
+  } else {
+    ctx.fillRect(-hw+8, -hh+4, v.w*0.4, v.h-8);
+  }
+
+  // Headlights
+  ctx.fillStyle = "#ff8";
+  if(v.dir > 0){
+    ctx.fillRect(hw-4, -hh+4, 3, 4);
+    ctx.fillRect(hw-4, hh-8, 3, 4);
+  } else {
+    ctx.fillRect(-hw+1, -hh+4, 3, 4);
+    ctx.fillRect(-hw+1, hh-8, 3, 4);
+  }
+
+  ctx.restore();
+}
+
+// ── River Objects ──
+function initRiverObjects(){
+  riverObjects = [];
+  for(var i=0; i<lanes.length; i++){
+    var lane = lanes[i];
+    if(lane.type !== "river") continue;
+    var row = ROWS - 1 - i;
+    var count = Math.floor(2 + Math.random()*2);
+    for(var j=0; j<count; j++){
+      var startX = j * (COLS / count) * CELL + Math.random()*CELL*2;
+      riverObjects.push({
+        x: startX,
+        y: row * LANE_HEIGHT + LANE_HEIGHT/2,
+        row: row,
+        dir: lane.dir,
+        speed: lane.speed + level * 6,
+        type: lane.objType,
+        len: lane.objLen,
+        diving: lane.dive,
+        diveTimer: lane.dive ? (3 + Math.random()*3) : 0,
+        diveState: 0, // 0=visible, 1=underwater
+        w: lane.objLen * CELL * 0.9,
+        h: LANE_HEIGHT * 0.6
+      });
+    }
+  }
+}
+
+function drawRiverObject(obj){
+  if(obj.diveState === 1) return; // Underwater, don't draw
+
+  ctx.save();
+  ctx.translate(obj.x*SCALE, obj.y*SCALE);
+  ctx.scale(SCALE, SCALE);
+
+  var hw = obj.w/2, hh = obj.h/2;
+
+  if(obj.type === "log"){
+    // Draw log
+    ctx.fillStyle = "#964";
+    ctx.fillRect(-hw, -hh, obj.w, obj.h);
+    // Rings
+    ctx.strokeStyle = "#742";
+    ctx.lineWidth = 2;
+    for(var i=0; i<obj.len; i++){
+      var rx = -hw + (i+0.5) * (obj.w/obj.len);
+      ctx.beginPath();
+      ctx.ellipse(rx, 0, 8, hh-2, 0, 0, Math.PI*2);
+      ctx.stroke();
+    }
+  } else {
+    // Draw turtles
+    var turtleW = obj.w / obj.len;
+    for(var i=0; i<obj.len; i++){
+      var tx = -hw + i*turtleW + turtleW/2;
+      ctx.fillStyle = obj.diving && obj.diveTimer < 1 ? "#484" : "#373"; // Blink before diving
+      ctx.beginPath();
+      ctx.ellipse(tx, 0, turtleW*0.4, hh-2, 0, 0, Math.PI*2);
+      ctx.fill();
+      // Shell pattern
+      ctx.fillStyle = "#262";
+      ctx.fillRect(tx-4, -4, 8, 8);
+      ctx.fillRect(tx-2, -2, 4, 4);
+    }
+  }
+
+  ctx.restore();
+}
+
+// ── Homes ──
+function initHomes(){
+  homes = [];
+  // Home row is lane index 14, which is row ROWS-1-14 = 3
+  var homeRow = ROWS - 1 - 14;
+  var homeY = homeRow * LANE_HEIGHT + LANE_HEIGHT/2;
+  // Align homes to grid positions so the frog can land on them with normal hops
+  // 5 homes evenly spaced: gridX = 1, 3, 5, 7, 9 (out of 12 columns)
+  var homeGridXPositions = [1, 3, 5, 7, 9];
+  for(var i=0; i<5; i++){
+    homes.push({
+      x: homeGridXPositions[i] * CELL + CELL/2,
+      y: homeY,
+      filled: false,
+      w: CELL * 1.6,
+      h: LANE_HEIGHT * 0.8
+    });
+  }
+}
+
+// Pre-init for title screen animation (must be after lanes[] and init functions are defined)
+initVehicles();
+initRiverObjects();
+initHomes();
+particles = [];
+
+function drawHomes(){
+  for(var i=0; i<homes.length; i++){
+    var h = homes[i];
+    ctx.save();
+    ctx.translate(h.x*SCALE, h.y*SCALE);
+    ctx.scale(SCALE, SCALE);
+
+    if(h.filled){
+      // Draw frog in home
+      ctx.fillStyle = "#4f4";
+      ctx.beginPath();
+      ctx.ellipse(0, 0, CELL*0.3, CELL*0.3, 0, 0, Math.PI*2);
+      ctx.fill();
+    } else {
+      // Draw highlighted slot — bright outline so player knows where to land
+      var pulse = 0.5 + 0.3 * Math.sin(Date.now() * 0.003 + i);
+      ctx.strokeStyle = "rgba(100,255,100," + pulse + ")";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.ellipse(0, 0, CELL*0.42, CELL*0.36, 0, 0, Math.PI*2);
+      ctx.stroke();
+      // Inner lily pad
+      ctx.fillStyle = "#5a5";
+      ctx.beginPath();
+      ctx.ellipse(0, 0, CELL*0.38, CELL*0.32, 0, 0, Math.PI*2);
+      ctx.fill();
+      // Notch
+      ctx.fillStyle = "#282";
+      ctx.beginPath();
+      ctx.moveTo(CELL*0.25, 0);
+      ctx.lineTo(CELL*0.42, -CELL*0.1);
+      ctx.lineTo(CELL*0.42, CELL*0.1);
+      ctx.fill();
+      // Label arrow/dot
+      ctx.fillStyle = "rgba(255,255,100," + pulse + ")";
+      ctx.beginPath();
+      ctx.arc(0, -CELL*0.15, 3, 0, Math.PI*2);
+      ctx.fill();
+    }
+
+    ctx.restore();
+  }
+}
+
+// ── Particles ──
+function spawnParticles(x, y, color, count){
+  for(var i=0; i<count; i++){
+    var a = Math.random()*Math.PI*2;
+    var sp = Math.random()*100+40;
+    particles.push({
+      x:x, y:y,
+      vx:Math.cos(a)*sp,
+      vy:Math.sin(a)*sp - 30,
+      life:0.4+Math.random()*0.4,
+      color:color,
+      gravity: 150
+    });
+  }
+}
+
+// ── Collision ──
+function boxHit(ax,ay,aw,ah,bx,by,bw,bh){
+  return Math.abs(ax-bx) < (aw+bw)/2 && Math.abs(ay-by) < (ah+bh)/2;
+}
+
+// ── Update ──
+function update(dt){
+  joystickCooldown = Math.max(0, joystickCooldown - dt);
+
+  if(state === STATE_START || state === STATE_OVER){
+    if(keys.enter){
+      keys.enter = false;
+      initGame();
+      state = STATE_PLAYING;
+    }
+    // Animate vehicles and river objects on title/game-over screen
+    if(vehicles){
+      for(var i=0; i<vehicles.length; i++){
+        var v = vehicles[i];
+        v.x += v.dir * v.speed * dt;
+        if(v.dir > 0 && v.x > COLS*CELL + v.w){ v.x = -v.w; }
+        if(v.dir < 0 && v.x < -v.w){ v.x = COLS*CELL + v.w; }
+      }
+    }
+    if(riverObjects){
+      for(var i=0; i<riverObjects.length; i++){
+        var obj = riverObjects[i];
+        obj.x += obj.dir * obj.speed * dt;
+        if(obj.dir > 0 && obj.x > COLS*CELL + obj.w){ obj.x = -obj.w; }
+        if(obj.dir < 0 && obj.x < -obj.w){ obj.x = COLS*CELL + obj.w; }
+      }
+    }
+    return;
+  }
+
+  // Timer
+  timer -= dt;
+  if(timer <= 5 && !timerWarningPlayed && Math.floor(timer*2)%2===0){
+    sfx.timerWarning();
+  }
+  if(timer <= 5) timerWarningPlayed = true;
+
+  if(timer <= 0){
+    lives--;
+    spawnParticles(frog.x, frog.y, "#48f", 10);
+    sfx.splash();
+    if(lives <= 0){
+      state = STATE_OVER;
+      if(score > highScore){ highScore = score; localStorage.setItem("frogger_hi", highScore); }
+      sfx.gameOver();
+    } else {
+      initFrog();
+      timer = maxTimer;
+      timerWarningPlayed = false;
+    }
+    return;
+  }
+
+  // Frog invulnerability
+  if(frog.invuln > 0) frog.invuln -= dt;
+
+  // Frog hop cooldown
+  if(frog.hopCooldown > 0){
+    frog.hopCooldown -= dt;
+    frog.hopProgress = Math.max(0, frog.hopCooldown / 0.15);
+  }
+
+  // Frog movement (discrete hops)
+  if(frog.hopCooldown <= 0){
+    var moved = false;
+    if(keyPressed.up && frog.gridY > 0 && lanes[ROWS - 1 - (frog.gridY - 1)].type !== "wall"){
+      frog.gridY--;
+      frog.dir = 0;
+      moved = true;
+      // Score for moving forward
+      if(frog.gridY < highestRow){
+        score += 10;
+        highestRow = frog.gridY;
+      }
+    } else if(keyPressed.down && frog.gridY < ROWS-2){
+      frog.gridY++;
+      frog.dir = 2;
+      moved = true;
+    } else if(keyPressed.left && frog.gridX > 0){
+      frog.gridX--;
+      frog.dir = 3;
+      moved = true;
+    } else if(keyPressed.right && frog.gridX < COLS-1){
+      frog.gridX++;
+      frog.dir = 1;
+      moved = true;
+    }
+
+    if(moved){
+      frog.hopCooldown = 0.15;
+      frog.hopProgress = 1;
+      frog.ridingObject = null;
+      sfx.hop();
+    }
+  }
+
+  // Reset key presses
+  keyPressed.up = false;
+  keyPressed.down = false;
+  keyPressed.left = false;
+  keyPressed.right = false;
+
+  // Only snap to grid if NOT riding a river object (river drift sets frog.x directly)
+  if(!frog.ridingObject){
+    updateFrogPosition();
+  } else {
+    // Still update Y from grid, but keep drifting X
+    frog.y = frog.gridY * LANE_HEIGHT + LANE_HEIGHT/2;
+  }
+
+  // Check lane type
+  var laneIdx = ROWS - 1 - frog.gridY;
+  var currentLane = lanes[laneIdx];
+
+  // Check for home
+  if(currentLane && currentLane.type === "home"){
+    // Check if landed on a home slot
+    var landed = false;
+    for(var i=0; i<homes.length; i++){
+      if(!homes[i].filled && boxHit(frog.x, frog.y, CELL*0.5, CELL*0.5, homes[i].x, homes[i].y, homes[i].w, homes[i].h)){
+        homes[i].filled = true;
+        score += 50;
+        score += Math.floor(timer) * 2; // Time bonus
+        spawnParticles(homes[i].x, homes[i].y, "#4f4", 8);
+        sfx.home();
+        landed = true;
+
+        // Check if all homes filled
+        var allFilled = true;
+        for(var j=0; j<homes.length; j++){
+          if(!homes[j].filled) allFilled = false;
+        }
+
+        if(allFilled){
+          score += 500;
+          level++;
+          sfx.levelComplete();
+          initFrog();
+          initVehicles();
+          initRiverObjects();
+          initHomes();
+          timer = maxTimer;
+          timerWarningPlayed = false;
+          highestRow = ROWS - 2;
+          return;
+        } else {
+          initFrog();
+          timer = maxTimer;
+          timerWarningPlayed = false;
+        }
+        break;
+      }
+    }
+    if(!landed && frog.hopCooldown <= 0 && frog.invuln <= 0){
+      // Missed the home slot or already filled
+      lives--;
+      spawnParticles(frog.x, frog.y, "#48f", 10);
+      sfx.splash();
+      if(lives <= 0){
+        state = STATE_OVER;
+        if(score > highScore){ highScore = score; localStorage.setItem("frogger_hi", highScore); }
+        sfx.gameOver();
+      } else {
+        initFrog();
+        timer = maxTimer;
+        timerWarningPlayed = false;
+      }
+    }
+  }
+
+  // Vehicles
+  for(var i=0; i<vehicles.length; i++){
+    var v = vehicles[i];
+    v.x += v.dir * v.speed * dt;
+
+    // Wrap around
+    if(v.dir > 0 && v.x > COLS*CELL + v.w){ v.x = -v.w; }
+    if(v.dir < 0 && v.x < -v.w){ v.x = COLS*CELL + v.w; }
+
+    // Check collision with frog (only on road)
+    if(currentLane && currentLane.type === "road" && frog.invuln <= 0 && frog.hopCooldown <= 0.05){
+      if(boxHit(frog.x, frog.y, CELL*0.6, CELL*0.6, v.x, v.y, v.w, v.h)){
+        lives--;
+        spawnParticles(frog.x, frog.y, "#f44", 12);
+        sfx.carHit();
+        if(lives <= 0){
+          state = STATE_OVER;
+          if(score > highScore){ highScore = score; localStorage.setItem("frogger_hi", highScore); }
+          sfx.gameOver();
+        } else {
+          initFrog();
+          timer = maxTimer;
+          timerWarningPlayed = false;
+        }
+        return;
+      }
+    }
+  }
+
+  // River objects — update ALL positions every frame (just like vehicles)
+  for(var i=0; i<riverObjects.length; i++){
+    var obj = riverObjects[i];
+
+    // Update diving
+    if(obj.diving && obj.diveTimer > 0){
+      obj.diveTimer -= dt;
+      if(obj.diveTimer <= 0){
+        obj.diveState = 1; // Dive underwater
+        // Stay underwater for 2 seconds
+        setTimeout((function(o){
+          return function(){
+            o.diveState = 0;
+            o.diveTimer = 4 + Math.random()*3;
+          };
+        })(obj), 2000);
+      }
+    }
+
+    obj.x += obj.dir * obj.speed * dt;
+
+    // Wrap around
+    if(obj.dir > 0 && obj.x > COLS*CELL + obj.w){ obj.x = -obj.w; }
+    if(obj.dir < 0 && obj.x < -obj.w){ obj.x = COLS*CELL + obj.w; }
+  }
+
+  // Check frog interaction with river
+  frog.onRiver = false;
+  if(currentLane && currentLane.type === "river"){
+    frog.onRiver = true;
+    var onObject = false;
+
+    for(var i=0; i<riverObjects.length; i++){
+      var obj = riverObjects[i];
+
+      // Check if frog is on this object
+      if(obj.row === frog.gridY && boxHit(frog.x, frog.y, CELL*0.5, CELL*0.5, obj.x, obj.y, obj.w, obj.h)){
+        if(obj.diveState === 0){
+          onObject = true;
+          frog.ridingObject = obj;
+          // Move with object
+          frog.x += obj.dir * obj.speed * dt;
+          frog.gridX = Math.round((frog.x - CELL/2) / CELL);
+        }
+      }
+    }
+
+    // If on river but not on object, frog drowns
+    if(!onObject && frog.hopCooldown <= 0.05 && frog.invuln <= 0){
+      lives--;
+      spawnParticles(frog.x, frog.y, "#48f", 10);
+      sfx.splash();
+      if(lives <= 0){
+        state = STATE_OVER;
+        if(score > highScore){ highScore = score; localStorage.setItem("frogger_hi", highScore); }
+        sfx.gameOver();
+      } else {
+        initFrog();
+        timer = maxTimer;
+        timerWarningPlayed = false;
+      }
+      return;
+    }
+  }
+
+  // Check if frog went off screen while on river object
+  if(frog.x < 0 || frog.x > COLS*CELL){
+    if(frog.onRiver && frog.invuln <= 0){
+      lives--;
+      spawnParticles(COLS*CELL/2, frog.y, "#48f", 10);
+      sfx.splash();
+      if(lives <= 0){
+        state = STATE_OVER;
+        if(score > highScore){ highScore = score; localStorage.setItem("frogger_hi", highScore); }
+        sfx.gameOver();
+      } else {
+        initFrog();
+        timer = maxTimer;
+        timerWarningPlayed = false;
+      }
+      return;
+    }
+  }
+
+  // Particles
+  for(var i=particles.length-1; i>=0; i--){
+    var p = particles[i];
+    p.x += p.vx * dt;
+    p.y += p.vy * dt;
+    p.vy += p.gravity * dt;
+    p.life -= dt;
+    if(p.life <= 0) particles.splice(i,1);
+  }
+
+  // Update high score
+  if(score > highScore){ highScore = score; localStorage.setItem("frogger_hi", highScore); }
+}
+
+// ── Draw ──
+function draw(){
+  ctx.clearRect(0,0,W,H);
+
+  // Draw lanes
+  drawLanes();
+
+  // Draw homes, vehicles, and river objects (visible on all screens)
+  if(homes) drawHomes();
+
+  if(vehicles){
+    for(var i=0; i<vehicles.length; i++){
+      drawVehicle(vehicles[i]);
+    }
+  }
+  if(riverObjects){
+    for(var i=0; i<riverObjects.length; i++){
+      drawRiverObject(riverObjects[i]);
+    }
+  }
+
+  if(state === STATE_START){
+    // Title screen overlay
+    ctx.fillStyle = "rgba(0,0,0,0.55)";
+    ctx.fillRect(0, 0, W, H);
+
+    ctx.save();
+    ctx.textAlign = "center";
+    ctx.fillStyle = "#4f4";
+    ctx.font = "bold " + Math.floor(42*SCALE) + "px monospace";
+    ctx.fillText("FROGGER", W/2, H*0.25);
+
+    ctx.fillStyle = "#fff";
+    ctx.font = Math.floor(13*SCALE) + "px monospace";
+    ctx.fillText("HELP THE FROG CROSS THE ROAD", W/2, H*0.34);
+    ctx.fillText("AND RIVER TO REACH HOME", W/2, H*0.38);
+
+    ctx.fillStyle = "#aaa";
+    ctx.font = Math.floor(11*SCALE) + "px monospace";
+    ctx.fillText("USE JOYSTICK OR ARROW KEYS", W/2, H*0.46);
+    ctx.fillText("TO HOP IN 4 DIRECTIONS", W/2, H*0.50);
+
+    ctx.fillStyle = "#ff4";
+    ctx.font = Math.floor(12*SCALE) + "px monospace";
+    ctx.fillText("SCORING:", W/2, H*0.60);
+    ctx.fillStyle = "#aaa";
+    ctx.font = Math.floor(11*SCALE) + "px monospace";
+    ctx.fillText("FORWARD HOP = 10 PTS", W/2, H*0.65);
+    ctx.fillText("REACH HOME = 50 PTS + TIME BONUS", W/2, H*0.69);
+    ctx.fillText("COMPLETE LEVEL = 500 PTS", W/2, H*0.73);
+
+    if(highScore > 0){
+      ctx.fillStyle = "#4ff";
+      ctx.font = Math.floor(14*SCALE) + "px monospace";
+      ctx.fillText("HIGH SCORE: " + highScore, W/2, H*0.84);
+    }
+
+    ctx.fillStyle = "#4f4";
+    ctx.font = "bold " + Math.floor(14*SCALE) + "px monospace";
+    ctx.fillText("PRESS START OR ENTER", W/2, H*0.92);
+
+    ctx.restore();
+    return;
+  }
+
+  // Draw frog
+  if(state === STATE_PLAYING){
+    if(frog.invuln <= 0 || Math.floor(frog.invuln*8)%2 === 0){
+      drawFrog(frog.x, frog.y, frog.dir, frog.hopProgress);
+    }
+  }
+
+  // Particles
+  for(var i=0; i<particles.length; i++){
+    var p = particles[i];
+    ctx.fillStyle = p.color;
+    ctx.globalAlpha = Math.min(1, p.life*2);
+    ctx.fillRect(p.x*SCALE, p.y*SCALE, 4*SCALE, 4*SCALE);
+    ctx.globalAlpha = 1;
+  }
+
+  // HUD
+  ctx.save();
+
+  // Score
+  ctx.textAlign = "center";
+  ctx.fillStyle = "#fff";
+  ctx.font = "bold " + Math.floor(18*SCALE) + "px monospace";
+  ctx.fillText("" + score, W/2, 26*SCALE);
+
+  // Level
+  ctx.fillStyle = "#aaa";
+  ctx.font = Math.floor(11*SCALE) + "px monospace";
+  ctx.fillText("LEVEL " + level, W/2, 42*SCALE);
+
+  // High score
+  ctx.textAlign = "right";
+  ctx.fillStyle = "#aaa";
+  ctx.font = Math.floor(11*SCALE) + "px monospace";
+  ctx.fillText("HI " + highScore, (COLS*CELL-8)*SCALE, 20*SCALE);
+
+  // Lives (draw frogs)
+  for(var i=0; i<lives; i++){
+    drawFrog(20 + i*28, 20, 0, 0);
+  }
+
+  // Timer bar
+  var timerPercent = timer / maxTimer;
+  var barW = (COLS * CELL - 40) * timerPercent;
+  var barColor = "#4f4";
+  if(timerPercent < 0.3) barColor = "#f44";
+  else if(timerPercent < 0.5) barColor = "#ff4";
+
+  ctx.fillStyle = "#222";
+  ctx.fillRect(20*SCALE, (H/SCALE - 16)*SCALE, (COLS*CELL-40)*SCALE, 8*SCALE);
+  ctx.fillStyle = barColor;
+  ctx.fillRect(20*SCALE, (H/SCALE - 16)*SCALE, barW*SCALE, 8*SCALE);
+
+  ctx.restore();
+
+  // Game over overlay
+  if(state === STATE_OVER){
+    ctx.fillStyle = "rgba(0,0,0,0.7)";
+    ctx.fillRect(0, 0, W, H);
+
+    ctx.textAlign = "center";
+    ctx.fillStyle = "#f44";
+    ctx.font = "bold " + Math.floor(36*SCALE) + "px monospace";
+    ctx.fillText("GAME OVER", W/2, H*0.38);
+
+    ctx.fillStyle = "#fff";
+    ctx.font = Math.floor(16*SCALE) + "px monospace";
+    ctx.fillText("SCORE: " + score, W/2, H*0.48);
+
+    ctx.fillStyle = "#4ff";
+    ctx.font = Math.floor(14*SCALE) + "px monospace";
+    ctx.fillText("HIGH SCORE: " + highScore, W/2, H*0.55);
+
+    ctx.fillStyle = "#aaa";
+    ctx.font = Math.floor(13*SCALE) + "px monospace";
+    ctx.fillText("PRESS START OR ENTER", W/2, H*0.66);
+    ctx.fillText("TO PLAY AGAIN", W/2, H*0.71);
+  }
+}
+
+// ── Game loop ──
+var lastTime = 0;
+function loop(time){
+  var dt = Math.min((time - lastTime)/1000, 0.05);
+  lastTime = time;
+  update(dt);
+  draw();
+  requestAnimationFrame(loop);
+}
+requestAnimationFrame(function(t){ lastTime=t; loop(t); });
+
+})();
+</script>
+</body>
+</html>

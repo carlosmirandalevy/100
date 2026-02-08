@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Soccer — Prompt</title>
+<style>
+  body { background:#0a0a1a; color:#e0e0e0; font-family:'Courier New',monospace; margin:0; padding:40px 20px; line-height:1.8; }
+  .container { max-width:800px; margin:0 auto; }
+  h1 { color:#0f0; font-size:1.4rem; margin-bottom:8px; }
+  .label { color:#888; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.15em; margin-bottom:4px; }
+  .prompt { background:#111; border:1px solid #333; border-radius:8px; padding:24px; white-space:pre-wrap; font-size:0.92rem; line-height:1.9; color:#0f0; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="label">Prompt used to generate the game</div>
+  <h1>Soccer</h1>
+  <div class="prompt">Create a complete top-down soccer/football arcade game as a single HTML file with all JavaScript, CSS, and audio embedded. No external dependencies.
+
+**DISPLAY &amp; LAYOUT**
+- Use an HTML5 &lt;canvas&gt; element for all game rendering
+- RESPONSIVE ORIENTATION: The game must adapt to the device:
+  - On mobile (portrait): the pitch runs VERTICALLY (player attacks upward toward the top goal)
+  - On desktop (landscape): the pitch runs HORIZONTALLY (player attacks rightward toward the right goal)
+  - Detect orientation on load and on resize; swap axes accordingly
+- The pitch fills the available screen space with proper aspect ratio (roughly 2:3 portrait, 3:2 landscape)
+- Green pitch (#2d7a2d) with white field markings: center circle, center line, penalty areas, goal areas, corner arcs
+- Goals rendered as net/box shapes at each end of the pitch
+
+**TEAMS &amp; PLAYERS**
+- Two teams of 5 players each (including goalkeeper): the player's team (blue) and the AI team (red)
+- Each player is a colored circle (~16-20px diameter) with a small number
+- The human controls ONE player on the blue team (highlighted with a glow ring)
+- The other 3 blue outfield players are AI-controlled teammates who:
+  - Position themselves strategically (spread out, move toward open space)
+  - Run toward the ball when nearby
+  - Pass the ball to the human player or other teammates when they have it
+- The red team (AI opponent) plays against the blue team:
+  - They try to take the ball, pass among themselves, and score
+  - Difficulty scales slightly each half
+- Goalkeepers are positioned IN FRONT of their goal (on the field side of the goal line), NOT inside the goal area. This prevents false goals when the GK intercepts the ball.
+- Goalkeepers can INTERCEPT/CATCH the ball when it comes within range — this does NOT count as a goal
+- After catching the ball, the goalkeeper holds it briefly (~0.5-0.6s) then passes to a nearby teammate. If no teammate is reachable, the GK kicks the ball toward the center of the pitch instead.
+- IMPORTANT: When the GK releases the ball (pass or kick), the ball must be offset slightly in the pass direction away from the GK, and the GK must be excluded from picking up or re-intercepting the ball for a brief cooldown (~0.3s). Without this, the GK will immediately recapture its own pass because the ball starts at the GK's position and is within pickup range. Use a `lastOwner` + `lastOwnerTimer` mechanism on the ball to prevent the passer from recapturing.
+- Goal detection must only trigger when the ball is FREE (not held by ANY player) AND inside the goal area. If ball.free is false, no goal is scored regardless of ball position.
+- The game loop must run GK interception checks AFTER ball movement but BEFORE goal detection, so the GK can catch the ball before it triggers a goal
+
+**PLAYER CONTROLS**
+- The human-controlled player moves continuously (not grid-based)
+- When the player has the ball, the ball sticks to them (dribbling)
+- The player must dodge/avoid red team players who try to tackle (steal the ball)
+- If a red player gets close enough to the dribbling player, there's a tackle chance (~40%) to lose the ball
+
+**BALL PHYSICS**
+- The ball is a small white circle that rolls with momentum and friction
+- When kicked (shot or pass), the ball travels in a straight line with decreasing speed
+- Ball bounces off the side boundaries (touchlines), but for simplicity no throw-ins — just bounce
+- Ball entering a goal = GOAL! (only if the ball is free — not held by any player including the goalkeeper)
+- The human-controlled player has a much larger pickup radius for easier ball control and dribbling (significantly larger than AI players)
+
+**ACTIONS (controlled by buttons/keys)**
+- **MOVE**: Virtual joystick (mobile) or Arrow keys/WASD (keyboard) — 360-degree movement
+- **PASS**: Press pass button / Spacebar — kicks the ball toward the nearest teammate in the direction the player is facing. If no teammate nearby, short kick forward. Pass speed: medium.
+- **SHOOT**: Press shoot button / Enter or Shift — powerful kick toward the opponent's goal. Shoot speed: fast. The shot aims generally toward the goal center with slight random spread.
+- When the player does NOT have the ball: PASS button instead makes the controlled player sprint toward the ball.
+
+**CONTROLS — VIRTUAL GAMEPAD (always visible)**
+- Bottom-left: Virtual joystick (analog stick)
+  - Outer ring: ~120px circle, semi-transparent
+  - Inner knob: ~50px, draggable
+  - 360-degree movement (not just 4 directions)
+  - Smooth, responsive (touchstart/touchmove/touchend + mouse events)
+- Bottom-right: Two large circular buttons stacked or side by side
+  - PASS button (blue, ~60px) — labeled "PASS" or "⚡"
+  - SHOOT button (red/orange, ~60px) — labeled "SHOOT" or "🎯"
+- Buttons: semi-transparent (0.35), brighter on press (0.7)
+- Support multi-touch: player can move joystick and press a button simultaneously
+- Use touchstart/touchend for zero-delay + mousedown/mouseup for desktop
+
+**MATCH STRUCTURE**
+- Two halves of 2 minutes each (game time, displayed as mm:ss countdown from 2:00 → 0:00)
+- A running game clock shown at the top center
+- Score shown at top: "BLUE 0 — 0 RED" with team colors
+
+**HALFTIME CUTSCENE — ANIMATED 10-SECOND INTERMISSION**
+- When the first half ends (clock hits 0:00):
+  - Freeze gameplay, play a short whistle sound
+  - Render the entire halftime intermission on the canvas (no DOM overlay), with a dark semi-transparent background over the pitch
+  - Use requestAnimationFrame timing for smooth 60fps animation
+  - Team-colored (blue &amp; red) ambient particles float gently throughout all phases
+  - 10-second animation split into 4 phases:
+
+  **Phase 1 (0–2s) — "HALF TIME" Entrance:**
+  - "HALF TIME" text zooms in with an elastic ease-out curve
+  - Concentric whistle rings emanate outward from the center (fading circles)
+  - Text has a blue glow/shadow effect
+  - Score fades in below: blue score — red score in team colors
+
+  **Phase 2 (2–5s) — Bouncing Ball &amp; Players Walking Off:**
+  - A soccer ball bounces across the screen along a precomputed sinusoidal path
+  - Ball has a motion trail (fading white dots), shadow on the ground, and spin lines
+  - 6 player silhouettes (3 blue, 3 red) walk off the bottom of the pitch with bobbing legs animation
+  - Silhouettes gradually fade out as they exit
+  - Score remains visible at the top
+
+  **Phase 3 (5–8s) — Match Stats Display:**
+  - "MATCH STATS" header with an animated decorative underline
+  - Three stat bars (Possession, Shots, Passes) appear in sequence with staggered reveal animation
+  - Each bar shows blue portion (left) and red portion (right) with team colors
+  - Stat numbers displayed beside each bar
+  - A dotted ball-trail replay line animates subtly in the background
+  - Score remains visible at the top
+
+  **Phase 4 (8–10s) — "SECOND HALF" Countdown:**
+  - "SECOND HALF" text appears with a pulsing green glow
+  - Countdown numbers 3… 2… 1… scale up and fade with expanding ring bursts
+  - Score remains visible at the top
+  - After 10 seconds, resume play — teams swap sides (goals swap), reset player positions to kickoff formation
+
+**GOAL CELEBRATION**
+- When a goal is scored:
+  - Freeze gameplay for ~3 seconds
+  - Flash "GOOOAL!" text in large animated letters (scale up + bounce effect)
+  - The scoring team's players run around briefly in celebration
+  - The goal scorer does a VICTORY DANCE animation:
+    - Player sprite rapidly alternates between slightly different positions/sizes
+    - Arms-up pose (draw small lines extending from the circle)
+    - Spinning motion (draw a rotating arrow or star effect around the player)
+    - Jumping motion (player circle bounces up and down)
+    - Confetti particles burst from the scorer
+  - Play crowd ROAR/CHEER sound
+  - After celebration, reset to kickoff positions
+
+**GAME END**
+- After second half clock hits 0:00:
+  - Final whistle sound
+  - "FULL TIME" overlay
+  - Display final score
+  - If tied: "DRAW!" message
+  - If winner: "[Team] WINS!" with celebration animation
+  - "PLAY AGAIN" button
+  - On restart: full reset, fresh match
+
+**START SCREEN**
+- Title: "SOCCER" (or "FOOTBALL") in bold
+- "TAP TO START" / "PRESS ENTER TO START"
+- Brief controls instructions
+- Game starts at kickoff with the blue team in possession
+
+**SOUND EFFECTS (Web Audio API — no audio files)**
+All sounds generated programmatically using OscillatorNode + GainNode:
+- **Kick/Pass**: Short punchy "thwack" (~0.08s, 200Hz→100Hz quick sweep, sawtooth)
+- **Powerful Shot**: Louder, deeper version of kick (~0.12s, 180Hz→80Hz)
+- **Ball hitting goal post/net**: Metallic ping + low thud (~0.1s, 800Hz sine + 100Hz square)
+- **Goal scored**: CROWD ROAR — layered noise burst + rising tone (~1.5s):
+  - White noise burst at high volume for 0.3s (crowd noise)
+  - Rising sine sweep 200Hz→600Hz over 0.5s
+  - Sustained mid-frequency hum for 1s (extended cheer)
+  - Volume envelope: quick attack, slow decay
+- **Whistle** (start, halftime, fulltime): High-pitched sine tone (~0.4s, 2000Hz→1800Hz, two short blasts)
+- **Tackle/steal**: Quick low crunch (~0.05s, noise burst)
+- **Ambient crowd**: Subtle low-volume continuous noise that varies slightly (optional, adds atmosphere)
+- Keep all sounds retro but recognizable as a sports game
+
+**VISUAL EFFECTS**
+- Ball trail: subtle fading dots behind a fast-moving ball
+- Player movement: slight stretch in direction of movement
+- Goal flash: screen briefly flashes white when goal scored
+- Confetti particles during celebration (team-colored, fall with gravity)
+- Goalkeeper dive animation (stretch toward ball)
+- Pitch shadow/depth: subtle darker green stripes alternating on the pitch
+
+**AI BEHAVIOR**
+- Blue AI teammates:
+  - Find open space away from red players
+  - Move toward ball when it's loose
+  - Pass to human player when they have the ball and human is open
+  - Run forward when human has the ball (provide passing options)
+- Red AI opponents:
+  - One player always marks/follows the human-controlled player
+  - Others position to intercept passes and cover space
+  - When they have the ball: pass between themselves and shoot when near the goal
+  - Goalkeeper: tracks ball's Y (or X) position, dives when shot is close
+- AI should be fun to play against but not impossibly hard. The human should be able to score with good passing and movement.
+
+**PERFORMANCE &amp; CODE**
+- requestAnimationFrame game loop
+- Delta-time based movement for consistent speed
+- IIFE pattern, no global leaks
+- Game states: START, PLAYING, HALFTIME, GOAL_CELEBRATION, FULL_TIME
+- IMPORTANT: Call initGame() BOTH when starting from the title screen AND when restarting after full time. All game arrays (players, ball, particles) must be initialized before the first frame.
+- Efficient collision detection
+- Single self-contained HTML file, no external dependencies</div>
+</div>
+</body>
+</html>
