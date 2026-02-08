@@ -148,6 +148,7 @@
                         ${item.tools.map(t => '<span class="tool-pill">' + escapeHtml(t) + '</span>').join('')}
                     </div>
                     ${item.links ? '<div class="links-list">' + item.links.map(l => '<a href="' + escapeHtml(l.url) + '" target="_blank" class="resource-link"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg> ' + escapeHtml(l.name) + '</a>').join('') + '</div>' : ''}
+                    ${item.examples ? '<div class="examples-section"><div class="examples-heading"><svg width="16" height="16" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg> 示例</div><div class="examples-grid">' + item.examples.map((ex,ei) => '<div class="example-card"><div class="example-card-preview">' + (ex.type==='static' ? '<div class="example-art">' + escapeHtml(ex.art) + '</div>' : '<div class="example-anim-placeholder"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>' + escapeHtml(ex.title) + '</div>') + '</div><div class="example-card-footer"><span class="example-card-title">' + escapeHtml(ex.title) + '</span><button class="example-btn" data-item-idx="' + item.id + '" data-ex-idx="' + ei + '">' + (ex.type==='static' ? '查看' : '播放') + '</button></div></div>').join('') + '</div></div>' : ''}
                     <a href="https://cemi.ai" target="_blank" class="contact-link"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"></path></svg> 需要帮助？请联系 cemi.AI</a>
                 </div>
             </div>`;
@@ -167,7 +168,51 @@
                 copyPrompt(btn, block ? block.dataset.prompt : '');
             });
         });
+        document.querySelectorAll('.example-btn').forEach(btn => {
+            btn.addEventListener('click', e => {
+                e.stopPropagation();
+                var itemId = parseInt(btn.dataset.itemIdx);
+                var exIdx = parseInt(btn.dataset.exIdx);
+                var item = ITEMS.find(i => i.id === itemId);
+                if (item && item.examples && item.examples[exIdx]) openAsciiModal(item.examples[exIdx]);
+            });
+        });
     }
+
+    var asciiModalEl = null;
+    function openAsciiModal(ex) {
+        if (!asciiModalEl) {
+            asciiModalEl = document.createElement('div');
+            asciiModalEl.className = 'ascii-modal-overlay';
+            asciiModalEl.innerHTML = '<div class="ascii-modal"><div class="ascii-modal-header"><span class="ascii-modal-title"></span><button class="ascii-modal-close" aria-label="Close"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button></div><div class="ascii-modal-body"><div class="ascii-modal-content"></div><div class="ascii-modal-prompt"><div class="ascii-modal-prompt-label">使用的提示词</div><div class="ascii-modal-prompt-text"></div></div></div></div>';
+            document.body.appendChild(asciiModalEl);
+            asciiModalEl.querySelector('.ascii-modal-close').addEventListener('click', closeAsciiModal);
+            asciiModalEl.addEventListener('click', function(e) { if (e.target === asciiModalEl) closeAsciiModal(); });
+        }
+        asciiModalEl.querySelector('.ascii-modal-title').textContent = ex.title;
+        asciiModalEl.querySelector('.ascii-modal-prompt-text').textContent = ex.prompt;
+        var content = asciiModalEl.querySelector('.ascii-modal-content');
+        if (ex.type === 'static') {
+            content.innerHTML = '<pre class="ascii-modal-art">' + escapeHtml(ex.art) + '</pre>';
+        } else {
+            content.innerHTML = '';
+            var iframe = document.createElement('iframe');
+            iframe.className = 'ascii-modal-iframe';
+            iframe.setAttribute('sandbox', 'allow-scripts');
+            iframe.srcdoc = ex.html;
+            content.appendChild(iframe);
+        }
+        requestAnimationFrame(function() { asciiModalEl.classList.add('open'); });
+        document.addEventListener('keydown', asciiModalEsc);
+    }
+    function closeAsciiModal() {
+        if (!asciiModalEl) return;
+        asciiModalEl.classList.remove('open');
+        var iframe = asciiModalEl.querySelector('iframe');
+        if (iframe) iframe.removeAttribute('srcdoc');
+        document.removeEventListener('keydown', asciiModalEsc);
+    }
+    function asciiModalEsc(e) { if (e.key === 'Escape') closeAsciiModal(); }
 
     function toggleItem(id) {
         const body = document.getElementById('body-' + id);

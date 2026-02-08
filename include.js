@@ -24,7 +24,7 @@
 
     // === Inject Open Graph & Twitter Card meta (if not already present) ===
     if (!document.querySelector('meta[property="og:title"]')) {
-        var title = document.title || '100 Things with AI | CEMI.AI';
+        var title = document.title || '100 Things to Do with AI | CEMI.AI';
         var desc = (document.querySelector('meta[name="description"]') || {}).content || 'Discover 100+ amazing things you can do with AI. A comprehensive guide by CEMI.AI.';
         var ogTags = [
             ['property', 'og:type', 'website'],
@@ -227,7 +227,7 @@
 
         // --- Navigation ---
         var navHTML = '<nav class="nav" id="main-nav"><div class="nav-inner">' +
-            '<a href="' + ph('index') + '" class="nav-logo"><img src="assets/logos/favicon-32x32.png" alt="CEMI.AI" class="nav-logo-img"> 100 <span>Things with AI</span></a>' +
+            '<a href="' + ph('index') + '" class="nav-logo"><img src="assets/logos/favicon-32x32.png" alt="CEMI.AI" class="nav-logo-img"> 100 <span>Things to Do with AI</span></a>' +
             '<button class="nav-hamburger" id="nav-toggle-btn" aria-label="Menu"><span></span><span></span><span></span></button>' +
             '<div class="nav-links" id="nav-links">' +
             '<a href="' + ph('things') + '" class="nav-link' + active('things') + '">' + S.things + '</a>' +
@@ -252,7 +252,7 @@
         // --- Footer ---
         var footerHTML = '<footer class="footer"><div class="container"><div class="footer-grid">' +
             '<div class="footer-col">' +
-            '<a href="' + ph('index') + '" class="nav-logo" style="display:inline-flex;align-items:center;gap:8px;margin-bottom:var(--space-md);font-size:1.3rem"><img src="assets/logos/favicon-32x32.png" alt="CEMI.AI" class="nav-logo-img"> 100 <span>Things with AI</span></a>' +
+            '<a href="' + ph('index') + '" class="nav-logo" style="display:inline-flex;align-items:center;gap:8px;margin-bottom:var(--space-md);font-size:1.3rem"><img src="assets/logos/favicon-32x32.png" alt="CEMI.AI" class="nav-logo-img"> 100 <span>Things to Do with AI</span></a>' +
             '<p class="footer-mantra">&ldquo;' + S.mantra + '&rdquo;</p>' +
             '<a href="https://cemi.ai" target="_blank">' + S.visit + ' CEMI.AI &rarr;</a>' +
             '</div>' +
