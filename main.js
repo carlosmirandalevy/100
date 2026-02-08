@@ -89,7 +89,9 @@
             if (page !== 'things') {
                 const lang = document.documentElement.lang || 'en';
                 const prefix = lang === 'en' ? '' : lang + '-';
-                window.location.href = prefix + 'things.html?q=' + encodeURIComponent(this.value.trim());
+                var searchTerm = this.value.trim();
+                if (typeof gtag === 'function') gtag('event', 'search', { search_term: searchTerm });
+                window.location.href = prefix + 'things.html?q=' + encodeURIComponent(searchTerm);
             }
         }
     });
