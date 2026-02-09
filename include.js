@@ -62,7 +62,7 @@
     // === UI Strings for all supported languages ===
     var STRINGS = {
         en: {
-            things: "100+ Do's", donts: "Don'ts", usingAI: 'Using AI', tips: 'Tips', skills: 'Useful Skills',
+            things: "100+ Do's", donts: "Don'ts", logoText: "AI Do's and Don'ts", usingAI: 'Using AI', tips: 'Tips', skills: 'Useful Skills',
             quickWins: 'Quick Wins', tools: 'Tools', showcase: 'Showcase', about: 'About',
             searchLabel: 'Search (Ctrl+K)', searchPlaceholder: 'Search the 100+ things...',
             searchHint: 'Press Enter to search', scrollTop: 'Scroll to top',
@@ -78,7 +78,7 @@
             availableAt: 'Everything mentioned here is available at'
         },
         fr: {
-            things: "100+ \u00e0 faire", donts: '\u00c0 ne pas faire', usingAI: "Utiliser l'IA", tips: 'Conseils', skills: 'Comp\u00e9tences utiles',
+            things: "100+ \u00e0 faire", donts: '\u00c0 ne pas faire', logoText: "AI Do's et Don'ts", usingAI: "Utiliser l'IA", tips: 'Conseils', skills: 'Comp\u00e9tences utiles',
             quickWins: 'Victoires rapides', tools: 'Outils', showcase: 'Vitrine', about: '\u00c0 propos',
             searchLabel: 'Rechercher (Ctrl+K)', searchPlaceholder: 'Rechercher les 100+ choses...',
             searchHint: 'Appuyez sur Entr\u00e9e pour rechercher', scrollTop: 'Retour en haut',
@@ -94,7 +94,7 @@
             availableAt: 'Tout ce qui est mentionn\u00e9 ici est disponible sur'
         },
         es: {
-            things: '100+ S\u00ed', donts: 'Lo que no hacer', usingAI: 'Usar IA', tips: 'Consejos', skills: 'Habilidades \u00fatiles',
+            things: '100+ S\u00ed', donts: 'Lo que no hacer', logoText: 'Qu\u00e9 hacer y no con IA', usingAI: 'Usar IA', tips: 'Consejos', skills: 'Habilidades \u00fatiles',
             quickWins: 'Victorias r\u00e1pidas', tools: 'Herramientas', showcase: 'Vitrina', about: 'Acerca de',
             searchLabel: 'Buscar (Ctrl+K)', searchPlaceholder: 'Buscar las 100+ cosas...',
             searchHint: 'Presiona Enter para buscar', scrollTop: 'Volver arriba',
@@ -110,7 +110,7 @@
             availableAt: 'Todo lo mencionado aqu\u00ed est\u00e1 disponible en'
         },
         pt: {
-            things: '100+ Sim', donts: 'O que n\u00e3o fazer', usingAI: 'Usar IA', tips: 'Dicas', skills: 'Habilidades \u00fateis',
+            things: '100+ Sim', donts: 'O que n\u00e3o fazer', logoText: 'O que fazer e n\u00e3o com IA', usingAI: 'Usar IA', tips: 'Dicas', skills: 'Habilidades \u00fateis',
             quickWins: 'Vit\u00f3rias r\u00e1pidas', tools: 'Ferramentas', showcase: 'Vitrine', about: 'Sobre',
             searchLabel: 'Pesquisar (Ctrl+K)', searchPlaceholder: 'Pesquisar as 100+ coisas...',
             searchHint: 'Pressione Enter para pesquisar', scrollTop: 'Voltar ao topo',
@@ -126,7 +126,7 @@
             availableAt: 'Tudo mencionado aqui est\u00e1 dispon\u00edvel em'
         },
         de: {
-            things: "100+ Do's", donts: 'Don\u2019ts', usingAI: 'KI nutzen', tips: 'Tipps', skills: 'N\u00fctzliche F\u00e4higkeiten',
+            things: "100+ Do's", donts: 'Don\u2019ts', logoText: 'KI: Dos und Don\u2019ts', usingAI: 'KI nutzen', tips: 'Tipps', skills: 'N\u00fctzliche F\u00e4higkeiten',
             quickWins: 'Schnelle Erfolge', tools: 'Werkzeuge', showcase: 'Vitrine', about: '\u00dcber uns',
             searchLabel: 'Suchen (Ctrl+K)', searchPlaceholder: 'Die 100+ Dinge durchsuchen...',
             searchHint: 'Enter dr\u00fccken zum Suchen', scrollTop: 'Nach oben',
@@ -142,7 +142,7 @@
             availableAt: 'Alles hier Erw\u00e4hnte ist verf\u00fcgbar auf'
         },
         it: {
-            things: "100+ S\u00ec", donts: 'Da non fare', usingAI: "Usare l'IA", tips: 'Consigli', skills: 'Competenze utili',
+            things: "100+ S\u00ec", donts: 'Da non fare', logoText: "IA: da fare e non", usingAI: "Usare l'IA", tips: 'Consigli', skills: 'Competenze utili',
             quickWins: 'Vittorie rapide', tools: 'Strumenti', showcase: 'Vetrina', about: 'Chi siamo',
             searchLabel: 'Cerca (Ctrl+K)', searchPlaceholder: 'Cerca le 100+ cose...',
             searchHint: 'Premi Invio per cercare', scrollTop: 'Torna su',
@@ -158,7 +158,7 @@
             availableAt: 'Tutto ci\u00f2 che \u00e8 menzionato qui \u00e8 disponibile su'
         },
         ja: {
-            things: "100+ Do's", donts: '\u3084\u3063\u3066\u306f\u3044\u3051\u306a\u3044\u3053\u3068', usingAI: 'AI\u306e\u4f7f\u3044\u65b9', tips: '\u30d2\u30f3\u30c8', skills: '\u5f79\u7acb\u3064\u30b9\u30ad\u30eb',
+            things: "100+ Do's", donts: '\u3084\u3063\u3066\u306f\u3044\u3051\u306a\u3044\u3053\u3068', logoText: 'AI\u306e\u3059\u3079\u304d\u3053\u3068\u30fb\u3059\u3079\u304d\u3067\u306a\u3044\u3053\u3068', usingAI: 'AI\u306e\u4f7f\u3044\u65b9', tips: '\u30d2\u30f3\u30c8', skills: '\u5f79\u7acb\u3064\u30b9\u30ad\u30eb',
             quickWins: '\u30af\u30a4\u30c3\u30af\u30a6\u30a3\u30f3', tools: '\u30c4\u30fc\u30eb', showcase: '\u30b7\u30e7\u30fc\u30b1\u30fc\u30b9', about: '\u6982\u8981',
             searchLabel: '\u691c\u7d22 (Ctrl+K)', searchPlaceholder: '100\u306e\u3053\u3068\u3092\u691c\u7d22...',
             searchHint: 'Enter\u3067\u691c\u7d22', scrollTop: '\u30c8\u30c3\u30d7\u306b\u623b\u308b',
@@ -174,7 +174,7 @@
             availableAt: '\u3053\u3053\u3067\u7d39\u4ecb\u3055\u308c\u305f\u3059\u3079\u3066\u306f\u3053\u3061\u3089\u3067\u5229\u7528\u53ef\u80fd\u3067\u3059'
         },
         zh: {
-            things: "100+ Do's", donts: '\u4e0d\u8981\u505a\u7684\u4e8b', usingAI: '\u4f7f\u7528AI', tips: '\u6280\u5de7', skills: '\u5b9e\u7528\u6280\u80fd',
+            things: "100+ Do's", donts: '\u4e0d\u8981\u505a\u7684\u4e8b', logoText: 'AI\u8be5\u505a\u4e0e\u4e0d\u8be5\u505a', usingAI: '\u4f7f\u7528AI', tips: '\u6280\u5de7', skills: '\u5b9e\u7528\u6280\u80fd',
             quickWins: '\u5feb\u901f\u4e0a\u624b', tools: '\u5de5\u5177', showcase: '\u5c55\u793a', about: '\u5173\u4e8e',
             searchLabel: '\u641c\u7d22 (Ctrl+K)', searchPlaceholder: '\u641c\u7d22100\u4ef6\u4e8b...',
             searchHint: '\u6309Enter\u641c\u7d22', scrollTop: '\u56de\u5230\u9876\u90e8',
@@ -238,7 +238,7 @@
 
         // --- Navigation ---
         var navHTML = '<nav class="nav" id="main-nav"><div class="nav-inner">' +
-            '<a href="' + ph('index') + '" class="nav-logo"><img src="assets/logos/favicon-32x32.png" alt="CEMI.AI" class="nav-logo-img"> 100+ <span>AI Do\'s and Don\'ts</span></a>' +
+            '<a href="' + ph('index') + '" class="nav-logo"><img src="assets/logos/favicon-32x32.png" alt="CEMI.AI" class="nav-logo-img"> 100+ <span>' + S.logoText + '</span></a>' +
             '<button class="nav-hamburger" id="nav-toggle-btn" aria-label="Menu"><span></span><span></span><span></span></button>' +
             '<div class="nav-links" id="nav-links">' +
             '<a href="' + ph('things') + '" class="nav-link' + active('things') + '">' + S.things + '</a>' +
@@ -264,7 +264,7 @@
         // --- Footer ---
         var footerHTML = '<footer class="footer"><div class="container"><div class="footer-grid">' +
             '<div class="footer-col">' +
-            '<a href="' + ph('index') + '" class="nav-logo" style="display:inline-flex;align-items:center;gap:8px;margin-bottom:var(--space-md);font-size:1.3rem"><img src="assets/logos/favicon-32x32.png" alt="CEMI.AI" class="nav-logo-img"> 100+ <span>AI Do\'s and Don\'ts</span></a>' +
+            '<a href="' + ph('index') + '" class="nav-logo" style="display:inline-flex;align-items:center;gap:8px;margin-bottom:var(--space-md);font-size:1.3rem"><img src="assets/logos/favicon-32x32.png" alt="CEMI.AI" class="nav-logo-img"> 100+ <span>' + S.logoText + '</span></a>' +
             '<p class="footer-mantra">&ldquo;' + S.mantra + '&rdquo;</p>' +
             '<a href="https://cemi.ai" target="_blank">' + S.visit + ' CEMI.AI &rarr;</a>' +
             '</div>' +
