@@ -284,7 +284,7 @@ a:hover { color: var(--accent-3); }
 
 .results-count { text-align: center; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: var(--space-lg); }
 
-.item-card { background: var(--gradient-card); border: 1px solid rgba(167,0,0,0.06); border-radius: var(--radius-lg); margin-bottom: var(--space-md); overflow: hidden; transition: all var(--transition-fast); }
+.item-card { background: var(--gradient-card); border: 1px solid rgba(167,0,0,0.06); border-radius: var(--radius-lg); margin-bottom: var(--space-md); transition: all var(--transition-fast); }
 .item-card:hover { border-color: rgba(167,0,0,0.15); }
 .item-card.explored { border-left: 3px solid var(--accent-2); }
 .item-header { display: flex; align-items: center; gap: var(--space-md); padding: var(--space-md) var(--space-lg); cursor: pointer; user-select: none; }
