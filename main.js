@@ -96,6 +96,34 @@
         }
     });
 
+    // Theme toggle
+    const themeToggleBtn = document.getElementById('theme-toggle-btn');
+    const themeDropdown = document.getElementById('theme-dropdown');
+    if (themeToggleBtn && themeDropdown) {
+        themeToggleBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            themeDropdown.classList.toggle('open');
+        });
+        themeDropdown.querySelectorAll('.theme-dropdown-item').forEach(function(item) {
+            item.addEventListener('click', function(e) {
+                e.stopPropagation();
+                var theme = this.getAttribute('data-theme-value');
+                if (theme === 'dark') {
+                    document.documentElement.removeAttribute('data-theme');
+                } else {
+                    document.documentElement.setAttribute('data-theme', theme);
+                }
+                localStorage.setItem('theme', theme);
+                themeDropdown.querySelectorAll('.theme-dropdown-item').forEach(function(el) { el.classList.remove('active'); });
+                this.classList.add('active');
+                themeDropdown.classList.remove('open');
+            });
+        });
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('#theme-toggle')) themeDropdown.classList.remove('open');
+        });
+    }
+
     // FAQ toggles
     document.querySelectorAll('.faq-question').forEach(q => {
         q.addEventListener('click', () => {

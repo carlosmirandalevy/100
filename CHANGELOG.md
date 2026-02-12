@@ -1,5 +1,25 @@
 # Changelog
 
+## [2.3.0] - 2026-02-11
+
+### Added
+- Three-theme system: Pastel (default), Light, and Dark
+- Theme toggle button in nav bar with dropdown (between search and language selector)
+- Translated theme labels in all 8 languages (en, fr, es, pt, de, it, ja, zh)
+- Theme persistence via localStorage across page loads and navigation
+- Early theme application in include.js to prevent flash of unstyled content (FOUC)
+- CSS variables for nav background, code blocks, shadows, and borders
+- Pastel theme: warm cream backgrounds, softened accent colors, gentle shadows
+- Light theme: white backgrounds, original vibrant accent colors, subtle shadows
+- Theme-specific card borders and hero orb adjustments for light backgrounds
+
+### Changed
+- Replaced 15+ hardcoded color values in styles.css with CSS variables (nav, code blocks, shadows, modals, dropdowns)
+- Replaced inline `background:#0d0d25` in all 8 tips pages with `var(--bg-code)`
+- Converted categoryColors in all 8 things pages from hardcoded hex to CSS variable lookups via `getComputedStyle`
+- Category number gradients now use `color-mix(... 70%, black)` for reliable white-text contrast across all themes
+- Mobile nav theme toggle uses collapsible dropdown matching existing nav patterns
+
 ## [2.2.0] - 2026-02-08
 
 ### Added

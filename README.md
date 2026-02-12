@@ -14,7 +14,7 @@ This project showcases 100 practical things you can do with AI, organized into 1
 
 ## Features
 
-- **108 AI use cases** across 10 categories: Writing, Learning, Art, Music, Video, Productivity, Coding, Business, Science, and Fun
+- **120 AI use cases** across 10 categories: Writing, Learning, Art, Music, Video, Productivity, Coding, Business, Science, and Fun
 - **Ready-to-copy prompts** with one-click copy for each use case
 - **Step-by-step guides** for every item
 - **Showcase section** with real AI projects by Carlos Miranda Levy
@@ -22,7 +22,7 @@ This project showcases 100 practical things you can do with AI, organized into 1
 - **Search and filter** by category or keywords
 - **Progress tracker** showing how many items you've explored
 - **Responsive design** optimized for mobile and desktop
-- **Dark theme** with vibrant gradient accents
+- **Three theme flavors** -- Pastel (default), Light, and Dark -- with a toggle in the nav bar, persisted via localStorage
 
 ## Tech Stack
 

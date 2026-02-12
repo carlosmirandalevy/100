@@ -2,6 +2,11 @@
 /* Load this in <head> to inject CSS/fonts, then nav/footer on DOMContentLoaded */
 (function() {
     'use strict';
+
+    // === Early theme application (prevents FOUC) ===
+    var savedTheme = localStorage.getItem('theme') || 'pastel';
+    if (savedTheme !== 'dark') document.documentElement.setAttribute('data-theme', savedTheme);
+
     var head = document.head;
 
     // === Inject CSS, Fonts, Favicon & Meta into <head> (synchronous, prevents FOUC) ===
@@ -75,7 +80,8 @@
             connectDesc: 'Want to learn more about AI and how it can transform your work and learning?',
             developSkills: 'Want to develop new skills with AI?',
             madeWith: 'Made with AI + Human Creativity',
-            availableAt: 'Everything mentioned here is available at'
+            availableAt: 'Everything mentioned here is available at',
+            themePastel: 'Pastel', themeLight: 'Light', themeDark: 'Dark', themeLabel: 'Theme'
         },
         fr: {
             things: "100+ \u00e0 faire", donts: '\u00c0 ne pas faire', logoText: "AI Do's et Don'ts", usingAI: "Utiliser l'IA", tips: 'Conseils', skills: 'Comp\u00e9tences utiles',
@@ -91,7 +97,8 @@
             connectDesc: "Vous voulez en savoir plus sur l'IA et comment elle peut transformer votre travail et votre apprentissage ?",
             developSkills: "Vous voulez d\u00e9velopper de nouvelles comp\u00e9tences avec l'IA ?",
             madeWith: 'Fait avec IA + Cr\u00e9ativit\u00e9 Humaine',
-            availableAt: 'Tout ce qui est mentionn\u00e9 ici est disponible sur'
+            availableAt: 'Tout ce qui est mentionn\u00e9 ici est disponible sur',
+            themePastel: 'Pastel', themeLight: 'Clair', themeDark: 'Sombre', themeLabel: 'Th\u00e8me'
         },
         es: {
             things: '100+ S\u00ed', donts: 'Lo que no hacer', logoText: 'Qu\u00e9 hacer y no con IA', usingAI: 'Usar IA', tips: 'Consejos', skills: 'Habilidades \u00fatiles',
@@ -107,7 +114,8 @@
             connectDesc: '\u00bfQuieres aprender m\u00e1s sobre IA y c\u00f3mo puede transformar tu trabajo y aprendizaje?',
             developSkills: '\u00bfQuieres desarrollar nuevas habilidades con IA?',
             madeWith: 'Hecho con IA + Creatividad Humana',
-            availableAt: 'Todo lo mencionado aqu\u00ed est\u00e1 disponible en'
+            availableAt: 'Todo lo mencionado aqu\u00ed est\u00e1 disponible en',
+            themePastel: 'Pastel', themeLight: 'Claro', themeDark: 'Oscuro', themeLabel: 'Tema'
         },
         pt: {
             things: '100+ Sim', donts: 'O que n\u00e3o fazer', logoText: 'O que fazer e n\u00e3o com IA', usingAI: 'Usar IA', tips: 'Dicas', skills: 'Habilidades \u00fateis',
@@ -123,7 +131,8 @@
             connectDesc: 'Quer saber mais sobre IA e como ela pode transformar seu trabalho e aprendizado?',
             developSkills: 'Quer desenvolver novas habilidades com IA?',
             madeWith: 'Feito com IA + Criatividade Humana',
-            availableAt: 'Tudo mencionado aqui est\u00e1 dispon\u00edvel em'
+            availableAt: 'Tudo mencionado aqui est\u00e1 dispon\u00edvel em',
+            themePastel: 'Pastel', themeLight: 'Claro', themeDark: 'Escuro', themeLabel: 'Tema'
         },
         de: {
             things: "100+ Do's", donts: 'Don\u2019ts', logoText: 'KI: Dos und Don\u2019ts', usingAI: 'KI nutzen', tips: 'Tipps', skills: 'N\u00fctzliche F\u00e4higkeiten',
@@ -139,7 +148,8 @@
             connectDesc: 'M\u00f6chtest du mehr \u00fcber KI erfahren und wie sie deine Arbeit und dein Lernen ver\u00e4ndern kann?',
             developSkills: 'M\u00f6chtest du neue F\u00e4higkeiten mit KI entwickeln?',
             madeWith: 'Gemacht mit KI + Menschlicher Kreativit\u00e4t',
-            availableAt: 'Alles hier Erw\u00e4hnte ist verf\u00fcgbar auf'
+            availableAt: 'Alles hier Erw\u00e4hnte ist verf\u00fcgbar auf',
+            themePastel: 'Pastell', themeLight: 'Hell', themeDark: 'Dunkel', themeLabel: 'Design'
         },
         it: {
             things: "100+ S\u00ec", donts: 'Da non fare', logoText: "IA: da fare e non", usingAI: "Usare l'IA", tips: 'Consigli', skills: 'Competenze utili',
@@ -155,7 +165,8 @@
             connectDesc: "Vuoi saperne di pi\u00f9 sull'IA e su come pu\u00f2 trasformare il tuo lavoro e apprendimento?",
             developSkills: "Vuoi sviluppare nuove competenze con l'IA?",
             madeWith: 'Fatto con IA + Creativit\u00e0 Umana',
-            availableAt: 'Tutto ci\u00f2 che \u00e8 menzionato qui \u00e8 disponibile su'
+            availableAt: 'Tutto ci\u00f2 che \u00e8 menzionato qui \u00e8 disponibile su',
+            themePastel: 'Pastello', themeLight: 'Chiaro', themeDark: 'Scuro', themeLabel: 'Tema'
         },
         ja: {
             things: "100+ Do's", donts: '\u3084\u3063\u3066\u306f\u3044\u3051\u306a\u3044\u3053\u3068', logoText: 'AI\u306e\u3059\u3079\u304d\u3053\u3068\u30fb\u3059\u3079\u304d\u3067\u306a\u3044\u3053\u3068', usingAI: 'AI\u306e\u4f7f\u3044\u65b9', tips: '\u30d2\u30f3\u30c8', skills: '\u5f79\u7acb\u3064\u30b9\u30ad\u30eb',
@@ -171,7 +182,8 @@
             connectDesc: 'AI\u306b\u3064\u3044\u3066\u3082\u3063\u3068\u77e5\u308a\u305f\u3044\u3067\u3059\u304b\uff1f\u4ed5\u4e8b\u3084\u5b66\u3073\u3092\u3069\u3046\u5909\u3048\u308b\u304b\u3092\u767a\u898b\u3057\u307e\u3057\u3087\u3046\u3002',
             developSkills: 'AI\u3067\u65b0\u3057\u3044\u30b9\u30ad\u30eb\u3092\u8eab\u306b\u3064\u3051\u305f\u3044\u3067\u3059\u304b\uff1f',
             madeWith: 'AI + \u4eba\u9593\u306e\u5275\u9020\u529b\u3067\u5236\u4f5c',
-            availableAt: '\u3053\u3053\u3067\u7d39\u4ecb\u3055\u308c\u305f\u3059\u3079\u3066\u306f\u3053\u3061\u3089\u3067\u5229\u7528\u53ef\u80fd\u3067\u3059'
+            availableAt: '\u3053\u3053\u3067\u7d39\u4ecb\u3055\u308c\u305f\u3059\u3079\u3066\u306f\u3053\u3061\u3089\u3067\u5229\u7528\u53ef\u80fd\u3067\u3059',
+            themePastel: '\u30d1\u30b9\u30c6\u30eb', themeLight: '\u30e9\u30a4\u30c8', themeDark: '\u30c0\u30fc\u30af', themeLabel: '\u30c6\u30fc\u30de'
         },
         zh: {
             things: "100+ Do's", donts: '\u4e0d\u8981\u505a\u7684\u4e8b', logoText: 'AI\u8be5\u505a\u4e0e\u4e0d\u8be5\u505a', usingAI: '\u4f7f\u7528AI', tips: '\u6280\u5de7', skills: '\u5b9e\u7528\u6280\u80fd',
@@ -187,7 +199,8 @@
             connectDesc: '\u60f3\u4e86\u89e3\u66f4\u591a\u5173\u4e8eAI\u4ee5\u53ca\u5b83\u5982\u4f55\u6539\u53d8\u4f60\u7684\u5de5\u4f5c\u548c\u5b66\u4e60\uff1f',
             developSkills: '\u60f3\u7528AI\u53d1\u5c55\u65b0\u6280\u80fd\uff1f',
             madeWith: 'AI + \u4eba\u7c7b\u521b\u610f\u5236\u4f5c',
-            availableAt: '\u8fd9\u91cc\u63d0\u5230\u7684\u4e00\u5207\u90fd\u53ef\u4ee5\u5728\u4ee5\u4e0b\u7f51\u5740\u83b7\u53d6'
+            availableAt: '\u8fd9\u91cc\u63d0\u5230\u7684\u4e00\u5207\u90fd\u53ef\u4ee5\u5728\u4ee5\u4e0b\u7f51\u5740\u83b7\u53d6',
+            themePastel: '\u67d4\u548c', themeLight: '\u660e\u4eae', themeDark: '\u6697\u8272', themeLabel: '\u4e3b\u9898'
         }
     };
 
@@ -255,6 +268,15 @@
             '<a href="' + ph('faq') + '" class="nav-link' + active('faq') + '">FAQ</a>' +
             '<a href="' + ph('about') + '" class="nav-link' + active('about') + '">' + S.about + '</a>' +
             '<button class="nav-search-btn" id="nav-search-btn" aria-label="' + S.searchLabel + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></button>' +
+            '<div class="theme-toggle" id="theme-toggle">' +
+            '<button class="theme-toggle-btn" id="theme-toggle-btn" aria-label="' + S.themeLabel + '">' +
+            '<svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="M4.93 4.93l1.41 1.41"></path><path d="M17.66 17.66l1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="M6.34 17.66l-1.41 1.41"></path><path d="M19.07 4.93l-1.41 1.41"></path></svg>' +
+            '</button>' +
+            '<div class="theme-dropdown" id="theme-dropdown">' +
+            '<button class="theme-dropdown-item' + (savedTheme === 'pastel' ? ' active' : '') + '" data-theme-value="pastel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.52 0 10-4.48 10-10S17.52 2 12 2 2 6.48 2 12s4.48 10 10 10z"></path><path d="M8 14s1.5 2 4 2 4-2 4-2"></path><line x1="9" y1="9" x2="9.01" y2="9"></line><line x1="15" y1="9" x2="15.01" y2="9"></line></svg> ' + S.themePastel + '</button>' +
+            '<button class="theme-dropdown-item' + (savedTheme === 'light' ? ' active' : '') + '" data-theme-value="light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg> ' + S.themeLight + '</button>' +
+            '<button class="theme-dropdown-item' + (savedTheme === 'dark' ? ' active' : '') + '" data-theme-value="dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path></svg> ' + S.themeDark + '</button>' +
+            '</div></div>' +
             langDropdown +
             '<a href="https://cemi.ai" class="nav-link nav-cta" target="_blank">CEMI.AI</a>' +
             '</div></div></nav>';
