@@ -1,5 +1,10 @@
 # Changelog
 
+## [2.3.1] - 2026-02-11
+
+### Fixed
+- Share dropdown on item cards no longer hidden behind previous item (removed overflow:hidden from item-card; item-body already handles its own overflow)
+
 ## [2.3.0] - 2026-02-11
 
 ### Added
