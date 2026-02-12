@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Life Command Center | Dashboard</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            --glass: rgba(255, 255, 255, 0.07);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --accent-purple: #a855f7;
+            --accent-blue: #3b82f6;
+            --accent-green: #10b981;
+            --accent-gold: #f59e0b;
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            background-attachment: fixed;
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 2rem;
+            line-height: 1.5;
+        }
+
+        /* Entrance Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-in {
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            font-weight: 700;
+            font-size: 1.8rem;
+            letter-spacing: -0.025em;
+        }
+
+        /* Buttons */
+        .btn-export {
+            background: var(--accent-purple);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-export:hover {
+            filter: brightness(1.2);
+            transform: translateY(-2px);
+        }
+
+        .btn-export:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* KPI Grid */
+        .kpi-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            padding: 1.5rem;
+            border-radius: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .kpi-card h3 {
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+
+        .kpi-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .sparkline-container {
+            height: 40px;
+            width: 100%;
+        }
+
+        /* Main Dashboard Grid */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Savings Thermometer */
+        .thermometer-wrap {
+            margin-top: 1.5rem;
+        }
+
+        .thermometer-bar {
+            height: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 8px 0;
+        }
+
+        .thermometer-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
+            width: 61%;
+            box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
+        }
+
+        /* Circular Progress Rings */
+        .study-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .progress-ring-card {
+            text-align: center;
+        }
+
+        .ring-svg {
+            transform: rotate(-90deg);
+            width: 80px;
+            height: 80px;
+        }
+
+        .ring-bg {
+            fill: none;
+            stroke: rgba(255, 255, 255, 0.1);
+            stroke-width: 6;
+        }
+
+        .ring-fill {
+            fill: none;
+            stroke-width: 6;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 1s ease-in-out;
+        }
+
+        /* Habit Bars */
+        .habit-row {
+            margin-bottom: 1rem;
+        }
+
+        .habit-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 4px;
+            font-size: 0.9rem;
+        }
+
+        .habit-bar-bg {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            position: relative;
+        }
+
+        .habit-bar-fill {
+            height: 100%;
+            border-radius: 4px;
+            background: var(--accent-green);
+        }
+
+        .star {
+            color: var(--accent-gold);
+            font-size: 0.8rem;
+        }
+
+        /* Data Table */
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            margin-top: 2rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--glass);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        th,
+        td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        th {
+            background: rgba(255, 255, 255, 0.05);
+            cursor: pointer;
+            color: var(--accent-blue);
+            text-transform: uppercase;
+            font-size: 0.75rem;
+        }
+
+        th:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        tr:nth-child(even) {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .spinner {
+            display: none;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #fff;
+            border-bottom-color: transparent;
+            border-radius: 50%;
+            animation: rotation 1s linear infinite;
+        }
+
+        @keyframes rotation {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="animate-in" style="animation-delay: 0.1s;">
+        <div>
+            <h1>Life Command Center</h1>
+            <p style="color: var(--text-dim); font-size: 0.9rem;">2024 Performance Overview</p>
+        </div>
+        <button class="btn-export" id="exportPdf">
+            <span class="spinner" id="btnSpinner"></span>
+            <span id="btnText">Export PDF</span>
+        </button>
+    </header>
+
+    <div class="kpi-container animate-in" style="animation-delay: 0.2s;">
+        <div class="card kpi-card">
+            <h3>Weight Progress</h3>
+            <div class="kpi-value">74.2 <span style="font-size: 1rem; color: var(--text-dim);">/ 72kg</span></div>
+            <div class="sparkline-container"><canvas id="weightSpark"></canvas></div>
+        </div>
+        <div class="card kpi-card">
+            <h3>Savings Target</h3>
+            <div class="kpi-value">$1,840 <span style="font-size: 1rem; color: var(--text-dim);">(61%)</span></div>
+            <div class="sparkline-container"><canvas id="savingsSpark"></canvas></div>
+        </div>
+        <div class="card kpi-card">
+            <h3>Books Read</h3>
+            <div class="kpi-value">14 <span style="font-size: 1rem; color: var(--text-dim);">/ 24</span></div>
+            <div class="sparkline-container"><canvas id="readingSpark"></canvas></div>
+        </div>
+        <div class="card kpi-card">
+            <h3>Max Habit Streak</h3>
+            <div class="kpi-value">45 <span style="font-size: 1rem; color: var(--text-dim);">Days</span></div>
+            <div class="sparkline-container"><canvas id="habitSpark"></canvas></div>
+        </div>
+    </div>
+
+    <div class="main-grid">
+        <div class="card animate-in" style="animation-delay: 0.3s;">
+            <h3 style="margin-bottom: 1.5rem;">Fitness Trends (Last 12 Weeks)</h3>
+            <canvas id="fitnessChart" height="200"></canvas>
+        </div>
+
+        <div class="card animate-in" style="animation-delay: 0.4s;">
+            <h3>Monthly Budget</h3>
+            <canvas id="budgetChart" height="200"></canvas>
+            <div class="thermometer-wrap">
+                <div style="display:flex; justify-content: space-between; font-size: 0.85rem;">
+                    <span>Savings Goal</span>
+                    <span>$1,840 / $3,000</span>
+                </div>
+                <div class="thermometer-bar">
+                    <div class="thermometer-fill"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-grid">
+        <div class="card animate-in" style="animation-delay: 0.5s;">
+            <h3>Academic Progress</h3>
+            <div class="study-grid" id="studyGrid">
+            </div>
+        </div>
+
+        <div class="card animate-in" style="animation-delay: 0.6s;">
+            <h3>Habit Streaks</h3>
+            <div id="habitGrid" style="margin-top: 1rem;">
+            </div>
+        </div>
+    </div>
+
+    <div class="card animate-in" style="animation-delay: 0.7s;">
+        <h3 style="margin-bottom: 1rem;">Raw Data Reference</h3>
+        <div class="table-container">
+            <table id="dataTable">
+                <thead>
+                    <tr>
+                        <th onclick="sortTable(0)">Category</th>
+                        <th onclick="sortTable(1)">Metric</th>
+                        <th onclick="sortTable(2)">Current Value</th>
+                        <th onclick="sortTable(3)">Target / Status</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // --- Data ---
+        const fitnessData = {
+            weeks: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+            running: [3, 4, 3.5, 5, 6, 5.5, 7, 6.5, 8, 7.5, 9, 8.5],
+            weight: [78, 77.5, 77.2, 76.8, 76.5, 76, 75.6, 75.3, 75, 74.8, 74.5, 74.2]
+        };
+
+        const studyData = [
+            { name: 'Math', current: 82, target: 90, hours: 14, color: '#a855f7' },
+            { name: 'Physics', current: 71, target: 80, hours: 10, color: '#3b82f6' },
+            { name: 'English', current: 88, target: 92, hours: 8, color: '#10b981' },
+            { name: 'CS', current: 95, target: 95, hours: 16, color: '#f59e0b' },
+            { name: 'History', current: 67, target: 78, hours: 6, color: '#ef4444' }
+        ];
+
+        const habits = [
+            { name: 'Meditation', streak: 23 },
+            { name: 'Reading', streak: 45 },
+            { name: 'No Junk Food', streak: 12 },
+            { name: 'Journaling', streak: 8 },
+            { name: 'Early Sleep', streak: 31 },
+            { name: 'Guitar', streak: 5 }
+        ];
+
+        const budget = {
+            labels: ['Food', 'Transport', 'Entertainment', 'Clothes', 'Savings', 'Tech', 'Other'],
+            data: [180, 65, 120, 85, 280, 70, 50]
+        };
+
+        // --- Chart Configurations ---
+
+        // Main Fitness Chart
+        const ctxFitness = document.getElementById('fitnessChart').getContext('2d');
+        new Chart(ctxFitness, {
+            type: 'line',
+            data: {
+                labels: fitnessData.weeks.map(w => 'W' + w),
+                datasets: [{
+                    label: 'Running (km)',
+                    data: fitnessData.running,
+                    borderColor: '#3b82f6',
+                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                    fill: true,
+                    yAxisID: 'y',
+                    tension: 0.4
+                }, {
+                    label: 'Weight (kg)',
+                    data: fitnessData.weight,
+                    borderColor: '#a855f7',
+                    borderDash: [5, 5],
+                    yAxisID: 'y1',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { labels: { color: '#94a3b8' } } },
+                scales: {
+                    x: { ticks: { color: '#94a3b8' }, grid: { display: false } },
+                    y: { position: 'left', ticks: { color: '#94a3b8' }, grid: { color: 'rgba(255,255,255,0.05)' } },
+                    y1: { position: 'right', ticks: { color: '#94a3b8' }, grid: { display: false } }
+                }
+            }
+        });
+
+        // Budget Chart
+        const ctxBudget = document.getElementById('budgetChart').getContext('2d');
+        new Chart(ctxBudget, {
+            type: 'doughnut',
+            data: {
+                labels: budget.labels,
+                datasets: [{
+                    data: budget.data,
+                    backgroundColor: ['#a855f7', '#3b82f6', '#10b981', '#f59e0b', '#6366f1', '#ec4899', '#94a3b8'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                cutout: '70%',
+                plugins: { legend: { position: 'bottom', labels: { color: '#94a3b8', boxWidth: 12 } } }
+            }
+        });
+
+        // --- UI Injection ---
+
+        // Study Rings
+        const studyGrid = document.getElementById('studyGrid');
+        studyData.forEach(s => {
+            const offset = 251 - (251 * s.current) / 100;
+            studyGrid.innerHTML += `
+                <div class="progress-ring-card">
+                    <svg class="ring-svg">
+                        <circle class="ring-bg" cx="40" cy="40" r="35"/>
+                        <circle class="ring-fill" cx="40" cy="40" r="35" 
+                                style="stroke: ${s.color}; stroke-dasharray: 251; stroke-dashoffset: ${offset};"/>
+                    </svg>
+                    <div style="font-weight: 600; margin-top: 5px;">${s.current}%</div>
+                    <div style="font-size: 0.75rem; color: var(--text-dim);">${s.name}</div>
+                </div>
+            `;
+        });
+
+        // Habit Bars
+        const habitGrid = document.getElementById('habitGrid');
+        habits.forEach(h => {
+            const width = Math.min(h.streak * 2, 100);
+            const star = h.streak >= 21 ? '<span class="star">★</span>' : '';
+            habitGrid.innerHTML += `
+                <div class="habit-row">
+                    <div class="habit-info">
+                        <span>${h.name} ${star}</span>
+                        <span>${h.streak} days</span>
+                    </div>
+                    <div class="habit-bar-bg">
+                        <div class="habit-bar-fill" style="width: ${width}%;"></div>
+                    </div>
+                </div>
+            `;
+        });
+
+        // Sparklines (simplified)
+        function createSparkline(id, data, color) {
+            new Chart(document.getElementById(id), {
+                type: 'line',
+                data: {
+                    labels: data,
+                    datasets: [{ data: data, borderColor: color, borderWidth: 2, pointRadius: 0, fill: false }]
+                },
+                options: {
+                    events: [],
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { x: { display: false }, y: { display: false } }
+                }
+            });
+        }
+        createSparkline('weightSpark', [78, 77.5, 77.2, 76.5, 75, 74.2], '#a855f7');
+        createSparkline('savingsSpark', [20, 35, 40, 55, 61], '#3b82f6');
+        createSparkline('readingSpark', [2, 5, 8, 12, 14], '#10b981');
+        createSparkline('habitSpark', [10, 20, 15, 30, 45], '#f59e0b');
+
+        // Populate Table
+        const tableBody = document.getElementById('tableBody');
+        const tableData = [
+            ...studyData.map(d => ['Study', d.name, d.current + '%', 'Target: ' + d.target + '%']),
+            ...habits.map(d => ['Habit', d.name, d.streak + ' Days', d.streak >= 21 ? 'Consistent' : 'Building']),
+            ['Budget', 'Savings', '$1,840', 'Goal: $3,000'],
+            ['Fitness', 'Last Run', '8.5 km', 'Weekly peak'],
+            ['Reading', 'Atomic Habits', '68%', 'In Progress']
+        ];
+        tableData.forEach(row => {
+            tableBody.innerHTML += `<tr>${row.map(cell => `<td>${cell}</td>`).join('')}</tr>`;
+        });
+
+        // Sorting Logic
+        function sortTable(n) {
+            let table = document.getElementById("dataTable");
+            let rows = table.rows;
+            let switching = true;
+            let dir = "asc";
+            let switchcount = 0;
+            while (switching) {
+                switching = false;
+                for (let i = 1; i < (rows.length - 1); i++) {
+                    let shouldSwitch = false;
+                    let x = rows[i].getElementsByTagName("TD")[n];
+                    let y = rows[i + 1].getElementsByTagName("TD")[n];
+                    if (dir == "asc") {
+                        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) { shouldSwitch = true; break; }
+                    } else if (dir == "desc") {
+                        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) { shouldSwitch = true; break; }
+                    }
+                }
+                if (shouldSwitch) {
+                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                    switching = true;
+                    switchcount++;
+                } else {
+                    if (switchcount == 0 && dir == "asc") { dir = "desc"; switching = true; }
+                }
+            }
+        }
+
+        // PDF Export
+        document.getElementById('exportPdf').addEventListener('click', async () => {
+            const btn = document.getElementById('exportPdf');
+            const spinner = document.getElementById('btnSpinner');
+            const btnText = document.getElementById('btnText');
+
+            btn.disabled = true;
+            spinner.style.display = 'inline-block';
+            btnText.innerText = 'Generating...';
+
+            const { jsPDF } = window.jspdf;
+            const element = document.body;
+
+            try {
+                const canvas = await html2canvas(element, {
+                    scale: 2,
+                    useCORS: true,
+                    backgroundColor: '#0f0c29'
+                });
+
+                const imgData = canvas.toDataURL('image/png');
+                const pdf = new jsPDF('p', 'mm', 'a4');
+                const imgProps = pdf.getImageProperties(imgData);
+                const pdfWidth = pdf.internal.pageSize.getWidth();
+                const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+                pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+                pdf.save('personal-dashboard.pdf');
+            } catch (error) {
+                console.error("PDF Export failed", error);
+            } finally {
+                btn.disabled = false;
+                spinner.style.display = 'none';
+                btnText.innerText = 'Export PDF';
+            }
+        });
+    </script>
+</body>
+
+</html>

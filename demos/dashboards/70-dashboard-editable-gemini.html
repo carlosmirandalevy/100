@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Climate & Energy Interactive Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --emerald: #10b981;
+            --ocean: #0ea5e9;
+            --sunset: #f97316;
+            --violet: #8b5cf6;
+            --gold: #f59e0b;
+            --bg: #f8fafc;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg);
+            color: #1e293b;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: linear-gradient(135deg, #0f172a, #334155);
+            color: white;
+            padding: 30px;
+            border-radius: 16px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Input Panels */
+        details {
+            background: white;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+        }
+
+        summary {
+            padding: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        summary::after {
+            content: '▼';
+            font-size: 0.8rem;
+            color: #94a3b8;
+        }
+
+        .panel-content {
+            padding: 20px;
+            border-top: 1px solid #f1f5f9;
+        }
+
+        /* Tables & Inputs */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+        }
+
+        th {
+            text-align: left;
+            padding: 12px;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            color: #64748b;
+        }
+
+        td {
+            padding: 8px 12px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 0.9rem;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin: 25px 0;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-update {
+            background: var(--emerald);
+            color: white;
+            box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4);
+        }
+
+        .btn-reset {
+            background: #94a3b8;
+            color: white;
+        }
+
+        .btn-pdf {
+            background: var(--ocean);
+            color: white;
+            margin-left: auto;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        .btn-add {
+            background: #f1f5f9;
+            color: #475569;
+            padding: 5px 10px;
+            font-size: 12px;
+        }
+
+        .btn-del {
+            background: #fee2e2;
+            color: #ef4444;
+            padding: 5px 10px;
+        }
+
+        /* Dashboard Grid */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+
+        .kpi-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+
+        .card {
+            background: white;
+            padding: 24px;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border-top: 5px solid transparent;
+        }
+
+        .kpi-card {
+            text-align: center;
+            border-bottom: 4px solid var(--emerald);
+        }
+
+        .kpi-val {
+            font-size: 1.8rem;
+            font-weight: 800;
+            display: block;
+            margin-top: 5px;
+        }
+
+        .kpi-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #64748b;
+            text-transform: uppercase;
+        }
+
+        .full-width {
+            grid-column: span 2;
+        }
+
+        #spinner {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 30px;
+            border-radius: 50%;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.2);
+            z-index: 100;
+        }
+
+        @media (max-width: 900px) {
+
+            .grid,
+            .kpi-row {
+                grid-template-columns: 1fr;
+            }
+
+            .full-width {
+                grid-column: span 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="spinner">⏳ Processing...</div>
+
+    <div class="container" id="dashboard">
+        <header>
+            <h1>Climate & Energy Intelligence Dashboard</h1>
+            <p>Interactive Data Projection & Analysis</p>
+        </header>
+
+        <div id="editor-sections">
+            <details>
+                <summary>🌡️ Temperature Anomaly (°C)</summary>
+                <div class="panel-content">
+                    <table id="temp-table">
+                        <thead>
+                            <tr>
+                                <th>Year</th>
+                                <th>Anomaly</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="temp-body"></tbody>
+                    </table>
+                    <button class="btn btn-add" onclick="addRow('temp-body', [2025, 1.2])">+ Add Year</button>
+                </div>
+            </details>
+
+            <details>
+                <summary>💨 CO2 Concentrations (ppm)</summary>
+                <div class="panel-content">
+                    <table id="co2-table">
+                        <thead>
+                            <tr>
+                                <th>Year</th>
+                                <th>PPM</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="co2-body"></tbody>
+                    </table>
+                    <button class="btn btn-add" onclick="addRow('co2-body', [2025, 422])">+ Add Year</button>
+                </div>
+            </details>
+
+            <details>
+                <summary>🌏 Renewables by Region (%)</summary>
+                <div class="panel-content">
+                    <table id="region-table">
+                        <thead>
+                            <tr>
+                                <th>Region</th>
+                                <th>Share %</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="region-body"></tbody>
+                    </table>
+                    <button class="btn btn-add" onclick="addRow('region-body', ['', 0])">+ Add Region</button>
+                </div>
+            </details>
+
+            <details>
+                <summary>🔋 Energy Sources (TWh)</summary>
+                <div class="panel-content">
+                    <table id="source-table">
+                        <thead>
+                            <tr>
+                                <th>Source</th>
+                                <th>Production</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="source-body"></tbody>
+                    </table>
+                    <button class="btn btn-add" onclick="addRow('source-body', ['', 0])">+ Add Source</button>
+                </div>
+            </details>
+
+            <details>
+                <summary>☀️ Solar Capacity (GW)</summary>
+                <div class="panel-content">
+                    <table id="solar-table">
+                        <thead>
+                            <tr>
+                                <th>Country</th>
+                                <th>GW</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="solar-body"></tbody>
+                    </table>
+                    <button class="btn btn-add" onclick="addRow('solar-body', ['', 0])">+ Add Country</button>
+                </div>
+            </details>
+        </div>
+
+        <div class="controls">
+            <button class="btn btn-update" onclick="updateDashboard()">Update Dashboard</button>
+            <button class="btn btn-reset" onclick="resetToDefaults()">Reset Defaults</button>
+            <button class="btn btn-pdf" onclick="exportPDF()">Export PDF</button>
+        </div>
+
+        <div class="kpi-row">
+            <div class="card kpi-card" style="border-color: var(--sunset);">
+                <span class="kpi-label">Latest Anomaly</span>
+                <span class="kpi-val" id="kpi-temp">--</span>
+            </div>
+            <div class="card kpi-card" style="border-color: var(--ocean);">
+                <span class="kpi-label">CO2 Level</span>
+                <span class="kpi-val" id="kpi-co2">--</span>
+            </div>
+            <div class="card kpi-card" style="border-color: var(--emerald);">
+                <span class="kpi-label">Global Renewable %</span>
+                <span class="kpi-val" id="kpi-renew">--</span>
+            </div>
+            <div class="card kpi-card" style="border-color: var(--gold);">
+                <span class="kpi-label">Total Solar (GW)</span>
+                <span class="kpi-val" id="kpi-solar">--</span>
+            </div>
+        </div>
+
+        <div class="grid">
+            <div class="card full-width" style="border-top-color: var(--ocean)">
+                <h3>Climate Correlation: Temp vs CO2</h3>
+                <canvas id="dualChart"></canvas>
+            </div>
+            <div class="card" style="border-top-color: var(--emerald)">
+                <h3>Energy Source Mix (TWh)</h3>
+                <canvas id="doughnutChart"></canvas>
+            </div>
+            <div class="card" style="border-top-color: var(--gold)">
+                <h3>Leading Solar Capacities</h3>
+                <canvas id="solarChart"></canvas>
+            </div>
+            <div class="card" style="border-top-color: var(--violet)">
+                <h3>Regional Renewable Penetration</h3>
+                <canvas id="radarChart"></canvas>
+            </div>
+            <div class="card" style="border-top-color: var(--emerald)">
+                <h3>Resource Projection: Clean vs Fossil</h3>
+                <canvas id="areaChart"></canvas>
+            </div>
+        </div>
+
+        <div class="card full-width" style="margin-top:30px">
+            <h3>Raw Data Audit Summary</h3>
+            <table id="audit-table">
+                <thead>
+                    <tr style="background:#f1f5f9; cursor:pointer">
+                        <th onclick="sortTable(0)">Category</th>
+                        <th onclick="sortTable(1)">Item</th>
+                        <th onclick="sortTable(2)">Value</th>
+                    </tr>
+                </thead>
+                <tbody id="audit-body"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        let charts = {};
+
+        const SAMPLE_DATA = {
+            temp: [[2019, 0.98], [2020, 1.02], [2021, 0.85], [2022, 0.89], [2023, 1.15], [2024, 1.25]],
+            co2: [[2019, 411], [2020, 414], [2021, 416], [2022, 418], [2023, 421], [2024, 424]],
+            region: [['EU', 42], ['Asia', 28], ['N. America', 22], ['L. America', 35], ['Africa', 12]],
+            sources: [['Solar', 1500], ['Wind', 2100], ['Hydro', 4300], ['Nuclear', 2600], ['Coal', 9500], ['Gas', 6000]],
+            solar: [['China', 609], ['USA', 175], ['India', 84], ['Germany', 82], ['Japan', 91]]
+        };
+
+        function init() {
+            resetToDefaults();
+        }
+
+        function resetToDefaults() {
+            Object.keys(SAMPLE_DATA).forEach(key => {
+                const body = document.getElementById(`${key}-body`);
+                body.innerHTML = '';
+                SAMPLE_DATA[key].forEach(row => addRow(`${key}-body`, row));
+            });
+            updateDashboard();
+        }
+
+        function addRow(id, values) {
+            const body = document.getElementById(id);
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+            <td><input type="text" value="${values[0]}" class="data-key"></td>
+            <td><input type="number" step="0.01" value="${values[1]}" class="data-val"></td>
+            <td style="width:50px"><button class="btn btn-del" onclick="this.parentElement.parentElement.remove()">×</button></td>
+        `;
+            body.appendChild(tr);
+        }
+
+        function getData(id) {
+            const rows = document.querySelectorAll(`#${id} tr`);
+            return Array.from(rows).map(tr => ({
+                key: tr.querySelector('.data-key').value,
+                val: parseFloat(tr.querySelector('.data-val').value)
+            }));
+        }
+
+        function updateDashboard() {
+            const tempData = getData('temp-body');
+            const co2Data = getData('co2-body');
+            const regionData = getData('region-body');
+            const sourceData = getData('source-body');
+            const solarData = getData('solar-body');
+
+            // KPIs
+            document.getElementById('kpi-temp').innerText = tempData[tempData.length - 1].val + " °C";
+            document.getElementById('kpi-co2').innerText = co2Data[co2Data.length - 1].val + " ppm";
+            const totalEnergy = sourceData.reduce((a, b) => a + b.val, 0);
+            const clean = ['Solar', 'Wind', 'Hydro', 'Nuclear'];
+            const cleanTotal = sourceData.filter(s => clean.includes(s.key)).reduce((a, b) => a + b.val, 0);
+            document.getElementById('kpi-renew').innerText = ((cleanTotal / totalEnergy) * 100).toFixed(1) + "%";
+            document.getElementById('kpi-solar').innerText = solarData.reduce((a, b) => a + b.val, 0).toLocaleString();
+
+            renderDualChart(tempData, co2Data);
+            renderDoughnut(sourceData);
+            renderSolarBar(solarData);
+            renderRadar(regionData);
+            renderArea(sourceData);
+            renderAudit(tempData, co2Data, regionData, sourceData, solarData);
+        }
+
+        function renderDualChart(temp, co2) {
+            const ctx = document.getElementById('dualChart').getContext('2d');
+            if (charts.dual) charts.dual.destroy();
+            charts.dual = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: temp.map(d => d.key),
+                    datasets: [
+                        { label: 'Temp Anomaly', data: temp.map(d => d.val), borderColor: '#f97316', yAxisID: 'y' },
+                        { label: 'CO2 Levels', data: co2.map(d => d.val), borderColor: '#0ea5e9', yAxisID: 'y1' }
+                    ]
+                },
+                options: { scales: { y: { position: 'left' }, y1: { position: 'right', grid: { display: false } } } }
+            });
+        }
+
+        function renderDoughnut(data) {
+            const ctx = document.getElementById('doughnutChart').getContext('2d');
+            if (charts.doughnut) charts.doughnut.destroy();
+            charts.doughnut = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: data.map(d => d.key),
+                    datasets: [{ data: data.map(d => d.val), backgroundColor: ['#10b981', '#0ea5e9', '#8b5cf6', '#f59e0b', '#ef4444', '#64748b'] }]
+                }
+            });
+        }
+
+        function renderSolarBar(data) {
+            const ctx = document.getElementById('solarChart').getContext('2d');
+            if (charts.solar) charts.solar.destroy();
+            data.sort((a, b) => b.val - a.val);
+            charts.solar = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: data.map(d => d.key),
+                    datasets: [{ label: 'Capacity (GW)', data: data.map(d => d.val), backgroundColor: '#f59e0b' }]
+                },
+                options: { indexAxis: 'y' }
+            });
+        }
+
+        function renderRadar(data) {
+            const ctx = document.getElementById('radarChart').getContext('2d');
+            if (charts.radar) charts.radar.destroy();
+            charts.radar = new Chart(ctx, {
+                type: 'polarArea',
+                data: {
+                    labels: data.map(d => d.key),
+                    datasets: [{ data: data.map(d => d.val), backgroundColor: 'rgba(139, 92, 246, 0.5)' }]
+                }
+            });
+        }
+
+        function renderArea(data) {
+            const ctx = document.getElementById('areaChart').getContext('2d');
+            if (charts.area) charts.area.destroy();
+            const clean = data.filter(s => ['Solar', 'Wind', 'Hydro', 'Nuclear'].includes(s.key)).reduce((a, b) => a + b.val, 0);
+            const dirty = data.filter(s => ['Coal', 'Gas', 'Oil'].includes(s.key)).reduce((a, b) => a + b.val, 0);
+
+            charts.area = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Current Mix'],
+                    datasets: [
+                        { label: 'Clean Energy', data: [clean], backgroundColor: '#10b981' },
+                        { label: 'Fossil Fuels', data: [dirty], backgroundColor: '#ef4444' }
+                    ]
+                },
+                options: { scales: { x: { stacked: true }, y: { stacked: true } } }
+            });
+        }
+
+        function renderAudit(...args) {
+            const body = document.getElementById('audit-body');
+            body.innerHTML = '';
+            const names = ['Temperature', 'CO2', 'Regional Share', 'Energy Source', 'Solar Capacity'];
+            args.forEach((set, i) => {
+                set.forEach(item => {
+                    body.innerHTML += `<tr><td>${names[i]}</td><td>${item.key}</td><td>${item.val}</td></tr>`;
+                });
+            });
+        }
+
+        function sortTable(n) {
+            const table = document.querySelector("#audit-table");
+            let rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+            switching = true; dir = "asc";
+            while (switching) {
+                switching = false; rows = table.rows;
+                for (i = 1; i < (rows.length - 1); i++) {
+                    shouldSwitch = false;
+                    x = rows[i].getElementsByTagName("TD")[n];
+                    y = rows[i + 1].getElementsByTagName("TD")[n];
+                    if (dir == "asc") { if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) { shouldSwitch = true; break; } }
+                    else { if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) { shouldSwitch = true; break; } }
+                }
+                if (shouldSwitch) { rows[i].parentNode.insertBefore(rows[i + 1], rows[i]); switching = true; switchcount++; }
+                else if (switchcount == 0 && dir == "asc") { dir = "desc"; switching = true; }
+            }
+        }
+
+        async function exportPDF() {
+            const spinner = document.getElementById('spinner');
+            spinner.style.display = 'block';
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF('p', 'mm', 'a4');
+            const element = document.getElementById('dashboard');
+
+            const canvas = await html2canvas(element, { scale: 2 });
+            const imgData = canvas.toDataURL('image/png');
+            const imgProps = doc.getImageProperties(imgData);
+            const pdfWidth = doc.internal.pageSize.getWidth();
+            const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+            doc.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+            doc.save('my-climate-dashboard.pdf');
+            spinner.style.display = 'none';
+        }
+
+        window.onload = init;
+    </script>
+</body>
+
+</html>

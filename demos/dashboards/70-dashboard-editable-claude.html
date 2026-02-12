@@ -1,0 +1,1345 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Climate & Energy Dashboard</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Fraunces:opsz,wght@9..144,700;9..144,800;9..144,900&display=swap"
+        rel="stylesheet">
+    <style>
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --emerald: #10B981;
+            --emerald-l: #D1FAE5;
+            --emerald-d: #047857;
+            --ocean: #0EA5E9;
+            --ocean-l: #E0F2FE;
+            --ocean-d: #0369A1;
+            --sunset: #F97316;
+            --sunset-l: #FFF7ED;
+            --sunset-d: #C2410C;
+            --violet: #8B5CF6;
+            --violet-l: #EDE9FE;
+            --violet-d: #6D28D9;
+            --gold: #EAB308;
+            --gold-l: #FEF9C3;
+            --gold-d: #A16207;
+            --rose: #F43F5E;
+            --rose-l: #FFE4E6;
+            --slate-50: #F8FAFC;
+            --slate-100: #F1F5F9;
+            --slate-200: #E2E8F0;
+            --slate-300: #CBD5E1;
+            --slate-400: #94A3B8;
+            --slate-500: #64748B;
+            --slate-700: #334155;
+            --slate-800: #1E293B;
+            --slate-900: #0F172A;
+            --card: #FFFFFF;
+            --radius: 14px;
+            --shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--slate-50);
+            color: var(--slate-800);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            background: linear-gradient(135deg, #064E3B 0%, #0F766E 40%, #065F46 100%);
+            padding: 2.5rem 2rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -60%;
+            right: -5%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(14, 165, 233, 0.12) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -50%;
+            left: 15%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(234, 179, 8, 0.08) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .header-inner {
+            max-width: 1440px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header h1 {
+            font-family: 'Fraunces', serif;
+            font-size: 2.3rem;
+            font-weight: 900;
+            color: #fff;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .header h1 .globe {
+            font-size: 1.6rem;
+        }
+
+        .header p {
+            color: rgba(255, 255, 255, 0.55);
+            font-size: 0.92rem;
+            margin-top: 0.25rem;
+            font-weight: 400;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 0.7rem;
+            margin-top: 1.2rem;
+            flex-wrap: wrap;
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            padding: 0.6rem 1.25rem;
+            border-radius: 10px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.84rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.22s ease;
+            white-space: nowrap;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--emerald), #34D399);
+            color: #fff;
+            box-shadow: 0 2px 12px rgba(16, 185, 129, 0.4);
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 4px 20px rgba(16, 185, 129, 0.55);
+        }
+
+        .btn-ghost {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-ghost:hover {
+            background: rgba(255, 255, 255, 0.18);
+        }
+
+        .btn-pdf {
+            background: linear-gradient(135deg, var(--violet), #A78BFA);
+            color: #fff;
+            box-shadow: 0 2px 12px rgba(139, 92, 246, 0.35);
+        }
+
+        .btn-small {
+            padding: 0.32rem 0.7rem;
+            font-size: 0.76rem;
+            border-radius: 8px;
+        }
+
+        .btn-add {
+            background: var(--emerald-l);
+            color: var(--emerald-d);
+            border: 1px dashed var(--emerald);
+        }
+
+        .btn-del {
+            background: var(--rose-l);
+            color: var(--rose);
+            width: 26px;
+            height: 26px;
+            padding: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 7px;
+            font-size: 1rem;
+            font-weight: 700;
+        }
+
+        /* ===== CONTAINER ===== */
+        .container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 1.5rem;
+        }
+
+        /* ===== PANELS ===== */
+        .panels {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+            gap: 0.9rem;
+            margin-bottom: 2rem;
+        }
+
+        .panel {
+            background: var(--card);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: box-shadow 0.3s;
+        }
+
+        .panel:hover {
+            box-shadow: var(--shadow-lg);
+        }
+
+        .ph {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.85rem 1.15rem;
+            cursor: pointer;
+            user-select: none;
+            transition: background 0.2s;
+        }
+
+        .ph:hover {
+            background: var(--slate-100);
+        }
+
+        .ph h3 {
+            font-size: 0.82rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+            display: flex;
+            align-items: center;
+            gap: 0.55rem;
+        }
+
+        .pi {
+            width: 30px;
+            height: 30px;
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.95rem;
+        }
+
+        .pi.temp {
+            background: var(--sunset-l);
+        }
+
+        .pi.co2 {
+            background: var(--slate-100);
+        }
+
+        .pi.ren {
+            background: var(--emerald-l);
+        }
+
+        .pi.ene {
+            background: var(--ocean-l);
+        }
+
+        .pi.sol {
+            background: var(--gold-l);
+        }
+
+        .chev {
+            transition: transform 0.3s;
+            font-size: 0.7rem;
+            color: var(--slate-400);
+        }
+
+        .panel.open .chev {
+            transform: rotate(180deg);
+        }
+
+        .pb {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.3s ease;
+        }
+
+        .panel.open .pb {
+            max-height: 2200px;
+            padding: 0 1.15rem 1.15rem;
+        }
+
+        /* ===== DATA TABLES ===== */
+        .tw {
+            overflow-x: auto;
+            max-height: 280px;
+            overflow-y: auto;
+        }
+
+        .dt {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            font-size: 0.8rem;
+        }
+
+        .dt th {
+            background: var(--slate-100);
+            padding: 0.45rem 0.5rem;
+            text-align: left;
+            font-weight: 600;
+            color: var(--slate-500);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: sticky;
+            top: 0;
+            border-bottom: 2px solid var(--slate-200);
+            z-index: 1;
+        }
+
+        .dt td {
+            padding: 0.28rem 0.35rem;
+            border-bottom: 1px solid var(--slate-200);
+            vertical-align: middle;
+        }
+
+        .dt input[type="number"],
+        .dt input[type="text"] {
+            width: 100%;
+            min-width: 55px;
+            padding: 0.38rem 0.45rem;
+            border: 1px solid var(--slate-200);
+            border-radius: 7px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.8rem;
+            background: var(--slate-50);
+            color: var(--slate-800);
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .dt input:focus {
+            outline: none;
+            border-color: var(--emerald);
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.12);
+        }
+
+        .pa {
+            margin-top: 0.65rem;
+        }
+
+        /* ===== KPI CARDS ===== */
+        .kpis {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(195px, 1fr));
+            gap: 0.9rem;
+            margin-bottom: 2rem;
+        }
+
+        .kpi {
+            background: var(--card);
+            border-radius: var(--radius);
+            padding: 1.4rem;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.22s, box-shadow 0.22s;
+        }
+
+        .kpi:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .kpi::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+        }
+
+        .kpi.c-emerald::before {
+            background: linear-gradient(90deg, var(--emerald), #34D399);
+        }
+
+        .kpi.c-ocean::before {
+            background: linear-gradient(90deg, var(--ocean), #38BDF8);
+        }
+
+        .kpi.c-sunset::before {
+            background: linear-gradient(90deg, var(--sunset), #FB923C);
+        }
+
+        .kpi.c-violet::before {
+            background: linear-gradient(90deg, var(--violet), #A78BFA);
+        }
+
+        .kpi.c-gold::before {
+            background: linear-gradient(90deg, var(--gold), #FACC15);
+        }
+
+        .kpi-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+            color: var(--slate-400);
+            margin-bottom: 0.4rem;
+        }
+
+        .kpi-val {
+            font-family: 'Fraunces', serif;
+            font-size: 2rem;
+            font-weight: 800;
+            line-height: 1.1;
+        }
+
+        .kpi-sub {
+            font-size: 0.78rem;
+            color: var(--slate-500);
+            margin-top: 0.3rem;
+        }
+
+        /* ===== CHARTS GRID ===== */
+        .charts {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.15rem;
+            margin-bottom: 2rem;
+        }
+
+        .cc {
+            background: var(--card);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            transition: box-shadow 0.3s;
+        }
+
+        .cc:hover {
+            box-shadow: var(--shadow-lg);
+        }
+
+        .cc.wide {
+            grid-column: 1/-1;
+        }
+
+        .cc h3 {
+            font-size: 0.92rem;
+            font-weight: 700;
+            margin-bottom: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .cc h3 .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .cw {
+            position: relative;
+            width: 100%;
+        }
+
+        .cw canvas {
+            width: 100% !important;
+        }
+
+        .donut-wrap {
+            display: flex;
+            justify-content: center;
+            max-width: 320px;
+            margin: 0 auto;
+        }
+
+        /* ===== SUMMARY TABLE ===== */
+        .summary {
+            background: var(--card);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        .summary h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .st {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            font-size: 0.84rem;
+        }
+
+        .st th {
+            background: var(--slate-100);
+            padding: 0.65rem 0.9rem;
+            text-align: left;
+            font-weight: 600;
+            color: var(--slate-500);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            user-select: none;
+            border-bottom: 2px solid var(--slate-200);
+            transition: color 0.2s;
+            white-space: nowrap;
+        }
+
+        .st th:hover {
+            color: var(--emerald-d);
+        }
+
+        .st th .sa {
+            margin-left: 4px;
+            font-size: 0.6rem;
+        }
+
+        .st td {
+            padding: 0.6rem 0.9rem;
+            border-bottom: 1px solid var(--slate-200);
+        }
+
+        .st tbody tr:nth-child(even) {
+            background: #FAFCFE;
+        }
+
+        .st tbody tr:hover {
+            background: var(--emerald-l);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.12rem 0.55rem;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .b-temp {
+            background: var(--sunset-l);
+            color: var(--sunset-d);
+        }
+
+        .b-co2 {
+            background: var(--slate-100);
+            color: var(--slate-700);
+        }
+
+        .b-ren {
+            background: var(--emerald-l);
+            color: var(--emerald-d);
+        }
+
+        .b-ene {
+            background: var(--ocean-l);
+            color: var(--ocean-d);
+        }
+
+        .b-sol {
+            background: var(--gold-l);
+            color: var(--gold-d);
+        }
+
+        .section-row td {
+            background: var(--slate-800) !important;
+            color: #fff;
+            font-weight: 700;
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            padding: 0.5rem 0.9rem;
+        }
+
+        /* ===== SPINNER ===== */
+        .spinner-ov {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.55);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .spinner-ov.active {
+            display: flex;
+        }
+
+        .spinner-box {
+            background: #fff;
+            border-radius: var(--radius);
+            padding: 2.5rem 3rem;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .spinner {
+            width: 38px;
+            height: 38px;
+            border: 4px solid var(--slate-200);
+            border-top-color: var(--emerald);
+            border-radius: 50%;
+            animation: spin 0.75s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media(max-width:860px) {
+            .charts {
+                grid-template-columns: 1fr;
+            }
+
+            .cc.wide {
+                grid-column: auto;
+            }
+
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .kpis {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .panels {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(14px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .anim {
+            animation: fadeUp 0.45s ease forwards;
+            opacity: 0;
+        }
+
+        .anim:nth-child(1) {
+            animation-delay: 0.04s;
+        }
+
+        .anim:nth-child(2) {
+            animation-delay: 0.08s;
+        }
+
+        .anim:nth-child(3) {
+            animation-delay: 0.12s;
+        }
+
+        .anim:nth-child(4) {
+            animation-delay: 0.16s;
+        }
+
+        .anim:nth-child(5) {
+            animation-delay: 0.2s;
+        }
+
+        /* scrollbar */
+        ::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--slate-300);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--slate-400);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 1.5rem;
+            color: var(--slate-400);
+            font-size: 0.78rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="header">
+        <div class="header-inner">
+            <h1><span class="globe">🌍</span> Climate &amp; Energy Dashboard</h1>
+            <p>Explore the data. Edit everything. Understand the trends.</p>
+            <div class="header-actions">
+                <button class="btn btn-primary" onclick="updateDashboard()">⟳ Update Dashboard</button>
+                <button class="btn btn-ghost" onclick="resetData()">↺ Reset to Sample Data</button>
+                <button class="btn btn-pdf" onclick="exportPDF()">↓ Export PDF</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container" id="dashboard-content">
+
+        <!-- ===== PANELS ===== -->
+        <section class="panels" style="margin-top:1.4rem;">
+
+            <!-- TEMPERATURE -->
+            <div class="panel open" id="p-temp">
+                <div class="ph" onclick="tog('p-temp')">
+                    <h3><span class="pi temp">🌡</span> Temperature Anomaly</h3>
+                    <span class="chev">▼</span>
+                </div>
+                <div class="pb">
+                    <div class="tw">
+                        <table class="dt" id="tTemp">
+                            <thead>
+                                <tr>
+                                    <th>Year</th>
+                                    <th>Anomaly (°C)</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                    <div class="pa"><button class="btn btn-small btn-add" onclick="addRow('tTemp',[2025,0])">+ Add
+                            Year</button></div>
+                </div>
+            </div>
+
+            <!-- CO2 -->
+            <div class="panel" id="p-co2">
+                <div class="ph" onclick="tog('p-co2')">
+                    <h3><span class="pi co2">💨</span> CO₂ Levels</h3>
+                    <span class="chev">▼</span>
+                </div>
+                <div class="pb">
+                    <div class="tw">
+                        <table class="dt" id="tCO2">
+                            <thead>
+                                <tr>
+                                    <th>Year</th>
+                                    <th>CO₂ (ppm)</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                    <div class="pa"><button class="btn btn-small btn-add" onclick="addRow('tCO2',[2025,0])">+ Add
+                            Year</button></div>
+                </div>
+            </div>
+
+            <!-- RENEWABLES BY REGION -->
+            <div class="panel" id="p-ren">
+                <div class="ph" onclick="tog('p-ren')">
+                    <h3><span class="pi ren">♻</span> Renewables by Region</h3>
+                    <span class="chev">▼</span>
+                </div>
+                <div class="pb">
+                    <div class="tw">
+                        <table class="dt" id="tRen">
+                            <thead>
+                                <tr>
+                                    <th>Region</th>
+                                    <th>Share (%)</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                    <div class="pa"><button class="btn btn-small btn-add" onclick="addRowTxt('tRen',['New Region',0])">+
+                            Add Region</button></div>
+                </div>
+            </div>
+
+            <!-- ENERGY SOURCES -->
+            <div class="panel" id="p-ene">
+                <div class="ph" onclick="tog('p-ene')">
+                    <h3><span class="pi ene">⚡</span> Energy Sources</h3>
+                    <span class="chev">▼</span>
+                </div>
+                <div class="pb">
+                    <div class="tw">
+                        <table class="dt" id="tEne">
+                            <thead>
+                                <tr>
+                                    <th>Source</th>
+                                    <th>Production (TWh)</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                    <div class="pa"><button class="btn btn-small btn-add" onclick="addRowTxt('tEne',['New Source',0])">+
+                            Add Source</button></div>
+                </div>
+            </div>
+
+            <!-- SOLAR CAPACITY -->
+            <div class="panel" id="p-sol">
+                <div class="ph" onclick="tog('p-sol')">
+                    <h3><span class="pi sol">☀</span> Solar Capacity</h3>
+                    <span class="chev">▼</span>
+                </div>
+                <div class="pb">
+                    <div class="tw">
+                        <table class="dt" id="tSol">
+                            <thead>
+                                <tr>
+                                    <th>Country</th>
+                                    <th>Capacity (GW)</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                    <div class="pa"><button class="btn btn-small btn-add"
+                            onclick="addRowTxt('tSol',['New Country',0])">+ Add Country</button></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== KPIs ===== -->
+        <section class="kpis" id="kpiGrid"></section>
+
+        <!-- ===== CHARTS ===== -->
+        <section class="charts">
+            <div class="cc wide anim">
+                <h3><span class="dot" style="background:var(--sunset)"></span> Temperature &amp; CO₂ Over Time</h3>
+                <div class="cw"><canvas id="chartDual"></canvas></div>
+            </div>
+            <div class="cc anim">
+                <h3><span class="dot" style="background:var(--gold)"></span> Solar Capacity by Country</h3>
+                <div class="cw"><canvas id="chartSolar"></canvas></div>
+            </div>
+            <div class="cc anim">
+                <h3><span class="dot" style="background:var(--emerald)"></span> Renewable Share by Region</h3>
+                <div class="cw"><canvas id="chartRadar"></canvas></div>
+            </div>
+            <div class="cc anim">
+                <h3><span class="dot" style="background:var(--ocean)"></span> Energy Source Breakdown</h3>
+                <div class="donut-wrap"><canvas id="chartDonut"></canvas></div>
+            </div>
+            <div class="cc anim">
+                <h3><span class="dot" style="background:var(--violet)"></span> Renewable vs Fossil (Stacked Area)</h3>
+                <div class="cw"><canvas id="chartStacked"></canvas></div>
+            </div>
+        </section>
+
+        <!-- ===== SUMMARY TABLE ===== -->
+        <section class="summary anim">
+            <h3>📋 Data Summary</h3>
+            <div class="tw">
+                <table class="st" id="summaryTable">
+                    <thead>
+                        <tr>
+                            <th onclick="sortSum(0)">Section <span class="sa">⇅</span></th>
+                            <th onclick="sortSum(1)">Item <span class="sa">⇅</span></th>
+                            <th onclick="sortSum(2)">Value <span class="sa">⇅</span></th>
+                            <th onclick="sortSum(3)">Unit <span class="sa">⇅</span></th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </section>
+
+        <div class="footer">Data is pre-filled with representative samples. Edit everything above and hit <strong>Update
+                Dashboard</strong>.</div>
+    </div>
+
+    <!-- SPINNER -->
+    <div class="spinner-ov" id="spinnerOv">
+        <div class="spinner-box">
+            <div class="spinner"></div>
+            <p style="font-weight:600;color:var(--slate-800);">Generating PDF…</p>
+        </div>
+    </div>
+
+    <script>
+        /* ============================================================
+           SAMPLE DATA
+           ============================================================ */
+        const SAMPLE = {
+            temp: [
+                [2015, 0.90], [2016, 1.01], [2017, 0.92], [2018, 0.85], [2019, 0.98],
+                [2020, 1.02], [2021, 0.84], [2022, 0.89], [2023, 1.17], [2024, 1.29]
+            ],
+            co2: [
+                [2015, 400.8], [2016, 404.2], [2017, 406.5], [2018, 408.5], [2019, 411.4],
+                [2020, 414.2], [2021, 416.4], [2022, 418.5], [2023, 421.0], [2024, 423.8]
+            ],
+            ren: [
+                ['Europe', 38], ['North America', 22], ['South America', 55],
+                ['Asia Pacific', 18], ['Middle East & Africa', 8], ['Oceania', 28]
+            ],
+            ene: [
+                ['Coal', 10200], ['Natural Gas', 6600], ['Oil', 900], ['Nuclear', 2800],
+                ['Hydro', 4300], ['Wind', 2100], ['Solar', 1600], ['Biomass', 700]
+            ],
+            sol: [
+                ['China', 610], ['USA', 175], ['India', 120], ['Japan', 90], ['Germany', 82],
+                ['Australia', 38], ['Brazil', 35], ['Spain', 28], ['South Korea', 26], ['Vietnam', 22]
+            ]
+        };
+
+        /* ============================================================
+           GLOBALS
+           ============================================================ */
+        let chartDual, chartSolar, chartRadar, chartDonut, chartStacked;
+        let sumData = []; let sCol = -1; let sAsc = true;
+
+        const PALETTE = {
+            emerald: '#10B981', ocean: '#0EA5E9', sunset: '#F97316', violet: '#8B5CF6',
+            gold: '#EAB308', rose: '#F43F5E', teal: '#14B8A6', sky: '#38BDF8',
+            lime: '#84CC16', fuchsia: '#D946EF'
+        };
+        const COLORS = Object.values(PALETTE);
+
+        /* ============================================================
+           PANEL TOGGLE
+           ============================================================ */
+        function tog(id) { document.getElementById(id).classList.toggle('open'); }
+
+        /* ============================================================
+           TABLE HELPERS
+           ============================================================ */
+        function fillNum(tid, data) {
+            const tb = document.querySelector('#' + tid + ' tbody'); tb.innerHTML = '';
+            data.forEach(r => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `<td><input type="number" value="${r[0]}" step="1"></td><td><input type="number" value="${r[1]}" step="0.01"></td><td><button class="btn btn-del" onclick="this.closest('tr').remove()">×</button></td>`;
+                tb.appendChild(tr);
+            });
+        }
+        function fillTxt(tid, data) {
+            const tb = document.querySelector('#' + tid + ' tbody'); tb.innerHTML = '';
+            data.forEach(r => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `<td><input type="text" value="${r[0]}"></td><td><input type="number" value="${r[1]}" step="0.1"></td><td><button class="btn btn-del" onclick="this.closest('tr').remove()">×</button></td>`;
+                tb.appendChild(tr);
+            });
+        }
+        function addRow(tid, def) {
+            const tb = document.querySelector('#' + tid + ' tbody');
+            const tr = document.createElement('tr');
+            tr.innerHTML = `<td><input type="number" value="${def[0]}" step="1"></td><td><input type="number" value="${def[1]}" step="0.01"></td><td><button class="btn btn-del" onclick="this.closest('tr').remove()">×</button></td>`;
+            tb.appendChild(tr);
+        }
+        function addRowTxt(tid, def) {
+            const tb = document.querySelector('#' + tid + ' tbody');
+            const tr = document.createElement('tr');
+            tr.innerHTML = `<td><input type="text" value="${def[0]}"></td><td><input type="number" value="${def[1]}" step="0.1"></td><td><button class="btn btn-del" onclick="this.closest('tr').remove()">×</button></td>`;
+            tb.appendChild(tr);
+        }
+
+        /* ============================================================
+           READ DATA FROM INPUTS
+           ============================================================ */
+        function readNum(tid) {
+            return Array.from(document.querySelectorAll('#' + tid + ' tbody tr')).map(tr => {
+                const i = tr.querySelectorAll('input'); return [+i[0].value, +i[1].value];
+            });
+        }
+        function readTxt(tid) {
+            return Array.from(document.querySelectorAll('#' + tid + ' tbody tr')).map(tr => {
+                const i = tr.querySelectorAll('input'); return [i[0].value, +i[1].value];
+            });
+        }
+
+        /* ============================================================
+           KPIs
+           ============================================================ */
+        function renderKPIs(temp, co2, ren, ene, sol) {
+            const grid = document.getElementById('kpiGrid');
+            const latTemp = temp.length ? temp[temp.length - 1] : [0, 0];
+            const latCO2 = co2.length ? co2[co2.length - 1] : [0, 0];
+            const avgRen = ren.length ? (ren.reduce((s, r) => s + r[1], 0) / ren.length).toFixed(1) : 0;
+            const totalSol = sol.reduce((s, r) => s + r[1], 0);
+            const totalEnergy = ene.reduce((s, r) => s + r[1], 0);
+
+            grid.innerHTML = `
+    <div class="kpi c-sunset anim"><div class="kpi-label">Latest Temp Anomaly</div>
+      <div class="kpi-val" style="color:var(--sunset)">+${latTemp[1].toFixed(2)}°C</div>
+      <div class="kpi-sub">Year ${latTemp[0]}</div></div>
+    <div class="kpi c-ocean anim"><div class="kpi-label">CO₂ Level</div>
+      <div class="kpi-val" style="color:var(--ocean)">${latCO2[1].toFixed(1)}</div>
+      <div class="kpi-sub">ppm · Year ${latCO2[0]}</div></div>
+    <div class="kpi c-emerald anim"><div class="kpi-label">Avg Renewable Share</div>
+      <div class="kpi-val" style="color:var(--emerald)">${avgRen}%</div>
+      <div class="kpi-sub">${ren.length} regions</div></div>
+    <div class="kpi c-gold anim"><div class="kpi-label">Total Solar Capacity</div>
+      <div class="kpi-val" style="color:var(--gold)">${totalSol.toLocaleString()}<span style="font-size:0.85rem"> GW</span></div>
+      <div class="kpi-sub">${sol.length} countries</div></div>
+    <div class="kpi c-violet anim"><div class="kpi-label">Global Energy Production</div>
+      <div class="kpi-val" style="color:var(--violet)">${(totalEnergy / 1000).toFixed(1)}<span style="font-size:0.85rem">k TWh</span></div>
+      <div class="kpi-sub">${ene.length} sources</div></div>`;
+        }
+
+        /* ============================================================
+           CHART: DUAL AXIS (Temp + CO2)
+           ============================================================ */
+        function renderDual(temp, co2) {
+            const ctx = document.getElementById('chartDual').getContext('2d');
+            if (chartDual) chartDual.destroy();
+
+            // Merge years
+            const years = [...new Set([...temp.map(r => r[0]), ...co2.map(r => r[0])])].sort((a, b) => a - b);
+            const tMap = Object.fromEntries(temp);
+            const cMap = Object.fromEntries(co2);
+
+            chartDual = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: years.map(String),
+                    datasets: [
+                        {
+                            label: 'Temp Anomaly (°C)', data: years.map(y => tMap[y] ?? null),
+                            borderColor: '#F97316', backgroundColor: 'rgba(249,115,22,0.08)', fill: true, tension: 0.4,
+                            pointRadius: 5, pointBackgroundColor: '#F97316', pointBorderColor: '#fff', pointBorderWidth: 2, yAxisID: 'y'
+                        },
+                        {
+                            label: 'CO₂ (ppm)', data: years.map(y => cMap[y] ?? null),
+                            borderColor: '#0EA5E9', backgroundColor: 'rgba(14,165,233,0.06)', fill: true, tension: 0.4,
+                            pointRadius: 5, pointBackgroundColor: '#0EA5E9', pointBorderColor: '#fff', pointBorderWidth: 2, yAxisID: 'y1'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: true,
+                    interaction: { mode: 'index', intersect: false },
+                    plugins: { legend: { labels: { usePointStyle: true, padding: 16, font: { family: 'Outfit', size: 12 } } } },
+                    scales: {
+                        y: { position: 'left', title: { display: true, text: 'Anomaly °C', font: { family: 'Outfit' } }, grid: { color: 'rgba(0,0,0,0.04)' }, ticks: { font: { family: 'Outfit', size: 11 } } },
+                        y1: { position: 'right', title: { display: true, text: 'CO₂ ppm', font: { family: 'Outfit' } }, grid: { drawOnChartArea: false }, ticks: { font: { family: 'Outfit', size: 11 } } },
+                        x: { grid: { display: false }, ticks: { font: { family: 'Outfit', size: 11 } } }
+                    },
+                    animation: { duration: 700, easing: 'easeInOutQuart' }
+                }
+            });
+        }
+
+        /* ============================================================
+           CHART: SOLAR HORIZONTAL BAR
+           ============================================================ */
+        function renderSolar(sol) {
+            const ctx = document.getElementById('chartSolar').getContext('2d');
+            if (chartSolar) chartSolar.destroy();
+            const sorted = [...sol].sort((a, b) => a[1] - b[1]);
+            chartSolar = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: sorted.map(r => r[0]),
+                    datasets: [{
+                        label: 'Capacity (GW)', data: sorted.map(r => r[1]),
+                        backgroundColor: sorted.map((_, i) => {
+                            const t = i / (sorted.length - 1 || 1);
+                            return `hsl(${42 + t * 20},${85 - t * 10}%,${55 - t * 10}%)`;
+                        }),
+                        borderRadius: 6, borderSkipped: false
+                    }]
+                },
+                options: {
+                    indexAxis: 'y', responsive: true, maintainAspectRatio: true,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { grid: { color: 'rgba(0,0,0,0.04)' }, ticks: { font: { family: 'Outfit', size: 11 } } },
+                        y: { grid: { display: false }, ticks: { font: { family: 'Outfit', size: 11, weight: '500' } } }
+                    },
+                    animation: { duration: 700, easing: 'easeInOutQuart' }
+                }
+            });
+        }
+
+        /* ============================================================
+           CHART: RADAR (Renewables by Region)
+           ============================================================ */
+        function renderRadar(ren) {
+            const ctx = document.getElementById('chartRadar').getContext('2d');
+            if (chartRadar) chartRadar.destroy();
+            chartRadar = new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: ren.map(r => r[0]),
+                    datasets: [{
+                        label: 'Renewable Share %',
+                        data: ren.map(r => r[1]),
+                        backgroundColor: 'rgba(16,185,129,0.15)',
+                        borderColor: '#10B981',
+                        borderWidth: 2,
+                        pointBackgroundColor: '#10B981',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 5
+                    }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: true,
+                    plugins: { legend: { labels: { usePointStyle: true, font: { family: 'Outfit', size: 12 } } } },
+                    scales: {
+                        r: {
+                            beginAtZero: true, max: 100,
+                            grid: { color: 'rgba(0,0,0,0.06)' },
+                            pointLabels: { font: { family: 'Outfit', size: 11, weight: '500' } },
+                            ticks: { font: { family: 'Outfit', size: 10 }, stepSize: 20, backdropColor: 'transparent' }
+                        }
+                    },
+                    animation: { duration: 700, easing: 'easeInOutQuart' }
+                }
+            });
+        }
+
+        /* ============================================================
+           CHART: DOUGHNUT (Energy Sources)
+           ============================================================ */
+        function renderDonut(ene) {
+            const ctx = document.getElementById('chartDonut').getContext('2d');
+            if (chartDonut) chartDonut.destroy();
+            chartDonut = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ene.map(r => r[0]),
+                    datasets: [{
+                        data: ene.map(r => r[1]),
+                        backgroundColor: COLORS.slice(0, ene.length),
+                        borderWidth: 2, borderColor: '#fff', hoverOffset: 10
+                    }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: true, cutout: '58%',
+                    plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, padding: 10, font: { family: 'Outfit', size: 11 } } } },
+                    animation: { duration: 700, easing: 'easeInOutQuart' }
+                }
+            });
+        }
+
+        /* ============================================================
+           CHART: STACKED AREA (Renewable vs Fossil)
+           ============================================================ */
+        function renderStacked(temp, ene) {
+            const ctx = document.getElementById('chartStacked').getContext('2d');
+            if (chartStacked) chartStacked.destroy();
+
+            const renewable = ['Hydro', 'Wind', 'Solar', 'Biomass', 'Geothermal'];
+            const fossil = ['Coal', 'Natural Gas', 'Oil'];
+            const eneMap = Object.fromEntries(ene);
+
+            const renTotal = renewable.reduce((s, k) => s + (eneMap[k] || 0), 0);
+            const fosTotal = fossil.reduce((s, k) => s + (eneMap[k] || 0), 0);
+            const nucTotal = eneMap['Nuclear'] || 0;
+
+            // Use temp years as x-axis proxy, simulate trend
+            const years = temp.map(r => r[0]);
+            if (!years.length) return;
+
+            const renData = years.map((_, i) => { const t = i / (years.length - 1 || 1); return Math.round(renTotal * (0.55 + 0.45 * t)); });
+            const fosData = years.map((_, i) => { const t = i / (years.length - 1 || 1); return Math.round(fosTotal * (1.1 - 0.15 * t)); });
+            const nucData = years.map(() => nucTotal);
+
+            chartStacked = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: years.map(String),
+                    datasets: [
+                        { label: 'Fossil Fuels', data: fosData, backgroundColor: 'rgba(249,115,22,0.25)', borderColor: '#F97316', fill: true, tension: 0.4, pointRadius: 0 },
+                        { label: 'Nuclear', data: nucData, backgroundColor: 'rgba(139,92,246,0.2)', borderColor: '#8B5CF6', fill: true, tension: 0.4, pointRadius: 0 },
+                        { label: 'Renewables', data: renData, backgroundColor: 'rgba(16,185,129,0.3)', borderColor: '#10B981', fill: true, tension: 0.4, pointRadius: 0 }
+                    ]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: true,
+                    plugins: { legend: { labels: { usePointStyle: true, padding: 14, font: { family: 'Outfit', size: 12 } } } },
+                    scales: {
+                        y: { stacked: true, title: { display: true, text: 'TWh', font: { family: 'Outfit' } }, grid: { color: 'rgba(0,0,0,0.04)' }, ticks: { font: { family: 'Outfit', size: 11 } } },
+                        x: { grid: { display: false }, ticks: { font: { family: 'Outfit', size: 11 } } }
+                    },
+                    animation: { duration: 700, easing: 'easeInOutQuart' }
+                }
+            });
+        }
+
+        /* ============================================================
+           SUMMARY TABLE
+           ============================================================ */
+        function buildSummary(temp, co2, ren, ene, sol) {
+            sumData = [];
+            temp.forEach(r => sumData.push({ sec: 'Temperature', badge: 'b-temp', item: String(r[0]), val: r[1], unit: '°C' }));
+            co2.forEach(r => sumData.push({ sec: 'CO₂', badge: 'b-co2', item: String(r[0]), val: r[1], unit: 'ppm' }));
+            ren.forEach(r => sumData.push({ sec: 'Renewables', badge: 'b-ren', item: r[0], val: r[1], unit: '%' }));
+            ene.forEach(r => sumData.push({ sec: 'Energy', badge: 'b-ene', item: r[0], val: r[1], unit: 'TWh' }));
+            sol.forEach(r => sumData.push({ sec: 'Solar', badge: 'b-sol', item: r[0], val: r[1], unit: 'GW' }));
+        }
+        function renderSummary() {
+            const tb = document.querySelector('#summaryTable tbody');
+            tb.innerHTML = sumData.map(r => `<tr>
+    <td><span class="badge ${r.badge}">${r.sec}</span></td>
+    <td>${r.item}</td>
+    <td><strong>${typeof r.val === 'number' ? r.val.toLocaleString(undefined, { maximumFractionDigits: 2 }) : r.val}</strong></td>
+    <td>${r.unit}</td>
+  </tr>`).join('');
+        }
+        function sortSum(col) {
+            if (sCol === col) sAsc = !sAsc; else { sCol = col; sAsc = true; }
+            const keys = ['sec', 'item', 'val', 'unit'];
+            sumData.sort((a, b) => {
+                let va = a[keys[col]], vb = b[keys[col]];
+                if (typeof va === 'number' && typeof vb === 'number') return sAsc ? va - vb : vb - va;
+                va = String(va); vb = String(vb);
+                return sAsc ? va.localeCompare(vb) : vb.localeCompare(va);
+            });
+            renderSummary();
+        }
+
+        /* ============================================================
+           UPDATE / RESET
+           ============================================================ */
+        function updateDashboard() {
+            const temp = readNum('tTemp');
+            const co2 = readNum('tCO2');
+            const ren = readTxt('tRen');
+            const ene = readTxt('tEne');
+            const sol = readTxt('tSol');
+
+            renderKPIs(temp, co2, ren, ene, sol);
+            renderDual(temp, co2);
+            renderSolar(sol);
+            renderRadar(ren);
+            renderDonut(ene);
+            renderStacked(temp, ene);
+            buildSummary(temp, co2, ren, ene, sol);
+            renderSummary();
+        }
+
+        function resetData() {
+            fillNum('tTemp', SAMPLE.temp);
+            fillNum('tCO2', SAMPLE.co2);
+            fillTxt('tRen', SAMPLE.ren);
+            fillTxt('tEne', SAMPLE.ene);
+            fillTxt('tSol', SAMPLE.sol);
+            updateDashboard();
+        }
+
+        /* ============================================================
+           PDF EXPORT
+           ============================================================ */
+        async function exportPDF() {
+            const ov = document.getElementById('spinnerOv');
+            ov.classList.add('active');
+            try {
+                await new Promise(r => setTimeout(r, 120));
+                const el = document.getElementById('dashboard-content');
+                const canvas = await html2canvas(el, { scale: 2, useCORS: true, backgroundColor: '#F8FAFC', logging: false });
+                const img = canvas.toDataURL('image/jpeg', 0.92);
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF('p', 'mm', 'a4');
+                const pw = pdf.internal.pageSize.getWidth();
+                const ph = pdf.internal.pageSize.getHeight();
+                const iw = pw - 16;
+                const ih = (canvas.height * iw) / canvas.width;
+
+                if (ih <= ph - 16) {
+                    pdf.addImage(img, 'JPEG', 8, 8, iw, ih);
+                } else {
+                    let srcY = 0;
+                    const sliceH = ((ph - 16) / iw) * canvas.width;
+                    while (srcY < canvas.height) {
+                        const sc = document.createElement('canvas');
+                        sc.width = canvas.width;
+                        const thisH = Math.min(sliceH, canvas.height - srcY);
+                        sc.height = thisH;
+                        sc.getContext('2d').drawImage(canvas, 0, srcY, canvas.width, thisH, 0, 0, canvas.width, thisH);
+                        const si = sc.toDataURL('image/jpeg', 0.92);
+                        const sih = (thisH * iw) / canvas.width;
+                        if (srcY > 0) pdf.addPage();
+                        pdf.addImage(si, 'JPEG', 8, 8, iw, sih);
+                        srcY += sliceH;
+                    }
+                }
+                pdf.save('my-climate-dashboard.pdf');
+            } catch (e) {
+                console.error('PDF error:', e);
+                alert('PDF export failed — check console.');
+            }
+            ov.classList.remove('active');
+        }
+
+        /* ============================================================
+           INIT
+           ============================================================ */
+        resetData();
+    </script>
+</body>
+
+</html>

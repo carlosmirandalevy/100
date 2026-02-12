@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pro-Level E-Commerce Analytics</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --pink: #ff007a;
+            --blue: #0070ff;
+            --lime: #32cd32;
+            --orange: #ff8c00;
+            --purple: #8a2be2;
+            --bg: #fcfaf8;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg);
+            color: #1a1a1a;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a1a1a, #4a4a4a);
+            color: white;
+            padding: 40px 20px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        /* Input Controls */
+        details {
+            background: white;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+            border: 1px solid #eee;
+        }
+
+        summary {
+            padding: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        summary::after {
+            content: '+';
+            font-size: 1.2rem;
+        }
+
+        details[open] summary::after {
+            content: '-';
+        }
+
+        .panel-content {
+            padding: 20px;
+            border-top: 1px solid #f9f9f9;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 600px;
+        }
+
+        th {
+            text-align: left;
+            padding: 12px;
+            font-size: 0.8rem;
+            color: #888;
+            text-transform: uppercase;
+        }
+
+        td {
+            padding: 8px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1.5px solid #eee;
+            border-radius: 8px;
+            font-family: inherit;
+            transition: border-color 0.2s;
+        }
+
+        input:focus {
+            border-color: var(--blue);
+            outline: none;
+        }
+
+        /* Action Buttons */
+        .controls {
+            display: flex;
+            gap: 15px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-update {
+            background: var(--blue);
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 112, 255, 0.3);
+        }
+
+        .btn-reset {
+            background: #eee;
+            color: #444;
+        }
+
+        .btn-pdf {
+            background: var(--purple);
+            color: white;
+            margin-left: auto;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+        }
+
+        /* KPI Cards */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .kpi-card {
+            background: white;
+            padding: 25px;
+            border-radius: 18px;
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.03);
+            border-bottom: 4px solid var(--blue);
+        }
+
+        .kpi-val {
+            font-size: 2rem;
+            font-weight: 800;
+            display: block;
+            margin: 10px 0;
+        }
+
+        .kpi-label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #888;
+            text-transform: uppercase;
+        }
+
+        /* Chart Grid */
+        .chart-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+        }
+
+        .full-width {
+            grid-column: span 2;
+        }
+
+        /* Projections Slider */
+        .projection-tool {
+            background: linear-gradient(to right, #fff, #fef1f8);
+            padding: 30px;
+            border-radius: 20px;
+            margin: 30px 0;
+            border: 2px dashed var(--pink);
+        }
+
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        input[type="range"] {
+            flex-grow: 1;
+            accent-color: var(--pink);
+        }
+
+        #loading {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            z-index: 9999;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+        }
+
+        @media (max-width: 900px) {
+            .chart-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .full-width {
+                grid-column: span 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="loading">🚀 Generating PDF...</div>
+
+    <div class="container" id="dashboard">
+        <header>
+            <h1>CommerceX Intelligence</h1>
+            <p>Interactive Business Analytics & Forecasting</p>
+        </header>
+
+        <div id="editor-group">
+            <details>
+                <summary>📅 Monthly Revenue ($)</summary>
+                <div class="panel-content">
+                    <div style="margin-bottom: 15px;">Year Label: <input type="text" id="year-label" value="2025"
+                            style="width: 100px;"></div>
+                    <table id="rev-table">
+                        <tbody id="rev-body"></tbody>
+                    </table>
+                </div>
+            </details>
+
+            <details>
+                <summary>📦 Top Products</summary>
+                <div class="panel-content">
+                    <table id="prod-table">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Units</th>
+                                <th>Rev ($)</th>
+                                <th>Rating</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="prod-body"></tbody>
+                    </table>
+                    <button class="btn btn-reset" onclick="addRow('prod-body', ['', 0, 0, 5])" style="margin-top:10px">+
+                        Add Product</button>
+                </div>
+            </details>
+
+            <details>
+                <summary>🚦 Traffic Sources (%)</summary>
+                <div class="panel-content">
+                    <table id="traffic-table">
+                        <thead>
+                            <tr>
+                                <th>Source</th>
+                                <th>Share %</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="traffic-body"></tbody>
+                    </table>
+                    <button class="btn btn-reset" onclick="addRow('traffic-body', ['', 0])" style="margin-top:10px">+
+                        Add Source</button>
+                    <p id="traffic-warn" style="color:red; display:none;">Total must equal 100%!</p>
+                </div>
+            </details>
+
+            <details>
+                <summary>👥 Customer Segments</summary>
+                <div class="panel-content">
+                    <table id="seg-table">
+                        <thead>
+                            <tr>
+                                <th>Segment</th>
+                                <th>Count</th>
+                                <th>Avg Order ($)</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="seg-body"></tbody>
+                    </table>
+                    <button class="btn btn-reset" onclick="addRow('seg-body', ['', 0, 0])" style="margin-top:10px">+ Add
+                        Segment</button>
+                </div>
+            </details>
+        </div>
+
+        <div class="controls">
+            <button class="btn btn-update" onclick="updateDashboard()">Update Dashboard</button>
+            <button class="btn btn-reset" onclick="resetToDefaults()">Reset Defaults</button>
+            <button class="btn btn-pdf" onclick="exportPDF()">Export PDF</button>
+        </div>
+
+        <div class="kpi-grid">
+            <div class="kpi-card" style="border-color: var(--blue);">
+                <span class="kpi-label">Total Revenue</span>
+                <span class="kpi-val" id="kpi-rev">$0</span>
+            </div>
+            <div class="kpi-card" style="border-color: var(--pink);">
+                <span class="kpi-label">Total Orders</span>
+                <span class="kpi-val" id="kpi-orders">0</span>
+            </div>
+            <div class="kpi-card" style="border-color: var(--lime);">
+                <span class="kpi-label">Avg Order Value</span>
+                <span class="kpi-val" id="kpi-aov">$0</span>
+            </div>
+            <div class="kpi-card" style="border-color: var(--orange);">
+                <span class="kpi-label">YoY Growth</span>
+                <span class="kpi-val" id="kpi-growth">0%</span>
+            </div>
+        </div>
+
+        <div class="chart-grid">
+            <div class="card full-width">
+                <h3>Revenue Trend: <span id="trend-title">2025</span></h3>
+                <canvas id="revChart"></canvas>
+            </div>
+            <div class="card">
+                <h3>Top Products: Revenue vs Units</h3>
+                <canvas id="prodChart"></canvas>
+            </div>
+            <div class="card">
+                <h3>Acquisition Channels</h3>
+                <canvas id="trafficChart"></canvas>
+            </div>
+            <div class="card full-width">
+                <h3>Segment Contribution (Revenue)</h3>
+                <canvas id="segChart"></canvas>
+            </div>
+        </div>
+
+        <div class="projection-tool">
+            <h3>🔮 Projection Engine</h3>
+            <p>Adjust growth rate to forecast next year's revenue based on current data.</p>
+            <div class="slider-container">
+                <span style="font-weight: bold;">0%</span>
+                <input type="range" id="growth-slider" min="0" max="50" value="15" oninput="calculateProjection()">
+                <span style="font-weight: bold;">50%</span>
+                <div id="proj-bubble"
+                    style="background:var(--pink); color:white; padding: 10px 20px; border-radius: 10px; font-weight:800;">
+                    15%</div>
+            </div>
+            <div style="margin-top: 20px; display: flex; gap: 10px; flex-wrap: wrap;">
+                <button class="btn btn-reset" onclick="setPreset(-10)">Pessimistic (-10%)</button>
+                <button class="btn btn-reset" onclick="setPreset(0)">Baseline (0%)</button>
+                <button class="btn btn-reset" onclick="setPreset(20)">Optimistic (+20%)</button>
+                <button class="btn btn-reset" onclick="setPreset(40)">Aggressive (+40%)</button>
+            </div>
+            <h2 style="margin-top: 25px; color: var(--pink);">Projected Next Year Revenue: <span id="proj-val">$0</span>
+            </h2>
+        </div>
+
+        <div class="card full-width" style="margin-top: 30px;">
+            <h3>Analytics Audit Table</h3>
+            <table id="audit-table">
+                <thead>
+                    <tr style="background: #fcfaf8; cursor: pointer;">
+                        <th onclick="sortTable(0)">Metric Type</th>
+                        <th onclick="sortTable(1)">Name</th>
+                        <th onclick="sortTable(2)">Value</th>
+                    </tr>
+                </thead>
+                <tbody id="audit-body"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        let charts = {};
+        const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+        const DEFAULTS = {
+            rev: [12000, 15000, 14000, 19000, 22000, 25000, 21000, 23000, 28000, 32000, 45000, 52000],
+            prods: [['Ultra Watch', 450, 45000, 4.8], ['Pro Earbuds', 800, 32000, 4.5], ['USB-C Hub', 1200, 18000, 4.2], ['Leather Case', 300, 9000, 4.7]],
+            traffic: [['Search', 40], ['Social', 30], ['Direct', 20], ['Referral', 10]],
+            segs: [['VIP', 500, 250], ['Regular', 2500, 85], ['New', 1200, 45]]
+        };
+
+        function init() { resetToDefaults(); }
+
+        function resetToDefaults() {
+            document.getElementById('rev-body').innerHTML = '';
+            DEFAULTS.rev.forEach((v, i) => {
+                document.getElementById('rev-body').innerHTML += `<tr><td style="width:100px">${months[i]}</td><td><input type="number" class="rev-val" value="${v}"></td></tr>`;
+            });
+
+            const prodBody = document.getElementById('prod-body');
+            prodBody.innerHTML = '';
+            DEFAULTS.prods.forEach(p => addRow('prod-body', p));
+
+            const trafficBody = document.getElementById('traffic-body');
+            trafficBody.innerHTML = '';
+            DEFAULTS.traffic.forEach(t => addRow('traffic-body', t));
+
+            const segBody = document.getElementById('seg-body');
+            segBody.innerHTML = '';
+            DEFAULTS.segs.forEach(s => addRow('seg-body', s));
+
+            updateDashboard();
+        }
+
+        function addRow(targetId, vals) {
+            const body = document.getElementById(targetId);
+            const tr = document.createElement('tr');
+            if (targetId === 'prod-body') {
+                tr.innerHTML = `<td><input type="text" value="${vals[0]}"></td><td><input type="number" value="${vals[1]}"></td><td><input type="number" value="${vals[2]}"></td><td><input type="number" step="0.1" value="${vals[3]}"></td><td><button class="btn" style="color:red" onclick="this.parentElement.parentElement.remove()">×</button></td>`;
+            } else if (targetId === 'traffic-body') {
+                tr.innerHTML = `<td><input type="text" value="${vals[0]}"></td><td><input type="number" class="t-perc" value="${vals[1]}"></td><td><button class="btn" style="color:red" onclick="this.parentElement.parentElement.remove()">×</button></td>`;
+            } else {
+                tr.innerHTML = `<td><input type="text" value="${vals[0]}"></td><td><input type="number" value="${vals[1]}"></td><td><input type="number" value="${vals[2]}"></td><td><button class="btn" style="color:red" onclick="this.parentElement.parentElement.remove()">×</button></td>`;
+            }
+            body.appendChild(tr);
+        }
+
+        function updateDashboard() {
+            // Validation
+            const percs = Array.from(document.querySelectorAll('.t-perc')).map(i => parseFloat(i.value) || 0);
+            const totalP = percs.reduce((a, b) => a + b, 0);
+            document.getElementById('traffic-warn').style.display = totalP === 100 ? 'none' : 'block';
+
+            const revData = Array.from(document.querySelectorAll('.rev-val')).map(i => parseFloat(i.value) || 0);
+            const totalRev = revData.reduce((a, b) => a + b, 0);
+
+            // Products
+            const pRows = document.querySelectorAll('#prod-body tr');
+            const prods = Array.from(pRows).map(r => ({
+                name: r.cells[0].querySelector('input').value,
+                units: parseFloat(r.cells[1].querySelector('input').value) || 0,
+                rev: parseFloat(r.cells[2].querySelector('input').value) || 0
+            }));
+
+            // KPI Update
+            document.getElementById('kpi-rev').innerText = '$' + totalRev.toLocaleString();
+            document.getElementById('trend-title').innerText = document.getElementById('year-label').value;
+
+            const totalUnits = prods.reduce((a, b) => a + b.units, 0);
+            document.getElementById('kpi-orders').innerText = totalUnits.toLocaleString();
+            document.getElementById('kpi-aov').innerText = '$' + (totalUnits > 0 ? (totalRev / totalUnits).toFixed(2) : 0);
+
+            // Charts
+            renderRevChart(revData);
+            renderProdChart(prods);
+            renderTrafficChart();
+            renderSegChart();
+            calculateProjection();
+            renderAudit(revData, prods);
+        }
+
+        function renderRevChart(data) {
+            const ctx = document.getElementById('revChart').getContext('2d');
+            if (charts.rev) charts.rev.destroy();
+            charts.rev = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: months,
+                    datasets: [{
+                        label: 'Monthly Revenue',
+                        data: data,
+                        borderColor: '#0070ff',
+                        backgroundColor: 'rgba(0, 112, 255, 0.1)',
+                        fill: true,
+                        tension: 0.4,
+                        borderWidth: 4
+                    }]
+                }
+            });
+        }
+
+        function renderProdChart(prods) {
+            const ctx = document.getElementById('prodChart').getContext('2d');
+            if (charts.prod) charts.prod.destroy();
+            charts.prod = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: prods.map(p => p.name),
+                    datasets: [
+                        { label: 'Revenue ($)', data: prods.map(p => p.rev), backgroundColor: '#ff007a', yAxisID: 'y' },
+                        { label: 'Units Sold', data: prods.map(p => p.units), backgroundColor: '#32cd32', yAxisID: 'y1' }
+                    ]
+                },
+                options: {
+                    indexAxis: 'y',
+                    scales: {
+                        y: { position: 'left' },
+                        y1: { position: 'right', grid: { display: false } }
+                    }
+                }
+            });
+        }
+
+        function renderTrafficChart() {
+            const ctx = document.getElementById('trafficChart').getContext('2d');
+            const rows = document.querySelectorAll('#traffic-body tr');
+            const labels = Array.from(rows).map(r => r.cells[0].querySelector('input').value);
+            const data = Array.from(rows).map(r => parseFloat(r.cells[1].querySelector('input').value) || 0);
+
+            if (charts.traffic) charts.traffic.destroy();
+            charts.traffic = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: data,
+                        backgroundColor: ['#ff8c00', '#8a2be2', '#0070ff', '#ff007a', '#32cd32']
+                    }]
+                },
+                options: { cutout: '70%' }
+            });
+        }
+
+        function renderSegChart() {
+            const ctx = document.getElementById('segChart').getContext('2d');
+            const rows = document.querySelectorAll('#seg-body tr');
+            const labels = Array.from(rows).map(r => r.cells[0].querySelector('input').value);
+            const data = Array.from(rows).map(r => {
+                const count = parseFloat(r.cells[1].querySelector('input').value) || 0;
+                const avg = parseFloat(r.cells[2].querySelector('input').value) || 0;
+                return count * avg;
+            });
+
+            if (charts.seg) charts.seg.destroy();
+            charts.seg = new Chart(ctx, {
+                type: 'polarArea',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: data,
+                        backgroundColor: ['rgba(138, 43, 226, 0.6)', 'rgba(50, 205, 50, 0.6)', 'rgba(255, 0, 122, 0.6)']
+                    }]
+                }
+            });
+        }
+
+        function calculateProjection() {
+            const growth = document.getElementById('growth-slider').value;
+            document.getElementById('proj-bubble').innerText = growth + '%';
+
+            const revData = Array.from(document.querySelectorAll('.rev-val')).map(i => parseFloat(i.value) || 0);
+            const currentTotal = revData.reduce((a, b) => a + b, 0);
+            const projected = currentTotal * (1 + (growth / 100));
+
+            document.getElementById('proj-val').innerText = '$' + Math.round(projected).toLocaleString();
+        }
+
+        function setPreset(val) {
+            document.getElementById('growth-slider').value = val;
+            calculateProjection();
+        }
+
+        function renderAudit(revs, prods) {
+            const body = document.getElementById('audit-body');
+            body.innerHTML = '';
+            revs.forEach((r, i) => {
+                body.innerHTML += `<tr><td>Revenue</td><td>${months[i]}</td><td>$${r.toLocaleString()}</td></tr>`;
+            });
+            prods.forEach(p => {
+                body.innerHTML += `<tr><td>Product</td><td>${p.name}</td><td>$${p.rev.toLocaleString()}</td></tr>`;
+            });
+        }
+
+        function sortTable(n) {
+            const table = document.getElementById("audit-table");
+            let rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+            switching = true; dir = "asc";
+            while (switching) {
+                switching = false; rows = table.rows;
+                for (i = 1; i < (rows.length - 1); i++) {
+                    shouldSwitch = false;
+                    x = rows[i].getElementsByTagName("TD")[n];
+                    y = rows[i + 1].getElementsByTagName("TD")[n];
+                    if (dir == "asc") {
+                        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) { shouldSwitch = true; break; }
+                    } else if (dir == "desc") {
+                        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) { shouldSwitch = true; break; }
+                    }
+                }
+                if (shouldSwitch) {
+                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                    switching = true; switchcount++;
+                } else {
+                    if (switchcount == 0 && dir == "asc") { dir = "desc"; switching = true; }
+                }
+            }
+        }
+
+        async function exportPDF() {
+            document.getElementById('loading').style.display = 'flex';
+            const { jsPDF } = window.jspdf;
+            const dash = document.getElementById('dashboard');
+
+            // Temporarily collapse editors for clean PDF
+            const details = document.querySelectorAll('details');
+            details.forEach(d => d.open = false);
+
+            const canvas = await html2canvas(dash, { scale: 2 });
+            const imgData = canvas.toDataURL('image/png');
+            const pdf = new jsPDF('p', 'mm', 'a4');
+            const imgProps = pdf.getImageProperties(imgData);
+            const pdfWidth = pdf.internal.pageSize.getWidth();
+            const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+            pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+            pdf.save('my-ecommerce-dashboard.pdf');
+            document.getElementById('loading').style.display = 'none';
+        }
+
+        window.onload = init;
+    </script>
+
+</body>
+
+</html>

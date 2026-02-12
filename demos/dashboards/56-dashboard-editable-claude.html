@@ -1,0 +1,1621 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Goals Dashboard</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,500;0,9..40,700;1,9..40,400&family=Playfair+Display:wght@700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --coral: #FF6B6B;
+            --coral-light: #FFE0E0;
+            --teal: #2EC4B6;
+            --teal-light: #D4F5F2;
+            --violet: #7C5CFC;
+            --violet-light: #E8E0FF;
+            --amber: #F7A824;
+            --amber-light: #FFF0D0;
+            --blue: #3B82F6;
+            --blue-light: #DBEAFE;
+            --bg: #F8F9FC;
+            --card: #FFFFFF;
+            --text: #1E293B;
+            --text-mid: #475569;
+            --text-light: #94A3B8;
+            --border: #E2E8F0;
+            --radius: 16px;
+            --shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 4px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* === HEADER === */
+        .dashboard-header {
+            background: linear-gradient(135deg, #1E293B 0%, #334155 50%, #1E293B 100%);
+            padding: 2.5rem 2rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dashboard-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(124, 92, 252, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .dashboard-header::after {
+            content: '';
+            position: absolute;
+            bottom: -40%;
+            left: 10%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(46, 196, 182, 0.12) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .dashboard-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: -0.5px;
+        }
+
+        .dashboard-header p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.95rem;
+            margin-top: 0.3rem;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1.25rem;
+            flex-wrap: wrap;
+        }
+
+        /* === BUTTONS === */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.65rem 1.3rem;
+            border-radius: 10px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            white-space: nowrap;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--coral), #FF8E8E);
+            color: #fff;
+            box-shadow: 0 2px 12px rgba(255, 107, 107, 0.35);
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 4px 20px rgba(255, 107, 107, 0.5);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.12);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-export {
+            background: linear-gradient(135deg, var(--violet), #9B7FFC);
+            color: #fff;
+            box-shadow: 0 2px 12px rgba(124, 92, 252, 0.35);
+        }
+
+        .btn-small {
+            padding: 0.35rem 0.75rem;
+            font-size: 0.78rem;
+            border-radius: 8px;
+        }
+
+        .btn-add {
+            background: var(--teal-light);
+            color: var(--teal);
+            border: 1px dashed var(--teal);
+        }
+
+        .btn-remove {
+            background: var(--coral-light);
+            color: var(--coral);
+            width: 28px;
+            height: 28px;
+            padding: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 700;
+        }
+
+        /* === MAIN CONTAINER === */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.5rem;
+        }
+
+        /* === COLLAPSIBLE PANELS === */
+        .panels-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .panel {
+            background: var(--card);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .panel:hover {
+            box-shadow: var(--shadow-lg);
+        }
+
+        .panel-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 1.25rem;
+            cursor: pointer;
+            user-select: none;
+            transition: background 0.2s;
+        }
+
+        .panel-header:hover {
+            background: var(--bg);
+        }
+
+        .panel-header h3 {
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .panel-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .panel-icon.fitness {
+            background: var(--coral-light);
+        }
+
+        .panel-icon.study {
+            background: var(--violet-light);
+        }
+
+        .panel-icon.habits {
+            background: var(--teal-light);
+        }
+
+        .panel-icon.budget {
+            background: var(--amber-light);
+        }
+
+        .panel-icon.reading {
+            background: var(--blue-light);
+        }
+
+        .panel-chevron {
+            transition: transform 0.3s ease;
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+
+        .panel.open .panel-chevron {
+            transform: rotate(180deg);
+        }
+
+        .panel-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.3s ease;
+        }
+
+        .panel.open .panel-body {
+            max-height: 2000px;
+            padding: 0 1.25rem 1.25rem;
+        }
+
+        /* === DATA TABLES (inside panels) === */
+        .data-table-wrap {
+            overflow-x: auto;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            font-size: 0.82rem;
+        }
+
+        .data-table th {
+            background: var(--bg);
+            padding: 0.5rem 0.6rem;
+            text-align: left;
+            font-weight: 600;
+            color: var(--text-mid);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: sticky;
+            top: 0;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .data-table td {
+            padding: 0.3rem 0.4rem;
+            border-bottom: 1px solid var(--border);
+            vertical-align: middle;
+        }
+
+        .data-table input[type="number"],
+        .data-table input[type="text"] {
+            width: 100%;
+            min-width: 50px;
+            padding: 0.4rem 0.5rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.82rem;
+            background: var(--bg);
+            color: var(--text);
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .data-table input:focus {
+            outline: none;
+            border-color: var(--violet);
+            box-shadow: 0 0 0 3px rgba(124, 92, 252, 0.12);
+        }
+
+        .inline-fields {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .inline-field label {
+            display: block;
+            font-size: 0.72rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-mid);
+            margin-bottom: 0.3rem;
+        }
+
+        .inline-field input {
+            padding: 0.5rem 0.7rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.85rem;
+            background: var(--bg);
+            width: 140px;
+            color: var(--text);
+            transition: border-color 0.2s;
+        }
+
+        .inline-field input:focus {
+            outline: none;
+            border-color: var(--violet);
+            box-shadow: 0 0 0 3px rgba(124, 92, 252, 0.12);
+        }
+
+        .panel-actions {
+            margin-top: 0.75rem;
+        }
+
+        /* === KPI CARDS === */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .kpi-card {
+            background: var(--card);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.25s, box-shadow 0.25s;
+        }
+
+        .kpi-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .kpi-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+        }
+
+        .kpi-card.coral::before {
+            background: linear-gradient(90deg, var(--coral), #FF8E8E);
+        }
+
+        .kpi-card.teal::before {
+            background: linear-gradient(90deg, var(--teal), #5EDDD0);
+        }
+
+        .kpi-card.violet::before {
+            background: linear-gradient(90deg, var(--violet), #9B7FFC);
+        }
+
+        .kpi-card.amber::before {
+            background: linear-gradient(90deg, var(--amber), #FFC14D);
+        }
+
+        .kpi-card.blue::before {
+            background: linear-gradient(90deg, var(--blue), #60A5FA);
+        }
+
+        .kpi-label {
+            font-size: 0.72rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+        }
+
+        .kpi-value {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 800;
+            line-height: 1.1;
+        }
+
+        .kpi-sub {
+            font-size: 0.8rem;
+            color: var(--text-mid);
+            margin-top: 0.35rem;
+        }
+
+        /* === CHARTS GRID === */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 1.25rem;
+            margin-bottom: 2rem;
+        }
+
+        .chart-card {
+            background: var(--card);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            transition: box-shadow 0.3s;
+        }
+
+        .chart-card:hover {
+            box-shadow: var(--shadow-lg);
+        }
+
+        .chart-card h3 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .chart-card h3 .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        /* === PROGRESS RINGS === */
+        .rings-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            justify-content: center;
+            padding: 1rem 0;
+        }
+
+        .ring-item {
+            text-align: center;
+            flex: 0 0 100px;
+        }
+
+        .ring-item svg {
+            width: 90px;
+            height: 90px;
+            transform: rotate(-90deg);
+        }
+
+        .ring-bg {
+            fill: none;
+            stroke: var(--border);
+            stroke-width: 6;
+        }
+
+        .ring-fill {
+            fill: none;
+            stroke-width: 6;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 1s ease;
+        }
+
+        .ring-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-mid);
+            margin-top: 0.4rem;
+        }
+
+        .ring-value {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+
+        /* === HABIT BARS === */
+        .habit-bars {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .habit-bar-item label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.82rem;
+            font-weight: 600;
+            margin-bottom: 0.35rem;
+        }
+
+        .habit-bar-track {
+            height: 12px;
+            background: var(--bg);
+            border-radius: 6px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .habit-bar-fill {
+            height: 100%;
+            border-radius: 6px;
+            transition: width 0.8s ease;
+            background: linear-gradient(90deg, var(--teal), #5EDDD0);
+        }
+
+        .habit-bar-fill.c2 {
+            background: linear-gradient(90deg, var(--violet), #9B7FFC);
+        }
+
+        .habit-bar-fill.c3 {
+            background: linear-gradient(90deg, var(--coral), #FF8E8E);
+        }
+
+        .habit-bar-fill.c4 {
+            background: linear-gradient(90deg, var(--amber), #FFC14D);
+        }
+
+        .habit-bar-fill.c5 {
+            background: linear-gradient(90deg, var(--blue), #60A5FA);
+        }
+
+        /* === SAVINGS BAR === */
+        .savings-bar-wrap {
+            margin-top: 1rem;
+        }
+
+        .savings-track {
+            height: 24px;
+            background: var(--bg);
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .savings-fill {
+            height: 100%;
+            border-radius: 12px;
+            transition: width 0.8s ease;
+            background: linear-gradient(90deg, var(--amber), #FFC14D, var(--amber));
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 10px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: #fff;
+            min-width: 40px;
+        }
+
+        /* === SUMMARY TABLE === */
+        .summary-section {
+            background: var(--card);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        .summary-section h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .summary-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            font-size: 0.85rem;
+        }
+
+        .summary-table th {
+            background: var(--bg);
+            padding: 0.7rem 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: var(--text-mid);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            user-select: none;
+            border-bottom: 2px solid var(--border);
+            transition: color 0.2s;
+            white-space: nowrap;
+        }
+
+        .summary-table th:hover {
+            color: var(--violet);
+        }
+
+        .summary-table th .sort-arrow {
+            margin-left: 4px;
+            font-size: 0.65rem;
+        }
+
+        .summary-table td {
+            padding: 0.65rem 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .summary-table tbody tr:nth-child(even) {
+            background: #FAFAFD;
+        }
+
+        .summary-table tbody tr:hover {
+            background: var(--violet-light);
+        }
+
+        .summary-table .cat-badge {
+            display: inline-block;
+            padding: 0.15rem 0.6rem;
+            border-radius: 6px;
+            font-size: 0.72rem;
+            font-weight: 600;
+        }
+
+        .badge-fitness {
+            background: var(--coral-light);
+            color: var(--coral);
+        }
+
+        .badge-study {
+            background: var(--violet-light);
+            color: var(--violet);
+        }
+
+        .badge-habits {
+            background: var(--teal-light);
+            color: var(--teal);
+        }
+
+        .badge-budget {
+            background: var(--amber-light);
+            color: #B87A00;
+        }
+
+        .badge-reading {
+            background: var(--blue-light);
+            color: var(--blue);
+        }
+
+        /* === PDF SPINNER === */
+        .spinner-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .spinner-overlay.active {
+            display: flex;
+        }
+
+        .spinner-box {
+            background: #fff;
+            border-radius: var(--radius);
+            padding: 2.5rem 3rem;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--border);
+            border-top-color: var(--violet);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* === RESPONSIVE === */
+        @media (max-width: 768px) {
+            .dashboard-header h1 {
+                font-size: 1.5rem;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            .panels-section {
+                grid-template-columns: 1fr;
+            }
+
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .kpi-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* === ANIMATIONS === */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-in {
+            animation: fadeInUp 0.5s ease forwards;
+            opacity: 0;
+        }
+
+        .animate-in:nth-child(1) {
+            animation-delay: 0.05s;
+        }
+
+        .animate-in:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+
+        .animate-in:nth-child(3) {
+            animation-delay: 0.15s;
+        }
+
+        .animate-in:nth-child(4) {
+            animation-delay: 0.2s;
+        }
+
+        .animate-in:nth-child(5) {
+            animation-delay: 0.25s;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-light);
+        }
+
+        /* Chart canvas sizing */
+        .chart-canvas-wrap {
+            position: relative;
+            width: 100%;
+            max-height: 300px;
+        }
+
+        .chart-canvas-wrap canvas {
+            width: 100% !important;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header class="dashboard-header">
+        <div class="header-content">
+            <h1>⬡ Personal Goals Dashboard</h1>
+            <p>Track progress. Stay accountable. Edit everything.</p>
+            <div class="header-actions">
+                <button class="btn btn-primary" onclick="updateDashboard()">⟳ Update Dashboard</button>
+                <button class="btn btn-secondary" onclick="resetToSample()">↺ Reset to Sample Data</button>
+                <button class="btn btn-export" onclick="exportPDF()">↓ Export PDF</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container" id="dashboard-content">
+
+        <!-- EDITABLE PANELS -->
+        <section class="panels-section" style="margin-top:1.5rem;">
+
+            <!-- FITNESS PANEL -->
+            <div class="panel open" id="panel-fitness">
+                <div class="panel-header" onclick="togglePanel('panel-fitness')">
+                    <h3><span class="panel-icon fitness">🏃</span> Fitness</h3>
+                    <span class="panel-chevron">▼</span>
+                </div>
+                <div class="panel-body">
+                    <div class="inline-fields">
+                        <div class="inline-field">
+                            <label>Goal Weight (kg)</label>
+                            <input type="number" id="goalWeight" value="75" step="0.1">
+                        </div>
+                        <div class="inline-field">
+                            <label>Target Week</label>
+                            <input type="number" id="targetWeek" value="12" min="1" max="52">
+                        </div>
+                    </div>
+                    <div class="data-table-wrap" style="max-height:260px;overflow-y:auto;">
+                        <table class="data-table" id="fitnessTable">
+                            <thead>
+                                <tr>
+                                    <th>Week</th>
+                                    <th>Running (km)</th>
+                                    <th>Workouts</th>
+                                    <th>Weight (kg)</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STUDY PANEL -->
+            <div class="panel" id="panel-study">
+                <div class="panel-header" onclick="togglePanel('panel-study')">
+                    <h3><span class="panel-icon study">📚</span> Study</h3>
+                    <span class="panel-chevron">▼</span>
+                </div>
+                <div class="panel-body">
+                    <div class="data-table-wrap">
+                        <table class="data-table" id="studyTable">
+                            <thead>
+                                <tr>
+                                    <th>Subject</th>
+                                    <th>Current %</th>
+                                    <th>Target %</th>
+                                    <th>Hours</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                    <div class="panel-actions">
+                        <button class="btn btn-small btn-add" onclick="addStudyRow()">+ Add Subject</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- HABITS PANEL -->
+            <div class="panel" id="panel-habits">
+                <div class="panel-header" onclick="togglePanel('panel-habits')">
+                    <h3><span class="panel-icon habits">✓</span> Habits</h3>
+                    <span class="panel-chevron">▼</span>
+                </div>
+                <div class="panel-body">
+                    <div class="data-table-wrap">
+                        <table class="data-table" id="habitsTable">
+                            <thead>
+                                <tr>
+                                    <th>Habit Name</th>
+                                    <th>Current Streak (days)</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                    <div class="panel-actions">
+                        <button class="btn btn-small btn-add" onclick="addHabitRow()">+ Add Habit</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BUDGET PANEL -->
+            <div class="panel" id="panel-budget">
+                <div class="panel-header" onclick="togglePanel('panel-budget')">
+                    <h3><span class="panel-icon budget">💰</span> Budget</h3>
+                    <span class="panel-chevron">▼</span>
+                </div>
+                <div class="panel-body">
+                    <div class="inline-fields">
+                        <div class="inline-field">
+                            <label>Monthly Income</label>
+                            <input type="number" id="income" value="5000">
+                        </div>
+                        <div class="inline-field">
+                            <label>Savings Goal</label>
+                            <input type="number" id="savingsGoal" value="10000">
+                        </div>
+                        <div class="inline-field">
+                            <label>Current Savings</label>
+                            <input type="number" id="currentSavings" value="6500">
+                        </div>
+                    </div>
+                    <div class="data-table-wrap">
+                        <table class="data-table" id="budgetTable">
+                            <thead>
+                                <tr>
+                                    <th>Category</th>
+                                    <th>Amount</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                    <div class="panel-actions">
+                        <button class="btn btn-small btn-add" onclick="addBudgetRow()">+ Add Category</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- READING PANEL -->
+            <div class="panel" id="panel-reading">
+                <div class="panel-header" onclick="togglePanel('panel-reading')">
+                    <h3><span class="panel-icon reading">📖</span> Reading</h3>
+                    <span class="panel-chevron">▼</span>
+                </div>
+                <div class="panel-body">
+                    <div class="inline-fields">
+                        <div class="inline-field">
+                            <label>Books Read</label>
+                            <input type="number" id="booksRead" value="7">
+                        </div>
+                        <div class="inline-field">
+                            <label>Books Goal</label>
+                            <input type="number" id="booksGoal" value="24">
+                        </div>
+                        <div class="inline-field">
+                            <label>Pages This Month</label>
+                            <input type="number" id="pagesMonth" value="320">
+                        </div>
+                        <div class="inline-field">
+                            <label>Current Book</label>
+                            <input type="text" id="currentBook" value="Hyperion" style="width:180px;">
+                        </div>
+                        <div class="inline-field">
+                            <label>% Done</label>
+                            <input type="number" id="bookPercent" value="62" min="0" max="100">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- KPI CARDS -->
+        <section class="kpi-grid" id="kpiGrid"></section>
+
+        <!-- CHARTS -->
+        <section class="charts-grid">
+            <div class="chart-card animate-in">
+                <h3><span class="dot" style="background:var(--coral)"></span> Fitness Trends</h3>
+                <div class="chart-canvas-wrap"><canvas id="fitnessChart"></canvas></div>
+            </div>
+            <div class="chart-card animate-in">
+                <h3><span class="dot" style="background:var(--violet)"></span> Study Progress</h3>
+                <div class="rings-container" id="studyRings"></div>
+            </div>
+            <div class="chart-card animate-in">
+                <h3><span class="dot" style="background:var(--teal)"></span> Habit Streaks</h3>
+                <div class="habit-bars" id="habitBars"></div>
+            </div>
+            <div class="chart-card animate-in">
+                <h3><span class="dot" style="background:var(--amber)"></span> Budget Breakdown</h3>
+                <div class="chart-canvas-wrap" style="max-height:280px;display:flex;justify-content:center;"><canvas
+                        id="budgetChart" style="max-width:300px;"></canvas></div>
+                <div class="savings-bar-wrap">
+                    <label
+                        style="font-size:0.78rem;font-weight:600;color:var(--text-mid);display:flex;justify-content:space-between;">
+                        <span>Savings Progress</span><span id="savingsLabel">65%</span>
+                    </label>
+                    <div class="savings-track">
+                        <div class="savings-fill" id="savingsFill" style="width:65%">65%</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SUMMARY TABLE -->
+        <section class="summary-section animate-in">
+            <h3>📋 Data Summary</h3>
+            <div class="data-table-wrap">
+                <table class="summary-table" id="summaryTable">
+                    <thead>
+                        <tr>
+                            <th onclick="sortSummary(0)">Category <span class="sort-arrow">⇅</span></th>
+                            <th onclick="sortSummary(1)">Metric <span class="sort-arrow">⇅</span></th>
+                            <th onclick="sortSummary(2)">Value <span class="sort-arrow">⇅</span></th>
+                            <th onclick="sortSummary(3)">Target <span class="sort-arrow">⇅</span></th>
+                            <th onclick="sortSummary(4)">Progress <span class="sort-arrow">⇅</span></th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+
+    <!-- SPINNER -->
+    <div class="spinner-overlay" id="spinnerOverlay">
+        <div class="spinner-box">
+            <div class="spinner"></div>
+            <p style="font-weight:600;color:var(--text);">Generating PDF…</p>
+        </div>
+    </div>
+
+    <script>
+        // ========================
+        // SAMPLE DATA
+        // ========================
+        const SAMPLE = {
+            fitness: [
+                { week: 1, running: 8, workouts: 3, weight: 82 },
+                { week: 2, running: 10, workouts: 4, weight: 81.5 },
+                { week: 3, running: 9, workouts: 3, weight: 81.2 },
+                { week: 4, running: 12, workouts: 5, weight: 80.8 },
+                { week: 5, running: 11, workouts: 4, weight: 80.3 },
+                { week: 6, running: 14, workouts: 5, weight: 79.9 },
+                { week: 7, running: 12, workouts: 4, weight: 79.5 },
+                { week: 8, running: 15, workouts: 5, weight: 79.0 },
+                { week: 9, running: 13, workouts: 4, weight: 78.6 },
+                { week: 10, running: 16, workouts: 5, weight: 78.2 },
+                { week: 11, running: 14, workouts: 5, weight: 77.8 },
+                { week: 12, running: 18, workouts: 6, weight: 77.0 }
+            ],
+            goalWeight: 75,
+            targetWeek: 12,
+            study: [
+                { subject: 'Mathematics', current: 72, target: 90, hours: 45 },
+                { subject: 'Physics', current: 65, target: 85, hours: 38 },
+                { subject: 'Literature', current: 80, target: 92, hours: 30 },
+                { subject: 'History', current: 58, target: 80, hours: 22 }
+            ],
+            habits: [
+                { name: 'Morning Run', streak: 23 },
+                { name: 'Meditation', streak: 45 },
+                { name: 'Read 30min', streak: 18 },
+                { name: 'No Social Media Before Noon', streak: 12 },
+                { name: 'Journal', streak: 31 }
+            ],
+            budget: {
+                income: 5000,
+                savingsGoal: 10000,
+                currentSavings: 6500,
+                categories: [
+                    { category: 'Housing', amount: 1500 },
+                    { category: 'Food', amount: 600 },
+                    { category: 'Transport', amount: 300 },
+                    { category: 'Entertainment', amount: 200 },
+                    { category: 'Utilities', amount: 250 },
+                    { category: 'Health', amount: 150 },
+                    { category: 'Savings', amount: 1200 },
+                    { category: 'Other', amount: 300 }
+                ]
+            },
+            reading: {
+                booksRead: 7,
+                booksGoal: 24,
+                pagesMonth: 320,
+                currentBook: 'Hyperion',
+                bookPercent: 62
+            }
+        };
+
+        // ========================
+        // STATE
+        // ========================
+        let fitnessChart = null;
+        let budgetChart = null;
+        let sortCol = -1;
+        let sortAsc = true;
+
+        // ========================
+        // PANEL TOGGLE
+        // ========================
+        function togglePanel(id) {
+            document.getElementById(id).classList.toggle('open');
+        }
+
+        // ========================
+        // POPULATE TABLES
+        // ========================
+        function populateFitness(data) {
+            const tb = document.querySelector('#fitnessTable tbody');
+            tb.innerHTML = '';
+            data.forEach(r => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+      <td><input type="number" value="${r.week}" min="1" class="fw"></td>
+      <td><input type="number" value="${r.running}" step="0.1" class="fr"></td>
+      <td><input type="number" value="${r.workouts}" min="0" class="fwo"></td>
+      <td><input type="number" value="${r.weight}" step="0.1" class="fwt"></td>`;
+                tb.appendChild(tr);
+            });
+        }
+
+        function populateStudy(data) {
+            const tb = document.querySelector('#studyTable tbody');
+            tb.innerHTML = '';
+            data.forEach((r, i) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+      <td><input type="text" value="${r.subject}"></td>
+      <td><input type="number" value="${r.current}" min="0" max="100"></td>
+      <td><input type="number" value="${r.target}" min="0" max="100"></td>
+      <td><input type="number" value="${r.hours}" min="0"></td>
+      <td><button class="btn btn-remove" onclick="this.closest('tr').remove()">×</button></td>`;
+                tb.appendChild(tr);
+            });
+        }
+        function addStudyRow() {
+            const tb = document.querySelector('#studyTable tbody');
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+    <td><input type="text" value="New Subject"></td>
+    <td><input type="number" value="0" min="0" max="100"></td>
+    <td><input type="number" value="100" min="0" max="100"></td>
+    <td><input type="number" value="0" min="0"></td>
+    <td><button class="btn btn-remove" onclick="this.closest('tr').remove()">×</button></td>`;
+            tb.appendChild(tr);
+        }
+
+        function populateHabits(data) {
+            const tb = document.querySelector('#habitsTable tbody');
+            tb.innerHTML = '';
+            data.forEach(r => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+      <td><input type="text" value="${r.name}"></td>
+      <td><input type="number" value="${r.streak}" min="0"></td>
+      <td><button class="btn btn-remove" onclick="this.closest('tr').remove()">×</button></td>`;
+                tb.appendChild(tr);
+            });
+        }
+        function addHabitRow() {
+            const tb = document.querySelector('#habitsTable tbody');
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+    <td><input type="text" value="New Habit"></td>
+    <td><input type="number" value="0" min="0"></td>
+    <td><button class="btn btn-remove" onclick="this.closest('tr').remove()">×</button></td>`;
+            tb.appendChild(tr);
+        }
+
+        function populateBudget(data) {
+            document.getElementById('income').value = data.income;
+            document.getElementById('savingsGoal').value = data.savingsGoal;
+            document.getElementById('currentSavings').value = data.currentSavings;
+            const tb = document.querySelector('#budgetTable tbody');
+            tb.innerHTML = '';
+            data.categories.forEach(r => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+      <td><input type="text" value="${r.category}"></td>
+      <td><input type="number" value="${r.amount}" min="0"></td>
+      <td><button class="btn btn-remove" onclick="this.closest('tr').remove()">×</button></td>`;
+                tb.appendChild(tr);
+            });
+        }
+        function addBudgetRow() {
+            const tb = document.querySelector('#budgetTable tbody');
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+    <td><input type="text" value="New Category"></td>
+    <td><input type="number" value="0" min="0"></td>
+    <td><button class="btn btn-remove" onclick="this.closest('tr').remove()">×</button></td>`;
+            tb.appendChild(tr);
+        }
+
+        function populateReading(data) {
+            document.getElementById('booksRead').value = data.booksRead;
+            document.getElementById('booksGoal').value = data.booksGoal;
+            document.getElementById('pagesMonth').value = data.pagesMonth;
+            document.getElementById('currentBook').value = data.currentBook;
+            document.getElementById('bookPercent').value = data.bookPercent;
+        }
+
+        // ========================
+        // READ DATA FROM INPUTS
+        // ========================
+        function readFitness() {
+            const rows = document.querySelectorAll('#fitnessTable tbody tr');
+            return Array.from(rows).map(tr => {
+                const inputs = tr.querySelectorAll('input');
+                return {
+                    week: +inputs[0].value,
+                    running: +inputs[1].value,
+                    workouts: +inputs[2].value,
+                    weight: +inputs[3].value
+                };
+            });
+        }
+        function readStudy() {
+            const rows = document.querySelectorAll('#studyTable tbody tr');
+            return Array.from(rows).map(tr => {
+                const inputs = tr.querySelectorAll('input');
+                return {
+                    subject: inputs[0].value,
+                    current: +inputs[1].value,
+                    target: +inputs[2].value,
+                    hours: +inputs[3].value
+                };
+            });
+        }
+        function readHabits() {
+            const rows = document.querySelectorAll('#habitsTable tbody tr');
+            return Array.from(rows).map(tr => {
+                const inputs = tr.querySelectorAll('input');
+                return { name: inputs[0].value, streak: +inputs[1].value };
+            });
+        }
+        function readBudget() {
+            const rows = document.querySelectorAll('#budgetTable tbody tr');
+            return {
+                income: +document.getElementById('income').value,
+                savingsGoal: +document.getElementById('savingsGoal').value,
+                currentSavings: +document.getElementById('currentSavings').value,
+                categories: Array.from(rows).map(tr => {
+                    const inputs = tr.querySelectorAll('input');
+                    return { category: inputs[0].value, amount: +inputs[1].value };
+                })
+            };
+        }
+        function readReading() {
+            return {
+                booksRead: +document.getElementById('booksRead').value,
+                booksGoal: +document.getElementById('booksGoal').value,
+                pagesMonth: +document.getElementById('pagesMonth').value,
+                currentBook: document.getElementById('currentBook').value,
+                bookPercent: +document.getElementById('bookPercent').value
+            };
+        }
+
+        // ========================
+        // RENDER KPIs
+        // ========================
+        function renderKPIs(fitness, habits, budget, reading) {
+            const grid = document.getElementById('kpiGrid');
+            const lastWeight = fitness.length ? fitness[fitness.length - 1].weight : 0;
+            const goalW = +document.getElementById('goalWeight').value;
+            const startW = fitness.length ? fitness[0].weight : lastWeight;
+            const weightProgress = startW !== goalW ? Math.round(((startW - lastWeight) / (startW - goalW)) * 100) : 100;
+
+            const savPct = budget.savingsGoal > 0 ? Math.round((budget.currentSavings / budget.savingsGoal) * 100) : 0;
+            const longestStreak = habits.length ? Math.max(...habits.map(h => h.streak)) : 0;
+            const longestName = habits.length ? habits.reduce((a, b) => b.streak > a.streak ? b : a).name : '—';
+
+            grid.innerHTML = `
+    <div class="kpi-card coral animate-in">
+      <div class="kpi-label">Weight Progress</div>
+      <div class="kpi-value" style="color:var(--coral)">${Math.min(100, Math.max(0, weightProgress))}%</div>
+      <div class="kpi-sub">${lastWeight} kg → ${goalW} kg goal</div>
+    </div>
+    <div class="kpi-card amber animate-in">
+      <div class="kpi-label">Savings</div>
+      <div class="kpi-value" style="color:var(--amber)">${savPct}%</div>
+      <div class="kpi-sub">$${budget.currentSavings.toLocaleString()} of $${budget.savingsGoal.toLocaleString()}</div>
+    </div>
+    <div class="kpi-card blue animate-in">
+      <div class="kpi-label">Books Read</div>
+      <div class="kpi-value" style="color:var(--blue)">${reading.booksRead}<span style="font-size:1rem;color:var(--text-light)">/${reading.booksGoal}</span></div>
+      <div class="kpi-sub">Now: ${reading.currentBook} (${reading.bookPercent}%)</div>
+    </div>
+    <div class="kpi-card teal animate-in">
+      <div class="kpi-label">Longest Streak</div>
+      <div class="kpi-value" style="color:var(--teal)">${longestStreak}<span style="font-size:0.9rem"> days</span></div>
+      <div class="kpi-sub">${longestName}</div>
+    </div>
+    <div class="kpi-card violet animate-in">
+      <div class="kpi-label">Total Running</div>
+      <div class="kpi-value" style="color:var(--violet)">${fitness.reduce((s, r) => s + r.running, 0)}<span style="font-size:0.9rem"> km</span></div>
+      <div class="kpi-sub">${fitness.length} weeks tracked</div>
+    </div>`;
+        }
+
+        // ========================
+        // RENDER CHARTS
+        // ========================
+        const COLORS = ['#FF6B6B', '#2EC4B6', '#7C5CFC', '#F7A824', '#3B82F6', '#EC4899', '#10B981', '#F59E0B'];
+
+        function renderFitnessChart(data) {
+            const ctx = document.getElementById('fitnessChart').getContext('2d');
+            if (fitnessChart) fitnessChart.destroy();
+            fitnessChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: data.map(r => `W${r.week}`),
+                    datasets: [
+                        {
+                            label: 'Running (km)',
+                            data: data.map(r => r.running),
+                            borderColor: '#FF6B6B',
+                            backgroundColor: 'rgba(255,107,107,0.1)',
+                            fill: true,
+                            tension: 0.4,
+                            pointRadius: 4,
+                            pointBackgroundColor: '#FF6B6B'
+                        },
+                        {
+                            label: 'Weight (kg)',
+                            data: data.map(r => r.weight),
+                            borderColor: '#7C5CFC',
+                            backgroundColor: 'rgba(124,92,252,0.08)',
+                            fill: true,
+                            tension: 0.4,
+                            yAxisID: 'y1',
+                            pointRadius: 4,
+                            pointBackgroundColor: '#7C5CFC'
+                        },
+                        {
+                            label: 'Workouts',
+                            data: data.map(r => r.workouts),
+                            borderColor: '#2EC4B6',
+                            backgroundColor: 'rgba(46,196,182,0.08)',
+                            fill: false,
+                            tension: 0.4,
+                            borderDash: [5, 5],
+                            pointRadius: 3,
+                            pointBackgroundColor: '#2EC4B6'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    interaction: { mode: 'index', intersect: false },
+                    plugins: {
+                        legend: { labels: { usePointStyle: true, padding: 16, font: { family: 'DM Sans', size: 12 } } }
+                    },
+                    scales: {
+                        y: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.04)' }, ticks: { font: { family: 'DM Sans', size: 11 } } },
+                        y1: { position: 'right', grid: { drawOnChartArea: false }, ticks: { font: { family: 'DM Sans', size: 11 } } },
+                        x: { grid: { display: false }, ticks: { font: { family: 'DM Sans', size: 11 } } }
+                    },
+                    animation: { duration: 800, easing: 'easeInOutQuart' }
+                }
+            });
+        }
+
+        function renderStudyRings(data) {
+            const container = document.getElementById('studyRings');
+            const ringColors = ['#7C5CFC', '#FF6B6B', '#2EC4B6', '#F7A824', '#3B82F6', '#EC4899'];
+            container.innerHTML = data.map((s, i) => {
+                const pct = s.target > 0 ? Math.round((s.current / s.target) * 100) : 0;
+                const circumference = 2 * Math.PI * 36;
+                const offset = circumference - (circumference * Math.min(pct, 100) / 100);
+                const color = ringColors[i % ringColors.length];
+                return `<div class="ring-item">
+      <svg viewBox="0 0 80 80">
+        <circle class="ring-bg" cx="40" cy="40" r="36"/>
+        <circle class="ring-fill" cx="40" cy="40" r="36" stroke="${color}"
+          stroke-dasharray="${circumference}" stroke-dashoffset="${offset}"/>
+      </svg>
+      <div class="ring-value" style="color:${color}">${pct}%</div>
+      <div class="ring-label">${s.subject}</div>
+    </div>`;
+            }).join('');
+        }
+
+        function renderHabitBars(data) {
+            const container = document.getElementById('habitBars');
+            const maxStreak = Math.max(...data.map(h => h.streak), 1);
+            const classes = ['', 'c2', 'c3', 'c4', 'c5'];
+            container.innerHTML = data.map((h, i) => {
+                const pct = Math.round((h.streak / maxStreak) * 100);
+                return `<div class="habit-bar-item">
+      <label><span>${h.name}</span><span style="color:var(--text-light)">${h.streak} days</span></label>
+      <div class="habit-bar-track"><div class="habit-bar-fill ${classes[i % classes.length]}" style="width:${pct}%"></div></div>
+    </div>`;
+            }).join('');
+        }
+
+        function renderBudgetChart(data) {
+            const ctx = document.getElementById('budgetChart').getContext('2d');
+            if (budgetChart) budgetChart.destroy();
+            budgetChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: data.categories.map(c => c.category),
+                    datasets: [{
+                        data: data.categories.map(c => c.amount),
+                        backgroundColor: COLORS.slice(0, data.categories.length),
+                        borderWidth: 2,
+                        borderColor: '#fff',
+                        hoverOffset: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    cutout: '60%',
+                    plugins: {
+                        legend: { position: 'bottom', labels: { usePointStyle: true, padding: 12, font: { family: 'DM Sans', size: 11 } } }
+                    },
+                    animation: { duration: 800, easing: 'easeInOutQuart' }
+                }
+            });
+
+            // Savings bar
+            const pct = data.savingsGoal > 0 ? Math.round((data.currentSavings / data.savingsGoal) * 100) : 0;
+            document.getElementById('savingsLabel').textContent = pct + '%';
+            const fill = document.getElementById('savingsFill');
+            fill.style.width = Math.min(100, pct) + '%';
+            fill.textContent = pct + '%';
+        }
+
+        // ========================
+        // SUMMARY TABLE
+        // ========================
+        let summaryData = [];
+        function buildSummaryData(fitness, study, habits, budget, reading) {
+            summaryData = [];
+            const lastF = fitness[fitness.length - 1] || {};
+            const goalW = +document.getElementById('goalWeight').value;
+            const startW = fitness.length ? fitness[0].weight : 0;
+            const wProg = startW !== goalW ? Math.round(((startW - (lastF.weight || 0)) / (startW - goalW)) * 100) : 100;
+            summaryData.push(
+                { cat: 'Fitness', badge: 'badge-fitness', metric: 'Current Weight', value: `${lastF.weight || 0} kg`, target: `${goalW} kg`, progress: Math.min(100, Math.max(0, wProg)) + '%' },
+                { cat: 'Fitness', badge: 'badge-fitness', metric: 'Total Running', value: `${fitness.reduce((s, r) => s + r.running, 0)} km`, target: '—', progress: '—' },
+                { cat: 'Fitness', badge: 'badge-fitness', metric: 'Total Workouts', value: `${fitness.reduce((s, r) => s + r.workouts, 0)}`, target: '—', progress: '—' }
+            );
+            study.forEach(s => {
+                const p = s.target > 0 ? Math.round((s.current / s.target) * 100) : 0;
+                summaryData.push({ cat: 'Study', badge: 'badge-study', metric: s.subject, value: `${s.current}%`, target: `${s.target}%`, progress: p + '%' });
+            });
+            habits.forEach(h => {
+                summaryData.push({ cat: 'Habits', badge: 'badge-habits', metric: h.name, value: `${h.streak} days`, target: '—', progress: '—' });
+            });
+            const savPct = budget.savingsGoal > 0 ? Math.round((budget.currentSavings / budget.savingsGoal) * 100) : 0;
+            summaryData.push({ cat: 'Budget', badge: 'badge-budget', metric: 'Savings', value: `$${budget.currentSavings.toLocaleString()}`, target: `$${budget.savingsGoal.toLocaleString()}`, progress: savPct + '%' });
+            budget.categories.forEach(c => {
+                summaryData.push({ cat: 'Budget', badge: 'badge-budget', metric: c.category, value: `$${c.amount.toLocaleString()}`, target: '—', progress: '—' });
+            });
+            const bPct = reading.booksGoal > 0 ? Math.round((reading.booksRead / reading.booksGoal) * 100) : 0;
+            summaryData.push(
+                { cat: 'Reading', badge: 'badge-reading', metric: 'Books Read', value: `${reading.booksRead}`, target: `${reading.booksGoal}`, progress: bPct + '%' },
+                { cat: 'Reading', badge: 'badge-reading', metric: 'Pages This Month', value: `${reading.pagesMonth}`, target: '—', progress: '—' },
+                { cat: 'Reading', badge: 'badge-reading', metric: `${reading.currentBook}`, value: `${reading.bookPercent}% done`, target: '100%', progress: reading.bookPercent + '%' }
+            );
+        }
+
+        function renderSummaryTable() {
+            const tb = document.querySelector('#summaryTable tbody');
+            tb.innerHTML = summaryData.map(r => `<tr>
+    <td><span class="cat-badge ${r.badge}">${r.cat}</span></td>
+    <td>${r.metric}</td>
+    <td><strong>${r.value}</strong></td>
+    <td>${r.target}</td>
+    <td>${r.progress}</td>
+  </tr>`).join('');
+        }
+
+        function sortSummary(col) {
+            if (sortCol === col) sortAsc = !sortAsc;
+            else { sortCol = col; sortAsc = true; }
+            const keys = ['cat', 'metric', 'value', 'target', 'progress'];
+            summaryData.sort((a, b) => {
+                let va = a[keys[col]], vb = b[keys[col]];
+                // Try numeric
+                const na = parseFloat(va.replace(/[^0-9.\-]/g, '')), nb = parseFloat(vb.replace(/[^0-9.\-]/g, ''));
+                if (!isNaN(na) && !isNaN(nb)) return sortAsc ? na - nb : nb - na;
+                return sortAsc ? va.localeCompare(vb) : vb.localeCompare(va);
+            });
+            renderSummaryTable();
+        }
+
+        // ========================
+        // MAIN UPDATE
+        // ========================
+        function updateDashboard() {
+            const fitness = readFitness();
+            const study = readStudy();
+            const habits = readHabits();
+            const budget = readBudget();
+            const reading = readReading();
+
+            renderKPIs(fitness, habits, budget, reading);
+            renderFitnessChart(fitness);
+            renderStudyRings(study);
+            renderHabitBars(habits);
+            renderBudgetChart(budget);
+            buildSummaryData(fitness, study, habits, budget, reading);
+            renderSummaryTable();
+        }
+
+        function resetToSample() {
+            document.getElementById('goalWeight').value = SAMPLE.goalWeight;
+            document.getElementById('targetWeek').value = SAMPLE.targetWeek;
+            populateFitness(SAMPLE.fitness);
+            populateStudy(SAMPLE.study);
+            populateHabits(SAMPLE.habits);
+            populateBudget(SAMPLE.budget);
+            populateReading(SAMPLE.reading);
+            updateDashboard();
+        }
+
+        // ========================
+        // PDF EXPORT
+        // ========================
+        async function exportPDF() {
+            const overlay = document.getElementById('spinnerOverlay');
+            overlay.classList.add('active');
+            try {
+                await new Promise(r => setTimeout(r, 100));
+                const el = document.getElementById('dashboard-content');
+                const canvas = await html2canvas(el, {
+                    scale: 2,
+                    useCORS: true,
+                    backgroundColor: '#F8F9FC',
+                    logging: false
+                });
+                const imgData = canvas.toDataURL('image/jpeg', 0.92);
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF('p', 'mm', 'a4');
+                const pageW = pdf.internal.pageSize.getWidth();
+                const pageH = pdf.internal.pageSize.getHeight();
+                const imgW = pageW - 16;
+                const imgH = (canvas.height * imgW) / canvas.width;
+                let y = 8;
+                // Multi-page support
+                if (imgH <= pageH - 16) {
+                    pdf.addImage(imgData, 'JPEG', 8, y, imgW, imgH);
+                } else {
+                    let srcY = 0;
+                    const sliceH = ((pageH - 16) / imgW) * canvas.width;
+                    while (srcY < canvas.height) {
+                        const sliceCanvas = document.createElement('canvas');
+                        sliceCanvas.width = canvas.width;
+                        const thisSlice = Math.min(sliceH, canvas.height - srcY);
+                        sliceCanvas.height = thisSlice;
+                        const sCtx = sliceCanvas.getContext('2d');
+                        sCtx.drawImage(canvas, 0, srcY, canvas.width, thisSlice, 0, 0, canvas.width, thisSlice);
+                        const sliceImg = sliceCanvas.toDataURL('image/jpeg', 0.92);
+                        const sliceImgH = (thisSlice * imgW) / canvas.width;
+                        if (srcY > 0) pdf.addPage();
+                        pdf.addImage(sliceImg, 'JPEG', 8, 8, imgW, sliceImgH);
+                        srcY += sliceH;
+                    }
+                }
+                pdf.save('my-goals-dashboard.pdf');
+            } catch (e) {
+                console.error('PDF export error:', e);
+                alert('PDF export failed. See console for details.');
+            }
+            overlay.classList.remove('active');
+        }
+
+        // ========================
+        // INIT
+        // ========================
+        resetToSample();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,1324 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Life Command Center — Personal Dashboard</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg-deep: #0a0a1a;
+            --bg-card: rgba(18, 18, 42, 0.85);
+            --bg-card-hover: rgba(25, 25, 55, 0.95);
+            --border-glow: rgba(120, 80, 255, 0.15);
+            --border-subtle: rgba(255, 255, 255, 0.06);
+            --text-primary: #e8e6f0;
+            --text-secondary: #9490b0;
+            --text-muted: #5c5880;
+            --accent-purple: #a855f7;
+            --accent-blue: #3b82f6;
+            --accent-cyan: #06b6d4;
+            --accent-emerald: #10b981;
+            --accent-amber: #f59e0b;
+            --accent-rose: #f43f5e;
+            --accent-pink: #ec4899;
+            --accent-orange: #f97316;
+            --glow-purple: 0 0 30px rgba(168, 85, 247, 0.2);
+            --glow-blue: 0 0 30px rgba(59, 130, 246, 0.2);
+            --glow-cyan: 0 0 30px rgba(6, 182, 212, 0.2);
+            --radius: 16px;
+            --radius-sm: 10px;
+            --radius-xs: 6px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg-deep);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(ellipse 80% 50% at 20% 10%, rgba(88, 28, 180, 0.18) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 40% at 80% 80%, rgba(15, 60, 150, 0.15) 0%, transparent 55%),
+                radial-gradient(ellipse 50% 50% at 50% 50%, rgba(6, 90, 120, 0.08) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .dashboard-wrap {
+            position: relative;
+            z-index: 1;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 24px 20px 60px;
+        }
+
+        /* ─── HEADER ─── */
+        .dash-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 32px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--border-subtle);
+            opacity: 0;
+            animation: fadeSlideDown 0.7s ease forwards;
+        }
+
+        .dash-header-left h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #c084fc, #60a5fa, #22d3ee);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .dash-header-left p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 400;
+        }
+
+        .btn-export {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 22px;
+            border: 1px solid rgba(168, 85, 247, 0.4);
+            background: rgba(168, 85, 247, 0.1);
+            color: var(--accent-purple);
+            border-radius: 50px;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 0.3px;
+        }
+
+        .btn-export:hover {
+            background: rgba(168, 85, 247, 0.2);
+            box-shadow: var(--glow-purple);
+            transform: translateY(-1px);
+        }
+
+        .btn-export .spinner {
+            display: none;
+            width: 16px;
+            height: 16px;
+            border: 2px solid transparent;
+            border-top: 2px solid var(--accent-purple);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        .btn-export.loading .spinner {
+            display: block;
+        }
+
+        .btn-export.loading .btn-text {
+            display: none;
+        }
+
+        /* ─── GRID ─── */
+        .grid-main {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        @media (max-width: 1100px) {
+            .grid-main {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .grid-main {
+                grid-template-columns: 1fr;
+            }
+
+            .dash-header {
+                flex-direction: column;
+                gap: 16px;
+                text-align: center;
+            }
+
+            .dash-header-left h1 {
+                font-size: 1.5rem;
+            }
+        }
+
+        .span-2 {
+            grid-column: span 2;
+        }
+
+        .span-4 {
+            grid-column: span 4;
+        }
+
+        @media (max-width: 1100px) {
+            .span-4 {
+                grid-column: span 2;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .span-2,
+            .span-4 {
+                grid-column: span 1;
+            }
+        }
+
+        /* ─── CARD ─── */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-glow);
+            border-radius: var(--radius);
+            padding: 24px;
+            backdrop-filter: blur(12px);
+            transition: all 0.35s ease;
+            opacity: 0;
+            transform: translateY(24px);
+        }
+
+        .card:hover {
+            background: var(--bg-card-hover);
+            border-color: rgba(120, 80, 255, 0.25);
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.25), 0 0 20px rgba(120, 80, 255, 0.06);
+        }
+
+        .card.visible {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .card-title {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card-title .icon {
+            font-size: 0.9rem;
+        }
+
+        /* ─── KPI CARDS ─── */
+        .kpi-value {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 800;
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+
+        .kpi-sub {
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+        }
+
+        .kpi-sparkline {
+            margin-top: 14px;
+            height: 40px;
+        }
+
+        .kpi-sparkline canvas {
+            width: 100% !important;
+            height: 40px !important;
+        }
+
+        .kpi-weight .kpi-value {
+            color: var(--accent-cyan);
+        }
+
+        .kpi-savings .kpi-value {
+            color: var(--accent-emerald);
+        }
+
+        .kpi-books .kpi-value {
+            color: var(--accent-amber);
+        }
+
+        .kpi-streak .kpi-value {
+            color: var(--accent-pink);
+        }
+
+        /* ─── STUDY RINGS ─── */
+        .study-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+        }
+
+        @media (max-width: 800px) {
+            .study-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 500px) {
+            .study-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .ring-item {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .ring-container {
+            position: relative;
+            width: 90px;
+            height: 90px;
+        }
+
+        .ring-container svg {
+            width: 90px;
+            height: 90px;
+            transform: rotate(-90deg);
+        }
+
+        .ring-bg {
+            fill: none;
+            stroke: rgba(255, 255, 255, 0.05);
+            stroke-width: 6;
+        }
+
+        .ring-fg {
+            fill: none;
+            stroke-width: 6;
+            stroke-linecap: round;
+            stroke-dasharray: 245;
+            stroke-dashoffset: 245;
+            transition: stroke-dashoffset 1.5s ease;
+        }
+
+        .ring-target {
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-dasharray: 4 4;
+            opacity: 0.35;
+        }
+
+        .ring-value {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .ring-label {
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            letter-spacing: 0.3px;
+        }
+
+        .ring-hours {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* ─── HABITS ─── */
+        .habit-row {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .habit-row:last-child {
+            border-bottom: none;
+        }
+
+        .habit-name {
+            font-size: 0.82rem;
+            font-weight: 500;
+            min-width: 130px;
+            color: var(--text-primary);
+        }
+
+        .habit-bar-wrap {
+            flex: 1;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .habit-bar-fill {
+            height: 100%;
+            border-radius: 20px;
+            width: 0;
+            transition: width 1.5s ease;
+        }
+
+        .habit-days {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            min-width: 60px;
+            text-align: right;
+        }
+
+        .habit-badge {
+            font-size: 0.85rem;
+            min-width: 24px;
+            text-align: center;
+        }
+
+        /* ─── SAVINGS THERMO ─── */
+        .thermo-wrap {
+            margin-top: 8px;
+        }
+
+        .thermo-labels {
+            display: flex;
+            justify-content: space-between;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .thermo-track {
+            height: 22px;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .thermo-fill {
+            height: 100%;
+            border-radius: 20px;
+            background: linear-gradient(90deg, #10b981, #34d399, #6ee7b7);
+            width: 0;
+            transition: width 2s cubic-bezier(0.22, 1, 0.36, 1);
+            position: relative;
+        }
+
+        .thermo-fill::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: white;
+            border-radius: 4px;
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.6);
+        }
+
+        .thermo-pct {
+            text-align: center;
+            margin-top: 10px;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 1.6rem;
+            color: var(--accent-emerald);
+        }
+
+        .thermo-goal {
+            text-align: center;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        /* ─── READING ─── */
+        .reading-stat-row {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        .reading-stat {
+            flex: 1;
+            min-width: 80px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-sm);
+            padding: 14px;
+            text-align: center;
+        }
+
+        .reading-stat .val {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 1.4rem;
+            color: var(--accent-amber);
+        }
+
+        .reading-stat .lbl {
+            font-size: 0.68rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .current-book {
+            background: rgba(245, 158, 11, 0.06);
+            border: 1px solid rgba(245, 158, 11, 0.15);
+            border-radius: var(--radius-sm);
+            padding: 14px 18px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .book-icon {
+            font-size: 1.6rem;
+            flex-shrink: 0;
+        }
+
+        .book-info .book-title {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+        }
+
+        .book-info .book-progress {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-top: 2px;
+        }
+
+        .book-bar {
+            margin-top: 6px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .book-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-amber), var(--accent-orange));
+            border-radius: 4px;
+            width: 0;
+            transition: width 1.5s ease;
+        }
+
+        /* ─── CHART AREAS ─── */
+        .chart-container {
+            position: relative;
+            width: 100%;
+        }
+
+        .chart-container.fitness-chart {
+            height: 280px;
+        }
+
+        .chart-container.budget-chart {
+            height: 260px;
+        }
+
+        .chart-container.genre-chart {
+            height: 180px;
+        }
+
+        /* ─── DATA TABLE ─── */
+        .table-tabs {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 16px;
+            overflow-x: auto;
+            padding-bottom: 4px;
+        }
+
+        .tab-btn {
+            padding: 7px 16px;
+            border: 1px solid var(--border-subtle);
+            background: transparent;
+            color: var(--text-muted);
+            border-radius: 50px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            white-space: nowrap;
+        }
+
+        .tab-btn:hover,
+        .tab-btn.active {
+            background: rgba(168, 85, 247, 0.12);
+            border-color: rgba(168, 85, 247, 0.3);
+            color: var(--accent-purple);
+        }
+
+        .data-table-wrap {
+            overflow-x: auto;
+            border-radius: var(--radius-sm);
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.78rem;
+        }
+
+        .data-table th {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-muted);
+            padding: 10px 14px;
+            text-align: left;
+            cursor: pointer;
+            user-select: none;
+            border-bottom: 1px solid var(--border-glow);
+            transition: color 0.2s;
+            white-space: nowrap;
+        }
+
+        .data-table th:hover {
+            color: var(--accent-purple);
+        }
+
+        .data-table th .sort-arrow {
+            margin-left: 4px;
+            opacity: 0.3;
+            font-size: 0.6rem;
+        }
+
+        .data-table th.sorted .sort-arrow {
+            opacity: 1;
+            color: var(--accent-purple);
+        }
+
+        .data-table td {
+            padding: 9px 14px;
+            color: var(--text-secondary);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.73rem;
+            white-space: nowrap;
+        }
+
+        .data-table tr:nth-child(even) td {
+            background: rgba(255, 255, 255, 0.015);
+        }
+
+        .data-table tr:hover td {
+            background: rgba(168, 85, 247, 0.04);
+            color: var(--text-primary);
+        }
+
+        /* ─── ANIMATIONS ─── */
+        @keyframes fadeSlideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-16px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        /* ─── SCROLLBAR ─── */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(120, 80, 255, 0.2);
+            border-radius: 6px;
+        }
+
+        /* ─── FOOTER ─── */
+        .dash-footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-subtle);
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            font-family: 'JetBrains Mono', monospace;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="dashboard-wrap" id="dashboardContent">
+
+        <!-- HEADER -->
+        <header class="dash-header">
+            <div class="dash-header-left">
+                <h1>⌘ Life Command Center</h1>
+                <p>personal dashboard · updated <span id="dateNow"></span></p>
+            </div>
+            <button class="btn-export" id="exportBtn" onclick="exportPDF()">
+                <div class="spinner"></div>
+                <span class="btn-text">⬇ Export PDF</span>
+            </button>
+        </header>
+
+        <!-- KPI ROW -->
+        <div class="grid-main">
+
+            <div class="card kpi-weight" data-delay="0">
+                <div class="card-title"><span class="icon">⚖</span> Weight Progress</div>
+                <div class="kpi-value">74.2 kg</div>
+                <div class="kpi-sub">Goal: 72 kg · 3.8 kg to go</div>
+                <div class="kpi-sparkline"><canvas id="sparkWeight"></canvas></div>
+            </div>
+
+            <div class="card kpi-savings" data-delay="80">
+                <div class="card-title"><span class="icon">💰</span> Savings</div>
+                <div class="kpi-value">61%</div>
+                <div class="kpi-sub">$1,840 of $3,000 goal</div>
+                <div class="kpi-sparkline"><canvas id="sparkSavings"></canvas></div>
+            </div>
+
+            <div class="card kpi-books" data-delay="160">
+                <div class="card-title"><span class="icon">📚</span> Books Read</div>
+                <div class="kpi-value">14 / 24</div>
+                <div class="kpi-sub">342 pages this month</div>
+                <div class="kpi-sparkline"><canvas id="sparkBooks"></canvas></div>
+            </div>
+
+            <div class="card kpi-streak" data-delay="240">
+                <div class="card-title"><span class="icon">🔥</span> Longest Streak</div>
+                <div class="kpi-value">45 days</div>
+                <div class="kpi-sub">Reading · ★★ milestone</div>
+                <div class="kpi-sparkline"><canvas id="sparkStreak"></canvas></div>
+            </div>
+
+            <!-- FITNESS CHART -->
+            <div class="card span-2" data-delay="320">
+                <div class="card-title"><span class="icon">🏃</span> Fitness Trends — 12 Weeks</div>
+                <div class="chart-container fitness-chart">
+                    <canvas id="fitnessChart"></canvas>
+                </div>
+            </div>
+
+            <!-- STUDY RINGS -->
+            <div class="card span-2" data-delay="400">
+                <div class="card-title"><span class="icon">🎓</span> Study Progress</div>
+                <div class="study-grid" id="studyGrid"></div>
+            </div>
+
+            <!-- HABITS -->
+            <div class="card span-2" data-delay="480">
+                <div class="card-title"><span class="icon">✅</span> Habit Streaks</div>
+                <div id="habitsContainer"></div>
+            </div>
+
+            <!-- BUDGET DOUGHNUT -->
+            <div class="card" data-delay="560">
+                <div class="card-title"><span class="icon">💳</span> Monthly Budget</div>
+                <div class="chart-container budget-chart">
+                    <canvas id="budgetChart"></canvas>
+                </div>
+                <div style="text-align:center;margin-top:8px;">
+                    <span
+                        style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--text-muted);">Income:
+                        $850 · Spending: $850</span>
+                </div>
+            </div>
+
+            <!-- SAVINGS THERMOMETER -->
+            <div class="card" data-delay="640">
+                <div class="card-title"><span class="icon">🎯</span> Summer Trip Fund</div>
+                <div class="thermo-pct" id="thermoVal">0%</div>
+                <div class="thermo-goal">$1,840 of $3,000 saved</div>
+                <div class="thermo-wrap">
+                    <div class="thermo-labels"><span>$0</span><span>$3,000</span></div>
+                    <div class="thermo-track">
+                        <div class="thermo-fill" id="thermoFill"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- READING -->
+            <div class="card span-2" data-delay="720">
+                <div class="card-title"><span class="icon">📖</span> Reading Log 2024</div>
+                <div class="reading-stat-row">
+                    <div class="reading-stat">
+                        <div class="val">14</div>
+                        <div class="lbl">Books Read</div>
+                    </div>
+                    <div class="reading-stat">
+                        <div class="val">24</div>
+                        <div class="lbl">Goal</div>
+                    </div>
+                    <div class="reading-stat">
+                        <div class="val">342</div>
+                        <div class="lbl">Pages/Month</div>
+                    </div>
+                    <div class="reading-stat">
+                        <div class="val">58%</div>
+                        <div class="lbl">Complete</div>
+                    </div>
+                </div>
+                <div class="current-book">
+                    <div class="book-icon">📕</div>
+                    <div style="flex:1">
+                        <div class="book-info">
+                            <div class="book-title">Atomic Habits</div>
+                            <div class="book-progress">68% complete</div>
+                        </div>
+                        <div class="book-bar">
+                            <div class="book-bar-fill" id="bookFill"></div>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top:18px;">
+                    <div class="card-title" style="margin-bottom:10px;"><span class="icon">📊</span> Genre Breakdown
+                    </div>
+                    <div class="chart-container genre-chart">
+                        <canvas id="genreChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DATA TABLE -->
+            <div class="card span-4" data-delay="800">
+                <div class="card-title"><span class="icon">🗃</span> Raw Data Explorer</div>
+                <div class="table-tabs" id="tableTabs"></div>
+                <div class="data-table-wrap">
+                    <table class="data-table" id="dataTable">
+                        <thead id="tableHead"></thead>
+                        <tbody id="tableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div><!-- grid-main -->
+
+        <div class="dash-footer">
+            built with ♥ and chart.js · life command center v1.0
+        </div>
+
+    </div>
+
+    <script>
+        // ─── DATA ───
+        const DATA = {
+            weeks: Array.from({ length: 12 }, (_, i) => `W${i + 1}`),
+            running: [3, 4, 3.5, 5, 6, 5.5, 7, 6.5, 8, 7.5, 9, 8.5],
+            workouts: [2, 3, 2, 3, 4, 3, 4, 4, 5, 4, 5, 5],
+            weight: [78, 77.5, 77.2, 76.8, 76.5, 76, 75.6, 75.3, 75, 74.8, 74.5, 74.2],
+            goalWeight: 72,
+            study: [
+                { subject: 'Math', current: 82, target: 90, hours: 14, color: '#a855f7' },
+                { subject: 'Physics', current: 71, target: 80, hours: 10, color: '#3b82f6' },
+                { subject: 'English', current: 88, target: 92, hours: 8, color: '#06b6d4' },
+                { subject: 'Comp Sci', current: 95, target: 95, hours: 16, color: '#10b981' },
+                { subject: 'History', current: 67, target: 78, hours: 6, color: '#f59e0b' }
+            ],
+            habits: [
+                { name: 'Reading', days: 45, color: '#f59e0b', stars: '★★' },
+                { name: 'Sleep < 11pm', days: 31, color: '#3b82f6', stars: '★' },
+                { name: 'Meditation', days: 23, color: '#a855f7', stars: '★' },
+                { name: 'No junk food', days: 12, color: '#10b981', stars: '' },
+                { name: 'Journaling', days: 8, color: '#06b6d4', stars: '' },
+                { name: 'Guitar', days: 5, color: '#ec4899', stars: '' },
+            ],
+            budget: {
+                labels: ['Food', 'Transport', 'Entertainment', 'Clothes', 'Savings', 'Tech', 'Other'],
+                values: [180, 65, 120, 85, 280, 70, 50],
+                colors: ['#f43f5e', '#f97316', '#f59e0b', '#ec4899', '#10b981', '#3b82f6', '#8b5cf6']
+            },
+            reading: { read: 14, goal: 24, pages: 342, currentBook: 'Atomic Habits', bookPct: 68 },
+            genres: { labels: ['Sci-Fi', 'Self-help', 'History', 'Fiction'], values: [5, 4, 3, 2], colors: ['#06b6d4', '#10b981', '#f59e0b', '#a855f7'] }
+        };
+
+        // ─── INIT ───
+        document.getElementById('dateNow').textContent = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+
+        // ─── CHART.JS DEFAULTS ───
+        Chart.defaults.color = '#9490b0';
+        Chart.defaults.font.family = "'DM Sans', sans-serif";
+        Chart.defaults.font.size = 11;
+        Chart.defaults.plugins.legend.labels.boxWidth = 10;
+        Chart.defaults.plugins.legend.labels.padding = 16;
+
+        // ─── SPARKLINE HELPER ───
+        function makeSparkline(id, data, color) {
+            const ctx = document.getElementById(id).getContext('2d');
+            const gradient = ctx.createLinearGradient(0, 0, 0, 40);
+            gradient.addColorStop(0, color + '40');
+            gradient.addColorStop(1, color + '00');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: data.map((_, i) => i),
+                    datasets: [{
+                        data, fill: true,
+                        borderColor: color, backgroundColor: gradient,
+                        borderWidth: 2, pointRadius: 0, tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { display: false }, tooltip: { enabled: false } },
+                    scales: { x: { display: false }, y: { display: false } }
+                }
+            });
+        }
+
+        makeSparkline('sparkWeight', DATA.weight, '#06b6d4');
+        makeSparkline('sparkSavings', [400, 620, 850, 980, 1100, 1280, 1400, 1520, 1600, 1700, 1780, 1840], '#10b981');
+        makeSparkline('sparkBooks', [1, 2, 4, 5, 7, 8, 9, 10, 11, 12, 13, 14], '#f59e0b');
+        makeSparkline('sparkStreak', [5, 10, 15, 18, 22, 28, 30, 33, 36, 38, 42, 45], '#ec4899');
+
+        // ─── FITNESS CHART ───
+        (function () {
+            const ctx = document.getElementById('fitnessChart').getContext('2d');
+            const gradientRun = ctx.createLinearGradient(0, 0, 0, 280);
+            gradientRun.addColorStop(0, 'rgba(168, 85, 247, 0.25)');
+            gradientRun.addColorStop(1, 'rgba(168, 85, 247, 0)');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: DATA.weeks,
+                    datasets: [
+                        {
+                            label: 'Running (km)',
+                            data: DATA.running,
+                            borderColor: '#a855f7',
+                            backgroundColor: gradientRun,
+                            fill: true,
+                            yAxisID: 'y',
+                            tension: 0.4,
+                            borderWidth: 2.5,
+                            pointRadius: 4,
+                            pointBackgroundColor: '#a855f7',
+                            pointBorderColor: '#0a0a1a',
+                            pointBorderWidth: 2
+                        },
+                        {
+                            label: 'Weight (kg)',
+                            data: DATA.weight,
+                            borderColor: '#06b6d4',
+                            backgroundColor: 'transparent',
+                            fill: false,
+                            yAxisID: 'y1',
+                            tension: 0.4,
+                            borderWidth: 2.5,
+                            borderDash: [6, 3],
+                            pointRadius: 4,
+                            pointBackgroundColor: '#06b6d4',
+                            pointBorderColor: '#0a0a1a',
+                            pointBorderWidth: 2
+                        },
+                        {
+                            label: 'Workouts',
+                            data: DATA.workouts,
+                            type: 'bar',
+                            backgroundColor: 'rgba(59, 130, 246, 0.25)',
+                            borderColor: 'rgba(59, 130, 246, 0.5)',
+                            borderWidth: 1,
+                            yAxisID: 'y',
+                            borderRadius: 4,
+                            barPercentage: 0.4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: { mode: 'index', intersect: false },
+                    plugins: {
+                        legend: { position: 'top', align: 'end' },
+                        tooltip: {
+                            backgroundColor: 'rgba(10, 10, 26, 0.9)',
+                            borderColor: 'rgba(120, 80, 255, 0.3)',
+                            borderWidth: 1,
+                            titleFont: { family: 'Outfit', weight: '600' },
+                            bodyFont: { family: 'JetBrains Mono', size: 11 },
+                            padding: 12,
+                            cornerRadius: 10
+                        }
+                    },
+                    scales: {
+                        x: { grid: { color: 'rgba(255,255,255,0.03)' } },
+                        y: {
+                            position: 'left',
+                            title: { display: true, text: 'km / count', color: '#5c5880' },
+                            grid: { color: 'rgba(255,255,255,0.03)' }
+                        },
+                        y1: {
+                            position: 'right',
+                            title: { display: true, text: 'Weight (kg)', color: '#5c5880' },
+                            grid: { drawOnChartArea: false },
+                            min: 70, max: 80
+                        }
+                    }
+                }
+            });
+        })();
+
+        // ─── STUDY RINGS ───
+        (function () {
+            const grid = document.getElementById('studyGrid');
+            const circumference = 2 * Math.PI * 39;
+            DATA.study.forEach((s, i) => {
+                const pct = s.current / 100;
+                const tgtPct = s.target / 100;
+                const div = document.createElement('div');
+                div.className = 'ring-item';
+                div.innerHTML = `
+      <div class="ring-container">
+        <svg viewBox="0 0 90 90">
+          <circle class="ring-bg" cx="45" cy="45" r="39"/>
+          <circle class="ring-target" cx="45" cy="45" r="39"
+            stroke="${s.color}" stroke-dasharray="245"
+            stroke-dashoffset="${245 - (245 * tgtPct)}"/>
+          <circle class="ring-fg" cx="45" cy="45" r="39"
+            stroke="${s.color}" id="ring-${i}"
+            data-target="${245 - (245 * pct)}"/>
+        </svg>
+        <div class="ring-value" style="color:${s.color}">${s.current}%</div>
+      </div>
+      <div class="ring-label">${s.subject}</div>
+      <div class="ring-hours">${s.hours}h studied</div>
+    `;
+                grid.appendChild(div);
+            });
+        })();
+
+        // ─── HABITS ───
+        (function () {
+            const container = document.getElementById('habitsContainer');
+            const maxDays = 50;
+            DATA.habits.forEach(h => {
+                const pct = Math.min(h.days / maxDays * 100, 100);
+                const div = document.createElement('div');
+                div.className = 'habit-row';
+                div.innerHTML = `
+      <span class="habit-name">${h.name}</span>
+      <div class="habit-bar-wrap">
+        <div class="habit-bar-fill" style="background:${h.color}" data-width="${pct}%"></div>
+      </div>
+      <span class="habit-days">${h.days} days</span>
+      <span class="habit-badge">${h.stars}</span>
+    `;
+                container.appendChild(div);
+            });
+        })();
+
+        // ─── BUDGET DOUGHNUT ───
+        (function () {
+            new Chart(document.getElementById('budgetChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: DATA.budget.labels,
+                    datasets: [{
+                        data: DATA.budget.values,
+                        backgroundColor: DATA.budget.colors,
+                        borderColor: '#12122a',
+                        borderWidth: 3,
+                        hoverOffset: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '62%',
+                    plugins: {
+                        legend: { position: 'bottom', labels: { padding: 12, font: { size: 10 } } },
+                        tooltip: {
+                            backgroundColor: 'rgba(10, 10, 26, 0.9)',
+                            borderColor: 'rgba(120, 80, 255, 0.3)',
+                            borderWidth: 1,
+                            callbacks: {
+                                label: ctx => ` ${ctx.label}: $${ctx.parsed} (${Math.round(ctx.parsed / 850 * 100)}%)`
+                            }
+                        }
+                    }
+                }
+            });
+        })();
+
+        // ─── GENRE CHART ───
+        (function () {
+            new Chart(document.getElementById('genreChart'), {
+                type: 'bar',
+                data: {
+                    labels: DATA.genres.labels,
+                    datasets: [{
+                        data: DATA.genres.values,
+                        backgroundColor: DATA.genres.colors.map(c => c + '80'),
+                        borderColor: DATA.genres.colors,
+                        borderWidth: 1.5,
+                        borderRadius: 8,
+                        barPercentage: 0.6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { grid: { color: 'rgba(255,255,255,0.03)' }, ticks: { stepSize: 1 } },
+                        y: { grid: { display: false } }
+                    }
+                }
+            });
+        })();
+
+        // ─── DATA TABLES ───
+        const TABLE_DATA = {
+            'Fitness': {
+                headers: ['Week', 'Running (km)', 'Workouts', 'Weight (kg)'],
+                rows: DATA.weeks.map((w, i) => [w, DATA.running[i], DATA.workouts[i], DATA.weight[i]])
+            },
+            'Study': {
+                headers: ['Subject', 'Current %', 'Target %', 'Gap', 'Hours Studied'],
+                rows: DATA.study.map(s => [s.subject, s.current, s.target, s.target - s.current, s.hours])
+            },
+            'Habits': {
+                headers: ['Habit', 'Streak (days)', 'Milestone'],
+                rows: DATA.habits.map(h => [h.name, h.days, h.stars || '—'])
+            },
+            'Budget': {
+                headers: ['Category', 'Amount ($)', '% of Income'],
+                rows: DATA.budget.labels.map((l, i) => [l, DATA.budget.values[i], (DATA.budget.values[i] / 850 * 100).toFixed(1) + '%'])
+            },
+            'Reading': {
+                headers: ['Metric', 'Value'],
+                rows: [
+                    ['Books Read', 14], ['Goal', 24], ['Completion', '58%'],
+                    ['Pages This Month', 342], ['Current Book', 'Atomic Habits'],
+                    ['Book Progress', '68%'],
+                    ...DATA.genres.labels.map((g, i) => [`Genre: ${g}`, `${DATA.genres.values[i]} books`])
+                ]
+            }
+        };
+
+        let currentTab = 'Fitness';
+        let sortCol = -1;
+        let sortAsc = true;
+
+        function renderTabs() {
+            const tabsEl = document.getElementById('tableTabs');
+            tabsEl.innerHTML = '';
+            Object.keys(TABLE_DATA).forEach(key => {
+                const btn = document.createElement('button');
+                btn.className = 'tab-btn' + (key === currentTab ? ' active' : '');
+                btn.textContent = key;
+                btn.onclick = () => { currentTab = key; sortCol = -1; renderTabs(); renderTable(); };
+                tabsEl.appendChild(btn);
+            });
+        }
+
+        function renderTable() {
+            const { headers, rows } = TABLE_DATA[currentTab];
+            const thead = document.getElementById('tableHead');
+            const tbody = document.getElementById('tableBody');
+
+            thead.innerHTML = '<tr>' + headers.map((h, i) =>
+                `<th onclick="sortTable(${i})" class="${sortCol === i ? 'sorted' : ''}">
+      ${h} <span class="sort-arrow">${sortCol === i ? (sortAsc ? '▲' : '▼') : '⇅'}</span>
+    </th>`
+            ).join('') + '</tr>';
+
+            let sorted = [...rows];
+            if (sortCol >= 0) {
+                sorted.sort((a, b) => {
+                    let va = a[sortCol], vb = b[sortCol];
+                    if (typeof va === 'string') va = va.replace('%', '');
+                    if (typeof vb === 'string') vb = vb.replace('%', '');
+                    const na = parseFloat(va), nb = parseFloat(vb);
+                    if (!isNaN(na) && !isNaN(nb)) return sortAsc ? na - nb : nb - na;
+                    return sortAsc ? String(va).localeCompare(String(vb)) : String(vb).localeCompare(String(va));
+                });
+            }
+
+            tbody.innerHTML = sorted.map(row =>
+                '<tr>' + row.map(cell => `<td>${cell}</td>`).join('') + '</tr>'
+            ).join('');
+        }
+
+        window.sortTable = function (col) {
+            if (sortCol === col) sortAsc = !sortAsc;
+            else { sortCol = col; sortAsc = true; }
+            renderTabs();
+            renderTable();
+        };
+
+        renderTabs();
+        renderTable();
+
+        // ─── ENTRANCE ANIMATIONS ───
+        function animateEntrance() {
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                const delay = parseInt(card.dataset.delay || 0);
+                setTimeout(() => card.classList.add('visible'), 200 + delay);
+            });
+
+            // Animate rings
+            setTimeout(() => {
+                DATA.study.forEach((_, i) => {
+                    const el = document.getElementById(`ring-${i}`);
+                    if (el) el.style.strokeDashoffset = el.dataset.target;
+                });
+            }, 900);
+
+            // Animate habit bars
+            setTimeout(() => {
+                document.querySelectorAll('.habit-bar-fill').forEach(bar => {
+                    bar.style.width = bar.dataset.width;
+                });
+            }, 1000);
+
+            // Animate thermometer
+            setTimeout(() => {
+                document.getElementById('thermoFill').style.width = '61.3%';
+                animateCounter('thermoVal', 0, 61, '%', 1200);
+            }, 1100);
+
+            // Animate book bar
+            setTimeout(() => {
+                document.getElementById('bookFill').style.width = '68%';
+            }, 1200);
+        }
+
+        function animateCounter(id, from, to, suffix, duration) {
+            const el = document.getElementById(id);
+            const start = performance.now();
+            function step(now) {
+                const progress = Math.min((now - start) / duration, 1);
+                const ease = 1 - Math.pow(1 - progress, 3);
+                el.textContent = Math.round(from + (to - from) * ease) + suffix;
+                if (progress < 1) requestAnimationFrame(step);
+            }
+            requestAnimationFrame(step);
+        }
+
+        animateEntrance();
+
+        // ─── EXPORT PDF ───
+        async function exportPDF() {
+            const btn = document.getElementById('exportBtn');
+            btn.classList.add('loading');
+            btn.disabled = true;
+
+            try {
+                await new Promise(r => setTimeout(r, 300));
+
+                const element = document.getElementById('dashboardContent');
+                const canvas = await html2canvas(element, {
+                    scale: 2,
+                    backgroundColor: '#0a0a1a',
+                    useCORS: true,
+                    logging: false,
+                    windowWidth: 1440
+                });
+
+                const imgData = canvas.toDataURL('image/jpeg', 0.92);
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF('p', 'mm', 'a4');
+                const pdfWidth = pdf.internal.pageSize.getWidth();
+                const pdfHeight = pdf.internal.pageSize.getHeight();
+                const imgWidth = pdfWidth - 16;
+                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+                let position = 8;
+                let heightLeft = imgHeight;
+
+                pdf.addImage(imgData, 'JPEG', 8, position, imgWidth, imgHeight);
+                heightLeft -= (pdfHeight - 16);
+
+                while (heightLeft > 0) {
+                    position = -(imgHeight - heightLeft) + 8;
+                    pdf.addPage();
+                    pdf.addImage(imgData, 'JPEG', 8, position, imgWidth, imgHeight);
+                    heightLeft -= (pdfHeight - 16);
+                }
+
+                pdf.save('personal-dashboard.pdf');
+            } catch (err) {
+                console.error('PDF export error:', err);
+                alert('PDF export failed. Please try again.');
+            } finally {
+                btn.classList.remove('loading');
+                btn.disabled = false;
+            }
+        }
+    </script>
+</body>
+
+</html>

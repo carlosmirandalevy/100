@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus Analytics | E-commerce Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+        body {
+            background-color: #0f172a;
+            color: #f8fafc;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+            border-color: rgba(56, 189, 248, 0.4);
+        }
+
+        .gradient-text-blue {
+            background: linear-gradient(90deg, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .gradient-text-magenta {
+            background: linear-gradient(90deg, #f472b6, #fb7185);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Custom Slider Styling */
+        input[type=range] {
+            -webkit-appearance: none;
+            background: #334155;
+            height: 6px;
+            border-radius: 5px;
+        }
+
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 18px;
+            width: 18px;
+            border-radius: 50%;
+            background: #38bdf8;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.8);
+        }
+
+        /* Loading Spinner */
+        .loader {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #38bdf8;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            display: none;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        th {
+            cursor: pointer;
+        }
+
+        th:hover {
+            color: #38bdf8;
+        }
+    </style>
+</head>
+
+<body class="p-6">
+
+    <div id="dashboard-content" class="max-w-7xl mx-auto space-y-6">
+
+        <header class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+            <div>
+                <h1 class="text-3xl font-bold tracking-tight">Nexus <span class="gradient-text-blue">Analytics</span>
+                </h1>
+                <p class="text-slate-400">E-commerce Performance Overview • 2026 Fiscal Year</p>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <div class="flex flex-col">
+                    <label class="text-xs uppercase text-slate-500 font-bold mb-1">Scenario Mode</label>
+                    <select id="scenarioSelector"
+                        class="bg-slate-800 border border-slate-700 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="1">Baseline (Current)</option>
+                        <option value="0.9">Pessimistic (-10%)</option>
+                        <option value="1.2">Optimistic (+20%)</option>
+                        <option value="1.4">Aggressive (+40%)</option>
+                    </select>
+                </div>
+
+                <button id="exportBtn" onclick="exportToPDF()"
+                    class="mt-5 flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2 px-6 rounded-lg transition-all active:scale-95">
+                    <span id="btnText">Export PDF</span>
+                    <div id="btnLoader" class="loader"></div>
+                </button>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="glass-card p-6">
+                <p class="text-slate-400 text-sm font-medium">Total Revenue</p>
+                <h2 id="kpi-revenue" class="text-3xl font-bold mt-1">$885,100</h2>
+                <div class="flex items-center mt-2 text-emerald-400 text-sm">
+                    <span>↑ 12.5%</span>
+                    <span class="text-slate-500 ml-2">vs last year</span>
+                </div>
+            </div>
+            <div class="glass-card p-6">
+                <p class="text-slate-400 text-sm font-medium">Total Orders</p>
+                <h2 id="kpi-orders" class="text-3xl font-bold mt-1">19,234</h2>
+                <div class="flex items-center mt-2 text-emerald-400 text-sm">
+                    <span>↑ 8.2%</span>
+                    <span class="text-slate-500 ml-2">vs last year</span>
+                </div>
+            </div>
+            <div class="glass-card p-6">
+                <p class="text-slate-400 text-sm font-medium">Avg. Order Value</p>
+                <h2 id="kpi-aov" class="text-3xl font-bold mt-1">$87.00</h2>
+                <div class="flex items-center mt-2 text-indigo-400 text-sm">
+                    <span>Stable</span>
+                    <span class="text-slate-500 ml-2">vs last year</span>
+                </div>
+            </div>
+            <div class="glass-card p-6">
+                <p class="text-slate-400 text-sm font-medium">Annual Growth</p>
+                <h2 id="kpi-growth" class="text-3xl font-bold mt-1 text-cyan-400">+34.2%</h2>
+                <div class="flex items-center mt-2 text-cyan-500 text-sm">
+                    <span>High Velocity</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+            <div class="glass-card p-6 lg:col-span-2">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="font-bold text-lg">Revenue Trend & Projection</h3>
+                    <div class="flex items-center gap-4">
+                        <label class="text-xs text-slate-400">Project Growth: <span id="growthLabel"
+                                class="text-blue-400 font-bold">0%</span></label>
+                        <input type="range" id="growthSlider" min="0" max="50" value="0" class="w-32">
+                    </div>
+                </div>
+                <div style="height: 350px;">
+                    <canvas id="revenueChart"></canvas>
+                </div>
+            </div>
+
+            <div class="glass-card p-6">
+                <h3 class="font-bold text-lg mb-6">Traffic Acquisition</h3>
+                <div style="height: 350px;">
+                    <canvas id="trafficChart"></canvas>
+                </div>
+            </div>
+
+            <div class="glass-card p-6 lg:col-span-2">
+                <h3 class="font-bold text-lg mb-6">Top Performing Products</h3>
+                <div style="height: 350px;">
+                    <canvas id="productChart"></canvas>
+                </div>
+            </div>
+
+            <div class="glass-card p-6">
+                <h3 class="font-bold text-lg mb-6">Customer Segments Over Time</h3>
+                <div style="height: 350px;">
+                    <canvas id="segmentChart"></canvas>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="glass-card p-6 overflow-hidden">
+            <h3 class="font-bold text-lg mb-6">Raw Performance Data</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-sm" id="dataTable">
+                    <thead class="bg-slate-700 text-slate-300">
+                        <tr>
+                            <th class="p-3" onclick="sortTable(0)">Metric Section</th>
+                            <th class="p-3" onclick="sortTable(1)">Key Attribute</th>
+                            <th class="p-3" onclick="sortTable(2)">Value A</th>
+                            <th class="p-3" onclick="sortTable(3)">Value B / Detail</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-700">
+                        <tr class="hover:bg-slate-800 transition-colors">
+                            <td class="p-3 font-semibold text-blue-400">Monthly Revenue</td>
+                            <td class="p-3">Peak Month (Dec)</td>
+                            <td class="p-3">$142,000</td>
+                            <td class="p-3">Holiday Season</td>
+                        </tr>
+                        <tr class="hover:bg-slate-800 transition-colors">
+                            <td class="p-3 font-semibold text-blue-400">Monthly Revenue</td>
+                            <td class="p-3">Lowest Month (Feb)</td>
+                            <td class="p-3">$38,900</td>
+                            <td class="p-3">Post-holiday Slump</td>
+                        </tr>
+                        <tr class="hover:bg-slate-800 transition-colors">
+                            <td class="p-3 font-semibold text-magenta-400">Products</td>
+                            <td class="p-3">Wireless Headphones</td>
+                            <td class="p-3">2,847 Units</td>
+                            <td class="p-3">$142,350 Rev</td>
+                        </tr>
+                        <tr class="hover:bg-slate-800 transition-colors">
+                            <td class="p-3 font-semibold text-magenta-400">Products</td>
+                            <td class="p-3">Smart Watch Pro</td>
+                            <td class="p-3">1,923 Units</td>
+                            <td class="p-3">$288,450 Rev</td>
+                        </tr>
+                        <tr class="hover:bg-slate-800 transition-colors">
+                            <td class="p-3 font-semibold text-cyan-400">Traffic</td>
+                            <td class="p-3">Organic Search</td>
+                            <td class="p-3">38% Share</td>
+                            <td class="p-3">Highest ROI</td>
+                        </tr>
+                        <tr class="hover:bg-slate-800 transition-colors">
+                            <td class="p-3 font-semibold text-cyan-400">Traffic</td>
+                            <td class="p-3">Social Media</td>
+                            <td class="p-3">24% Share</td>
+                            <td class="p-3">Trend Driven</td>
+                        </tr>
+                        <tr class="hover:bg-slate-800 transition-colors">
+                            <td class="p-3 font-semibold text-emerald-400">Segments</td>
+                            <td class="p-3">VIP Customers</td>
+                            <td class="p-3">412 Members</td>
+                            <td class="p-3">$185 Avg Order</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- DATA DEFS ---
+        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        const revData = [42300, 38900, 51200, 47800, 63500, 58100, 72400, 69800, 81200, 95600, 124300, 142000];
+
+        const products = ['Wireless Headphones', 'Smart Watch Pro', 'USB-C Hub', 'Laptop Stand', 'Mech Keyboard'];
+        const prodRev = [142350, 288450, 102360, 78350, 149380];
+        const prodUnits = [2847, 1923, 3412, 1567, 2134];
+
+        const trafficLabels = ['Organic', 'Social', 'Direct', 'Email', 'Paid'];
+        const trafficData = [38, 24, 18, 12, 8];
+
+        // --- CHART INSTANCES ---
+        let revenueChart, trafficChart, productChart, segmentChart;
+
+        function initCharts() {
+            // Gradient creation for Revenue
+            const ctxRev = document.getElementById('revenueChart').getContext('2d');
+            const revGradient = ctxRev.createLinearGradient(0, 0, 0, 400);
+            revGradient.addColorStop(0, 'rgba(56, 189, 248, 0.4)');
+            revGradient.addColorStop(1, 'rgba(56, 189, 248, 0.0)');
+
+            revenueChart = new Chart(ctxRev, {
+                type: 'line',
+                data: {
+                    labels: months,
+                    datasets: [
+                        {
+                            label: '2026 Revenue',
+                            data: revData,
+                            borderColor: '#38bdf8',
+                            backgroundColor: revGradient,
+                            fill: true,
+                            tension: 0.4,
+                            pointRadius: 4,
+                            pointBackgroundColor: '#38bdf8'
+                        },
+                        {
+                            label: '2030 Projection',
+                            data: [],
+                            borderColor: '#f472b6',
+                            borderDash: [5, 5],
+                            pointRadius: 0,
+                            fill: false
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { labels: { color: '#94a3b8' } } },
+                    scales: {
+                        y: { grid: { color: '#334155' }, ticks: { color: '#94a3b8', callback: v => '$' + v.toLocaleString() } },
+                        x: { grid: { display: false }, ticks: { color: '#94a3b8' } }
+                    }
+                }
+            });
+
+            // Traffic Doughnut
+            trafficChart = new Chart(document.getElementById('trafficChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: trafficLabels,
+                    datasets: [{
+                        data: trafficData,
+                        backgroundColor: ['#38bdf8', '#818cf8', '#f472b6', '#fb7185', '#2dd4bf'],
+                        borderWidth: 0,
+                        hoverOffset: 20
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { color: '#94a3b8', padding: 20 } }
+                    },
+                    cutout: '70%'
+                }
+            });
+
+            // Product Dual Axis
+            productChart = new Chart(document.getElementById('productChart'), {
+                type: 'bar',
+                data: {
+                    labels: products,
+                    datasets: [
+                        {
+                            label: 'Revenue ($)',
+                            data: prodRev,
+                            backgroundColor: '#38bdf8',
+                            borderRadius: 6,
+                            indexAxis: 'y',
+                        },
+                        {
+                            label: 'Units Sold',
+                            data: prodUnits,
+                            backgroundColor: '#f472b6',
+                            borderRadius: 6,
+                            indexAxis: 'y',
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { labels: { color: '#94a3b8' } } },
+                    scales: {
+                        x: { grid: { color: '#334155' }, ticks: { color: '#94a3b8' } },
+                        y: { grid: { display: false }, ticks: { color: '#94a3b8' } }
+                    }
+                }
+            });
+
+            // Customer Segments (Stacked Area)
+            // Simulated monthly data for the visualization
+            segmentChart = new Chart(document.getElementById('segmentChart'), {
+                type: 'line',
+                data: {
+                    labels: months,
+                    datasets: [
+                        { label: 'New', data: [200, 220, 250, 300, 350, 380, 400, 420, 450, 500, 600, 660], fill: true, backgroundColor: 'rgba(56, 189, 248, 0.3)', borderColor: '#38bdf8', tension: 0.3 },
+                        { label: 'Returning', data: [150, 160, 180, 190, 210, 230, 250, 260, 280, 300, 340, 380], fill: true, backgroundColor: 'rgba(129, 140, 248, 0.3)', borderColor: '#818cf8', tension: 0.3 },
+                        { label: 'VIP', data: [20, 22, 25, 28, 30, 32, 35, 38, 40, 45, 50, 57], fill: true, backgroundColor: 'rgba(244, 114, 182, 0.3)', borderColor: '#f472b6', tension: 0.3 }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom', labels: { color: '#94a3b8' } } },
+                    scales: {
+                        y: { stacked: true, grid: { color: '#334155' }, ticks: { color: '#94a3b8' } },
+                        x: { grid: { display: false }, ticks: { color: '#94a3b8' } }
+                    }
+                }
+            });
+        }
+
+        // --- INTERACTIVE LOGIC ---
+
+        const slider = document.getElementById('growthSlider');
+        const growthLabel = document.getElementById('growthLabel');
+        const scenarioSelector = document.getElementById('scenarioSelector');
+
+        function updateProjection() {
+            const growthFactor = 1 + (slider.value / 100);
+            const projection = revData.map(val => val * growthFactor);
+            revenueChart.data.datasets[1].data = projection;
+            revenueChart.update('none');
+            growthLabel.innerText = slider.value + '%';
+        }
+
+        function updateScenarios() {
+            const multiplier = parseFloat(scenarioSelector.value);
+
+            // Update KPIs with animation effect
+            document.getElementById('kpi-revenue').innerText = '$' + (885100 * multiplier).toLocaleString();
+            document.getElementById('kpi-orders').innerText = Math.round(19234 * multiplier).toLocaleString();
+            document.getElementById('kpi-aov').innerText = '$' + (87 * (0.9 + multiplier / 10)).toFixed(2);
+
+            // Update charts data
+            revenueChart.data.datasets[0].data = revData.map(v => v * multiplier);
+            productChart.data.datasets[0].data = prodRev.map(v => v * multiplier);
+
+            revenueChart.update();
+            productChart.update();
+            updateProjection();
+        }
+
+        slider.addEventListener('input', updateProjection);
+        scenarioSelector.addEventListener('change', updateScenarios);
+
+        // --- PDF EXPORT ---
+        async function exportToPDF() {
+            const btn = document.getElementById('exportBtn');
+            const loader = document.getElementById('btnLoader');
+            const btnText = document.getElementById('btnText');
+
+            btn.disabled = true;
+            loader.style.display = 'block';
+            btnText.innerText = 'Generating...';
+
+            const { jsPDF } = window.jspdf;
+            const dashboard = document.getElementById('dashboard-content');
+
+            try {
+                const canvas = await html2canvas(dashboard, {
+                    backgroundColor: '#0f172a',
+                    scale: 2, // Higher quality
+                    useCORS: true
+                });
+
+                const imgData = canvas.toDataURL('image/png');
+                const pdf = new jsPDF('p', 'mm', 'a4');
+                const imgProps = pdf.getImageProperties(imgData);
+                const pdfWidth = pdf.internal.pageSize.getWidth();
+                const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+                pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+                pdf.save('ecommerce-dashboard.pdf');
+            } catch (err) {
+                console.error("PDF Export failed", err);
+            } finally {
+                btn.disabled = false;
+                loader.style.display = 'none';
+                btnText.innerText = 'Export PDF';
+            }
+        }
+
+        // --- TABLE SORTING ---
+        function sortTable(n) {
+            var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+            table = document.getElementById("dataTable");
+            switching = true;
+            dir = "asc";
+            while (switching) {
+                switching = false;
+                rows = table.rows;
+                for (i = 1; i < (rows.length - 1); i++) {
+                    shouldSwitch = false;
+                    x = rows[i].getElementsByTagName("TD")[n];
+                    y = rows[i + 1].getElementsByTagName("TD")[n];
+                    if (dir == "asc") {
+                        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                            shouldSwitch = true;
+                            break;
+                        }
+                    } else if (dir == "desc") {
+                        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                            shouldSwitch = true;
+                            break;
+                        }
+                    }
+                }
+                if (shouldSwitch) {
+                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                    switching = true;
+                    switchcount++;
+                } else {
+                    if (switchcount == 0 && dir == "asc") {
+                        dir = "desc";
+                        switching = true;
+                    }
+                }
+            }
+        }
+
+        // Initialize on Load
+        window.onload = () => {
+            initCharts();
+            updateProjection();
+        };
+    </script>
+</body>
+
+</html>

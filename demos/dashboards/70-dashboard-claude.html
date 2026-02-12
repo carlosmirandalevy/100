@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Climate & Energy Intelligence — Global Dashboard 2024</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <style>
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0e17;
+            --bg-secondary: #111827;
+            --bg-card: #151d2e;
+            --bg-card-hover: #1a2540;
+            --border-subtle: rgba(255, 255, 255, 0.06);
+            --border-accent: rgba(255, 255, 255, 0.1);
+            --text-primary: #f0f2f5;
+            --text-secondary: #8892a4;
+            --text-muted: #556177;
+            --teal: #2dd4bf;
+            --teal-dim: rgba(45, 212, 191, 0.15);
+            --amber: #f59e0b;
+            --amber-dim: rgba(245, 158, 11, 0.15);
+            --magenta: #ec4899;
+            --magenta-dim: rgba(236, 72, 153, 0.15);
+            --electric: #3b82f6;
+            --electric-dim: rgba(59, 130, 246, 0.15);
+            --coral: #f97316;
+            --violet: #a78bfa;
+            --lime: #84cc16;
+            --rose: #fb7185;
+            --cyan: #22d3ee;
+            --gold: #eab308;
+            --font-display: 'DM Serif Display', Georgia, serif;
+            --font-body: 'Instrument Sans', system-ui, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            --radius: 14px;
+            --radius-sm: 8px;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Noise overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        /* Ambient glow */
+        .ambient-glow {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            filter: blur(160px);
+            opacity: 0.08;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .glow-1 {
+            top: -200px;
+            left: -100px;
+            background: var(--teal);
+        }
+
+        .glow-2 {
+            top: 40%;
+            right: -200px;
+            background: var(--magenta);
+        }
+
+        .glow-3 {
+            bottom: -200px;
+            left: 30%;
+            background: var(--electric);
+        }
+
+        /* Layout */
+        .dashboard {
+            position: relative;
+            z-index: 1;
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 32px 40px 60px;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 40px;
+            padding-bottom: 32px;
+            border-bottom: 1px solid var(--border-subtle);
+            opacity: 0;
+            animation: fadeSlideDown 0.8s ease forwards;
+        }
+
+        .header-left {
+            flex: 1;
+        }
+
+        .header-eyebrow {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--teal);
+            margin-bottom: 8px;
+        }
+
+        .header h1 {
+            font-family: var(--font-display);
+            font-size: clamp(28px, 4vw, 42px);
+            font-weight: 400;
+            line-height: 1.15;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .header h1 span {
+            color: var(--amber);
+        }
+
+        .header-subtitle {
+            font-size: 14px;
+            color: var(--text-secondary);
+            max-width: 500px;
+        }
+
+        .btn-export {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            font-family: var(--font-body);
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            color: var(--bg-primary);
+            background: var(--teal);
+            border: none;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            flex-shrink: 0;
+            margin-top: 8px;
+        }
+
+        .btn-export:hover {
+            background: #5eead4;
+            transform: translateY(-1px);
+            box-shadow: 0 8px 24px rgba(45, 212, 191, 0.25);
+        }
+
+        .btn-export:active {
+            transform: translateY(0);
+        }
+
+        .btn-export.loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        .btn-export svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .spinner {
+            display: none;
+            width: 16px;
+            height: 16px;
+            border: 2px solid transparent;
+            border-top-color: var(--bg-primary);
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+        }
+
+        .btn-export.loading .spinner {
+            display: block;
+        }
+
+        .btn-export.loading .btn-icon {
+            display: none;
+        }
+
+        /* KPI Cards */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .kpi-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius);
+            padding: 24px 24px 20px;
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(24px);
+            animation: fadeSlideUp 0.6s ease forwards;
+            transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+        }
+
+        .kpi-card:hover {
+            border-color: var(--border-accent);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .kpi-card:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .kpi-card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .kpi-card:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .kpi-card:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+
+        .kpi-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+        }
+
+        .kpi-card:nth-child(1)::before {
+            background: linear-gradient(90deg, var(--magenta), var(--coral));
+        }
+
+        .kpi-card:nth-child(2)::before {
+            background: linear-gradient(90deg, var(--amber), var(--gold));
+        }
+
+        .kpi-card:nth-child(3)::before {
+            background: linear-gradient(90deg, var(--teal), var(--cyan));
+        }
+
+        .kpi-card:nth-child(4)::before {
+            background: linear-gradient(90deg, var(--electric), var(--violet));
+        }
+
+        .kpi-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+            font-size: 18px;
+        }
+
+        .kpi-card:nth-child(1) .kpi-icon {
+            background: var(--magenta-dim);
+            color: var(--magenta);
+        }
+
+        .kpi-card:nth-child(2) .kpi-icon {
+            background: var(--amber-dim);
+            color: var(--amber);
+        }
+
+        .kpi-card:nth-child(3) .kpi-icon {
+            background: var(--teal-dim);
+            color: var(--teal);
+        }
+
+        .kpi-card:nth-child(4) .kpi-icon {
+            background: var(--electric-dim);
+            color: var(--electric);
+        }
+
+        .kpi-label {
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+
+        .kpi-value {
+            font-family: var(--font-display);
+            font-size: 36px;
+            line-height: 1.1;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+        }
+
+        .kpi-value .counter {
+            display: inline-block;
+        }
+
+        .kpi-sub {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .kpi-sub .trend-up {
+            color: var(--magenta);
+            font-weight: 600;
+        }
+
+        .kpi-sub .trend-green {
+            color: var(--teal);
+            font-weight: 600;
+        }
+
+        /* Chart grid */
+        .chart-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            margin-bottom: 48px;
+        }
+
+        .chart-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius);
+            padding: 28px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .chart-card:hover {
+            border-color: var(--border-accent);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        .chart-card.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .chart-title {
+            font-family: var(--font-display);
+            font-size: 20px;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .chart-subtitle {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .chart-badge {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border-radius: 20px;
+            background: var(--teal-dim);
+            color: var(--teal);
+            white-space: nowrap;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+        }
+
+        .chart-container canvas {
+            width: 100% !important;
+        }
+
+        /* Data Table */
+        .data-table-section {
+            margin-top: 12px;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .section-header h2 {
+            font-family: var(--font-display);
+            font-size: 28px;
+            color: var(--text-primary);
+        }
+
+        .section-header .divider {
+            flex: 1;
+            height: 1px;
+            background: var(--border-subtle);
+        }
+
+        .table-group {
+            margin-bottom: 32px;
+        }
+
+        .table-group-title {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--teal);
+            margin-bottom: 12px;
+            padding-left: 4px;
+        }
+
+        .data-table-wrap {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        .data-table thead th {
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: 11px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            padding: 14px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-subtle);
+            cursor: pointer;
+            user-select: none;
+            white-space: nowrap;
+            transition: color 0.2s;
+            position: relative;
+        }
+
+        .data-table thead th:hover {
+            color: var(--teal);
+        }
+
+        .data-table thead th .sort-arrow {
+            display: inline-block;
+            margin-left: 4px;
+            font-size: 10px;
+            opacity: 0.4;
+            transition: opacity 0.2s;
+        }
+
+        .data-table thead th.sorted .sort-arrow {
+            opacity: 1;
+            color: var(--teal);
+        }
+
+        .data-table tbody td {
+            padding: 12px 20px;
+            color: var(--text-secondary);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+            font-variant-numeric: tabular-nums;
+        }
+
+        .data-table tbody tr:nth-child(even) {
+            background: rgba(255, 255, 255, 0.015);
+        }
+
+        .data-table tbody tr:hover {
+            background: rgba(45, 212, 191, 0.04);
+        }
+
+        .data-table tbody td:first-child {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 40px 0 0;
+            border-top: 1px solid var(--border-subtle);
+            margin-top: 40px;
+        }
+
+        .footer p {
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.8;
+        }
+
+        .footer a {
+            color: var(--teal);
+            text-decoration: none;
+        }
+
+        /* Animations */
+        @keyframes fadeSlideUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeSlideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-16px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes countUp {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-in {
+            animation: fadeSlideUp 0.7s ease forwards;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .dashboard {
+                padding: 24px 20px 40px;
+            }
+
+            .kpi-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 16px;
+            }
+
+            .chart-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .kpi-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .kpi-value {
+                font-size: 28px;
+            }
+
+            .chart-card {
+                padding: 20px;
+            }
+
+            .data-table {
+                font-size: 12px;
+            }
+
+            .data-table thead th,
+            .data-table tbody td {
+                padding: 10px 12px;
+            }
+        }
+
+        /* Print / PDF optimization */
+        @media print {
+            body {
+                background: #0a0e17 !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .btn-export {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="ambient-glow glow-1"></div>
+    <div class="ambient-glow glow-2"></div>
+    <div class="ambient-glow glow-3"></div>
+
+    <div class="dashboard" id="dashboard">
+
+        <!-- HEADER -->
+        <header class="header">
+            <div class="header-left">
+                <div class="header-eyebrow">Global Intelligence Report — 2024</div>
+                <h1>Climate & <span>Energy</span> Dashboard</h1>
+                <p class="header-subtitle">A decade of planetary signals — tracking temperature anomalies, carbon
+                    concentrations, and the accelerating energy transition from 2015 to 2024.</p>
+            </div>
+            <button class="btn-export" id="exportBtn" onclick="exportPDF()">
+                <span class="btn-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                        <polyline points="7 10 12 15 17 10" />
+                        <line x1="12" y1="15" x2="12" y2="3" />
+                    </svg>
+                </span>
+                <span class="spinner"></span>
+                Export PDF
+            </button>
+        </header>
+
+        <!-- KPI CARDS -->
+        <div class="kpi-grid">
+            <div class="kpi-card">
+                <div class="kpi-icon">🌡</div>
+                <div class="kpi-label">Temperature Anomaly</div>
+                <div class="kpi-value">+<span class="counter" data-target="1.29" data-decimals="2">0</span>°C</div>
+                <div class="kpi-sub"><span class="trend-up">▲ +0.12°C</span> vs 2023 — hottest year on record</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-icon">💨</div>
+                <div class="kpi-label">CO₂ Concentration</div>
+                <div class="kpi-value"><span class="counter" data-target="423.8" data-decimals="1">0</span> <span
+                        style="font-size:20px">ppm</span></div>
+                <div class="kpi-sub"><span class="trend-up">▲ +2.7 ppm</span> year-over-year increase</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-icon">⚡</div>
+                <div class="kpi-label">Global Renewable Share</div>
+                <div class="kpi-value"><span class="counter" data-target="30" data-decimals="0">0</span><span
+                        style="font-size:20px">%</span></div>
+                <div class="kpi-sub"><span class="trend-green">▲ +12%</span> growth over the decade</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-icon">☀️</div>
+                <div class="kpi-label">Global Solar Capacity</div>
+                <div class="kpi-value"><span class="counter" data-target="1217" data-decimals="0">0</span> <span
+                        style="font-size:20px">GW</span></div>
+                <div class="kpi-sub"><span class="trend-green">▲ 8× growth</span> since 2015</div>
+            </div>
+        </div>
+
+        <!-- CHARTS GRID -->
+        <div class="chart-grid" id="chartGrid">
+
+            <!-- Dual-axis line chart -->
+            <div class="chart-card full-width">
+                <div class="chart-header">
+                    <div>
+                        <div class="chart-title">Temperature Anomaly & CO₂ Levels</div>
+                        <div class="chart-subtitle">Dual-axis trend • 2015–2024 • Baseline: 1951–1980 average</div>
+                    </div>
+                    <div class="chart-badge">Dual Axis</div>
+                </div>
+                <div class="chart-container" style="height: 340px;">
+                    <canvas id="dualAxisChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Solar capacity bar chart -->
+            <div class="chart-card">
+                <div class="chart-header">
+                    <div>
+                        <div class="chart-title">Top 10 Solar Powerhouses</div>
+                        <div class="chart-subtitle">Installed solar capacity (GW) • 2024</div>
+                    </div>
+                    <div class="chart-badge">Ranking</div>
+                </div>
+                <div class="chart-container" style="height: 360px;">
+                    <canvas id="solarBarChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Radar chart -->
+            <div class="chart-card">
+                <div class="chart-header">
+                    <div>
+                        <div class="chart-title">Renewable Share by Region</div>
+                        <div class="chart-subtitle">% of electricity from renewables • 2024</div>
+                    </div>
+                    <div class="chart-badge">Regional</div>
+                </div>
+                <div class="chart-container" style="height: 360px;">
+                    <canvas id="radarChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Doughnut chart -->
+            <div class="chart-card">
+                <div class="chart-header">
+                    <div>
+                        <div class="chart-title">Global Energy Mix</div>
+                        <div class="chart-subtitle">Electricity generation by source (TWh) • 2024</div>
+                    </div>
+                    <div class="chart-badge">Breakdown</div>
+                </div>
+                <div class="chart-container" style="height: 360px;">
+                    <canvas id="doughnutChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Stacked area chart -->
+            <div class="chart-card">
+                <div class="chart-header">
+                    <div>
+                        <div class="chart-title">Renewable vs Fossil Growth</div>
+                        <div class="chart-subtitle">Indexed energy source trajectory • 2015–2024</div>
+                    </div>
+                    <div class="chart-badge">Trend</div>
+                </div>
+                <div class="chart-container" style="height: 360px;">
+                    <canvas id="stackedAreaChart"></canvas>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- DATA TABLES -->
+        <div class="data-table-section" id="dataTables">
+            <div class="section-header">
+                <h2>Source Data</h2>
+                <div class="divider"></div>
+            </div>
+
+            <!-- Temperature & CO2 -->
+            <div class="table-group">
+                <div class="table-group-title">Temperature Anomaly & CO₂ Levels • 2015–2024</div>
+                <div class="data-table-wrap">
+                    <table class="data-table" id="tableClimate">
+                        <thead>
+                            <tr>
+                                <th data-col="0">Year <span class="sort-arrow">▲</span></th>
+                                <th data-col="1">Temp. Anomaly (°C) <span class="sort-arrow">▲</span></th>
+                                <th data-col="2">CO₂ (ppm) <span class="sort-arrow">▲</span></th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Renewable share by region -->
+            <div class="table-group">
+                <div class="table-group-title">Renewable Energy Share by Region • 2024</div>
+                <div class="data-table-wrap">
+                    <table class="data-table" id="tableRegion">
+                        <thead>
+                            <tr>
+                                <th data-col="0">Region <span class="sort-arrow">▲</span></th>
+                                <th data-col="1">Renewable Share (%) <span class="sort-arrow">▲</span></th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Energy sources -->
+            <div class="table-group">
+                <div class="table-group-title">Global Energy Source Breakdown • 2024</div>
+                <div class="data-table-wrap">
+                    <table class="data-table" id="tableEnergy">
+                        <thead>
+                            <tr>
+                                <th data-col="0">Source <span class="sort-arrow">▲</span></th>
+                                <th data-col="1">Generation (TWh) <span class="sort-arrow">▲</span></th>
+                                <th data-col="2">Share (%) <span class="sort-arrow">▲</span></th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Solar capacity -->
+            <div class="table-group">
+                <div class="table-group-title">Top 10 Countries by Solar Capacity • 2024</div>
+                <div class="data-table-wrap">
+                    <table class="data-table" id="tableSolar">
+                        <thead>
+                            <tr>
+                                <th data-col="0">Country <span class="sort-arrow">▲</span></th>
+                                <th data-col="1">Solar Capacity (GW) <span class="sort-arrow">▲</span></th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Data sources: NASA GISS, NOAA GML, IRENA, IEA, SolarPower Europe<br>
+                Dashboard crafted with Chart.js — Climate & Energy Intelligence Report 2024</p>
+        </footer>
+
+    </div>
+
+    <script>
+        // ─── DATA ────────────────────────────────────────────────────────────
+        const YEARS = [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024];
+        const TEMP = [0.87, 1.01, 0.92, 0.83, 0.98, 1.02, 0.85, 0.89, 1.17, 1.29];
+        const CO2 = [400.8, 404.2, 406.6, 408.5, 411.4, 414.2, 416.4, 418.6, 421.1, 423.8];
+
+        const REGIONS = ['Europe', 'South America', 'North America', 'Asia', 'Africa', 'Oceania'];
+        const RENEW_SHARE = [44, 61, 23, 18, 11, 32];
+
+        const ENERGY_LABELS = ['Coal', 'Natural Gas', 'Oil', 'Nuclear', 'Hydro', 'Wind', 'Solar', 'Other Renewables'];
+        const ENERGY_TWH = [10200, 6800, 850, 2780, 4300, 2400, 1900, 680];
+        const ENERGY_TOTAL = ENERGY_TWH.reduce((a, b) => a + b, 0);
+
+        const SOLAR_COUNTRIES = ['China', 'USA', 'India', 'Japan', 'Germany', 'Australia', 'Spain', 'Brazil', 'South Korea', 'Netherlands'];
+        const SOLAR_GW = [610, 175, 120, 84, 75, 38, 32, 30, 28, 25];
+
+        const FLAG_EMOJI = { China: '🇨🇳', USA: '🇺🇸', India: '🇮🇳', Japan: '🇯🇵', Germany: '🇩🇪', Australia: '🇦🇺', Spain: '🇪🇸', Brazil: '🇧🇷', 'South Korea': '🇰🇷', Netherlands: '🇳🇱' };
+
+        // ─── CHART.JS DEFAULTS ──────────────────────────────────────────────
+        Chart.defaults.font.family = "'Instrument Sans', system-ui, sans-serif";
+        Chart.defaults.color = '#8892a4';
+        Chart.defaults.borderColor = 'rgba(255,255,255,0.04)';
+        Chart.defaults.plugins.tooltip.backgroundColor = 'rgba(15,23,42,0.95)';
+        Chart.defaults.plugins.tooltip.borderColor = 'rgba(255,255,255,0.1)';
+        Chart.defaults.plugins.tooltip.borderWidth = 1;
+        Chart.defaults.plugins.tooltip.cornerRadius = 8;
+        Chart.defaults.plugins.tooltip.padding = 12;
+        Chart.defaults.plugins.tooltip.titleFont = { family: "'Instrument Sans'", size: 13, weight: '600' };
+        Chart.defaults.plugins.tooltip.bodyFont = { family: "'JetBrains Mono'", size: 12 };
+        Chart.defaults.plugins.tooltip.displayColors = true;
+        Chart.defaults.plugins.tooltip.boxPadding = 4;
+        Chart.defaults.plugins.legend.labels.usePointStyle = true;
+        Chart.defaults.plugins.legend.labels.pointStyleWidth = 10;
+        Chart.defaults.plugins.legend.labels.padding = 20;
+        Chart.defaults.plugins.legend.labels.font = { size: 12 };
+        Chart.defaults.animation.duration = 1400;
+        Chart.defaults.animation.easing = 'easeOutQuart';
+
+        // ─── 1. DUAL-AXIS LINE CHART ────────────────────────────────────────
+        function createDualAxisChart() {
+            const ctx = document.getElementById('dualAxisChart').getContext('2d');
+            const tempGrad = ctx.createLinearGradient(0, 0, 0, 340);
+            tempGrad.addColorStop(0, 'rgba(236,72,153,0.25)');
+            tempGrad.addColorStop(1, 'rgba(236,72,153,0.0)');
+            const co2Grad = ctx.createLinearGradient(0, 0, 0, 340);
+            co2Grad.addColorStop(0, 'rgba(245,158,11,0.2)');
+            co2Grad.addColorStop(1, 'rgba(245,158,11,0.0)');
+
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: YEARS,
+                    datasets: [
+                        {
+                            label: 'Temperature Anomaly (°C)',
+                            data: TEMP,
+                            borderColor: '#ec4899',
+                            backgroundColor: tempGrad,
+                            fill: true,
+                            yAxisID: 'y1',
+                            tension: 0.35,
+                            borderWidth: 2.5,
+                            pointRadius: 4,
+                            pointBackgroundColor: '#ec4899',
+                            pointBorderColor: '#0a0e17',
+                            pointBorderWidth: 2,
+                            pointHoverRadius: 7,
+                        },
+                        {
+                            label: 'CO₂ Level (ppm)',
+                            data: CO2,
+                            borderColor: '#f59e0b',
+                            backgroundColor: co2Grad,
+                            fill: true,
+                            yAxisID: 'y2',
+                            tension: 0.35,
+                            borderWidth: 2.5,
+                            pointRadius: 4,
+                            pointBackgroundColor: '#f59e0b',
+                            pointBorderColor: '#0a0e17',
+                            pointBorderWidth: 2,
+                            pointHoverRadius: 7,
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: { mode: 'index', intersect: false },
+                    scales: {
+                        x: {
+                            grid: { display: false },
+                            ticks: { font: { family: "'JetBrains Mono'", size: 11 } }
+                        },
+                        y1: {
+                            type: 'linear',
+                            position: 'left',
+                            title: { display: true, text: 'Temp. Anomaly (°C)', color: '#ec4899', font: { size: 11 } },
+                            ticks: { color: '#ec4899', font: { family: "'JetBrains Mono'", size: 11 }, callback: v => '+' + v.toFixed(1) },
+                            grid: { color: 'rgba(236,72,153,0.06)' },
+                            min: 0.6,
+                            max: 1.5,
+                        },
+                        y2: {
+                            type: 'linear',
+                            position: 'right',
+                            title: { display: true, text: 'CO₂ (ppm)', color: '#f59e0b', font: { size: 11 } },
+                            ticks: { color: '#f59e0b', font: { family: "'JetBrains Mono'", size: 11 } },
+                            grid: { display: false },
+                            min: 396,
+                            max: 428,
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: ctx => ctx.dataset.label.includes('Temp')
+                                    ? `  ${ctx.dataset.label}: +${ctx.parsed.y.toFixed(2)}°C`
+                                    : `  ${ctx.dataset.label}: ${ctx.parsed.y.toFixed(1)} ppm`
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // ─── 2. HORIZONTAL BAR CHART ─────────────────────────────────────────
+        function createSolarBarChart() {
+            const ctx = document.getElementById('solarBarChart');
+            const labels = SOLAR_COUNTRIES.map(c => `${FLAG_EMOJI[c]}  ${c}`).reverse();
+            const data = [...SOLAR_GW].reverse();
+
+            const colors = ['#3b82f6', '#22d3ee', '#2dd4bf', '#84cc16', '#eab308', '#f59e0b', '#f97316', '#ec4899', '#a78bfa', '#6366f1'].reverse();
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels,
+                    datasets: [{
+                        data,
+                        backgroundColor: colors.map(c => c + '99'),
+                        borderColor: colors,
+                        borderWidth: 1,
+                        borderRadius: 6,
+                        barPercentage: 0.7,
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: ctx => `  ${ctx.parsed.x} GW installed capacity`
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: { display: true, text: 'Installed Capacity (GW)', font: { size: 11 } },
+                            ticks: { font: { family: "'JetBrains Mono'", size: 11 } },
+                            grid: { color: 'rgba(255,255,255,0.03)' }
+                        },
+                        y: {
+                            grid: { display: false },
+                            ticks: { font: { size: 12 }, mirror: false }
+                        }
+                    }
+                }
+            });
+        }
+
+        // ─── 3. RADAR CHART ──────────────────────────────────────────────────
+        function createRadarChart() {
+            const ctx = document.getElementById('radarChart');
+            new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: REGIONS,
+                    datasets: [{
+                        label: 'Renewable Share (%)',
+                        data: RENEW_SHARE,
+                        backgroundColor: 'rgba(45,212,191,0.15)',
+                        borderColor: '#2dd4bf',
+                        borderWidth: 2,
+                        pointBackgroundColor: '#2dd4bf',
+                        pointBorderColor: '#0a0e17',
+                        pointBorderWidth: 2,
+                        pointRadius: 5,
+                        pointHoverRadius: 8,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            beginAtZero: true,
+                            max: 70,
+                            ticks: {
+                                stepSize: 14,
+                                font: { family: "'JetBrains Mono'", size: 10 },
+                                color: '#556177',
+                                backdropColor: 'transparent',
+                            },
+                            grid: { color: 'rgba(255,255,255,0.05)' },
+                            angleLines: { color: 'rgba(255,255,255,0.06)' },
+                            pointLabels: { font: { size: 12, weight: '500' }, color: '#f0f2f5' }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: ctx => `  ${ctx.label}: ${ctx.parsed.r}% renewable`
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // ─── 4. DOUGHNUT CHART ───────────────────────────────────────────────
+        function createDoughnutChart() {
+            const ctx = document.getElementById('doughnutChart');
+            const colors = ['#64748b', '#94a3b8', '#78716c', '#a78bfa', '#3b82f6', '#22d3ee', '#f59e0b', '#84cc16'];
+
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ENERGY_LABELS,
+                    datasets: [{
+                        data: ENERGY_TWH,
+                        backgroundColor: colors.map(c => c + 'cc'),
+                        borderColor: '#151d2e',
+                        borderWidth: 3,
+                        hoverOffset: 12,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '58%',
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: { font: { size: 11 }, padding: 10 }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: ctx => {
+                                    const pct = ((ctx.parsed / ENERGY_TOTAL) * 100).toFixed(1);
+                                    return `  ${ctx.label}: ${ctx.parsed.toLocaleString()} TWh (${pct}%)`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // ─── 5. STACKED AREA CHART ──────────────────────────────────────────
+        function createStackedAreaChart() {
+            const ctx = document.getElementById('stackedAreaChart').getContext('2d');
+
+            // Simulate growth trajectories (indexed)
+            const fossilBase = [17850, 17900, 17700, 17600, 17500, 16900, 17200, 17500, 17600, 17850];
+            const renewBase = [5800, 6100, 6500, 7000, 7600, 8200, 8900, 9600, 10500, 11280]; // hydro+wind+solar+other
+            const nuclearBase = [2570, 2610, 2640, 2700, 2790, 2550, 2650, 2680, 2730, 2780];
+
+            const fossilGrad = ctx.createLinearGradient(0, 0, 0, 360);
+            fossilGrad.addColorStop(0, 'rgba(100,116,139,0.5)');
+            fossilGrad.addColorStop(1, 'rgba(100,116,139,0.05)');
+            const renewGrad = ctx.createLinearGradient(0, 0, 0, 360);
+            renewGrad.addColorStop(0, 'rgba(45,212,191,0.5)');
+            renewGrad.addColorStop(1, 'rgba(45,212,191,0.05)');
+            const nucGrad = ctx.createLinearGradient(0, 0, 0, 360);
+            nucGrad.addColorStop(0, 'rgba(167,139,250,0.4)');
+            nucGrad.addColorStop(1, 'rgba(167,139,250,0.05)');
+
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: YEARS,
+                    datasets: [
+                        {
+                            label: 'Fossil Fuels (TWh)',
+                            data: fossilBase,
+                            borderColor: '#64748b',
+                            backgroundColor: fossilGrad,
+                            fill: true,
+                            tension: 0.35,
+                            borderWidth: 2,
+                            pointRadius: 3,
+                            pointBackgroundColor: '#64748b',
+                        },
+                        {
+                            label: 'Renewables (TWh)',
+                            data: renewBase,
+                            borderColor: '#2dd4bf',
+                            backgroundColor: renewGrad,
+                            fill: true,
+                            tension: 0.35,
+                            borderWidth: 2,
+                            pointRadius: 3,
+                            pointBackgroundColor: '#2dd4bf',
+                        },
+                        {
+                            label: 'Nuclear (TWh)',
+                            data: nuclearBase,
+                            borderColor: '#a78bfa',
+                            backgroundColor: nucGrad,
+                            fill: true,
+                            tension: 0.35,
+                            borderWidth: 2,
+                            pointRadius: 3,
+                            pointBackgroundColor: '#a78bfa',
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: { mode: 'index', intersect: false },
+                    scales: {
+                        x: {
+                            grid: { display: false },
+                            ticks: { font: { family: "'JetBrains Mono'", size: 11 } }
+                        },
+                        y: {
+                            stacked: false,
+                            title: { display: true, text: 'TWh', font: { size: 11 } },
+                            ticks: {
+                                font: { family: "'JetBrains Mono'", size: 11 },
+                                callback: v => (v / 1000).toFixed(0) + 'k'
+                            },
+                            grid: { color: 'rgba(255,255,255,0.03)' }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: ctx => `  ${ctx.dataset.label}: ${ctx.parsed.y.toLocaleString()} TWh`
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // ─── POPULATE TABLES ─────────────────────────────────────────────────
+        function populateTables() {
+            // Climate table
+            const climBody = document.querySelector('#tableClimate tbody');
+            YEARS.forEach((y, i) => {
+                climBody.innerHTML += `<tr><td>${y}</td><td>+${TEMP[i].toFixed(2)}</td><td>${CO2[i].toFixed(1)}</td></tr>`;
+            });
+
+            // Region table
+            const regBody = document.querySelector('#tableRegion tbody');
+            REGIONS.forEach((r, i) => {
+                regBody.innerHTML += `<tr><td>${r}</td><td>${RENEW_SHARE[i]}%</td></tr>`;
+            });
+
+            // Energy table
+            const enBody = document.querySelector('#tableEnergy tbody');
+            ENERGY_LABELS.forEach((l, i) => {
+                const pct = ((ENERGY_TWH[i] / ENERGY_TOTAL) * 100).toFixed(1);
+                enBody.innerHTML += `<tr><td>${l}</td><td>${ENERGY_TWH[i].toLocaleString()}</td><td>${pct}%</td></tr>`;
+            });
+
+            // Solar table
+            const solBody = document.querySelector('#tableSolar tbody');
+            SOLAR_COUNTRIES.forEach((c, i) => {
+                solBody.innerHTML += `<tr><td>${FLAG_EMOJI[c]} ${c}</td><td>${SOLAR_GW[i]}</td></tr>`;
+            });
+        }
+
+        // ─── SORTABLE TABLES ─────────────────────────────────────────────────
+        function enableSorting() {
+            document.querySelectorAll('.data-table').forEach(table => {
+                const headers = table.querySelectorAll('thead th');
+                let currentSort = { col: -1, asc: true };
+
+                headers.forEach(th => {
+                    th.addEventListener('click', () => {
+                        const col = parseInt(th.dataset.col);
+                        const asc = currentSort.col === col ? !currentSort.asc : true;
+                        currentSort = { col, asc };
+
+                        headers.forEach(h => h.classList.remove('sorted'));
+                        th.classList.add('sorted');
+                        th.querySelector('.sort-arrow').textContent = asc ? '▲' : '▼';
+
+                        const tbody = table.querySelector('tbody');
+                        const rows = Array.from(tbody.querySelectorAll('tr'));
+
+                        rows.sort((a, b) => {
+                            let aVal = a.children[col].textContent.replace(/[^0-9.\-]/g, '');
+                            let bVal = b.children[col].textContent.replace(/[^0-9.\-]/g, '');
+                            const aNum = parseFloat(aVal);
+                            const bNum = parseFloat(bVal);
+
+                            if (!isNaN(aNum) && !isNaN(bNum)) {
+                                return asc ? aNum - bNum : bNum - aNum;
+                            }
+                            aVal = a.children[col].textContent.trim();
+                            bVal = b.children[col].textContent.trim();
+                            return asc ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
+                        });
+
+                        rows.forEach(r => tbody.appendChild(r));
+                    });
+                });
+            });
+        }
+
+        // ─── KPI COUNTER ANIMATION ──────────────────────────────────────────
+        function animateCounters() {
+            document.querySelectorAll('.counter').forEach(el => {
+                const target = parseFloat(el.dataset.target);
+                const decimals = parseInt(el.dataset.decimals);
+                const duration = 1800;
+                const start = performance.now();
+
+                function update(now) {
+                    const elapsed = now - start;
+                    const progress = Math.min(elapsed / duration, 1);
+                    const eased = 1 - Math.pow(1 - progress, 4);
+                    const current = target * eased;
+                    el.textContent = current.toFixed(decimals);
+                    if (progress < 1) requestAnimationFrame(update);
+                }
+                requestAnimationFrame(update);
+            });
+        }
+
+        // ─── SCROLL REVEAL ───────────────────────────────────────────────────
+        function initScrollReveal() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-in');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.12 });
+
+            document.querySelectorAll('.chart-card, .data-table-section').forEach(el => observer.observe(el));
+        }
+
+        // ─── PDF EXPORT ──────────────────────────────────────────────────────
+        async function exportPDF() {
+            const btn = document.getElementById('exportBtn');
+            btn.classList.add('loading');
+
+            try {
+                const dashboard = document.getElementById('dashboard');
+                const canvas = await html2canvas(dashboard, {
+                    scale: 1.5,
+                    backgroundColor: '#0a0e17',
+                    useCORS: true,
+                    logging: false,
+                    windowWidth: 1440,
+                });
+
+                const { jsPDF } = window.jspdf;
+                const imgW = canvas.width;
+                const imgH = canvas.height;
+
+                const pdfW = 210; // A4 width mm
+                const pdfH = 297; // A4 height mm
+                const ratio = pdfW / imgW;
+                const scaledH = imgH * ratio;
+                const pageContentH = pdfH - 10; // 5mm margin top+bottom
+
+                const pdf = new jsPDF('p', 'mm', 'a4');
+                let position = 0;
+                let page = 0;
+
+                while (position < scaledH) {
+                    if (page > 0) pdf.addPage();
+
+                    const sourceY = position / ratio;
+                    const sliceH = Math.min(pageContentH / ratio, imgH - sourceY);
+
+                    const sliceCanvas = document.createElement('canvas');
+                    sliceCanvas.width = imgW;
+                    sliceCanvas.height = sliceH;
+                    const sliceCtx = sliceCanvas.getContext('2d');
+                    sliceCtx.drawImage(canvas, 0, sourceY, imgW, sliceH, 0, 0, imgW, sliceH);
+
+                    const sliceImg = sliceCanvas.toDataURL('image/jpeg', 0.92);
+                    const sliceHmm = sliceH * ratio;
+                    pdf.addImage(sliceImg, 'JPEG', 0, 5, pdfW, sliceHmm);
+
+                    position += pageContentH;
+                    page++;
+                }
+
+                pdf.save('climate-energy-dashboard.pdf');
+            } catch (err) {
+                console.error('PDF export failed:', err);
+                alert('PDF export encountered an error. Please try again.');
+            }
+
+            btn.classList.remove('loading');
+        }
+
+        // ─── INIT ────────────────────────────────────────────────────────────
+        document.addEventListener('DOMContentLoaded', () => {
+            createDualAxisChart();
+            createSolarBarChart();
+            createRadarChart();
+            createDoughnutChart();
+            createStackedAreaChart();
+            populateTables();
+            enableSorting();
+            animateCounters();
+            initScrollReveal();
+        });
+    </script>
+</body>
+
+</html>

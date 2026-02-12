@@ -15,17 +15,14 @@
     <div class="hero-orb hero-orb-2" style="width:250px;height:250px"></div>
     <div class="page-hero-content">
         <h1><span class="gradient-text">Les 100+ choses</span></h1>
-        <p>Explore, apprends et crée avec l'IA</p>
+        <p><strong>Explore, apprends et crée avec l'IA</strong></p>
+        <p>l'IA, ce n'est pas faire la même chose plus vite et plus facilement &mdash; c'est faire <strong>PLUS</strong> et <strong>MIEUX</strong> qu'avant.</p>
     </div>
 </section>
 
 <!-- ===== THE 100 THINGS ===== -->
 <section class="section" id="things" style="background:var(--bg-secondary)">
     <div class="container">
-        <div class="things-mantra reveal">
-            <p>Rappelle-toi : l'IA, ce n'est pas faire la même chose plus vite et plus facilement &mdash; c'est faire <strong>PLUS</strong> et <strong>MIEUX</strong> qu'avant.</p>
-        </div>
-
         <div class="search-bar reveal">
             <div class="search-icon">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
@@ -110,7 +107,7 @@
             const t = searchTerm.toLowerCase();
             const matchSearch = !t || (item.title + ' ' + item.subtitle + ' ' + item.description + ' ' + item.category).toLowerCase().includes(t);
             return matchCat && matchSearch;
-        });
+        }).sort((a, b) => a.id - b.id);
 
         document.getElementById('results-count').textContent = 'Affichage de ' + filtered.length + ' sur ' + ITEMS.length;
 
@@ -130,6 +127,9 @@
                         <h3 class="item-title">${escapeHtml(item.title)}</h3>
                         <p class="item-subtitle">${escapeHtml(item.subtitle)}</p>
                     </div>
+                    <button class="item-share-btn" data-share-id="${item.id}" data-share-title="${escapeHtml(item.title)}" data-share-subtitle="${escapeHtml(item.subtitle)}" data-share-desc="${escapeHtml(item.description)}" aria-label="Share" onclick="event.stopPropagation()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+                    </button>
                     <div class="item-chevron" id="chevron-${item.id}">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                     </div>
@@ -146,6 +146,8 @@
                         <button class="copy-btn" aria-label="Copy"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"></path></svg><span>Copier</span></button>
                     </div>
                     <div class="tip-box"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg> <strong>Personnalisez-le :</strong>&nbsp;${escapeHtml(item.promptTip)}</div>
+                    ${item.prompt2 ? '<div class="prompt-block prompt-block-alt" data-prompt="' + escapeHtml(item.prompt2) + '"><div class="prompt-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg> ' + escapeHtml(item.prompt2Label || 'Example Prompt with Sample Data') + '</div><pre><code>' + escapeHtml(item.prompt2) + '</code></pre><div class="prompt2-actions"><button class="copy-btn" aria-label="Copy"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"></path></svg><span>Copy</span></button>' + (item.prompt2Demos ? item.prompt2Demos.map(function(d){ return '<button class="preview-btn" data-preview-src="' + escapeHtml(d.src) + '" data-preview-title="' + escapeHtml(d.label + ' — ' + (item.prompt2Label || item.title)) + '"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg><span>' + escapeHtml(d.label) + '</span></button>';}).join('') : '') + '</div></div>' : ''}
+                    ${item.prompt3 ? '<div class="prompt-block prompt-block-alt" data-prompt="' + escapeHtml(item.prompt3) + '"><div class="prompt-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg> ' + escapeHtml(item.prompt3Label || 'Try It: Editable Dashboard') + '</div><pre><code>' + escapeHtml(item.prompt3) + '</code></pre><div class="prompt2-actions"><button class="copy-btn" aria-label="Copy"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"></path></svg><span>Copy</span></button>' + (item.prompt3Demos ? item.prompt3Demos.map(function(d){ return '<button class="preview-btn" data-preview-src="' + escapeHtml(d.src) + '" data-preview-title="' + escapeHtml(d.label + ' \u2014 ' + (item.prompt3Label || item.title)) + '"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg><span>' + escapeHtml(d.label) + '</span></button>';}).join('') : '') + '</div></div>' : ''}
                     ${examples ? '<div class="examples-section"><div class="examples-heading"><svg width="16" height="16" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg> Exemples</div>' + (examples[0] && examples[0].type==='game' && window.GAME_EXAMPLES_INTRO ? '<p class="examples-intro">' + escapeHtml(GAME_EXAMPLES_INTRO[document.documentElement.lang] || GAME_EXAMPLES_INTRO.en) + '</p>' : '') + '<div class="examples-grid">' + examples.map((ex,ei) => '<div class="example-card"><div class="example-card-preview">' + (ex.type==='static' ? '<div class="example-art">' + escapeHtml(ex.art) + '</div>' : ex.type==='game' ? '<div class="example-game-placeholder">' + (ex.heroImg ? '<img src="' + ex.heroImg + '" alt="' + escapeHtml(ex.title) + '">' : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"></rect><line x1="6" y1="12" x2="10" y2="12"></line><line x1="8" y1="10" x2="8" y2="14"></line><circle cx="17" cy="11" r="1"></circle><circle cx="15" cy="13" r="1"></circle></svg>') + '</div>' : '<div class="example-anim-placeholder"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>' + escapeHtml(ex.title) + '</div>') + '</div><div class="example-card-footer"><span class="example-card-title">' + escapeHtml(ex.title) + '</span>' + (ex.type==='game' ? '<div class="example-game-btns"><button class="example-play-btn" data-game-src="' + ex.gameSrc + '" data-game-title="' + escapeHtml(ex.title) + '">Jouer</button><button class="example-prompt-btn" data-prompt-src="' + ex.promptSrc + '" data-game-title="' + escapeHtml(ex.title) + '">Prompt</button><a class="example-dl-btn" href="' + ex.gameSrc + '" download>T\u00e9l\u00e9charger</a></div>' : '<button class="example-btn" data-item-idx="' + item.id + '" data-ex-idx="' + ei + '">' + (ex.type==='static' ? 'Voir' : 'Jouer') + '</button>') + '</div></div>').join('') + '</div></div>' : ''}
                     <div class="tools-list">
                         <span class="tools-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"></path></svg> Outils :</span>
@@ -160,6 +162,7 @@
         attachListeners();
     }
 
+
     function attachListeners() {
         document.querySelectorAll('.item-header').forEach(h => {
             h.addEventListener('click', () => toggleItem(parseInt(h.dataset.itemId)));
@@ -169,6 +172,18 @@
                 e.stopPropagation();
                 const block = btn.closest('.prompt-block');
                 copyPrompt(btn, block ? block.dataset.prompt : '');
+            });
+        });
+        if (window.shareInit) shareInit();
+        document.querySelectorAll('.preview-btn').forEach(btn => {
+            btn.addEventListener('click', e => {
+                e.stopPropagation();
+                var src = btn.dataset.previewSrc;
+                if (src.startsWith('http')) {
+                    window.open(src, 'preview', 'width=1200,height=800,menubar=no,toolbar=no,location=no,status=no');
+                } else {
+                    openGameModal(src, btn.dataset.previewTitle, 'game');
+                }
             });
         });
         document.querySelectorAll('.example-btn').forEach(btn => {
@@ -380,6 +395,21 @@
         }
 
         renderItems(currentCategory, currentSearch);
+        // Deep link: open specific item by ?id=N
+        var urlId = urlParams.get('id');
+        if (urlId) {
+            var nid = parseInt(urlId);
+            if (nid) {
+                setTimeout(function() {
+                    var card = document.querySelector('.item-card[data-id="' + nid + '"]');
+                    if (card) {
+                        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        toggleItem(nid);
+                    }
+                }, 300);
+            }
+        }
+
 
         // Override search modal to filter in-page on this page
         var modalInput = document.getElementById('search-modal-input');
@@ -408,6 +438,7 @@
     else init();
 })();
 </script>
+<script src="share.js"></script>
 
 </body>
 </html>

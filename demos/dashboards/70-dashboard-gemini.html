@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Climate & Energy Insights 2024</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&family=Oswald:wght@500&display=swap');
+
+        body {
+            background-color: #050a14;
+            color: #e2e8f0;
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        .header-font {
+            font-family: 'Oswald', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .glass-card {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            transition: transform 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            border-color: #00f2fe;
+        }
+
+        .gradient-text-temp {
+            background: linear-gradient(45deg, #f6d365 0%, #fda085 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .gradient-text-co2 {
+            background: linear-gradient(45deg, #4facfe 0%, #00f2fe 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Animation for Page Load */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-in {
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .spinner {
+            border: 3px solid rgba(255, 255, 255, .3);
+            border-radius: 50%;
+            border-top: 3px solid #fff;
+            width: 18px;
+            height: 18px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        th {
+            cursor: pointer;
+            background: #1e293b;
+            position: sticky;
+            top: 0;
+        }
+
+        th:hover {
+            background: #334155;
+        }
+
+        tr:nth-child(even) {
+            background: rgba(255, 255, 255, 0.03);
+        }
+    </style>
+</head>
+
+<body class="p-4 md:p-8">
+
+    <header id="dashboard-content"
+        class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-end mb-10 border-b border-slate-700 pb-6">
+        <div>
+            <h1 class="header-font text-4xl md:text-6xl font-bold mb-2">Climate <span class="text-teal-400">&</span>
+                Energy</h1>
+            <p class="text-slate-400 font-light italic">Global Status Report — Data Visualization 2024</p>
+        </div>
+        <button id="exportBtn" onclick="exportPDF()"
+            class="mt-4 md:mt-0 bg-teal-500 hover:bg-teal-400 text-slate-900 font-bold py-2 px-6 rounded-full transition-all flex items-center">
+            <span id="btnText">EXPORT PDF</span>
+        </button>
+    </header>
+
+    <main class="max-w-7xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="glass-card p-6 animate-in" style="animation-delay: 0.1s">
+                <p class="text-xs text-slate-400 uppercase font-bold mb-1">Temp Anomaly</p>
+                <h2 class="text-4xl font-bold gradient-text-temp">+1.29°C</h2>
+                <p class="text-xs mt-2 text-rose-400">↑ 0.12 from 2023</p>
+            </div>
+            <div class="glass-card p-6 animate-in" style="animation-delay: 0.2s">
+                <p class="text-xs text-slate-400 uppercase font-bold mb-1">CO2 Concentration</p>
+                <h2 class="text-4xl font-bold gradient-text-co2">423.8 <span class="text-lg">ppm</span></h2>
+                <p class="text-xs mt-2 text-sky-400">Record High</p>
+            </div>
+            <div class="glass-card p-6 animate-in" style="animation-delay: 0.3s">
+                <p class="text-xs text-slate-400 uppercase font-bold mb-1">Global Renewable Share</p>
+                <h2 class="text-4xl font-bold text-emerald-400">30%</h2>
+                <p class="text-xs mt-2 text-emerald-500">Excl. Traditional Biomass</p>
+            </div>
+            <div class="glass-card p-6 animate-in" style="animation-delay: 0.4s">
+                <p class="text-xs text-slate-400 uppercase font-bold mb-1">Solar Capacity</p>
+                <h2 class="text-4xl font-bold text-amber-400">1,237 <span class="text-lg">GW</span></h2>
+                <p class="text-xs mt-2 text-amber-500">Cumulative Global</p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+            <div class="glass-card p-6">
+                <h3 class="header-font text-xl mb-4">Temperature vs CO2 Levels</h3>
+                <canvas id="lineChart" height="250"></canvas>
+            </div>
+            <div class="glass-card p-6">
+                <h3 class="header-font text-xl mb-4">Top 10 Solar Capacity (GW)</h3>
+                <canvas id="barChart" height="250"></canvas>
+            </div>
+            <div class="glass-card p-6">
+                <h3 class="header-font text-xl mb-4">Renewable Share by Region (%)</h3>
+                <div class="max-w-[350px] mx-auto">
+                    <canvas id="radarChart"></canvas>
+                </div>
+            </div>
+            <div class="glass-card p-6">
+                <h3 class="header-font text-xl mb-4">Global Energy Mix (TWh)</h3>
+                <canvas id="doughnutChart" height="250"></canvas>
+            </div>
+            <div class="glass-card p-6 lg:col-span-2">
+                <h3 class="header-font text-xl mb-4">The Transition: Fossil vs Renewables Growth</h3>
+                <canvas id="areaChart" height="120"></canvas>
+            </div>
+        </div>
+
+        <section class="glass-card p-6 mb-12 overflow-x-auto">
+            <h3 class="header-font text-2xl mb-6 text-teal-400">Consolidated Raw Data</h3>
+            <table class="w-full text-left text-sm" id="dataTable">
+                <thead>
+                    <tr class="border-b border-slate-700">
+                        <th class="p-3" onclick="sortTable(0)">Category</th>
+                        <th class="p-3" onclick="sortTable(1)">Metric / Region</th>
+                        <th class="p-3" onclick="sortTable(2)">Value</th>
+                        <th class="p-3" onclick="sortTable(3)">Unit</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <script>
+        // --- DATA ---
+        const years = [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024];
+        const tempData = [0.87, 1.01, 0.92, 0.83, 0.98, 1.02, 0.85, 0.89, 1.17, 1.29];
+        const co2Data = [400.8, 404.2, 406.6, 408.5, 411.4, 414.2, 416.4, 418.6, 421.1, 423.8];
+
+        const solarCountries = ["China", "USA", "India", "Japan", "Germany", "Australia", "Spain", "Brazil", "S. Korea", "Netherlands"];
+        const solarGW = [610, 175, 120, 84, 75, 38, 32, 30, 28, 25];
+
+        const regions = ["Europe", "South America", "North America", "Asia", "Africa", "Oceania"];
+        const regionRenewable = [44, 61, 23, 18, 11, 32];
+
+        const energyLabels = ["Coal", "Gas", "Oil", "Nuclear", "Hydro", "Wind", "Solar", "Other"];
+        const energyValues = [10200, 6800, 850, 2780, 4300, 2400, 1900, 680];
+
+        // --- CHARTS ---
+        Chart.defaults.color = '#94a3b8';
+        Chart.defaults.font.family = 'Inter';
+
+        // 1. Line Chart
+        new Chart(document.getElementById('lineChart'), {
+            type: 'line',
+            data: {
+                labels: years,
+                datasets: [{
+                    label: 'Temp Anomaly (°C)',
+                    data: tempData,
+                    borderColor: '#fbbf24',
+                    backgroundColor: 'rgba(251, 191, 36, 0.1)',
+                    yAxisID: 'y',
+                    fill: true,
+                    tension: 0.4
+                }, {
+                    label: 'CO2 (ppm)',
+                    data: co2Data,
+                    borderColor: '#38bdf8',
+                    backgroundColor: 'rgba(56, 189, 248, 0.1)',
+                    yAxisID: 'y1',
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: { type: 'linear', position: 'left', title: { display: true, text: 'Celsius' } },
+                    y1: { type: 'linear', position: 'right', grid: { display: false }, title: { display: true, text: 'PPM' } }
+                }
+            }
+        });
+
+        // 2. Bar Chart
+        new Chart(document.getElementById('barChart'), {
+            type: 'bar',
+            data: {
+                labels: solarCountries,
+                datasets: [{
+                    label: 'GW Capacity',
+                    data: solarGW,
+                    backgroundColor: '#fb7185',
+                    borderRadius: 5
+                }]
+            },
+            options: { indexAxis: 'y', plugins: { legend: { display: false } } }
+        });
+
+        // 3. Radar Chart
+        new Chart(document.getElementById('radarChart'), {
+            type: 'radar',
+            data: {
+                labels: regions,
+                datasets: [{
+                    label: 'Renewable Share %',
+                    data: regionRenewable,
+                    backgroundColor: 'rgba(45, 212, 191, 0.2)',
+                    borderColor: '#2dd4bf',
+                    pointBackgroundColor: '#2dd4bf'
+                }]
+            },
+            options: { scales: { r: { angleLines: { color: '#334155' }, grid: { color: '#334155' }, pointLabels: { font: { size: 12 } } } } }
+        });
+
+        // 4. Doughnut Chart
+        new Chart(document.getElementById('doughnutChart'), {
+            type: 'doughnut',
+            data: {
+                labels: energyLabels,
+                datasets: [{
+                    data: energyValues,
+                    backgroundColor: ['#e11d48', '#f59e0b', '#d97706', '#7c3aed', '#0ea5e9', '#10b981', '#facc15', '#64748b'],
+                    borderWidth: 0,
+                    hoverOffset: 20
+                }]
+            },
+            options: { cutout: '70%', plugins: { legend: { position: 'right' } } }
+        });
+
+        // 5. Area Chart (Approximate decade growth)
+        new Chart(document.getElementById('areaChart'), {
+            type: 'line',
+            data: {
+                labels: years,
+                datasets: [
+                    { label: 'Fossil Fuels', data: [16500, 16800, 17100, 17500, 17600, 16900, 17400, 17600, 17800, 17850], fill: true, backgroundColor: 'rgba(71, 85, 105, 0.5)', borderColor: '#475569' },
+                    { label: 'Renewables', data: [5500, 5800, 6200, 6600, 7100, 7500, 8100, 8800, 9500, 10280], fill: true, backgroundColor: 'rgba(16, 185, 129, 0.5)', borderColor: '#10b981' }
+                ]
+            },
+            options: { scales: { y: { stacked: true } } }
+        });
+
+        // --- TABLE POPULATION ---
+        const tableData = [
+            ...years.map((y, i) => ({ cat: "Climate", item: `Year ${y} Temp`, val: tempData[i], unit: "°C" })),
+            ...regions.map((r, i) => ({ cat: "Renewables", item: r, val: regionRenewable[i], unit: "%" })),
+            ...energyLabels.map((e, i) => ({ cat: "Energy Source", item: e, val: energyValues[i], unit: "TWh" })),
+            ...solarCountries.map((c, i) => ({ cat: "Solar Capacity", item: c, val: solarGW[i], unit: "GW" }))
+        ];
+
+        const tbody = document.getElementById('tableBody');
+        tableData.forEach(row => {
+            tbody.innerHTML += `<tr><td class="p-3">${row.cat}</td><td class="p-3">${row.item}</td><td class="p-3 font-bold text-teal-300">${row.val}</td><td class="p-3">${row.unit}</td></tr>`;
+        });
+
+        function sortTable(n) {
+            var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+            table = document.getElementById("dataTable");
+            switching = true;
+            dir = "asc";
+            while (switching) {
+                switching = false;
+                rows = table.rows;
+                for (i = 1; i < (rows.length - 1); i++) {
+                    shouldSwitch = false;
+                    x = rows[i].getElementsByTagName("TD")[n];
+                    y = rows[i + 1].getElementsByTagName("TD")[n];
+                    let valX = isNaN(x.innerHTML) ? x.innerHTML.toLowerCase() : parseFloat(x.innerHTML);
+                    let valY = isNaN(y.innerHTML) ? y.innerHTML.toLowerCase() : parseFloat(y.innerHTML);
+                    if (dir == "asc") { if (valX > valY) { shouldSwitch = true; break; } }
+                    else if (dir == "desc") { if (valX < valY) { shouldSwitch = true; break; } }
+                }
+                if (shouldSwitch) {
+                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                    switching = true;
+                    switchcount++;
+                } else {
+                    if (switchcount == 0 && dir == "asc") { dir = "desc"; switching = true; }
+                }
+            }
+        }
+
+        // --- EXPORT PDF ---
+        async function exportPDF() {
+            const btn = document.getElementById('exportBtn');
+            const btnText = document.getElementById('btnText');
+            btn.disabled = true;
+            btnText.innerHTML = `<span class="spinner"></span> GENERATING...`;
+
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF('p', 'mm', 'a4');
+            const element = document.body;
+
+            await html2canvas(element, { scale: 2, backgroundColor: '#050a14' }).then(canvas => {
+                const imgData = canvas.toDataURL('image/png');
+                const imgProps = doc.getImageProperties(imgData);
+                const pdfWidth = doc.internal.pageSize.getWidth();
+                const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+                doc.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+                doc.save('climate-energy-dashboard.pdf');
+            });
+
+            btn.disabled = false;
+            btnText.innerHTML = "EXPORT PDF";
+        }
+    </script>
+</body>
+
+</html>

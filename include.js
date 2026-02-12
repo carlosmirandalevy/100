@@ -268,7 +268,7 @@
             '<p class="footer-mantra">&ldquo;' + S.mantra + '&rdquo;</p>' +
             '<a href="https://cemi.ai" target="_blank">' + S.visit + ' CEMI.AI &rarr;</a>' +
             '</div>' +
-            '<div class="footer-col"><h4>' + S.quickLinks + '</h4><ul class="footer-links">' +
+            '<div class="footer-col"><h4>' + S.quickLinks + '</h4><ul class="footer-links footer-links-2col">' +
             '<li><a href="' + ph('index') + '">' + S.home + '</a></li>' +
             '<li><a href="' + ph('toolkit') + '">' + S.skills + '</a></li>' +
             '<li><a href="' + ph('tools') + '">' + S.tools + '</a></li>' +
