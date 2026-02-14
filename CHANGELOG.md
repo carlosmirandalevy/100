@@ -1,5 +1,15 @@
 # Changelog
 
+## [2.4.0] - 2026-02-13
+
+### Added
+- Item 123: "Learn to Play an Instrument" with 4 example prompts, translated across all 8 languages
+- prompt4 rendering support added to all 8 things pages (Example 4 tab)
+
+### Fixed
+- Copy button now reads from `pre code` textContent instead of `data-prompt` attribute, fixing truncation when prompts contain double quotes
+- prompt4 TAB 2 replaced with brief structural description (matching prompt3 style) instead of pre-generated 6-month curriculum, across all 8 languages
+
 ## [2.3.1] - 2026-02-11
 
 ### Fixed
