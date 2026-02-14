@@ -1,0 +1,1578 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guitar Learning Planner — CemiMusic</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Literata:ital,opsz,wght@0,7..72,300;0,7..72,400;0,7..72,500;0,7..72,600;1,7..72,400&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+:root {
+  --wood-dark: #8B6914;
+  --wood-gold: #D4A843;
+  --cream: #FFF8E7;
+  --brown-deep: #3E2723;
+  --amber: #FF8F00;
+  --amber-light: #FFB74D;
+  --wood-light: #F5E6C8;
+  --wood-medium: #C49A3A;
+  --bg: var(--cream);
+  --bg-card: #FFFFFF;
+  --bg-card-alt: #FFFDF5;
+  --text: #3E2723;
+  --text-muted: #795548;
+  --text-light: #A1887F;
+  --border: #E8D5B0;
+  --border-light: #F0E4CC;
+  --shadow: rgba(62,39,35,0.08);
+  --shadow-md: rgba(62,39,35,0.12);
+  --tab-active: var(--amber);
+  --tab-hover: var(--wood-gold);
+  --accent-gradient: linear-gradient(135deg, var(--amber), var(--wood-gold));
+  --radius: 12px;
+  --radius-sm: 8px;
+  --radius-lg: 16px;
+  --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-theme="dark"] {
+  --bg: #1A1209;
+  --bg-card: #2C1E0F;
+  --bg-card-alt: #342414;
+  --text: #F5E6C8;
+  --text-muted: #C4A882;
+  --text-light: #8D7460;
+  --border: #4A3520;
+  --border-light: #3A2A18;
+  --shadow: rgba(0,0,0,0.3);
+  --shadow-md: rgba(0,0,0,0.4);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Literata', Georgia, serif;
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--text);
+  background: var(--bg);
+  min-height: 100vh;
+  transition: background var(--transition), color var(--transition);
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--brown-deep);
+}
+[data-theme="dark"] h1, [data-theme="dark"] h2, [data-theme="dark"] h3, [data-theme="dark"] h4 {
+  color: var(--wood-gold);
+}
+
+/* ═══════ HEADER ═══════ */
+.app-header {
+  background: linear-gradient(135deg, var(--brown-deep) 0%, #5D3A1A 50%, var(--brown-deep) 100%);
+  color: var(--cream);
+  padding: 28px 24px 18px;
+  position: relative;
+  overflow: hidden;
+}
+.app-header::before {
+  content: '';
+  position: absolute;
+  top: -30%;
+  right: -5%;
+  width: 320px;
+  height: 320px;
+  opacity: 0.06;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 200'%3E%3Cellipse cx='50' cy='140' rx='30' ry='42' fill='none' stroke='%23FFF8E7' stroke-width='1.5'/%3E%3Cellipse cx='50' cy='70' rx='22' ry='32' fill='none' stroke='%23FFF8E7' stroke-width='1.5'/%3E%3Cline x1='50' y1='28' x2='50' y2='5' stroke='%23FFF8E7' stroke-width='2'/%3E%3Cline x1='20' y1='140' x2='80' y2='140' stroke='%23FFF8E7' stroke-width='1'/%3E%3Ccircle cx='42' cy='5' r='2' fill='%23FFF8E7'/%3E%3Ccircle cx='50' cy='3' r='2' fill='%23FFF8E7'/%3E%3Ccircle cx='58' cy='5' r='2' fill='%23FFF8E7'/%3E%3C/svg%3E") no-repeat center;
+  background-size: contain;
+  pointer-events: none;
+}
+.header-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  z-index: 1;
+}
+.header-title-group { display: flex; align-items: center; gap: 14px; }
+.guitar-icon {
+  width: 44px; height: 44px;
+  background: var(--amber);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px;
+  box-shadow: 0 2px 12px rgba(255,143,0,0.3);
+}
+.app-header h1 {
+  font-size: 1.65rem;
+  color: var(--cream);
+  letter-spacing: -0.01em;
+}
+.app-header .subtitle {
+  font-family: 'Literata', serif;
+  font-size: 0.82rem;
+  color: var(--wood-gold);
+  font-weight: 400;
+  margin-top: 2px;
+  letter-spacing: 0.02em;
+}
+.header-controls { display: flex; align-items: center; gap: 10px; }
+.theme-toggle {
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.15);
+  color: var(--cream);
+  border-radius: 50%;
+  width: 38px; height: 38px;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex; align-items: center; justify-content: center;
+  transition: all var(--transition);
+}
+.theme-toggle:hover { background: rgba(255,255,255,0.2); }
+.io-btn {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.18);
+  color: var(--cream);
+  padding: 7px 14px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-family: 'Literata', serif;
+  font-size: 0.78rem;
+  transition: all var(--transition);
+  display: flex; align-items: center; gap: 5px;
+}
+.io-btn:hover { background: rgba(255,255,255,0.2); }
+
+/* ═══════ TABS ═══════ */
+.tab-bar {
+  background: var(--bg-card);
+  border-bottom: 2px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 8px var(--shadow);
+}
+.tab-bar-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  gap: 0;
+}
+.tab-btn {
+  flex: 1;
+  padding: 14px 12px;
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  font-family: 'Literata', serif;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all var(--transition);
+  text-align: center;
+  position: relative;
+}
+.tab-btn:hover { color: var(--text); background: rgba(212,168,67,0.06); }
+.tab-btn.active {
+  color: var(--amber);
+  border-bottom-color: var(--amber);
+  font-weight: 600;
+}
+.tab-btn .tab-icon { margin-right: 6px; font-size: 1em; }
+
+/* ═══════ MAIN CONTENT ═══════ */
+.main-content {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px 16px 60px;
+}
+.tab-panel { display: none; animation: fadeIn 0.35s ease; }
+.tab-panel.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+/* ═══════ CARDS ═══════ */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 4px var(--shadow);
+  transition: background var(--transition), border var(--transition);
+}
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-light);
+}
+.card-header h2 { font-size: 1.2rem; }
+.card-header h3 { font-size: 1.05rem; }
+.card-icon {
+  width: 34px; height: 34px;
+  background: var(--accent-gradient);
+  border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+/* ═══════ FORM ELEMENTS ═══════ */
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 640px) { .form-grid { grid-template-columns: 1fr; } }
+.form-group { display: flex; flex-direction: column; gap: 5px; }
+.form-group label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.form-group input, .form-group select, .form-group textarea {
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-family: 'Literata', serif;
+  font-size: 0.92rem;
+  color: var(--text);
+  background: var(--bg-card-alt);
+  transition: border var(--transition), box-shadow var(--transition);
+}
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+  outline: none;
+  border-color: var(--amber);
+  box-shadow: 0 0 0 3px rgba(255,143,0,0.12);
+}
+.form-group textarea { resize: vertical; min-height: 70px; }
+
+/* Sliders */
+.slider-group { margin-bottom: 14px; }
+.slider-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.82rem;
+  margin-bottom: 6px;
+}
+.slider-label span:first-child { font-weight: 500; color: var(--text); }
+.slider-label span:last-child { font-weight: 600; color: var(--amber); }
+input[type="range"] {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--border);
+  outline: none;
+  transition: background var(--transition);
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: var(--amber);
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+}
+input[type="range"]::-moz-range-thumb {
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: var(--amber);
+  cursor: pointer;
+  border: none;
+}
+
+/* Checkboxes */
+.day-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+  margin-top: 8px;
+}
+.day-check {
+  display: flex; flex-direction: column;
+  align-items: center; gap: 5px;
+}
+.day-check label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+.day-check input[type="checkbox"] {
+  width: 22px; height: 22px;
+  accent-color: var(--amber);
+  cursor: pointer;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-family: 'Literata', serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.btn-primary {
+  background: var(--accent-gradient);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(255,143,0,0.25);
+}
+.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(255,143,0,0.35); }
+.btn-secondary {
+  background: var(--bg-card-alt);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+.btn-secondary:hover { background: var(--border-light); }
+.btn-sm { padding: 7px 14px; font-size: 0.8rem; }
+.btn-group { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+
+/* ═══════ TAB 2: LEARNING PLAN ═══════ */
+.plan-actions {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.month-section { margin-bottom: 6px; }
+.month-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 18px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all var(--transition);
+  user-select: none;
+}
+.month-header:hover { background: var(--bg-card-alt); border-color: var(--wood-gold); }
+.month-header.expanded { border-radius: var(--radius) var(--radius) 0 0; border-bottom-color: transparent; }
+.month-number {
+  background: var(--accent-gradient);
+  color: #fff;
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  flex-shrink: 0;
+}
+.month-header h3 { flex: 1; font-size: 1.05rem; margin: 0; }
+.month-chevron {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  transition: transform 0.3s ease;
+}
+.month-header.expanded .month-chevron { transform: rotate(180deg); }
+.month-content {
+  display: none;
+  padding: 18px 20px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-top: none;
+  border-radius: 0 0 var(--radius) var(--radius);
+}
+.month-content.expanded { display: block; animation: slideDown 0.3s ease; }
+@keyframes slideDown { from { opacity: 0; max-height: 0; } to { opacity: 1; max-height: 2000px; } }
+
+.week-block { margin-bottom: 16px; }
+.week-block h4 {
+  font-family: 'Playfair Display', serif;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--amber);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.week-block h4::before {
+  content: '♪';
+  font-size: 0.8em;
+  opacity: 0.6;
+}
+.week-block p, .week-block ul {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+.week-block ul { padding-left: 18px; margin-top: 4px; }
+.week-block li { margin-bottom: 3px; }
+.month-songs {
+  margin-top: 12px;
+  padding: 12px 16px;
+  background: rgba(255,143,0,0.05);
+  border-left: 3px solid var(--amber);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+.month-songs strong { color: var(--text); }
+
+/* ═══════ PRACTICE STRUCTURE & TABLES ═══════ */
+.practice-structure {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 10px;
+  margin: 14px 0;
+}
+.ps-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 14px;
+  background: var(--bg-card-alt);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+}
+.ps-time {
+  font-weight: 700;
+  color: var(--amber);
+  font-size: 1rem;
+  min-width: 42px;
+}
+.ps-desc {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+.plan-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+  margin: 12px 0;
+}
+.plan-table th {
+  background: var(--brown-deep);
+  color: var(--cream);
+  padding: 10px 12px;
+  text-align: left;
+  font-family: 'Playfair Display', serif;
+  font-weight: 600;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.plan-table td {
+  padding: 9px 12px;
+  border-bottom: 1px solid var(--border-light);
+  vertical-align: top;
+}
+.plan-table tr:nth-child(even) td { background: var(--bg-card-alt); }
+.plan-table tr.highlight td { background: rgba(255,143,0,0.08); font-weight: 500; }
+[data-theme="dark"] .plan-table th { background: #4A3520; }
+
+/* Requirements grid */
+.req-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 14px 0; }
+@media (max-width: 640px) { .req-grid { grid-template-columns: 1fr; } }
+.req-card {
+  padding: 14px 16px;
+  background: var(--bg-card-alt);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+}
+.req-card h4 {
+  font-family: 'Playfair Display', serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--wood-dark);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+[data-theme="dark"] .req-card h4 { color: var(--wood-gold); }
+.req-card p, .req-card li { font-size: 0.82rem; color: var(--text-muted); line-height: 1.55; }
+.req-card ul { padding-left: 16px; margin-top: 4px; }
+
+/* Fun facts */
+.fun-facts { counter-reset: fact; }
+.fun-fact {
+  counter-increment: fact;
+  display: flex;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border-light);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+.fun-fact:last-child { border-bottom: none; }
+.fun-fact::before {
+  content: counter(fact);
+  background: var(--accent-gradient);
+  color: #fff;
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.72rem;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* ═══════ TAB 3: DASHBOARD ═══════ */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+@media (max-width: 768px) { .dashboard-grid { grid-template-columns: 1fr; } }
+.chart-container {
+  position: relative;
+  width: 100%;
+  max-height: 320px;
+}
+.chart-container canvas { width: 100% !important; }
+.stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
+@media (max-width: 640px) { .stat-row { grid-template-columns: 1fr; } }
+.stat-card {
+  text-align: center;
+  padding: 18px 14px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius);
+  box-shadow: 0 1px 4px var(--shadow);
+}
+.stat-number {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--amber);
+  line-height: 1;
+}
+.stat-label {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.milestone-box {
+  padding: 16px 20px;
+  background: linear-gradient(135deg, rgba(255,143,0,0.08), rgba(212,168,67,0.08));
+  border: 1px solid var(--amber);
+  border-radius: var(--radius);
+  margin-bottom: 20px;
+}
+.milestone-box h4 { font-size: 0.9rem; margin-bottom: 4px; }
+.milestone-box p { font-size: 0.88rem; color: var(--text-muted); }
+.motivation-box {
+  padding: 20px 24px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius);
+  text-align: center;
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+.motivation-box::before {
+  content: '🎸';
+  display: block;
+  font-size: 2rem;
+  font-style: normal;
+  margin-bottom: 8px;
+}
+
+/* Practice log */
+.log-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 12px;
+}
+.log-row input {
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-family: 'Literata', serif;
+  font-size: 0.88rem;
+  width: 100px;
+  background: var(--bg-card-alt);
+  color: var(--text);
+}
+.log-row input:focus { outline: none; border-color: var(--amber); }
+
+/* ═══════ DIVIDER ═══════ */
+.note-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 28px 0 20px;
+  color: var(--text-light);
+  font-size: 0.75rem;
+}
+.note-divider::before, .note-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+.note-divider span { white-space: nowrap; }
+
+/* ═══════ PRINT ═══════ */
+@media print {
+  .app-header, .tab-bar, .plan-actions, .btn, .theme-toggle, .io-btn, .header-controls { display: none !important; }
+  .tab-panel { display: block !important; }
+  .tab-panel:not(#tab-plan) { display: none !important; }
+  .month-content { display: block !important; }
+  .month-header { border-radius: var(--radius) !important; }
+  body { font-size: 11pt; color: #000; background: #fff; }
+  .card { box-shadow: none; border: 1px solid #ddd; break-inside: avoid; }
+}
+
+/* ═══════ TOAST ═══════ */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  padding: 12px 20px;
+  background: var(--brown-deep);
+  color: var(--cream);
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  z-index: 1000;
+  animation: toastIn 0.3s ease, toastOut 0.3s ease 2.7s forwards;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+}
+@keyframes toastIn { from { transform: translateY(20px); opacity: 0; } }
+@keyframes toastOut { to { transform: translateY(20px); opacity: 0; } }
+
+/* ═══════ RESPONSIVE ═══════ */
+@media (max-width: 640px) {
+  .app-header h1 { font-size: 1.25rem; }
+  .header-inner { flex-wrap: wrap; gap: 10px; }
+  .tab-btn { font-size: 0.78rem; padding: 10px 6px; }
+  .plan-actions { flex-direction: column; }
+  .day-grid { grid-template-columns: repeat(7, 1fr); gap: 4px; }
+  .stat-row { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════ HEADER ═══════════════ -->
+<header class="app-header">
+  <div class="header-inner">
+    <div class="header-title-group">
+      <div class="guitar-icon">🎸</div>
+      <div>
+        <h1>Guitar Learning Planner</h1>
+        <div class="subtitle">CemiMusic — Your Personalized Path to Playing</div>
+      </div>
+    </div>
+    <div class="header-controls">
+      <button class="io-btn" onclick="exportData()" title="Export all data">📤 Export</button>
+      <button class="io-btn" onclick="document.getElementById('importFile').click()" title="Import data">📥 Import</button>
+      <input type="file" id="importFile" accept=".cemimusic" style="display:none" onchange="importData(event)">
+      <button class="theme-toggle" onclick="toggleTheme()" title="Toggle dark/light mode" id="themeBtn">🌙</button>
+    </div>
+  </div>
+</header>
+
+<!-- ═══════════════ TABS ═══════════════ -->
+<nav class="tab-bar">
+  <div class="tab-bar-inner">
+    <button class="tab-btn active" data-tab="tab-profile"><span class="tab-icon">👤</span> My Profile</button>
+    <button class="tab-btn" data-tab="tab-plan"><span class="tab-icon">📖</span> Learning Plan</button>
+    <button class="tab-btn" data-tab="tab-dashboard"><span class="tab-icon">📊</span> Dashboard</button>
+  </div>
+</nav>
+
+<!-- ═══════════════ MAIN CONTENT ═══════════════ -->
+<main class="main-content">
+
+<!-- ═══════ TAB 1: PROFILE ═══════ -->
+<section id="tab-profile" class="tab-panel active">
+  <div class="card">
+    <div class="card-header"><div class="card-icon">🎵</div><h2>Student Profile</h2></div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Student Name</label>
+        <input type="text" id="studentName" value="Guitar Student">
+      </div>
+      <div class="form-group">
+        <label>Instrument</label>
+        <input type="text" id="instrument" value="Acoustic Guitar" readonly>
+      </div>
+      <div class="form-group">
+        <label>Experience Level</label>
+        <select id="level">
+          <option selected>Complete Beginner</option>
+          <option>Some Experience</option>
+          <option>Intermediate</option>
+          <option>Advanced</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Start Date</label>
+        <input type="date" id="startDate">
+      </div>
+    </div>
+    <div class="form-group" style="margin-top: 16px;">
+      <label>Musical Goal</label>
+      <textarea id="goal">Play songs around a campfire, learn popular acoustic songs, eventually fingerpick</textarea>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-icon">📅</div><h3>Practice Schedule</h3></div>
+    <div class="slider-group">
+      <div class="slider-label"><span>Hours per Week</span><span id="hoursDisplay">4.0</span></div>
+      <input type="range" id="hoursSlider" min="1" max="20" step="0.5" value="4" oninput="updateHoursDisplay()">
+    </div>
+    <div style="margin-top:12px">
+      <label style="font-size:0.8rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.04em;">Practice Days</label>
+      <div class="day-grid">
+        <div class="day-check"><label>Mon</label><input type="checkbox" class="dayCheck" checked></div>
+        <div class="day-check"><label>Tue</label><input type="checkbox" class="dayCheck" checked></div>
+        <div class="day-check"><label>Wed</label><input type="checkbox" class="dayCheck" checked></div>
+        <div class="day-check"><label>Thu</label><input type="checkbox" class="dayCheck" checked></div>
+        <div class="day-check"><label>Fri</label><input type="checkbox" class="dayCheck" checked></div>
+        <div class="day-check"><label>Sat</label><input type="checkbox" class="dayCheck" checked></div>
+        <div class="day-check"><label>Sun</label><input type="checkbox" class="dayCheck"></div>
+      </div>
+    </div>
+    <p style="margin-top:12px;font-size:0.82rem;color:var(--text-muted);">
+      Daily session: <strong id="dailyMinutes">~40 min</strong> across <strong id="daysCount">6</strong> practice days
+    </p>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-icon">📈</div><h3>Current Progress</h3></div>
+    <div id="progressSliders">
+      <div class="slider-group"><div class="slider-label"><span>Technique</span><span class="prog-val">0%</span></div><input type="range" class="progressRange" data-skill="technique" min="0" max="100" value="0"></div>
+      <div class="slider-group"><div class="slider-label"><span>Music Theory</span><span class="prog-val">0%</span></div><input type="range" class="progressRange" data-skill="theory" min="0" max="100" value="0"></div>
+      <div class="slider-group"><div class="slider-label"><span>Ear Training</span><span class="prog-val">0%</span></div><input type="range" class="progressRange" data-skill="earTraining" min="0" max="100" value="0"></div>
+      <div class="slider-group"><div class="slider-label"><span>Repertoire</span><span class="prog-val">0%</span></div><input type="range" class="progressRange" data-skill="repertoire" min="0" max="100" value="0"></div>
+      <div class="slider-group"><div class="slider-label"><span>Performance Confidence</span><span class="prog-val">0%</span></div><input type="range" class="progressRange" data-skill="confidence" min="0" max="100" value="0"></div>
+    </div>
+  </div>
+
+  <div style="text-align:center; margin-top: 8px;">
+    <button class="btn btn-primary" onclick="updatePlan()">🔄 Update Plan</button>
+  </div>
+</section>
+
+<!-- ═══════ TAB 2: LEARNING PLAN ═══════ -->
+<section id="tab-plan" class="tab-panel">
+  <div class="plan-actions">
+    <button class="btn btn-secondary btn-sm" onclick="window.print()">🖨️ Print Plan</button>
+    <button class="btn btn-secondary btn-sm" onclick="exportMarkdown()">📝 Export Markdown</button>
+    <button class="btn btn-secondary btn-sm" onclick="exportWord()">📄 Export Word</button>
+    <button class="btn btn-secondary btn-sm" onclick="exportPDF()">📑 Export PDF</button>
+  </div>
+
+  <div id="planContent">
+    <!-- Month 1 -->
+    <div class="month-section">
+      <div class="month-header" onclick="toggleMonth(this)">
+        <div class="month-number">1</div>
+        <h3>Month 1 — Foundations</h3>
+        <span class="month-chevron">▼</span>
+      </div>
+      <div class="month-content">
+        <div class="week-block"><h4>Week 1 — Getting Started</h4><p>Guitar anatomy (headstock, tuners, nut, frets, body, sound hole, bridge, strings). Proper holding position — sitting and standing. Tuning with a clip-on tuner or the GuitarTuna app. Right-hand strumming on open strings to develop rhythm feel.</p></div>
+        <div class="week-block"><h4>Week 2 — First Chords: Em &amp; Am</h4><p>Learn your first two chords — Em and Am. Focus on clean fretting, proper finger placement (fingertips, not pads), and switching between Em and Am smoothly. Simple down-strum pattern: 4 beats per bar.</p></div>
+        <div class="week-block"><h4>Week 3 — Adding G &amp; Your First Song</h4><p>Add the G chord. Practice Em → Am → G transitions until they feel natural. Introduction to 4/4 time signature. New strumming pattern: Down-Down-Up. Mini-song: "Horse With No Name" (Em–D6/9 — only two shapes!).</p></div>
+        <div class="week-block"><h4>Week 4 — The C Chord &amp; Month Review</h4><p>Add the C chord to your toolkit. Practice all 4 chords: Em, Am, G, C in sequence. <strong>Monthly checkpoint:</strong> Play Em–Am–G–C progression smoothly at 60 BPM.</p></div>
+        <div class="month-songs">🎵 <strong>Songs this month:</strong> "Horse With No Name" (America), "Leaving on a Jet Plane" (John Denver) — simplified versions</div>
+      </div>
+    </div>
+
+    <!-- Month 2 -->
+    <div class="month-section">
+      <div class="month-header" onclick="toggleMonth(this)">
+        <div class="month-number">2</div>
+        <h3>Month 2 — Building Confidence</h3>
+        <span class="month-chevron">▼</span>
+      </div>
+      <div class="month-content">
+        <div class="week-block"><h4>Week 5 — The D Chord &amp; New Strumming</h4><p>Add the D chord. Master C→G→D transitions. New strumming pattern: D-DU-UDU (the crowd-pleaser pattern). First full song: "Knockin' on Heaven's Door" (G–D–Am, G–D–C).</p></div>
+        <div class="week-block"><h4>Week 6 — Reading Charts &amp; Dexterity</h4><p>Reading chord charts and song sheets — understanding symbols and notation. Practice "Let It Be" (C–G–Am–Fmaj7). Finger dexterity exercises: spider walk, 1-2-3-4 chromatic exercise across all frets.</p></div>
+        <div class="week-block"><h4>Week 7 — The E Chord &amp; Musical Keys</h4><p>Add the E major chord. Introduction to the concept of musical keys. Practice transitioning between all 7 chords learned so far. Song: learn the iconic "Wish You Were Here" intro riff.</p></div>
+        <div class="week-block"><h4>Week 8 — Review &amp; Consolidation</h4><p>Review month: play through 3–4 complete songs with a metronome. Focus on consistency, timing, and smooth transitions. <strong>Monthly checkpoint:</strong> 2 songs start-to-finish without stopping.</p></div>
+        <div class="month-songs">🎵 <strong>Songs this month:</strong> "Knockin' on Heaven's Door" (Bob Dylan), "Let It Be" (Beatles), "Wish You Were Here" (Pink Floyd)</div>
+      </div>
+    </div>
+
+    <!-- Month 3 -->
+    <div class="month-section">
+      <div class="month-header" onclick="toggleMonth(this)">
+        <div class="month-number">3</div>
+        <h3>Month 3 — Expanding Skills</h3>
+        <span class="month-chevron">▼</span>
+      </div>
+      <div class="month-content">
+        <div class="week-block"><h4>Week 9 — Introduction to Fingerpicking</h4><p>Thumb-index-middle pattern (Travis picking basics). Practice fingerpicking through Am, C, and G chords. This opens up a whole new dimension of guitar playing — patience is key!</p></div>
+        <div class="week-block"><h4>Week 10 — New Chords: A &amp; Dm</h4><p>Add the A major and Dm chords. Explore minor vs. major tonality — hear the emotional difference. Song: simplified "Dust in the Wind" fingerpicking arrangement.</p></div>
+        <div class="week-block"><h4>Week 11 — The Capo: A Game-Changer</h4><p>Introduction to the capo — how it works and why it's your best friend. Play songs in new keys instantly. Match songs to your vocal range by moving the capo up the neck.</p></div>
+        <div class="week-block"><h4>Week 12 — Basic Theory &amp; Month Review</h4><p>Note names on strings 5 and 6. What chord names actually mean. The number system (I–IV–V). <strong>Monthly checkpoint:</strong> fingerpick one song, strum two songs confidently.</p></div>
+        <div class="month-songs">🎵 <strong>Songs this month:</strong> "Dust in the Wind" (Kansas) — simplified, "Hallelujah" (Leonard Cohen) — with capo</div>
+      </div>
+    </div>
+
+    <!-- Month 4 -->
+    <div class="month-section">
+      <div class="month-header" onclick="toggleMonth(this)">
+        <div class="month-number">4</div>
+        <h3>Month 4 — Intermediate Foundations</h3>
+        <span class="month-chevron">▼</span>
+      </div>
+      <div class="month-content">
+        <div class="week-block"><h4>Week 13 — The Dreaded F Chord</h4><p>Start with Fmaj7 as a stepping stone, then progress to the mini-barre F. Daily barre chord exercise (just 2 minutes per session). The F chord is every guitarist's rite of passage — you'll get it!</p></div>
+        <div class="week-block"><h4>Week 14 — Power Chords &amp; Palm Muting</h4><p>Power chords: E5, A5, D5 — the rock &amp; punk foundations. Palm muting technique for percussive rhythm. Play a rock song using power chords to feel the energy.</p></div>
+        <div class="week-block"><h4>Week 15 — Advanced Strumming</h4><p>Eighth-note strumming patterns. Introduction to syncopation — accenting the "ands." Song: "Wonderwall" with its proper, iconic strumming pattern.</p></div>
+        <div class="week-block"><h4>Week 16 — Build Your Setlist</h4><p>Compile a personal setlist of 8–10 songs. <strong>Monthly checkpoint:</strong> perform your top 3 songs for someone, or record yourself. Compare to your Week 1 self — you'll be amazed.</p></div>
+        <div class="month-songs">🎵 <strong>Songs this month:</strong> "Wonderwall" (Oasis), "Good Riddance" (Green Day), "Have You Ever Seen the Rain" (CCR)</div>
+      </div>
+    </div>
+
+    <!-- Month 5 -->
+    <div class="month-section">
+      <div class="month-header" onclick="toggleMonth(this)">
+        <div class="month-number">5</div>
+        <h3>Month 5 — Style &amp; Expression</h3>
+        <span class="month-chevron">▼</span>
+      </div>
+      <div class="month-content">
+        <div class="week-block"><h4>Week 17 — Hammer-Ons &amp; Pull-Offs</h4><p>Learn hammer-on and pull-off techniques. Embellish your chord playing with these ornaments — they add life and style to everything you play.</p></div>
+        <div class="week-block"><h4>Week 18 — The Pentatonic Scale &amp; Blues</h4><p>Minor pentatonic scale — position 1 (the "box shape"). Basic 12-bar blues improvisation over a backing track. This is where you start making your own music!</p></div>
+        <div class="week-block"><h4>Week 19 — Strumming Style Variety</h4><p>Explore different strumming styles: folk, pop, reggae, and country patterns. Apply each style to songs you already know — same chords, totally different feel.</p></div>
+        <div class="week-block"><h4>Week 20 — Singing While Playing</h4><p>The ultimate campfire skill: singing while playing. Start with simple strumming + vocals. <strong>Monthly checkpoint:</strong> play 2 songs while singing, basic blues solo over a backing track.</p></div>
+        <div class="month-songs">🎵 <strong>Songs this month:</strong> "Redemption Song" (Bob Marley), "Hey Joe" intro (Jimi Hendrix)</div>
+      </div>
+    </div>
+
+    <!-- Month 6 -->
+    <div class="month-section">
+      <div class="month-header" onclick="toggleMonth(this)">
+        <div class="month-number">6</div>
+        <h3>Month 6 — Putting It All Together</h3>
+        <span class="month-chevron">▼</span>
+      </div>
+      <div class="month-content">
+        <div class="week-block"><h4>Week 21 — Barre Chord Mastery</h4><p>Full barre chords: F, Bm, B. Practice open-to-barre transitions in real songs. Your hand strength and muscle memory are ready for this now.</p></div>
+        <div class="week-block"><h4>Week 22 — Advanced Fingerpicking</h4><p>Arpeggios and alternating bass patterns. Song: "Blackbird" (Beatles) or "Stairway to Heaven" intro (Led Zeppelin) — fingerpicking masterpieces.</p></div>
+        <div class="week-block"><h4>Week 23 — Performance Preparation</h4><p>Build your ultimate performance setlist. Practice performing: recovering gracefully from mistakes, smooth song transitions, and stage presence (even in your living room).</p></div>
+        <div class="week-block"><h4>Week 24 — Celebrate &amp; Look Ahead</h4><p>Record your 5 best songs. Compare to your Week 1 recording — the transformation will be incredible. Plan your next 6 months. <strong>Monthly checkpoint:</strong> 15-minute mini-concert for family or friends. 🎉</p></div>
+        <div class="month-songs">🎵 <strong>Songs this month:</strong> "Blackbird" (Beatles), "Stairway to Heaven" intro (Led Zeppelin)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Practice Session Structure -->
+  <div class="note-divider"><span>♪ ♫ ♪</span></div>
+  <div class="card">
+    <div class="card-header"><div class="card-icon">⏱️</div><h3>Practice Session Structure (35 min)</h3></div>
+    <div class="practice-structure">
+      <div class="ps-item"><span class="ps-time">3 min</span><span class="ps-desc">Warm-up — finger stretches, chromatic exercise</span></div>
+      <div class="ps-item"><span class="ps-time">5 min</span><span class="ps-desc">Technique drill — chord transitions, scale, or fingerpicking</span></div>
+      <div class="ps-item"><span class="ps-time">12 min</span><span class="ps-desc">New material — new song section, chord, or technique</span></div>
+      <div class="ps-item"><span class="ps-time">12 min</span><span class="ps-desc">Repertoire review — play known songs, polish weak spots</span></div>
+      <div class="ps-item"><span class="ps-time">3 min</span><span class="ps-desc">Free play — play what you love, experiment, have fun!</span></div>
+    </div>
+  </div>
+
+  <!-- Commitment/Results Table -->
+  <div class="card">
+    <div class="card-header"><div class="card-icon">📊</div><h3>Commitment vs. Results</h3></div>
+    <div style="overflow-x:auto">
+    <table class="plan-table">
+      <thead><tr><th>Hours/Week</th><th>1 Month</th><th>3 Months</th><th>6 Months</th><th>1 Year</th><th>2 Years</th></tr></thead>
+      <tbody>
+        <tr><td><strong>1–2</strong></td><td>Em, Am chords</td><td>4–5 chords, 1 simple song</td><td>8 chords, 3–5 songs</td><td>Barre chords starting, 10 songs</td><td>Confident rhythm player</td></tr>
+        <tr class="highlight"><td><strong>3–5</strong></td><td>5 open chords, basic strumming</td><td>Smooth changes, 3–4 songs, basic fingerpicking</td><td>Full songs + singing, barre intro, theory basics</td><td>Barre chords solid, fingerpicking, 20+ songs</td><td>Intermediate, some lead</td></tr>
+        <tr><td><strong>5–10</strong></td><td>All open chords, 2–3 patterns</td><td>Fluid transitions, 6–8 songs, theory, fingerpicking</td><td>Barre chords, capo, 10+ songs, improv basics</td><td>Lead basics, multiple styles, performing</td><td>Advanced intermediate</td></tr>
+        <tr><td><strong>10+</strong></td><td>Open + some barre, 2–3 songs</td><td>Confident playing, scales, 10+ songs</td><td>Intermediate level, improv, multiple genres</td><td>Advanced techniques, theory fluency, songwriting</td><td>Near-advanced player</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p style="font-size:0.82rem;color:var(--text-muted);margin-top:10px;"><strong>Your plan (highlighted):</strong> At 4 hours per week, you're in the sweet spot for steady, meaningful progress. You'll be strumming full songs with confidence by month 3.</p>
+  </div>
+
+  <!-- Requirements -->
+  <div class="card">
+    <div class="card-header"><div class="card-icon">🛒</div><h3>What You'll Need</h3></div>
+    <div class="req-grid">
+      <div class="req-card">
+        <h4>🎸 Guitar Options</h4>
+        <ul>
+          <li><strong>Budget ($80–120):</strong> Yamaha FG800</li>
+          <li><strong>Mid-range ($200–400):</strong> Taylor Academy 10, Yamaha FG830</li>
+          <li><strong>Quality ($500+):</strong> Taylor 114ce, Martin D-15M</li>
+        </ul>
+      </div>
+      <div class="req-card">
+        <h4>🎯 Essential Accessories</h4>
+        <ul>
+          <li>Clip-on tuner ($10)</li>
+          <li>Extra strings ($6)</li>
+          <li>Pick variety pack ($4)</li>
+          <li>Strap ($10) &amp; Capo ($10)</li>
+        </ul>
+      </div>
+      <div class="req-card">
+        <h4>💡 Helpful Extras</h4>
+        <ul>
+          <li>Guitar stand ($15)</li>
+          <li>Metronome app (free)</li>
+          <li>Finger exerciser ($10)</li>
+          <li>Music stand ($20)</li>
+        </ul>
+      </div>
+      <div class="req-card">
+        <h4>📱 Recommended Apps</h4>
+        <ul>
+          <li><strong>GuitarTuna</strong> — tuner</li>
+          <li><strong>Justin Guitar</strong> — lessons</li>
+          <li><strong>Ultimate Guitar</strong> — tabs/chords</li>
+          <li><strong>Songsterr</strong> — interactive tabs</li>
+          <li><strong>Metronome Beats</strong> — timing</li>
+        </ul>
+      </div>
+    </div>
+    <p style="font-size:0.82rem;color:var(--text-muted);margin-top:8px;">🏠 <strong>Practice space:</strong> A quiet room, a chair without armrests, guitar on a stand (not in its case!), and good lighting. Keep the guitar visible and accessible — out of sight means out of mind.</p>
+  </div>
+
+  <!-- Fun Facts -->
+  <div class="card">
+    <div class="card-header"><div class="card-icon">✨</div><h3>10 Fun Guitar Facts</h3></div>
+    <div class="fun-facts">
+      <div class="fun-fact">The guitar's ancestors date back over 4,000 years to ancient Babylon.</div>
+      <div class="fun-fact">The world's largest playable guitar is 43 feet long, built in Texas.</div>
+      <div class="fun-fact">Jimi Hendrix played a right-handed guitar flipped upside down — he was left-handed.</div>
+      <div class="fun-fact">The most expensive guitar ever sold: Kurt Cobain's Martin D-18E for $6 million (2020).</div>
+      <div class="fun-fact">About 50 million people worldwide play guitar — the most popular instrument on Earth.</div>
+      <div class="fun-fact">It takes roughly 100 hours of playing to build permanent calluses.</div>
+      <div class="fun-fact">Guitar frets use the 12th root of 2 (math!) to create perfect musical intervals.</div>
+      <div class="fun-fact">Playing guitar activates both brain hemispheres simultaneously.</div>
+      <div class="fun-fact">The word "guitar" comes from the Greek "kithara" via Spanish "guitarra."</div>
+      <div class="fun-fact">You only need 4 chords (G, Em, C, D) to play hundreds of popular songs.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ TAB 3: DASHBOARD ═══════ -->
+<section id="tab-dashboard" class="tab-panel">
+  <!-- Stats -->
+  <div class="stat-row">
+    <div class="stat-card"><div class="stat-number" id="daysSinceStart">0</div><div class="stat-label">Days Since Start</div></div>
+    <div class="stat-card"><div class="stat-number" id="totalHours">0</div><div class="stat-label">Total Hours Logged</div></div>
+    <div class="stat-card"><div class="stat-number" id="currentLevel">Absolute Beginner</div><div class="stat-label">Current Level</div></div>
+  </div>
+
+  <!-- Milestone -->
+  <div class="milestone-box">
+    <h4>🎯 Next Milestone</h4>
+    <p id="nextMilestone">Learn your first chord (Em) — Week 1</p>
+  </div>
+
+  <!-- Motivation -->
+  <div class="motivation-box" id="motivationMsg">
+    Every guitarist started exactly where you are. Pick up your guitar and play your first note today!
+  </div>
+
+  <!-- Charts -->
+  <div class="dashboard-grid">
+    <div class="card">
+      <div class="card-header"><div class="card-icon">🎯</div><h3>Skill Levels</h3></div>
+      <div class="chart-container"><canvas id="radarChart"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-icon">📈</div><h3>Projected Progress</h3></div>
+      <div class="chart-container"><canvas id="lineChart"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-icon">⏱️</div><h3>Weekly Practice Log</h3></div>
+      <div class="chart-container"><canvas id="barChart"></canvas></div>
+      <div class="log-row">
+        <span style="font-size:0.82rem;color:var(--text-muted);">Log this week's hours:</span>
+        <input type="number" id="logHours" min="0" max="40" step="0.25" value="0" placeholder="hrs">
+        <button class="btn btn-primary btn-sm" onclick="logPractice()">Log</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-icon">🍩</div><h3>Time Allocation</h3></div>
+      <div class="chart-container"><canvas id="doughnutChart"></canvas></div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<script>
+// ═══════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════
+const today = new Date().toISOString().split('T')[0];
+document.getElementById('startDate').value = today;
+
+let practiceLog = {};
+let weeklyLog = [0, 0, 0, 0, 0, 0, 0, 0];
+let charts = {};
+
+// ═══════════════════════════════════════════
+// TABS
+// ═══════════════════════════════════════════
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.tab).classList.add('active');
+    if (btn.dataset.tab === 'tab-dashboard') updateDashboard();
+  });
+});
+
+// ═══════════════════════════════════════════
+// THEME
+// ═══════════════════════════════════════════
+function toggleTheme() {
+  const html = document.documentElement;
+  const isDark = html.getAttribute('data-theme') === 'dark';
+  html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  document.getElementById('themeBtn').textContent = isDark ? '🌙' : '☀️';
+  updateChartColors();
+}
+
+// ═══════════════════════════════════════════
+// PROFILE HELPERS
+// ═══════════════════════════════════════════
+function updateHoursDisplay() {
+  const v = parseFloat(document.getElementById('hoursSlider').value);
+  document.getElementById('hoursDisplay').textContent = v.toFixed(1);
+  updateDailyMinutes();
+}
+
+function updateDailyMinutes() {
+  const hours = parseFloat(document.getElementById('hoursSlider').value);
+  const days = document.querySelectorAll('.dayCheck:checked').length;
+  document.getElementById('daysCount').textContent = days;
+  if (days > 0) {
+    const mins = Math.round((hours * 60) / days);
+    document.getElementById('dailyMinutes').textContent = `~${mins} min`;
+  } else {
+    document.getElementById('dailyMinutes').textContent = '—';
+  }
+}
+
+document.querySelectorAll('.dayCheck').forEach(cb => cb.addEventListener('change', updateDailyMinutes));
+
+document.querySelectorAll('.progressRange').forEach(slider => {
+  slider.addEventListener('input', () => {
+    slider.closest('.slider-group').querySelector('.prog-val').textContent = slider.value + '%';
+  });
+});
+
+// ═══════════════════════════════════════════
+// COLLAPSIBLE MONTHS
+// ═══════════════════════════════════════════
+function toggleMonth(header) {
+  const content = header.nextElementSibling;
+  const isExpanded = header.classList.contains('expanded');
+  header.classList.toggle('expanded');
+  content.classList.toggle('expanded');
+}
+
+// ═══════════════════════════════════════════
+// UPDATE PLAN (adjusts based on settings)
+// ═══════════════════════════════════════════
+function updatePlan() {
+  updateDashboard();
+  showToast('Plan updated with your current settings!');
+  // Switch to plan tab
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelector('[data-tab="tab-plan"]').classList.add('active');
+  document.getElementById('tab-plan').classList.add('active');
+}
+
+// ═══════════════════════════════════════════
+// DASHBOARD
+// ═══════════════════════════════════════════
+function getProgress() {
+  const sliders = document.querySelectorAll('.progressRange');
+  return {
+    technique: parseInt(sliders[0].value),
+    theory: parseInt(sliders[1].value),
+    earTraining: parseInt(sliders[2].value),
+    repertoire: parseInt(sliders[3].value),
+    confidence: parseInt(sliders[4].value)
+  };
+}
+
+function getDaysSinceStart() {
+  const start = new Date(document.getElementById('startDate').value);
+  const now = new Date();
+  return Math.max(0, Math.floor((now - start) / (1000 * 60 * 60 * 24)));
+}
+
+function getLevelLabel(progress) {
+  const avg = (progress.technique + progress.theory + progress.earTraining + progress.repertoire + progress.confidence) / 5;
+  if (avg < 5) return 'Absolute Beginner';
+  if (avg < 15) return 'Beginner';
+  if (avg < 30) return 'Early Intermediate';
+  if (avg < 50) return 'Intermediate';
+  if (avg < 70) return 'Upper Intermediate';
+  if (avg < 85) return 'Advanced';
+  return 'Expert';
+}
+
+function getChartTextColor() {
+  return document.documentElement.getAttribute('data-theme') === 'dark' ? '#C4A882' : '#795548';
+}
+function getChartGridColor() {
+  return document.documentElement.getAttribute('data-theme') === 'dark' ? 'rgba(196,168,130,0.15)' : 'rgba(121,85,72,0.1)';
+}
+
+function updateDashboard() {
+  const progress = getProgress();
+  const days = getDaysSinceStart();
+  const totalH = weeklyLog.reduce((a, b) => a + b, 0);
+
+  document.getElementById('daysSinceStart').textContent = days;
+  document.getElementById('totalHours').textContent = totalH.toFixed(1);
+  document.getElementById('currentLevel').textContent = getLevelLabel(progress);
+  document.getElementById('currentLevel').style.fontSize = '1.1rem';
+
+  renderCharts(progress);
+}
+
+function renderCharts(progress) {
+  const textColor = getChartTextColor();
+  const gridColor = getChartGridColor();
+
+  // Radar
+  if (charts.radar) charts.radar.destroy();
+  charts.radar = new Chart(document.getElementById('radarChart'), {
+    type: 'radar',
+    data: {
+      labels: ['Technique', 'Theory', 'Ear Training', 'Repertoire', 'Confidence'],
+      datasets: [{
+        label: 'Current Level',
+        data: [progress.technique, progress.theory, progress.earTraining, progress.repertoire, progress.confidence],
+        backgroundColor: 'rgba(255,143,0,0.15)',
+        borderColor: '#FF8F00',
+        borderWidth: 2,
+        pointBackgroundColor: '#FF8F00',
+        pointRadius: 4
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      scales: {
+        r: {
+          beginAtZero: true, max: 100,
+          ticks: { stepSize: 20, color: textColor, backdropColor: 'transparent', font: { size: 10 } },
+          grid: { color: gridColor },
+          angleLines: { color: gridColor },
+          pointLabels: { color: textColor, font: { size: 11, family: "'Literata', serif" } }
+        }
+      },
+      plugins: { legend: { display: false } }
+    }
+  });
+
+  // Line — projected progress
+  const hrs = parseFloat(document.getElementById('hoursSlider').value);
+  const months = Array.from({length: 25}, (_, i) => i);
+  const projected = months.map(m => {
+    const base = Math.min(100, 100 * (1 - Math.exp(-0.08 * m * (hrs / 4))));
+    return Math.round(base);
+  });
+  if (charts.line) charts.line.destroy();
+  charts.line = new Chart(document.getElementById('lineChart'), {
+    type: 'line',
+    data: {
+      labels: months.map(m => m === 0 ? 'Start' : `M${m}`),
+      datasets: [{
+        label: 'Projected Skill %',
+        data: projected,
+        borderColor: '#FF8F00',
+        backgroundColor: 'rgba(255,143,0,0.08)',
+        fill: true,
+        tension: 0.4,
+        pointRadius: 0,
+        pointHoverRadius: 5,
+        borderWidth: 2.5
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      scales: {
+        x: { ticks: { color: textColor, font: { size: 9 }, maxTicksLimit: 13 }, grid: { color: gridColor } },
+        y: { beginAtZero: true, max: 100, ticks: { color: textColor, callback: v => v + '%' }, grid: { color: gridColor } }
+      },
+      plugins: { legend: { display: false } }
+    }
+  });
+
+  // Bar — weekly practice
+  if (charts.bar) charts.bar.destroy();
+  const weekLabels = weeklyLog.map((_, i) => `Wk ${i + 1}`);
+  const target = parseFloat(document.getElementById('hoursSlider').value);
+  charts.bar = new Chart(document.getElementById('barChart'), {
+    type: 'bar',
+    data: {
+      labels: weekLabels,
+      datasets: [
+        { label: 'Target', data: weekLabels.map(() => target), backgroundColor: 'rgba(212,168,67,0.25)', borderColor: '#D4A843', borderWidth: 1, borderRadius: 4 },
+        { label: 'Actual', data: weeklyLog, backgroundColor: 'rgba(255,143,0,0.7)', borderColor: '#FF8F00', borderWidth: 1, borderRadius: 4 }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      scales: {
+        x: { ticks: { color: textColor, font: { size: 10 } }, grid: { display: false } },
+        y: { beginAtZero: true, ticks: { color: textColor, callback: v => v + 'h' }, grid: { color: gridColor } }
+      },
+      plugins: { legend: { labels: { color: textColor, font: { size: 11, family: "'Literata', serif" } } } }
+    }
+  });
+
+  // Doughnut
+  if (charts.doughnut) charts.doughnut.destroy();
+  charts.doughnut = new Chart(document.getElementById('doughnutChart'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Technique (25%)', 'Repertoire (35%)', 'Theory (15%)', 'Ear Training (15%)', 'Free Play (10%)'],
+      datasets: [{
+        data: [25, 35, 15, 15, 10],
+        backgroundColor: ['#FF8F00', '#D4A843', '#8B6914', '#C49A3A', '#FFB74D'],
+        borderWidth: 2,
+        borderColor: document.documentElement.getAttribute('data-theme') === 'dark' ? '#2C1E0F' : '#FFFFFF'
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      cutout: '55%',
+      plugins: {
+        legend: { position: 'bottom', labels: { color: textColor, font: { size: 11, family: "'Literata', serif" }, padding: 12 } }
+      }
+    }
+  });
+}
+
+function updateChartColors() {
+  const progress = getProgress();
+  renderCharts(progress);
+}
+
+function logPractice() {
+  const hours = parseFloat(document.getElementById('logHours').value) || 0;
+  if (hours <= 0) return;
+  weeklyLog.push(hours);
+  if (weeklyLog.length > 8) weeklyLog.shift();
+  document.getElementById('logHours').value = 0;
+  updateDashboard();
+  showToast(`Logged ${hours} hours — keep it up! 🎸`);
+}
+
+// ═══════════════════════════════════════════
+// EXPORTS
+// ═══════════════════════════════════════════
+function getState() {
+  const days = Array.from(document.querySelectorAll('.dayCheck')).map(cb => cb.checked);
+  const progress = getProgress();
+  return {
+    version: "1.0",
+    app: "CemiMusicPlanner",
+    exportDate: new Date().toISOString(),
+    profile: {
+      name: document.getElementById('studentName').value,
+      instrument: document.getElementById('instrument').value,
+      level: document.getElementById('level').value,
+      hoursPerWeek: parseFloat(document.getElementById('hoursSlider').value),
+      startDate: document.getElementById('startDate').value,
+      goal: document.getElementById('goal').value
+    },
+    progress,
+    calendar: { practiceDays: days, practiceLog: weeklyLog },
+    customNotes: ""
+  };
+}
+
+function exportData() {
+  const data = getState();
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  downloadBlob(blob, 'guitar-learning-plan.cemimusic');
+  showToast('Data exported successfully!');
+}
+
+function importData(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    try {
+      const data = JSON.parse(e.target.result);
+      if (!data.app || data.app !== 'CemiMusicPlanner') throw new Error('Invalid file format');
+      // Restore profile
+      document.getElementById('studentName').value = data.profile.name || 'Guitar Student';
+      document.getElementById('level').value = data.profile.level || 'Complete Beginner';
+      document.getElementById('hoursSlider').value = data.profile.hoursPerWeek || 4;
+      document.getElementById('startDate').value = data.profile.startDate || today;
+      document.getElementById('goal').value = data.profile.goal || '';
+      updateHoursDisplay();
+      // Restore days
+      if (data.calendar && data.calendar.practiceDays) {
+        document.querySelectorAll('.dayCheck').forEach((cb, i) => { cb.checked = data.calendar.practiceDays[i] ?? false; });
+      }
+      // Restore progress
+      if (data.progress) {
+        const sliders = document.querySelectorAll('.progressRange');
+        const vals = [data.progress.technique, data.progress.theory, data.progress.earTraining, data.progress.repertoire, data.progress.confidence];
+        sliders.forEach((s, i) => { s.value = vals[i] || 0; s.closest('.slider-group').querySelector('.prog-val').textContent = (vals[i] || 0) + '%'; });
+      }
+      // Restore practice log
+      if (data.calendar && data.calendar.practiceLog && Array.isArray(data.calendar.practiceLog)) {
+        weeklyLog = data.calendar.practiceLog;
+      }
+      updateDailyMinutes();
+      updateDashboard();
+      showToast('Data imported successfully! ✅');
+    } catch (err) {
+      showToast('⚠️ Invalid .cemimusic file. Please check the file format.');
+    }
+  };
+  reader.readAsText(file);
+  event.target.value = '';
+}
+
+// ═══════════════════════════════════════════
+// MARKDOWN EXPORT
+// ═══════════════════════════════════════════
+function exportMarkdown() {
+  const s = getState();
+  let md = `# 🎸 Guitar Learning Plan\n\n`;
+  md += `**Student:** ${s.profile.name}  \n**Instrument:** ${s.profile.instrument}  \n**Level:** ${s.profile.level}  \n**Hours/Week:** ${s.profile.hoursPerWeek}  \n**Start Date:** ${s.profile.startDate}  \n**Goal:** ${s.profile.goal}\n\n---\n\n`;
+
+  const months = getPlanData();
+  months.forEach(m => {
+    md += `## ${m.title}\n\n`;
+    m.weeks.forEach(w => { md += `### ${w.title}\n${w.content}\n\n`; });
+    md += `**Songs:** ${m.songs}\n\n---\n\n`;
+  });
+
+  md += getPracticeStructureMD();
+  md += getCommitmentTableMD();
+  md += getRequirementsMD();
+  md += getFunFactsMD();
+
+  const blob = new Blob([md], { type: 'text/markdown' });
+  downloadBlob(blob, 'guitar-learning-plan.md');
+  showToast('Markdown exported!');
+}
+
+// ═══════════════════════════════════════════
+// WORD EXPORT (simple HTML-based .doc)
+// ═══════════════════════════════════════════
+function exportWord() {
+  const s = getState();
+  let html = `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word"><head><meta charset="utf-8"><style>body{font-family:Cambria,serif;font-size:11pt;color:#3E2723;line-height:1.6}h1{font-size:22pt;color:#8B6914}h2{font-size:16pt;color:#3E2723;border-bottom:2px solid #D4A843;padding-bottom:4pt}h3{font-size:13pt;color:#FF8F00}h4{font-size:11pt;color:#8B6914}table{border-collapse:collapse;width:100%}th{background:#3E2723;color:#FFF8E7;padding:6pt 8pt;text-align:left;font-size:9pt}td{padding:5pt 8pt;border-bottom:1pt solid #E8D5B0;font-size:10pt}</style></head><body>`;
+  html += `<h1>🎸 Guitar Learning Plan</h1>`;
+  html += `<p><b>Student:</b> ${s.profile.name} | <b>Instrument:</b> ${s.profile.instrument} | <b>Level:</b> ${s.profile.level}<br><b>Hours/Week:</b> ${s.profile.hoursPerWeek} | <b>Start:</b> ${s.profile.startDate}<br><b>Goal:</b> ${s.profile.goal}</p><hr>`;
+
+  const months = getPlanData();
+  months.forEach(m => {
+    html += `<h2>${m.title}</h2>`;
+    m.weeks.forEach(w => { html += `<h3>${w.title}</h3><p>${w.content}</p>`; });
+    html += `<p style="background:#FFF3E0;padding:8pt;border-left:3pt solid #FF8F00"><b>Songs:</b> ${m.songs}</p>`;
+  });
+
+  html += `<h2>Practice Session Structure (35 min)</h2><p>3 min warm-up → 5 min technique → 12 min new material → 12 min repertoire review → 3 min free play</p>`;
+  html += `</body></html>`;
+
+  const blob = new Blob([html], { type: 'application/msword' });
+  downloadBlob(blob, 'guitar-learning-plan.doc');
+  showToast('Word document exported!');
+}
+
+// ═══════════════════════════════════════════
+// PDF EXPORT
+// ═══════════════════════════════════════════
+function exportPDF() {
+  showToast('Generating PDF...');
+  const planEl = document.getElementById('tab-plan');
+
+  // Temporarily expand all months and show panel
+  const wasActive = planEl.classList.contains('active');
+  planEl.style.display = 'block';
+  const headers = planEl.querySelectorAll('.month-header');
+  const contents = planEl.querySelectorAll('.month-content');
+  const prevStates = [];
+  headers.forEach((h, i) => {
+    prevStates.push(h.classList.contains('expanded'));
+    h.classList.add('expanded');
+    contents[i].classList.add('expanded');
+  });
+
+  setTimeout(() => {
+    html2canvas(planEl, { scale: 1.5, useCORS: true, backgroundColor: document.documentElement.getAttribute('data-theme') === 'dark' ? '#1A1209' : '#FFF8E7' }).then(canvas => {
+      const { jsPDF } = window.jspdf;
+      const imgData = canvas.toDataURL('image/jpeg', 0.92);
+      const imgW = canvas.width;
+      const imgH = canvas.height;
+      const pdfW = 210;
+      const pdfH = (imgH * pdfW) / imgW;
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      let position = 0;
+      const pageH = 297;
+
+      while (position < pdfH) {
+        if (position > 0) pdf.addPage();
+        pdf.addImage(imgData, 'JPEG', 0, -position, pdfW, pdfH);
+        position += pageH;
+      }
+
+      pdf.save('guitar-learning-plan.pdf');
+      showToast('PDF exported!');
+
+      // Restore states
+      headers.forEach((h, i) => {
+        if (!prevStates[i]) { h.classList.remove('expanded'); contents[i].classList.remove('expanded'); }
+      });
+      if (!wasActive) planEl.style.display = '';
+    });
+  }, 300);
+}
+
+// ═══════════════════════════════════════════
+// PLAN DATA HELPERS
+// ═══════════════════════════════════════════
+function getPlanData() {
+  return [
+    { title: 'Month 1 — Foundations', weeks: [
+      { title: 'Week 1 — Getting Started', content: 'Guitar anatomy, holding position, tuning with clip-on tuner or GuitarTuna app, right-hand strumming on open strings.' },
+      { title: 'Week 2 — First Chords: Em & Am', content: 'Clean fretting, finger placement, switching between Em and Am. Simple down-strum pattern (4 beats per bar).' },
+      { title: 'Week 3 — Adding G & Your First Song', content: 'Em to Am to G transitions. Intro to 4/4 time. Down-Down-Up strumming. Mini-song: "Horse With No Name."' },
+      { title: 'Week 4 — The C Chord & Month Review', content: 'Practice all 4 chords: Em, Am, G, C. Checkpoint: play progression smoothly at 60 BPM.' }
+    ], songs: '"Horse With No Name" (America), "Leaving on a Jet Plane" (John Denver)' },
+    { title: 'Month 2 — Building Confidence', weeks: [
+      { title: 'Week 5 — The D Chord & New Strumming', content: 'C-G-D transitions. D-DU-UDU strumming. Song: "Knockin\' on Heaven\'s Door."' },
+      { title: 'Week 6 — Reading Charts & Dexterity', content: 'Chord charts, song sheets. "Let It Be." Spider walk, chromatic exercises.' },
+      { title: 'Week 7 — The E Chord & Musical Keys', content: 'E major chord. Concept of musical keys. "Wish You Were Here" intro riff.' },
+      { title: 'Week 8 — Review & Consolidation', content: 'Play 3-4 songs with metronome. Checkpoint: 2 songs start-to-finish without stopping.' }
+    ], songs: '"Knockin\' on Heaven\'s Door" (Bob Dylan), "Let It Be" (Beatles), "Wish You Were Here" (Pink Floyd)' },
+    { title: 'Month 3 — Expanding Skills', weeks: [
+      { title: 'Week 9 — Introduction to Fingerpicking', content: 'Thumb-index-middle pattern (Travis picking). Fingerpick through Am, C, G.' },
+      { title: 'Week 10 — New Chords: A & Dm', content: 'Minor vs. major tonality. Simplified "Dust in the Wind" fingerpicking.' },
+      { title: 'Week 11 — The Capo: A Game-Changer', content: 'How capo works. Play songs in new keys. Match songs to vocal range.' },
+      { title: 'Week 12 — Basic Theory & Month Review', content: 'Note names on strings 5-6, chord names, number system (I-IV-V). Checkpoint: fingerpick one song, strum two confidently.' }
+    ], songs: '"Dust in the Wind" (Kansas), "Hallelujah" (Leonard Cohen)' },
+    { title: 'Month 4 — Intermediate Foundations', weeks: [
+      { title: 'Week 13 — The Dreaded F Chord', content: 'Fmaj7 stepping stone, mini-barre F. Daily barre exercise (2 min).' },
+      { title: 'Week 14 — Power Chords & Palm Muting', content: 'E5, A5, D5. Palm muting. Play a rock song with power chords.' },
+      { title: 'Week 15 — Advanced Strumming', content: 'Eighth-note strumming. Syncopation. "Wonderwall" proper strumming pattern.' },
+      { title: 'Week 16 — Build Your Setlist', content: 'Personal setlist of 8-10 songs. Checkpoint: perform top 3, or record yourself.' }
+    ], songs: '"Wonderwall" (Oasis), "Good Riddance" (Green Day), "Have You Ever Seen the Rain" (CCR)' },
+    { title: 'Month 5 — Style & Expression', weeks: [
+      { title: 'Week 17 — Hammer-Ons & Pull-Offs', content: 'Embellishing chords with ornaments. Hammer-ons and pull-offs technique.' },
+      { title: 'Week 18 — Pentatonic Scale & Blues', content: 'Minor pentatonic position 1. 12-bar blues improv over backing track.' },
+      { title: 'Week 19 — Strumming Style Variety', content: 'Folk, pop, reggae, country patterns. Apply different feels to known songs.' },
+      { title: 'Week 20 — Singing While Playing', content: 'Start with simple strumming + vocals. Checkpoint: 2 songs singing, basic blues solo.' }
+    ], songs: '"Redemption Song" (Bob Marley), "Hey Joe" intro (Jimi Hendrix)' },
+    { title: 'Month 6 — Putting It All Together', weeks: [
+      { title: 'Week 21 — Barre Chord Mastery', content: 'Full F, Bm, B. Open-to-barre transitions in real songs.' },
+      { title: 'Week 22 — Advanced Fingerpicking', content: 'Arpeggios, alternating bass. "Blackbird" or "Stairway to Heaven" intro.' },
+      { title: 'Week 23 — Performance Preparation', content: 'Ultimate setlist. Recovery from mistakes, transitions, stage presence.' },
+      { title: 'Week 24 — Celebrate & Look Ahead', content: 'Record 5 best songs. Compare to Week 1. Checkpoint: 15-min mini-concert.' }
+    ], songs: '"Blackbird" (Beatles), "Stairway to Heaven" intro (Led Zeppelin)' }
+  ];
+}
+
+function getPracticeStructureMD() {
+  return `## Practice Session Structure (35 min)\n\n| Time | Activity |\n|---|---|\n| 3 min | Warm-up — finger stretches, chromatic exercise |\n| 5 min | Technique drill — chord transitions, scale, or fingerpicking |\n| 12 min | New material — new song section, chord, or technique |\n| 12 min | Repertoire review — play known songs, polish weak spots |\n| 3 min | Free play — play what you love, experiment, have fun |\n\n`;
+}
+
+function getCommitmentTableMD() {
+  return `## Commitment vs. Results\n\n| Hours/Week | 1 Month | 3 Months | 6 Months | 1 Year | 2 Years |\n|---|---|---|---|---|---|\n| 1-2 | Em, Am chords | 4-5 chords, 1 song | 8 chords, 3-5 songs | Barre starting, 10 songs | Confident rhythm player |\n| **3-5** | **5 open chords** | **Smooth changes, 3-4 songs** | **Full songs + singing** | **Barre solid, 20+ songs** | **Intermediate** |\n| 5-10 | All open chords | 6-8 songs, theory | Barre, capo, 10+ songs | Lead basics, performing | Advanced intermediate |\n| 10+ | Open + barre | 10+ songs, scales | Intermediate, improv | Theory fluency, songwriting | Near-advanced |\n\n`;
+}
+
+function getRequirementsMD() {
+  return `## What You'll Need\n\n### Guitar Options\n- **Budget ($80-120):** Yamaha FG800\n- **Mid ($200-400):** Taylor Academy 10, Yamaha FG830\n- **Quality ($500+):** Taylor 114ce, Martin D-15M\n\n### Essential Accessories\n- Clip-on tuner ($10), Extra strings ($6), Pick variety pack ($4), Strap ($10), Capo ($10)\n\n### Apps\n- GuitarTuna, Justin Guitar, Ultimate Guitar, Songsterr, Metronome Beats\n\n`;
+}
+
+function getFunFactsMD() {
+  let md = `## 10 Fun Guitar Facts\n\n`;
+  const facts = [
+    "The guitar's ancestors date back over 4,000 years to ancient Babylon.",
+    "The world's largest playable guitar is 43 feet long, built in Texas.",
+    "Jimi Hendrix played a right-handed guitar flipped upside down.",
+    "Kurt Cobain's Martin D-18E sold for $6 million in 2020.",
+    "About 50 million people worldwide play guitar.",
+    "It takes roughly 100 hours to build permanent calluses.",
+    "Guitar frets use the 12th root of 2 to create musical intervals.",
+    "Playing guitar activates both brain hemispheres.",
+    "The word 'guitar' comes from Greek 'kithara' via Spanish 'guitarra.'",
+    "You only need 4 chords (G, Em, C, D) to play hundreds of songs."
+  ];
+  facts.forEach((f, i) => { md += `${i + 1}. ${f}\n`; });
+  return md;
+}
+
+// ═══════════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════════
+function downloadBlob(blob, filename) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function showToast(msg) {
+  const existing = document.querySelector('.toast');
+  if (existing) existing.remove();
+  const toast = document.createElement('div');
+  toast.className = 'toast';
+  toast.textContent = msg;
+  document.body.appendChild(toast);
+  setTimeout(() => toast.remove(), 3200);
+}
+
+// ═══════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════
+updateHoursDisplay();
+updateDailyMinutes();
+// Expand Month 1 by default
+const firstHeader = document.querySelector('.month-header');
+if (firstHeader) { firstHeader.classList.add('expanded'); firstHeader.nextElementSibling.classList.add('expanded'); }
+
+// Init charts when dashboard tab is first shown
+setTimeout(() => {
+  updateDashboard();
+}, 100);
+</script>
+</body>
+</html>

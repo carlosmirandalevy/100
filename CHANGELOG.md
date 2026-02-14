@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.4.1] - 2026-02-14
+
+### Added
+- Item 123: Preview buttons (Claude & Gemini) on Example 4 linking to live guitar learning planner demos
+- Guitar learning planner demo pages (demos/planners/)
+
+### Fixed
+- Item number circles disappearing on hard refresh (Shift+Ctrl+R) — categoryColors were pre-computed before CSS loaded; now computed live via getCategoryGradient() with fallback
+- Progress tracker total-count hardcoded to 119 — now dynamically set from ITEMS.length on page load
+- Item 123 prompt text truncated — increased .item-body.open max-height from 10000px to 50000px
+
 ## [2.4.0] - 2026-02-13
 
 ### Added

@@ -307,7 +307,7 @@ a:hover { color: var(--accent-3); }
 .item-chevron.rotated { transform: rotate(180deg); }
 
 .item-body { max-height: 0; overflow: hidden; transition: max-height 0.5s ease, padding 0.3s ease; }
-.item-body.open { max-height: 10000px; padding: 0 var(--space-lg) var(--space-lg); }
+.item-body.open { max-height: 50000px; padding: 0 var(--space-lg) var(--space-lg); }
 .item-description { color: var(--text-secondary); margin-bottom: var(--space-lg); font-size: 0.95rem; }
 .item-steps { margin-bottom: var(--space-lg); }
 .item-steps h4 { display: flex; align-items: center; gap: 8px; margin-bottom: var(--space-md); color: var(--accent-2); }

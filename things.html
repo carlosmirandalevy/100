@@ -74,22 +74,11 @@
     let lastScrollY = window.scrollY;
     let debounceTimer = null;
 
-    const cs = getComputedStyle(document.documentElement);
-    const cv = function(v) { return cs.getPropertyValue(v).trim(); };
-    const categoryColors = {
-        writing:      { color: cv('--cat-writing'),      gradient: 'linear-gradient(135deg, ' + cv('--cat-writing') + ', color-mix(in srgb, ' + cv('--cat-writing') + ' 70%, black))' },
-        learning:     { color: cv('--cat-learning'),     gradient: 'linear-gradient(135deg, ' + cv('--cat-learning') + ', color-mix(in srgb, ' + cv('--cat-learning') + ' 70%, black))' },
-        art:          { color: cv('--cat-art'),          gradient: 'linear-gradient(135deg, ' + cv('--cat-art') + ', color-mix(in srgb, ' + cv('--cat-art') + ' 70%, black))' },
-        music:        { color: cv('--cat-music'),        gradient: 'linear-gradient(135deg, ' + cv('--cat-music') + ', color-mix(in srgb, ' + cv('--cat-music') + ' 70%, black))' },
-        video:        { color: cv('--cat-video'),        gradient: 'linear-gradient(135deg, ' + cv('--cat-video') + ', color-mix(in srgb, ' + cv('--cat-video') + ' 70%, black))' },
-        productivity: { color: cv('--cat-productivity'), gradient: 'linear-gradient(135deg, ' + cv('--cat-productivity') + ', color-mix(in srgb, ' + cv('--cat-productivity') + ' 70%, black))' },
-        coding:       { color: cv('--cat-coding'),       gradient: 'linear-gradient(135deg, ' + cv('--cat-coding') + ', color-mix(in srgb, ' + cv('--cat-coding') + ' 70%, black))' },
-        business:     { color: cv('--cat-business'),     gradient: 'linear-gradient(135deg, ' + cv('--cat-business') + ', color-mix(in srgb, ' + cv('--cat-business') + ' 70%, black))' },
-        science:      { color: cv('--cat-science'),      gradient: 'linear-gradient(135deg, ' + cv('--cat-science') + ', color-mix(in srgb, ' + cv('--cat-science') + ' 70%, black))' },
-        fun:          { color: cv('--cat-fun'),          gradient: 'linear-gradient(135deg, ' + cv('--cat-fun') + ', color-mix(in srgb, ' + cv('--cat-fun') + ' 70%, black))' }
-    };
-
-    function getCategoryGradient(cat) { return (categoryColors[cat] && categoryColors[cat].gradient) || 'linear-gradient(135deg, ' + cv('--cat-writing') + ', color-mix(in srgb, ' + cv('--cat-writing') + ' 70%, black))'; }
+    function getCategoryGradient(cat) {
+        var c = getComputedStyle(document.documentElement).getPropertyValue('--cat-' + cat).trim();
+        if (!c) c = '#a70000';
+        return 'linear-gradient(135deg, ' + c + ', color-mix(in srgb, ' + c + ' 70%, black))';
+    }
 
     function escapeHtml(str) {
         if (!str) return '';
@@ -346,6 +335,8 @@
     function updateProgress() {
         const el = document.getElementById('progress-count');
         if (el) el.textContent = exploredItems.size;
+        const tc = document.getElementById('total-count');
+        if (tc && typeof ITEMS !== 'undefined') tc.textContent = ITEMS.length;
         const t = document.getElementById('progress-tracker');
         if (t && exploredItems.size > 0) t.classList.add('visible');
     }
@@ -399,6 +390,8 @@
         }
 
         renderItems(currentCategory, currentSearch);
+        var tc = document.getElementById('total-count');
+        if (tc && typeof ITEMS !== 'undefined') tc.textContent = ITEMS.length;
 
         // Deep link: open specific item by ?id=N
         var urlId = urlParams.get('id');

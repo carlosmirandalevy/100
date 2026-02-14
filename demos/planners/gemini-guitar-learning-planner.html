@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CemiMusic - Guitar Learning Planner</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700;800&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <style>
+        :root {
+            --wood-dark: #3E2723;
+            --wood-medium: #8B6914;
+            --wood-light: #D4A843;
+            --cream: #FFF8E7;
+            --amber: #FF8F00;
+            --text-main: #2D1B18;
+            --bg-body: #FFFDF9;
+            --card-bg: #ffffff;
+            --border-color: #E0C9A6;
+            --shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .dark-mode {
+            --wood-dark: #F5E6D3;
+            --wood-medium: #D4A843;
+            --wood-light: #8B6914;
+            --cream: #1A120B;
+            --amber: #FFB300;
+            --text-main: #F5E6D3;
+            --bg-body: #120C08;
+            --card-bg: #1E1510;
+            --border-color: #3E2723;
+            --shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        * {
+            box-sizing: border-box;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Playfair Display', serif;
+            color: var(--wood-dark);
+        }
+
+        /* Header & Nav */
+        header {
+            background: var(--wood-dark);
+            color: var(--cream);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 4px solid var(--amber);
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-area svg {
+            width: 30px;
+            fill: var(--amber);
+        }
+
+        nav {
+            display: flex;
+            background: var(--card-bg);
+            box-shadow: var(--shadow);
+            sticky: top;
+            z-index: 100;
+            justify-content: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .tab-btn {
+            padding: 1rem 2rem;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--wood-medium);
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab-btn.active {
+            color: var(--amber);
+            border-bottom-color: var(--amber);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Cards & UI */
+        .card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 0.8rem;
+            margin-top: 0.5rem;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-body);
+            color: var(--text-main);
+        }
+
+        .btn {
+            background: var(--wood-medium);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            background: var(--wood-dark);
+        }
+
+        .btn-amber {
+            background: var(--amber);
+        }
+
+        .btn-amber:hover {
+            background: #e67e00;
+        }
+
+        /* Plan Tab Details */
+        .accordion {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .accordion-header {
+            background: var(--cream);
+            padding: 1rem;
+            cursor: pointer;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            color: var(--wood-dark);
+        }
+
+        .accordion-content {
+            padding: 1rem;
+            display: none;
+            background: var(--card-bg);
+            border-top: 1px solid var(--border-color);
+        }
+
+        .accordion-content.open {
+            display: block;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+        }
+
+        th,
+        td {
+            border: 1px solid var(--border-color);
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background: var(--cream);
+        }
+
+        .toolbar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        /* Charts Section */
+        .chart-container {
+            position: relative;
+            height: 300px;
+            width: 100%;
+        }
+
+        .progress-stat {
+            text-align: center;
+            padding: 1rem;
+            background: var(--cream);
+            border-radius: 8px;
+        }
+
+        .progress-stat span {
+            display: block;
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--amber);
+        }
+
+        /* Dark Mode Toggle */
+        .mode-toggle {
+            cursor: pointer;
+            font-size: 1.5rem;
+            background: none;
+            border: none;
+            color: var(--cream);
+        }
+
+        @media print {
+
+            nav,
+            .toolbar,
+            .mode-toggle,
+            .btn {
+                display: none !important;
+            }
+
+            .accordion-content {
+                display: block !important;
+            }
+
+            .card {
+                box-shadow: none;
+                border: 1px solid #ccc;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="logo-area">
+            <svg viewBox="0 0 512 512">
+                <path
+                    d="M417.4 224.2c-15.6-21.7-41-35.3-69.4-35.3-12.7 0-24.8 2.8-35.5 7.8V64h32c8.8 0 16-7.2 16-16s-7.2-16-16-16H184c-8.8 0-16 7.2-16 16s7.2 16 16 16h32v342.3c-10.7-5-22.8-7.8-35.5-7.8-46.1 0-83.5 37.4-83.5 83.5s37.4 83.5 83.5 83.5 83.5-37.4 83.5-83.5V196.7c10.7 5 22.8 7.8 35.5 7.8 46.1 0 83.5-37.4 83.5-83.5 0-36.2-23.1-67-55.1-78.1z" />
+            </svg>
+            <h2 style="margin:0; color: var(--cream); font-size: 1.5rem;">CemiMusic Planner</h2>
+        </div>
+        <button class="mode-toggle" onclick="toggleDarkMode()" id="themeBtn">☀️</button>
+    </header>
+
+    <nav>
+        <button class="tab-btn active" onclick="openTab(event, 'tab-profile')">1. Profile & Settings</button>
+        <button class="tab-btn" onclick="openTab(event, 'tab-plan')">2. My Learning Plan</button>
+        <button class="tab-btn" onclick="openTab(event, 'tab-dashboard')">3. Dashboard & Progress</button>
+    </nav>
+
+    <div class="container">
+
+        <div id="tab-profile" class="tab-content active">
+            <div class="card">
+                <h3>Student Information</h3>
+                <div class="grid-2">
+                    <div>
+                        <label>Student Name</label>
+                        <input type="text" id="prof-name" value="Guitar Student">
+
+                        <label style="margin-top:1rem; display:block;">Experience Level</label>
+                        <select id="prof-level">
+                            <option selected>Complete Beginner</option>
+                            <option>Some Experience</option>
+                            <option>Intermediate</option>
+                            <option>Advanced</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Musical Goals</label>
+                        <textarea id="prof-goal"
+                            rows="4">Play songs around a campfire, learn popular acoustic songs, eventually fingerpick</textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Practice Schedule</h3>
+                <div class="grid-2">
+                    <div>
+                        <label>Hours Per Week: <b id="hr-val">4</b> hrs</label>
+                        <input type="range" id="prof-hours" min="1" max="20" value="4"
+                            oninput="document.getElementById('hr-val').innerText = this.value">
+                        <p><small>~35 minutes per day, 6 days a week.</small></p>
+                    </div>
+                    <div>
+                        <label>Practice Days</label>
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px;">
+                            <label><input type="checkbox" checked> M</label>
+                            <label><input type="checkbox" checked> T</label>
+                            <label><input type="checkbox" checked> W</label>
+                            <label><input type="checkbox" checked> T</label>
+                            <label><input type="checkbox" checked> F</label>
+                            <label><input type="checkbox" checked> S</label>
+                            <label><input type="checkbox"> S</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Initial Skills Baseline</h3>
+                <div class="grid-2">
+                    <div>
+                        <label>Technique: <span id="v1">0</span>%</label>
+                        <input type="range" class="skill-slider" data-skill="technique" value="0"
+                            oninput="updateSkillLabels()">
+                        <label>Music Theory: <span id="v2">0</span>%</label>
+                        <input type="range" class="skill-slider" data-skill="theory" value="0"
+                            oninput="updateSkillLabels()">
+                    </div>
+                    <div>
+                        <label>Ear Training: <span id="v3">0</span>%</label>
+                        <input type="range" class="skill-slider" data-skill="ear" value="0"
+                            oninput="updateSkillLabels()">
+                        <label>Performance: <span id="v4">0</span>%</label>
+                        <input type="range" class="skill-slider" data-skill="performance" value="0"
+                            oninput="updateSkillLabels()">
+                    </div>
+                </div>
+                <div style="margin-top:2rem;">
+                    <button class="btn btn-amber" onclick="updatePlan()">Update All Tabs & Save</button>
+                    <button class="btn" onclick="exportJSON()">Export .cemimusic</button>
+                    <button class="btn" onclick="document.getElementById('importFile').click()">Import Data</button>
+                    <input type="file" id="importFile" style="display:none" onchange="importJSON(event)">
+                </div>
+            </div>
+        </div>
+
+        <div id="tab-plan" class="tab-content">
+            <div class="toolbar">
+                <button class="btn" onclick="window.print()">Print Plan</button>
+                <button class="btn" onclick="exportMarkdown()">Export Markdown</button>
+                <button class="btn" onclick="exportPDF()">Export PDF</button>
+            </div>
+
+            <div id="printable-content">
+                <div class="card">
+                    <h2>6-Month Acoustic Guitar Roadmap</h2>
+                    <div id="accordion-container">
+                        <div class="accordion">
+                            <div class="accordion-header" onclick="toggleAccordion(this)">Month 1 — Foundations
+                                <span>+</span></div>
+                            <div class="accordion-content">
+                                <ul>
+                                    <li><strong>Week 1:</strong> Guitar anatomy, holding position, tuning (GuitarTuna),
+                                        right-hand open string strumming.</li>
+                                    <li><strong>Week 2:</strong> First chords: Em and Am. Simple 4-beat down-strums.
+                                    </li>
+                                    <li><strong>Week 3:</strong> Add G chord. Transitions Em-Am-G. Pattern: D-DU.
+                                        Mini-song: <em>Horse With No Name</em>.</li>
+                                    <li><strong>Week 4:</strong> Add C chord. Checkpoint: play Em-Am-G-C at 60 BPM.</li>
+                                </ul>
+                                <p><strong>Songs:</strong> Horse With No Name (America), Leaving on a Jet Plane (John
+                                    Denver)</p>
+                            </div>
+                        </div>
+                        <div class="accordion">
+                            <div class="accordion-header" onclick="toggleAccordion(this)">Month 2 — Building Confidence
+                                <span>+</span></div>
+                            <div class="accordion-content">
+                                <ul>
+                                    <li><strong>Week 5:</strong> Add D chord. New strumming: D-DU-UDU. Song:
+                                        <em>Knockin' on Heaven's Door</em>.</li>
+                                    <li><strong>Week 6:</strong> Reading chord charts. Practice <em>Let It Be</em>.
+                                        Finger dexterity (Spider Walk).</li>
+                                    <li><strong>Week 7:</strong> Add E chord. Transitioning between all 7 open chords.
+                                    </li>
+                                    <li><strong>Week 8:</strong> Monthly Review. Play 2 songs start-to-finish without
+                                        stopping.</li>
+                                </ul>
+                                <p><strong>Songs:</strong> Knockin' on Heaven's Door, Let It Be, Wish You Were Here</p>
+                            </div>
+                        </div>
+                        <div class="accordion">
+                            <div class="accordion-header" onclick="toggleAccordion(this)">Month 3 — Expanding Skills
+                                <span>+</span></div>
+                            <div class="accordion-content">
+                                <ul>
+                                    <li><strong>Week 9:</strong> Intro to fingerpicking (Travis picking basics) on Am,
+                                        C, G.</li>
+                                    <li><strong>Week 10:</strong> Add A and Dm. Minor vs Major tonality. Song: <em>Dust
+                                            in the Wind</em> (simplified).</li>
+                                    <li><strong>Week 11:</strong> Capo introduction. Transposing songs to fit your
+                                        voice.</li>
+                                    <li><strong>Week 12:</strong> Basic Theory: Note names on strings 5-6, the I-IV-V
+                                        system.</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="accordion">
+                            <div class="accordion-header" onclick="toggleAccordion(this)">Months 4-6 — Intermediate &
+                                Style <span>+</span></div>
+                            <div class="accordion-content">
+                                <p><strong>Month 4:</strong> The F chord (Barre intro), Power chords, Palm muting,
+                                    <em>Wonderwall</em>.</p>
+                                <p><strong>Month 5:</strong> Hammer-ons, Pull-offs, Pentatonic Scale Pos 1, Singing
+                                    while playing.</p>
+                                <p><strong>Month 6:</strong> Barre chord mastery (Bm, B), Advanced fingerpicking,
+                                    15-minute mini-concert prep.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid-2">
+                    <div class="card">
+                        <h3>Practice Session (35 min)</h3>
+                        <ul>
+                            <li>3 min: Warm-up</li>
+                            <li>5 min: Technique Drill</li>
+                            <li>12 min: New Material</li>
+                            <li>12 min: Repertoire Review</li>
+                            <li>3 min: Free Play</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>Essential Gear</h3>
+                        <ul>
+                            <li>Yamaha FG800 (Budget)</li>
+                            <li>Clip-on tuner ($10)</li>
+                            <li>Capo & Pick variety</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Commitment & Results</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Hours/Week</th>
+                                <th>3 Months</th>
+                                <th>6 Months</th>
+                                <th>1 Year</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1-2</td>
+                                <td>1 simple song</td>
+                                <td>8 chords, 3 songs</td>
+                                <td>10 songs total</td>
+                            </tr>
+                            <tr>
+                                <td>3-5 (You)</td>
+                                <td>3-4 songs, fingerpick</td>
+                                <td>Full songs + Singing</td>
+                                <td>20+ songs, solid barres</td>
+                            </tr>
+                            <tr>
+                                <td>10+</td>
+                                <td>Fluid transitions</td>
+                                <td>Improv basics</td>
+                                <td>Advanced lead</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card" style="background: var(--wood-dark); color: var(--cream);">
+                    <h3>Did You Know?</h3>
+                    <p id="fun-fact">Guitar frets use the 12th root of 2 (math!) to create musical intervals.</p>
+                    <button class="btn btn-amber" onclick="newFact()" style="font-size: 0.7rem; padding: 5px 10px;">Next
+                        Fact</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="tab-dashboard" class="tab-content">
+            <div class="grid-2">
+                <div class="card" style="grid-column: span 2;">
+                    <h3>Progress Summary</h3>
+                    <div style="display:flex; justify-content: space-around; gap: 10px; flex-wrap: wrap;">
+                        <div class="progress-stat">Total Hours Logged<span id="stat-hours">0</span></div>
+                        <div class="progress-stat">Days Active<span id="stat-days">0</span></div>
+                        <div class="progress-stat">Current Level<span id="stat-level">Beginner</span></div>
+                    </div>
+                    <p style="text-align:center; margin-top:1.5rem; font-style: italic;">"Every guitarist started
+                        exactly where you are. Pick up your guitar and play your first note today!"</p>
+                </div>
+
+                <div class="card">
+                    <h3>Skill Balance</h3>
+                    <div class="chart-container"><canvas id="radarChart"></canvas></div>
+                </div>
+
+                <div class="card">
+                    <h3>Projected Growth (24 Months)</h3>
+                    <div class="chart-container"><canvas id="lineChart"></canvas></div>
+                </div>
+
+                <div class="card">
+                    <h3>Weekly Goal vs Actual</h3>
+                    <div class="chart-container"><canvas id="barChart"></canvas></div>
+                    <div style="margin-top:1rem; display:flex; gap:5px;">
+                        <input type="number" id="log-hrs" placeholder="Add hours..." style="flex:1">
+                        <button class="btn btn-amber" onclick="addPractice()">Log</button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Daily Time Allocation</h3>
+                    <div class="chart-container"><canvas id="doughnutChart"></canvas></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // App State
+        let state = {
+            name: "Guitar Student",
+            level: "Complete Beginner",
+            hoursPerWeek: 4,
+            startDate: new Date().toISOString().split('T')[0],
+            goal: "Play songs around a campfire, learn popular acoustic songs, eventually fingerpick",
+            skills: { technique: 0, theory: 0, ear: 0, performance: 0, repertoire: 0 },
+            totalHours: 0
+        };
+
+        const facts = [
+            "The guitar's ancestors date back over 4,000 years to ancient Babylon.",
+            "The world's largest playable guitar is 43 feet long, built in Texas.",
+            "Jimi Hendrix played a right-handed guitar flipped upside down.",
+            "The most expensive guitar: Kurt Cobain's Martin D-18E sold for $6 million.",
+            "About 50 million people worldwide play guitar.",
+            "It takes roughly 100 hours of playing to build permanent calluses.",
+            "Guitar frets use the 12th root of 2 (math!) to create intervals.",
+            "Playing guitar activates both brain hemispheres simultaneously.",
+            "The word 'guitar' comes from the Greek 'kithara'.",
+            "You only need 4 chords (G, Em, C, D) to play hundreds of songs."
+        ];
+
+        // Initialize Charts
+        let radarChart, lineChart, barChart, doughnutChart;
+
+        window.onload = () => {
+            initCharts();
+            updateSkillLabels();
+        };
+
+        function openTab(evt, tabName) {
+            let contents = document.getElementsByClassName("tab-content");
+            for (let i = 0; i < contents.length; i++) contents[i].classList.remove("active");
+            let tabs = document.getElementsByClassName("tab-btn");
+            for (let i = 0; i < tabs.length; i++) tabs[i].classList.remove("active");
+            document.getElementById(tabName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+
+        function toggleAccordion(header) {
+            const content = header.nextElementSibling;
+            content.classList.toggle('open');
+            header.querySelector('span').innerText = content.classList.contains('open') ? '-' : '+';
+        }
+
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            const btn = document.getElementById('themeBtn');
+            btn.innerText = document.body.classList.contains('dark-mode') ? '🌙' : '☀️';
+        }
+
+        function updateSkillLabels() {
+            const sliders = document.querySelectorAll('.skill-slider');
+            sliders.forEach((s, i) => {
+                document.getElementById('v' + (i + 1)).innerText = s.value;
+            });
+        }
+
+        function updatePlan() {
+            state.name = document.getElementById('prof-name').value;
+            state.level = document.getElementById('prof-level').value;
+            state.hoursPerWeek = parseInt(document.getElementById('prof-hours').value);
+            state.goal = document.getElementById('prof-goal').value;
+
+            const sliders = document.querySelectorAll('.skill-slider');
+            state.skills.technique = sliders[0].value;
+            state.skills.theory = sliders[1].value;
+            state.skills.ear = sliders[2].value;
+            state.skills.performance = sliders[3].value;
+
+            updateCharts();
+            alert("Plan Updated Successfully!");
+        }
+
+        function newFact() {
+            const f = facts[Math.floor(Math.random() * facts.length)];
+            document.getElementById('fun-fact').innerText = f;
+        }
+
+        function initCharts() {
+            const ctxRadar = document.getElementById('radarChart').getContext('2d');
+            radarChart = new Chart(ctxRadar, {
+                type: 'radar',
+                data: {
+                    labels: ['Technique', 'Theory', 'Ear Training', 'Performance', 'Repertoire'],
+                    datasets: [{
+                        label: 'Current Skill Level',
+                        data: [0, 0, 0, 0, 0],
+                        backgroundColor: 'rgba(212, 168, 67, 0.2)',
+                        borderColor: '#D4A843',
+                        pointBackgroundColor: '#8B6914'
+                    }]
+                },
+                options: { scales: { r: { min: 0, max: 100 } } }
+            });
+
+            const ctxLine = document.getElementById('lineChart').getContext('2d');
+            lineChart = new Chart(ctxLine, {
+                type: 'line',
+                data: {
+                    labels: ['Start', 'M3', 'M6', 'M12', 'M18', 'M24'],
+                    datasets: [{
+                        label: 'Projected Skill Gain',
+                        data: [0, 20, 45, 70, 85, 95],
+                        borderColor: '#FF8F00',
+                        tension: 0.4,
+                        fill: true,
+                        backgroundColor: 'rgba(255, 143, 0, 0.1)'
+                    }]
+                }
+            });
+
+            const ctxBar = document.getElementById('barChart').getContext('2d');
+            barChart = new Chart(ctxBar, {
+                type: 'bar',
+                data: {
+                    labels: ['Target', 'Actual'],
+                    datasets: [{
+                        label: 'Hours',
+                        data: [4, 0],
+                        backgroundColor: ['#3E2723', '#FF8F00']
+                    }]
+                }
+            });
+
+            const ctxDoughnut = document.getElementById('doughnutChart').getContext('2d');
+            doughnutChart = new Chart(ctxDoughnut, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Technique', 'Repertoire', 'Theory', 'Ear Training', 'Free Play'],
+                    datasets: [{
+                        data: [25, 35, 15, 15, 10],
+                        backgroundColor: ['#3E2723', '#8B6914', '#D4A843', '#FF8F00', '#E0C9A6']
+                    }]
+                }
+            });
+        }
+
+        function updateCharts() {
+            radarChart.data.datasets[0].data = [
+                state.skills.technique, state.skills.theory, state.skills.ear, state.skills.performance, 20
+            ];
+            radarChart.update();
+
+            barChart.data.datasets[0].data[0] = state.hoursPerWeek;
+            barChart.update();
+        }
+
+        function addPractice() {
+            const val = parseFloat(document.getElementById('log-hrs').value) || 0;
+            state.totalHours += val;
+            document.getElementById('stat-hours').innerText = state.totalHours;
+            barChart.data.datasets[0].data[1] += val;
+            barChart.update();
+            document.getElementById('log-hrs').value = '';
+        }
+
+        // EXPORTS
+        function exportJSON() {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(state, null, 2));
+            const downloadAnchorNode = document.createElement('a');
+            downloadAnchorNode.setAttribute("href", dataStr);
+            downloadAnchorNode.setAttribute("download", "guitar-plan.cemimusic");
+            document.body.appendChild(downloadAnchorNode);
+            downloadAnchorNode.click();
+            downloadAnchorNode.remove();
+        }
+
+        function importJSON(event) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                try {
+                    const imported = JSON.parse(e.target.result);
+                    state = imported;
+                    // Update UI
+                    document.getElementById('prof-name').value = state.name;
+                    document.getElementById('prof-level').value = state.level;
+                    document.getElementById('prof-hours').value = state.hoursPerWeek;
+                    document.getElementById('hr-val').innerText = state.hoursPerWeek;
+                    document.getElementById('prof-goal').value = state.goal;
+                    updateCharts();
+                    alert("Data Imported Successfully!");
+                } catch (err) { alert("Invalid .cemimusic file"); }
+            };
+            reader.readAsText(event.target.files[0]);
+        }
+
+        function exportMarkdown() {
+            const md = `# Guitar Learning Plan: ${state.name}\n\nLevel: ${state.level}\nGoal: ${state.goal}\n\n## Weekly Hours: ${state.hoursPerWeek}\n\n(Generated via CemiMusic Planner)`;
+            const blob = new Blob([md], { type: "text/markdown" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = "learning-plan.md";
+            a.click();
+        }
+
+        async function exportPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF('p', 'mm', 'a4');
+            const element = document.getElementById('printable-content');
+
+            await html2canvas(element).then(canvas => {
+                const imgData = canvas.toDataURL('image/png');
+                const imgProps = doc.getImageProperties(imgData);
+                const pdfWidth = doc.internal.pageSize.getWidth();
+                const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+                doc.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+                doc.save("guitar-learning-plan.pdf");
+            });
+        }
+
+    </script>
+
+</body>
+
+</html>
