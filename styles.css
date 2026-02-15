@@ -26,6 +26,8 @@
     --cat-business: #A67F5B;
     --cat-science: #2F4F6F;
     --cat-fun: #a70000;
+    --cat-quickwins: #17A2B8;
+    --cat-family: #C2697B;
     --nav-bg: rgba(10,10,26,0.85);
     --nav-bg-scrolled: rgba(10,10,26,0.98);
     --bg-code: #0d0d25;
@@ -73,6 +75,8 @@
     --cat-business: #b8977a;
     --cat-science: #6a8fad;
     --cat-fun: #d4726a;
+    --cat-quickwins: #5bc0c5;
+    --cat-family: #d4949f;
     --nav-bg: rgba(245,240,235,0.9);
     --nav-bg-scrolled: rgba(245,240,235,0.98);
     --bg-code: #f8f4f0;
