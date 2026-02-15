@@ -28,6 +28,8 @@
     --cat-fun: #a70000;
     --cat-quickwins: #17A2B8;
     --cat-family: #C2697B;
+    --cat-social: #8B5CF6;
+    --cat-jobs: #1B7A6F;
     --nav-bg: rgba(10,10,26,0.85);
     --nav-bg-scrolled: rgba(10,10,26,0.98);
     --bg-code: #0d0d25;
@@ -77,6 +79,7 @@
     --cat-fun: #d4726a;
     --cat-quickwins: #5bc0c5;
     --cat-family: #d4949f;
+    --cat-social: #A78BFA;
     --nav-bg: rgba(245,240,235,0.9);
     --nav-bg-scrolled: rgba(245,240,235,0.98);
     --bg-code: #f8f4f0;

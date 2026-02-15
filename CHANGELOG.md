@@ -1,5 +1,23 @@
 # Changelog
 
+## [3.1.0] - 2026-02-15
+
+### Added
+- **Job Hunting category**: New "jobs" category with teal-green color (`--cat-jobs: #1B7A6F`)
+- 3 new items (IDs 161-163): Create a Personal Introduction Letter, Create a Job Hunting Plan, Advanced Job Hunting Planner (interactive HTML with .cemijob save/load)
+- Job Hunting items translated into all 7 languages (fr, es, pt, de, it, ja, zh)
+- "Job Hunting" filter pill added to all 8 language things pages with translated labels
+
+### Changed
+- Category filter pills sorted alphabetically by displayed label in all 8 language things pages
+- Hardcoded results-count placeholders cleared (JS populates dynamically)
+- Portuguese nav logo text shortened: "a fazer e não com IA"
+- Fun facts script now always loads `funfacts.js` (fixes 404 for non-English pages)
+- Carlos continents stat changed from 6 to 4 on all 8 about pages
+
+### Fixed
+- `data-zh.js` syntax error: unescaped ASCII double quotes inside Chinese prompt string (line 925)
+
 ## [3.0.0] - 2026-02-15
 
 ### Added

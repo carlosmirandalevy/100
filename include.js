@@ -91,7 +91,7 @@
             suggest: 'Suggest'
         },
         fr: {
-            things: "100+ \u00e0 faire", donts: '\u00c0 ne pas faire', logoText: "AI Do's et Don'ts", usingAI: "Utiliser l'IA", tips: 'Conseils', skills: 'Comp\u00e9tences utiles',
+            things: "100+ Oui", donts: 'Non', logoText: "AI Do's et Don'ts", usingAI: "Utiliser l'IA", tips: 'Conseils', skills: 'Comp\u00e9tences utiles',
             quickWins: 'Victoires rapides', tools: 'Outils', showcase: 'Vitrine', about: '\u00c0 propos',
             searchLabel: 'Rechercher (Ctrl+K)', searchPlaceholder: 'Rechercher les 100+ choses...',
             searchHint: 'Appuyez sur Entr\u00e9e pour rechercher', scrollTop: 'Retour en haut',
@@ -115,8 +115,8 @@
             suggest: 'Sugg\u00e9rer'
         },
         es: {
-            things: '100+ S\u00ed', donts: 'Lo que no hacer', logoText: 'Qu\u00e9 hacer y no con IA', usingAI: 'Usar IA', tips: 'Consejos', skills: 'Habilidades \u00fatiles',
-            quickWins: 'Victorias r\u00e1pidas', tools: 'Herramientas', showcase: 'Vitrina', about: 'Acerca de',
+            things: '100+ S\u00ed', donts: 'Qué No', logoText: 'Qu\u00e9 hacer y no con IA', usingAI: 'Usar IA', tips: 'Consejos', skills: 'Habilidades \u00fatiles',
+            quickWins: 'Rápidas', tools: 'Herramientas', showcase: 'Vitrina', about: 'About',
             searchLabel: 'Buscar (Ctrl+K)', searchPlaceholder: 'Buscar las 100+ cosas...',
             searchHint: 'Presiona Enter para buscar', scrollTop: 'Volver arriba',
             funFact: 'Dato curioso sobre IA', anotherFact: 'Otro dato',
@@ -139,7 +139,7 @@
             suggest: 'Sugerir'
         },
         pt: {
-            things: '100+ Sim', donts: 'O que n\u00e3o fazer', logoText: 'O que fazer e n\u00e3o com IA', usingAI: 'Usar IA', tips: 'Dicas', skills: 'Habilidades \u00fateis',
+            things: '100+ Sim', donts: 'Não', logoText: 'a fazer e não com IA', usingAI: 'Usar IA', tips: 'Dicas', skills: 'Habilidades úteis',
             quickWins: 'Vit\u00f3rias r\u00e1pidas', tools: 'Ferramentas', showcase: 'Vitrine', about: 'Sobre',
             searchLabel: 'Pesquisar (Ctrl+K)', searchPlaceholder: 'Pesquisar as 100+ coisas...',
             searchHint: 'Pressione Enter para pesquisar', scrollTop: 'Voltar ao topo',
@@ -187,7 +187,7 @@
             suggest: 'Vorschlagen'
         },
         it: {
-            things: "100+ S\u00ec", donts: 'Da non fare', logoText: "IA: da fare e non", usingAI: "Usare l'IA", tips: 'Consigli', skills: 'Competenze utili',
+            things: "100+ S\u00ec", donts: 'No', logoText: "IA: da fare e non", usingAI: "Usare l'IA", tips: 'Consigli', skills: 'Competenze utili',
             quickWins: 'Vittorie rapide', tools: 'Strumenti', showcase: 'Vetrina', about: 'Chi siamo',
             searchLabel: 'Cerca (Ctrl+K)', searchPlaceholder: 'Cerca le 100+ cose...',
             searchHint: 'Premi Invio per cercare', scrollTop: 'Torna su',
@@ -211,8 +211,8 @@
             suggest: 'Suggerisci'
         },
         ja: {
-            things: "100+ Do's", donts: '\u3084\u3063\u3066\u306f\u3044\u3051\u306a\u3044\u3053\u3068', logoText: 'AI\u306e\u3059\u3079\u304d\u3053\u3068\u30fb\u3059\u3079\u304d\u3067\u306a\u3044\u3053\u3068', usingAI: 'AI\u306e\u4f7f\u3044\u65b9', tips: '\u30d2\u30f3\u30c8', skills: '\u5f79\u7acb\u3064\u30b9\u30ad\u30eb',
-            quickWins: '\u30af\u30a4\u30c3\u30af\u30a6\u30a3\u30f3', tools: '\u30c4\u30fc\u30eb', showcase: '\u30b7\u30e7\u30fc\u30b1\u30fc\u30b9', about: '\u6982\u8981',
+            things: '100+ はい', donts: 'NG', logoText: 'AIのすべきこと・すべきでないこと', usingAI: 'AI活用', tips: 'ヒント', skills: 'スキル',
+            quickWins: '即効', tools: 'ツール', showcase: '事例', about: '概要',
             searchLabel: '\u691c\u7d22 (Ctrl+K)', searchPlaceholder: '100\u306e\u3053\u3068\u3092\u691c\u7d22...',
             searchHint: 'Enter\u3067\u691c\u7d22', scrollTop: '\u30c8\u30c3\u30d7\u306b\u623b\u308b',
             funFact: 'AI\u306e\u8c46\u77e5\u8b58', anotherFact: '\u5225\u306e\u8c46\u77e5\u8b58',
@@ -517,7 +517,7 @@
         }
 
         // === Dynamically load funfacts.js (language-aware), share.js, then main.js ===
-        var ffFile = lang === 'en' ? 'funfacts.js' : 'funfacts-' + lang + '.js';
+        var ffFile = 'funfacts.js';
         var ffScript = document.createElement('script');
         ffScript.src = ffFile;
         ffScript.onload = function() {
