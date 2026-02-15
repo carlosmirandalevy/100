@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.6.1] - 2026-02-15
+
+### Changed
+- Replace emoji icons with elegant Lucide-style SVG icons in Explore page (route cards, quiz roles, detail header)
+- Route card icons now inherit category color for visual consistency
+
 ## [2.6.0] - 2026-02-15
 
 ### Added

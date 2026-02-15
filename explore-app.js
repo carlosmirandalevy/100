@@ -42,13 +42,22 @@
     }
 
     function getRouteIcon(routeId) {
-        var icons = {
-            student: '\ud83c\udf93', professional: '\ud83d\udcbc', creative: '\ud83c\udfa8',
-            parent: '\ud83d\udc68\u200d\ud83d\udc69\u200d\ud83d\udc67', entrepreneur: '\ud83d\ude80', developer: '\ud83d\udcbb',
-            researcher: '\ud83d\udd2c', writer: '\u270d\ufe0f', musician: '\ud83c\udfb5',
-            educator: '\ud83d\udcda', jobseeker: '\ud83c\udfaf', hobbyist: '\ud83c\udf1f'
+        var paths = {
+            student: '<path d="M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 3 4 6 4s6-2 6-4v-5"/><line x1="22" y1="10" x2="22" y2="16"/>',
+            professional: '<rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/>',
+            creative: '<circle cx="13.5" cy="6.5" r="1.5"/><circle cx="17.5" cy="10.5" r="1.5"/><circle cx="8.5" cy="7.5" r="1.5"/><circle cx="6.5" cy="12.5" r="1.5"/><path d="M12 2a10 10 0 0 0 0 20c.9 0 1.7-.8 1.7-1.7 0-.4-.2-.8-.4-1.1-.3-.3-.5-.7-.5-1.1 0-.9.8-1.7 1.7-1.7H17c3 0 5.5-2.5 5.5-5.5A10 10 0 0 0 12 2z"/>',
+            parent: '<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7z"/>',
+            entrepreneur: '<path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/>',
+            developer: '<polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>',
+            researcher: '<path d="M10 2v7.53a2 2 0 0 1-.21.9L4.72 20.55a1 1 0 0 0 .9 1.45h12.76a1 1 0 0 0 .9-1.45l-5.07-10.13A2 2 0 0 1 14 9.53V2"/><path d="M8.5 2h7"/><path d="M7 16.5h10"/>',
+            writer: '<path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4z"/>',
+            musician: '<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>',
+            educator: '<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>',
+            jobseeker: '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',
+            hobbyist: '<circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>'
         };
-        return icons[routeId] || '\ud83c\udf1f';
+        var p = paths[routeId] || paths.hobbyist;
+        return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">' + p + '</svg>';
     }
 
     function getProgress(routeId) {
@@ -170,7 +179,7 @@
         for (var i = 0; i < roles.length; i++) {
             var r = roles[i];
             html += '<div class="explore-role-card' + (state.role === r.id ? ' selected' : '') + '" data-role="' + r.id + '">';
-            html += '<span class="role-icon">' + r.icon + '</span>';
+            html += '<span class="role-icon">' + getRouteIcon(r.id) + '</span>';
             html += '<span class="role-label">' + r.label + '</span>';
             html += '</div>';
         }
@@ -333,7 +342,7 @@
             if (isTop && showRecommended) {
                 html += '<span class="explore-recommended">' + qs('recommended') + '</span>';
             }
-            html += '<span class="route-icon">' + getRouteIcon(r.id) + '</span>';
+            html += '<span class="route-icon" style="color:' + r.color + '">' + getRouteIcon(r.id) + '</span>';
             html += '<h3>' + r.name + '</h3>';
             html += '<div class="route-audience">' + r.audience + '</div>';
             html += '<p>' + r.description + '</p>';
@@ -394,7 +403,7 @@
         var pct = items.length > 0 ? Math.round((completedCount / items.length) * 100) : 0;
 
         // Header
-        detailHeader.innerHTML = '<span style="font-size:2.5rem;display:block;margin-bottom:var(--space-sm)">' + getRouteIcon(route.id) + '</span>' +
+        detailHeader.innerHTML = '<div class="explore-detail-icon" style="color:' + route.color + '">' + getRouteIcon(route.id) + '</div>' +
             '<h2>' + route.name + '</h2>' +
             '<p>' + route.description + '</p>' +
             '<p style="font-family:var(--font-code);font-size:0.82rem;color:var(--accent-4);margin-top:var(--space-sm)">' + qs('progress') + ': ' + completedCount + '/' + items.length + ' ' + qs('completed') + ' (' + pct + '%)</p>';
