@@ -6,6 +6,11 @@
 - Replace emoji icons with elegant Lucide-style SVG icons in Explore page (route cards, quiz roles, detail header)
 - Route card icons now inherit category color for visual consistency
 
+### Fixed
+- Added 28 missing items to French data file (IDs 108, 110-115, 136-156)
+- Added 21 missing Family items to Chinese data file (IDs 136-156)
+- All 8 language data files now have the complete 156 items
+
 ## [2.6.0] - 2026-02-15
 
 ### Added
