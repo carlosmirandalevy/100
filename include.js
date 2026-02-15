@@ -80,7 +80,13 @@
             connectDesc: 'Want to learn more about AI and how it can transform your work and learning?',
             developSkills: 'Want to develop new skills with AI?',
             madeWith: 'Made with AI + Human Creativity',
-            themePastel: 'Pastel', themeLight: 'Light', themeDark: 'Dark', themeLabel: 'Theme'
+            themePastel: 'Pastel', themeLight: 'Light', themeDark: 'Dark', themeLabel: 'Theme',
+            explore: 'Explore', exploreTitle: 'Find Your AI Path', exploreSubtitle: 'Take a quick quiz or browse curated routes tailored to your goals.',
+            quizCard: 'Quick Quiz', quizCardDesc: 'Answer 3 questions and get personalized recommendations.', browseCard: 'Browse Routes', browseCardDesc: 'Explore all 12 curated learning routes.',
+            quizStep1: 'What best describes you?', quizStep2: 'What is your AI experience level?', quizStep3: 'What interests you most?',
+            quizNext: 'Next', quizBack: 'Back', quizFinish: 'Show My Routes',
+            routeItems: 'items', viewItem: 'View', startRoute: 'Start Route', yourRoutes: 'Your Recommended Routes', completed: 'completed',
+            browseAll: 'Browse All Routes', orBrowse: 'or browse all routes', recommended: 'Recommended', backToRoutes: 'Back to routes', progress: 'Progress'
         },
         fr: {
             things: "100+ \u00e0 faire", donts: '\u00c0 ne pas faire', logoText: "AI Do's et Don'ts", usingAI: "Utiliser l'IA", tips: 'Conseils', skills: 'Comp\u00e9tences utiles',
@@ -96,7 +102,13 @@
             connectDesc: "Vous voulez en savoir plus sur l'IA et comment elle peut transformer votre travail et votre apprentissage ?",
             developSkills: "Vous voulez d\u00e9velopper de nouvelles comp\u00e9tences avec l'IA ?",
             madeWith: 'Fait avec IA + Cr\u00e9ativit\u00e9 Humaine',
-            themePastel: 'Pastel', themeLight: 'Clair', themeDark: 'Sombre', themeLabel: 'Th\u00e8me'
+            themePastel: 'Pastel', themeLight: 'Clair', themeDark: 'Sombre', themeLabel: 'Th\u00e8me',
+            explore: 'Explorer', exploreTitle: 'Trouvez votre parcours IA', exploreSubtitle: 'Faites un quiz rapide ou parcourez des itin\u00e9raires adapt\u00e9s \u00e0 vos objectifs.',
+            quizCard: 'Quiz rapide', quizCardDesc: 'R\u00e9pondez \u00e0 3 questions et obtenez des recommandations personnalis\u00e9es.', browseCard: 'Parcourir les routes', browseCardDesc: 'Explorez les 12 itin\u00e9raires d\u0027apprentissage.',
+            quizStep1: 'Qu\u0027est-ce qui vous d\u00e9crit le mieux ?', quizStep2: 'Quel est votre niveau d\u0027exp\u00e9rience avec l\u0027IA ?', quizStep3: 'Qu\u0027est-ce qui vous int\u00e9resse le plus ?',
+            quizNext: 'Suivant', quizBack: 'Retour', quizFinish: 'Voir mes routes',
+            routeItems: '\u00e9l\u00e9ments', viewItem: 'Voir', startRoute: 'Commencer', yourRoutes: 'Vos routes recommand\u00e9es', completed: 'termin\u00e9',
+            browseAll: 'Toutes les routes', orBrowse: 'ou parcourir toutes les routes', recommended: 'Recommand\u00e9', backToRoutes: 'Retour aux routes', progress: 'Progr\u00e8s'
         },
         es: {
             things: '100+ S\u00ed', donts: 'Lo que no hacer', logoText: 'Qu\u00e9 hacer y no con IA', usingAI: 'Usar IA', tips: 'Consejos', skills: 'Habilidades \u00fatiles',
@@ -112,7 +124,13 @@
             connectDesc: '\u00bfQuieres aprender m\u00e1s sobre IA y c\u00f3mo puede transformar tu trabajo y aprendizaje?',
             developSkills: '\u00bfQuieres desarrollar nuevas habilidades con IA?',
             madeWith: 'Hecho con IA + Creatividad Humana',
-            themePastel: 'Pastel', themeLight: 'Claro', themeDark: 'Oscuro', themeLabel: 'Tema'
+            themePastel: 'Pastel', themeLight: 'Claro', themeDark: 'Oscuro', themeLabel: 'Tema',
+            explore: 'Explorar', exploreTitle: 'Encuentra tu camino con IA', exploreSubtitle: 'Haz un quiz r\u00e1pido o explora rutas adaptadas a tus objetivos.',
+            quizCard: 'Quiz r\u00e1pido', quizCardDesc: 'Responde 3 preguntas y obt\u00e9n recomendaciones personalizadas.', browseCard: 'Ver rutas', browseCardDesc: 'Explora las 12 rutas de aprendizaje.',
+            quizStep1: '\u00bfQu\u00e9 te describe mejor?', quizStep2: '\u00bfCu\u00e1l es tu nivel de experiencia con IA?', quizStep3: '\u00bfQu\u00e9 te interesa m\u00e1s?',
+            quizNext: 'Siguiente', quizBack: 'Atr\u00e1s', quizFinish: 'Ver mis rutas',
+            routeItems: 'elementos', viewItem: 'Ver', startRoute: 'Comenzar', yourRoutes: 'Tus rutas recomendadas', completed: 'completado',
+            browseAll: 'Todas las rutas', orBrowse: 'o explorar todas las rutas', recommended: 'Recomendado', backToRoutes: 'Volver a rutas', progress: 'Progreso'
         },
         pt: {
             things: '100+ Sim', donts: 'O que n\u00e3o fazer', logoText: 'O que fazer e n\u00e3o com IA', usingAI: 'Usar IA', tips: 'Dicas', skills: 'Habilidades \u00fateis',
@@ -128,7 +146,13 @@
             connectDesc: 'Quer saber mais sobre IA e como ela pode transformar seu trabalho e aprendizado?',
             developSkills: 'Quer desenvolver novas habilidades com IA?',
             madeWith: 'Feito com IA + Criatividade Humana',
-            themePastel: 'Pastel', themeLight: 'Claro', themeDark: 'Escuro', themeLabel: 'Tema'
+            themePastel: 'Pastel', themeLight: 'Claro', themeDark: 'Escuro', themeLabel: 'Tema',
+            explore: 'Explorar', exploreTitle: 'Encontre seu caminho com IA', exploreSubtitle: 'Fa\u00e7a um quiz r\u00e1pido ou navegue por rotas adaptadas aos seus objetivos.',
+            quizCard: 'Quiz r\u00e1pido', quizCardDesc: 'Responda 3 perguntas e receba recomenda\u00e7\u00f5es personalizadas.', browseCard: 'Ver rotas', browseCardDesc: 'Explore as 12 rotas de aprendizado.',
+            quizStep1: 'O que melhor descreve voc\u00ea?', quizStep2: 'Qual \u00e9 seu n\u00edvel de experi\u00eancia com IA?', quizStep3: 'O que mais te interessa?',
+            quizNext: 'Pr\u00f3ximo', quizBack: 'Voltar', quizFinish: 'Ver minhas rotas',
+            routeItems: 'itens', viewItem: 'Ver', startRoute: 'Come\u00e7ar', yourRoutes: 'Suas rotas recomendadas', completed: 'conclu\u00eddo',
+            browseAll: 'Todas as rotas', orBrowse: 'ou explorar todas as rotas', recommended: 'Recomendado', backToRoutes: 'Voltar \u00e0s rotas', progress: 'Progresso'
         },
         de: {
             things: "100+ Do's", donts: 'Don\u2019ts', logoText: 'KI: Dos und Don\u2019ts', usingAI: 'KI nutzen', tips: 'Tipps', skills: 'N\u00fctzliche F\u00e4higkeiten',
@@ -144,7 +168,13 @@
             connectDesc: 'M\u00f6chtest du mehr \u00fcber KI erfahren und wie sie deine Arbeit und dein Lernen ver\u00e4ndern kann?',
             developSkills: 'M\u00f6chtest du neue F\u00e4higkeiten mit KI entwickeln?',
             madeWith: 'Gemacht mit KI + Menschlicher Kreativit\u00e4t',
-            themePastel: 'Pastell', themeLight: 'Hell', themeDark: 'Dunkel', themeLabel: 'Design'
+            themePastel: 'Pastell', themeLight: 'Hell', themeDark: 'Dunkel', themeLabel: 'Design',
+            explore: 'Entdecken', exploreTitle: 'Finde deinen KI-Weg', exploreSubtitle: 'Mach ein kurzes Quiz oder entdecke Lernpfade f\u00fcr deine Ziele.',
+            quizCard: 'Schnell-Quiz', quizCardDesc: 'Beantworte 3 Fragen und erhalte personalisierte Empfehlungen.', browseCard: 'Routen durchsuchen', browseCardDesc: 'Entdecke alle 12 Lernpfade.',
+            quizStep1: 'Was beschreibt dich am besten?', quizStep2: 'Wie ist dein KI-Erfahrungslevel?', quizStep3: 'Was interessiert dich am meisten?',
+            quizNext: 'Weiter', quizBack: 'Zur\u00fcck', quizFinish: 'Meine Routen zeigen',
+            routeItems: 'Elemente', viewItem: 'Ansehen', startRoute: 'Starten', yourRoutes: 'Deine empfohlenen Routen', completed: 'abgeschlossen',
+            browseAll: 'Alle Routen', orBrowse: 'oder alle Routen durchsuchen', recommended: 'Empfohlen', backToRoutes: 'Zur\u00fcck zu Routen', progress: 'Fortschritt'
         },
         it: {
             things: "100+ S\u00ec", donts: 'Da non fare', logoText: "IA: da fare e non", usingAI: "Usare l'IA", tips: 'Consigli', skills: 'Competenze utili',
@@ -160,7 +190,13 @@
             connectDesc: "Vuoi saperne di pi\u00f9 sull'IA e su come pu\u00f2 trasformare il tuo lavoro e apprendimento?",
             developSkills: "Vuoi sviluppare nuove competenze con l'IA?",
             madeWith: 'Fatto con IA + Creativit\u00e0 Umana',
-            themePastel: 'Pastello', themeLight: 'Chiaro', themeDark: 'Scuro', themeLabel: 'Tema'
+            themePastel: 'Pastello', themeLight: 'Chiaro', themeDark: 'Scuro', themeLabel: 'Tema',
+            explore: 'Esplora', exploreTitle: 'Trova il tuo percorso IA', exploreSubtitle: 'Fai un quiz veloce o sfoglia i percorsi adatti ai tuoi obiettivi.',
+            quizCard: 'Quiz veloce', quizCardDesc: 'Rispondi a 3 domande e ottieni raccomandazioni personalizzate.', browseCard: 'Sfoglia i percorsi', browseCardDesc: 'Esplora tutti i 12 percorsi di apprendimento.',
+            quizStep1: 'Cosa ti descrive meglio?', quizStep2: 'Qual \u00e8 il tuo livello di esperienza con l\u0027IA?', quizStep3: 'Cosa ti interessa di pi\u00f9?',
+            quizNext: 'Avanti', quizBack: 'Indietro', quizFinish: 'Mostra i miei percorsi',
+            routeItems: 'elementi', viewItem: 'Vedi', startRoute: 'Inizia', yourRoutes: 'I tuoi percorsi consigliati', completed: 'completato',
+            browseAll: 'Tutti i percorsi', orBrowse: 'o sfoglia tutti i percorsi', recommended: 'Consigliato', backToRoutes: 'Torna ai percorsi', progress: 'Progressi'
         },
         ja: {
             things: "100+ Do's", donts: '\u3084\u3063\u3066\u306f\u3044\u3051\u306a\u3044\u3053\u3068', logoText: 'AI\u306e\u3059\u3079\u304d\u3053\u3068\u30fb\u3059\u3079\u304d\u3067\u306a\u3044\u3053\u3068', usingAI: 'AI\u306e\u4f7f\u3044\u65b9', tips: '\u30d2\u30f3\u30c8', skills: '\u5f79\u7acb\u3064\u30b9\u30ad\u30eb',
@@ -176,7 +212,13 @@
             connectDesc: 'AI\u306b\u3064\u3044\u3066\u3082\u3063\u3068\u77e5\u308a\u305f\u3044\u3067\u3059\u304b\uff1f\u4ed5\u4e8b\u3084\u5b66\u3073\u3092\u3069\u3046\u5909\u3048\u308b\u304b\u3092\u767a\u898b\u3057\u307e\u3057\u3087\u3046\u3002',
             developSkills: 'AI\u3067\u65b0\u3057\u3044\u30b9\u30ad\u30eb\u3092\u8eab\u306b\u3064\u3051\u305f\u3044\u3067\u3059\u304b\uff1f',
             madeWith: 'AI + \u4eba\u9593\u306e\u5275\u9020\u529b\u3067\u5236\u4f5c',
-            themePastel: '\u30d1\u30b9\u30c6\u30eb', themeLight: '\u30e9\u30a4\u30c8', themeDark: '\u30c0\u30fc\u30af', themeLabel: '\u30c6\u30fc\u30de'
+            themePastel: '\u30d1\u30b9\u30c6\u30eb', themeLight: '\u30e9\u30a4\u30c8', themeDark: '\u30c0\u30fc\u30af', themeLabel: '\u30c6\u30fc\u30de',
+            explore: '\u63a2\u7d22', exploreTitle: '\u3042\u306a\u305f\u306eAI\u30d1\u30b9\u3092\u898b\u3064\u3051\u3088\u3046', exploreSubtitle: '\u30af\u30a4\u30ba\u306b\u7b54\u3048\u308b\u304b\u3001\u76ee\u6a19\u306b\u5408\u3063\u305f\u30eb\u30fc\u30c8\u3092\u95b2\u89a7\u3057\u307e\u3057\u3087\u3046\u3002',
+            quizCard: '\u30af\u30a4\u30c3\u30af\u30af\u30a4\u30ba', quizCardDesc: '3\u3064\u306e\u8cea\u554f\u306b\u7b54\u3048\u3066\u304a\u3059\u3059\u3081\u3092\u53d7\u3051\u53d6\u308a\u307e\u3057\u3087\u3046\u3002', browseCard: '\u30eb\u30fc\u30c8\u4e00\u89a7', browseCardDesc: '12\u306e\u5b66\u7fd2\u30eb\u30fc\u30c8\u3092\u3059\u3079\u3066\u63a2\u7d22\u3002',
+            quizStep1: '\u3042\u306a\u305f\u306b\u6700\u3082\u5f53\u3066\u306f\u307e\u308b\u306e\u306f\uff1f', quizStep2: 'AI\u306e\u7d4c\u9a13\u30ec\u30d9\u30eb\u306f\uff1f', quizStep3: '\u6700\u3082\u8208\u5473\u304c\u3042\u308b\u306e\u306f\uff1f',
+            quizNext: '\u6b21\u3078', quizBack: '\u623b\u308b', quizFinish: '\u304a\u3059\u3059\u3081\u3092\u8868\u793a',
+            routeItems: '\u30a2\u30a4\u30c6\u30e0', viewItem: '\u898b\u308b', startRoute: '\u958b\u59cb', yourRoutes: '\u304a\u3059\u3059\u3081\u30eb\u30fc\u30c8', completed: '\u5b8c\u4e86',
+            browseAll: '\u3059\u3079\u3066\u306e\u30eb\u30fc\u30c8', orBrowse: '\u307e\u305f\u306f\u3059\u3079\u3066\u306e\u30eb\u30fc\u30c8\u3092\u95b2\u89a7', recommended: '\u304a\u3059\u3059\u3081', backToRoutes: '\u30eb\u30fc\u30c8\u306b\u623b\u308b', progress: '\u9032\u6357'
         },
         zh: {
             things: "100+ Do's", donts: '\u4e0d\u8981\u505a\u7684\u4e8b', logoText: 'AI\u8be5\u505a\u4e0e\u4e0d\u8be5\u505a', usingAI: '\u4f7f\u7528AI', tips: '\u6280\u5de7', skills: '\u5b9e\u7528\u6280\u80fd',
@@ -192,7 +234,13 @@
             connectDesc: '\u60f3\u4e86\u89e3\u66f4\u591a\u5173\u4e8eAI\u4ee5\u53ca\u5b83\u5982\u4f55\u6539\u53d8\u4f60\u7684\u5de5\u4f5c\u548c\u5b66\u4e60\uff1f',
             developSkills: '\u60f3\u7528AI\u53d1\u5c55\u65b0\u6280\u80fd\uff1f',
             madeWith: 'AI + \u4eba\u7c7b\u521b\u610f\u5236\u4f5c',
-            themePastel: '\u67d4\u548c', themeLight: '\u660e\u4eae', themeDark: '\u6697\u8272', themeLabel: '\u4e3b\u9898'
+            themePastel: '\u67d4\u548c', themeLight: '\u660e\u4eae', themeDark: '\u6697\u8272', themeLabel: '\u4e3b\u9898',
+            explore: '\u63a2\u7d22', exploreTitle: '\u627e\u5230\u4f60\u7684AI\u8def\u5f84', exploreSubtitle: '\u505a\u4e2a\u5feb\u901f\u6d4b\u9a8c\u6216\u6d4f\u89c8\u9002\u5408\u4f60\u76ee\u6807\u7684\u8def\u7ebf\u3002',
+            quizCard: '\u5feb\u901f\u6d4b\u9a8c', quizCardDesc: '\u56de\u7b543\u4e2a\u95ee\u9898\uff0c\u83b7\u53d6\u4e2a\u6027\u5316\u63a8\u8350\u3002', browseCard: '\u6d4f\u89c8\u8def\u7ebf', browseCardDesc: '\u63a2\u7d22\u5168\u90e812\u6761\u5b66\u4e60\u8def\u7ebf\u3002',
+            quizStep1: '\u54ea\u4e2a\u6700\u80fd\u63cf\u8ff0\u4f60\uff1f', quizStep2: '\u4f60\u7684AI\u7ecf\u9a8c\u6c34\u5e73\u5982\u4f55\uff1f', quizStep3: '\u4f60\u6700\u611f\u5174\u8da3\u7684\u662f\u4ec0\u4e48\uff1f',
+            quizNext: '\u4e0b\u4e00\u6b65', quizBack: '\u8fd4\u56de', quizFinish: '\u67e5\u770b\u63a8\u8350',
+            routeItems: '\u9879\u76ee', viewItem: '\u67e5\u770b', startRoute: '\u5f00\u59cb', yourRoutes: '\u4f60\u7684\u63a8\u8350\u8def\u7ebf', completed: '\u5df2\u5b8c\u6210',
+            browseAll: '\u6240\u6709\u8def\u7ebf', orBrowse: '\u6216\u6d4f\u89c8\u6240\u6709\u8def\u7ebf', recommended: '\u63a8\u8350', backToRoutes: '\u8fd4\u56de\u8def\u7ebf', progress: '\u8fdb\u5ea6'
         }
     };
 
@@ -212,6 +260,7 @@
     document.addEventListener('DOMContentLoaded', function() {
         var lang = document.documentElement.lang || 'en';
         var S = STRINGS[lang] || STRINGS.en;
+        window.__S = S; // expose for page scripts (explore-app.js etc.)
         var page = document.body.dataset.page || 'index';
 
         // Page href helper — link to a page in the current language
@@ -248,15 +297,16 @@
             '<div class="nav-links" id="nav-links">' +
             '<a href="' + ph('things') + '" class="nav-link' + active('things') + '">' + S.things + '</a>' +
             '<a href="' + ph('donts') + '" class="nav-link' + active('donts') + '">' + S.donts + '</a>' +
+            '<a href="' + ph('explore') + '" class="nav-link' + active('explore') + '">' + S.explore + '</a>' +
             '<div class="nav-dropdown">' +
-            '<a href="' + ph('tips') + '" class="nav-dropdown-trigger nav-link' + (page === 'tips' || page === 'toolkit' || page === 'quickwins' || page === 'tools' ? ' active' : '') + '">' + S.usingAI + ' <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 4 5 7 8 4"></polyline></svg></a>' +
+            '<a href="' + ph('tips') + '" class="nav-dropdown-trigger nav-link' + (page === 'tips' || page === 'toolkit' || page === 'quickwins' || page === 'tools' || page === 'showcase' ? ' active' : '') + '">' + S.usingAI + ' <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 4 5 7 8 4"></polyline></svg></a>' +
             '<div class="nav-dropdown-menu">' +
             '<a href="' + ph('tips') + '" class="nav-dropdown-item' + active('tips') + '">' + S.tips + '</a>' +
             '<a href="' + ph('toolkit') + '" class="nav-dropdown-item' + active('toolkit') + '">' + S.skills + '</a>' +
             '<a href="' + ph('quickwins') + '" class="nav-dropdown-item' + active('quickwins') + '">' + S.quickWins + '</a>' +
+            '<a href="' + ph('showcase') + '" class="nav-dropdown-item' + active('showcase') + '">' + S.showcase + '</a>' +
             '<a href="' + ph('tools') + '" class="nav-dropdown-item' + active('tools') + '">' + S.tools + '</a>' +
             '</div></div>' +
-            '<a href="' + ph('showcase') + '" class="nav-link' + active('showcase') + '">' + S.showcase + '</a>' +
             '<a href="' + ph('faq') + '" class="nav-link' + active('faq') + '">FAQ</a>' +
             '<a href="' + ph('about') + '" class="nav-link' + active('about') + '">' + S.about + '</a>' +
             '<button class="nav-search-btn" id="nav-search-btn" aria-label="' + S.searchLabel + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></button>' +
@@ -291,6 +341,7 @@
             '<li><a href="' + ph('faq') + '">FAQ</a></li>' +
             '<li><a href="' + ph('things') + '">' + S.things + '</a></li>' +
             '<li><a href="' + ph('donts') + '">' + S.donts + '</a></li>' +
+            '<li><a href="' + ph('explore') + '">' + S.explore + '</a></li>' +
             '<li><a href="' + ph('about') + '">' + S.about + '</a></li>' +
             '</ul></div>' +
             '<div class="footer-col"><h4>' + S.connectWithUs + '</h4>' +

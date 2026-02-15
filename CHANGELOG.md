@@ -1,5 +1,36 @@
 # Changelog
 
+## [2.6.0] - 2026-02-15
+
+### Added
+- **Explore page** (`explore.html` + 7 language variants) — personalized AI learning routes
+- 12 curated learning routes (Student, Professional, Creative, Parent, Entrepreneur, Developer, Researcher, Writer, Musician, Educator, Job Seeker, Hobbyist)
+- Quick Quiz: 3-step wizard (role → experience → interests) with personalized route recommendations
+- Browse mode: grid of all 12 routes with detail stepper and progress tracking (localStorage)
+- Route data files (`routes.js` + 7 language variants) with item adaptations by experience level
+- `explore-app.js` shared page logic (IIFE) with deep linking (`?route=id`) support
+- Explore link in top-level nav and footer quick links across all 8 languages
+- ~20 new STRINGS keys for Explore UI across all 8 language blocks
+- Explore routes paragraph added to all 8 about pages
+- Talk catalog text (`talk-catalog.md`) in English and Spanish
+
+### Changed
+- Showcase moved from top-level nav into "Using AI" dropdown (above Tools)
+- `window.__S` bridge added in include.js to expose STRINGS to page scripts
+
+## [2.5.0] - 2026-02-15
+
+### Added
+- 12 Quick Wins items (IDs 124-135) — bite-sized AI tasks across all 8 languages
+- 21 Family items (IDs 136-156) — parent-child AI conversation and activity prompts across all 8 languages
+- Quick Wins and Family category filter pills on all things pages
+- Quick Wins (`--cat-quickwins`) and Family (`--cat-family`) CSS category colors for all 3 themes
+- Preview button support (promptDemos) on prompt blocks across all things pages
+
+### Changed
+- Footer copyright updated to 2026, added Carlos Miranda Levy credit
+- Removed unused `availableAt` key from STRINGS in include.js
+
 ## [2.4.1] - 2026-02-14
 
 ### Added

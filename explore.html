@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore AI Routes | 100+ Things to Do with AI (and Some Not To) | CEMI.AI</title>
+    <meta name="description" content="Find your personalized AI learning path. Take a quick quiz or browse 12 curated routes tailored to your role and interests.">
+    <script src="include.js"></script>
+</head>
+<body data-page="explore">
+
+<section class="page-hero">
+    <div class="hero-orb hero-orb-1" style="width:300px;height:300px"></div>
+    <div class="hero-orb hero-orb-2" style="width:250px;height:250px"></div>
+    <div class="page-hero-content">
+        <h1><span class="gradient-text" id="explore-title">Find Your AI Path</span></h1>
+        <p id="explore-subtitle">Take a quick quiz or browse curated routes tailored to your goals.</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+
+        <!-- Mode Selection -->
+        <div class="explore-mode-cards" id="explore-mode">
+            <div class="explore-mode-card" id="mode-quiz">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                <h3 id="mode-quiz-title">Quick Quiz</h3>
+                <p id="mode-quiz-desc">Answer 3 questions and get personalized recommendations.</p>
+            </div>
+            <div class="explore-mode-card" id="mode-browse">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect></svg>
+                <h3 id="mode-browse-title">Browse Routes</h3>
+                <p id="mode-browse-desc">Explore all 12 curated learning routes.</p>
+            </div>
+        </div>
+
+        <!-- Quiz Wizard -->
+        <div class="explore-wizard" id="explore-wizard">
+            <div class="explore-wizard-progress" id="wizard-progress"></div>
+            <div id="wizard-steps"></div>
+            <div class="explore-wizard-actions" id="wizard-actions"></div>
+        </div>
+
+        <!-- Quiz Results / Routes Grid -->
+        <div class="explore-routes-grid" id="explore-routes"></div>
+
+        <!-- Route Detail -->
+        <div class="explore-detail" id="explore-detail">
+            <button class="explore-detail-back" id="detail-back">
+                <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                <span id="detail-back-text">Back to routes</span>
+            </button>
+            <div class="explore-detail-header" id="detail-header"></div>
+            <div class="explore-progress-bar"><div class="explore-progress-fill" id="detail-progress"></div></div>
+            <div class="explore-stepper" id="detail-stepper"></div>
+        </div>
+
+    </div>
+</section>
+
+<script src="routes.js"></script>
+<script src="data.js"></script>
+<script src="explore-app.js"></script>
+
+</body>
+</html>
