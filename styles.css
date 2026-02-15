@@ -517,6 +517,10 @@ a:hover { color: var(--accent-3); }
 }
 
 /* ===== FUN FACTS WIDGET ===== */
+.funfact-trigger { position: fixed; bottom: 90px; left: 32px; width: 48px; height: 48px; border-radius: 50%; background: var(--bg-card); border: 1px solid var(--border-accent-md); box-shadow: 0 4px 16px var(--shadow-color); cursor: pointer; z-index: 800; display: flex; align-items: center; justify-content: center; color: var(--accent-4); opacity: 0; visibility: hidden; transform: scale(0.8); transition: all 0.3s ease; }
+.funfact-trigger.visible { opacity: 1; visibility: visible; transform: scale(1); }
+.funfact-trigger:hover { transform: scale(1.1); border-color: var(--accent-4); box-shadow: 0 8px 24px var(--shadow-color); color: var(--accent-2); }
+.funfact-trigger svg { stroke: currentColor; fill: none; }
 .funfact-widget { position: fixed; bottom: 90px; left: 32px; max-width: 360px; background: var(--bg-card); border: 1px solid var(--border-accent-md); border-radius: var(--radius-lg); padding: 0; z-index: 800; opacity: 0; visibility: hidden; transform: translateY(20px); transition: all 0.4s ease; box-shadow: 0 8px 32px var(--shadow-color); }
 .funfact-widget.visible { opacity: 1; visibility: visible; transform: translateY(0); }
 .funfact-widget.hidden { opacity: 0; visibility: hidden; transform: translateY(20px); }
@@ -530,6 +534,13 @@ a:hover { color: var(--accent-3); }
 .funfact-btn svg { stroke: currentColor; fill: none; }
 .funfact-close-btn:hover { color: var(--accent-3); }
 
+/* ===== PAGE SHARE BUTTON ===== */
+.page-share { position: fixed; bottom: 90px; right: 32px; z-index: 800; }
+.page-share-btn { width: 48px; height: 48px; border-radius: 50%; background: var(--bg-card); border: 1px solid var(--border-accent-md); box-shadow: 0 4px 16px var(--shadow-color); cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--accent-4); transition: all 0.3s ease; }
+.page-share-btn:hover { transform: scale(1.1); border-color: var(--accent-4); box-shadow: 0 8px 24px var(--shadow-color); color: var(--accent-2); }
+.page-share-btn svg { stroke: currentColor; fill: none; }
+.page-share .share-dropdown { bottom: calc(100% + 8px); right: 0; }
+
 /* ===== CTA BOX ===== */
 .cta-box { text-align: center; margin-top: var(--space-2xl); padding: var(--space-xl); background: linear-gradient(135deg, rgba(217,164,65,0.08), rgba(167,0,0,0.08)); border: 1px solid rgba(217,164,65,0.2); border-radius: var(--radius-lg); }
 .cta-box h3 { margin-bottom: var(--space-sm); }
@@ -539,7 +550,9 @@ a:hover { color: var(--accent-3); }
 .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(167,0,0,0.3); color: #fff; }
 
 @media (max-width: 768px) {
+    .funfact-trigger { left: 16px; bottom: 70px; }
     .funfact-widget { left: 16px; right: 16px; max-width: none; bottom: 70px; }
+    .page-share { bottom: 70px; right: 16px; }
 }
 
 /* ===== ASCII ART EXAMPLES ===== */

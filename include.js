@@ -86,7 +86,8 @@
             quizStep1: 'What best describes you?', quizStep2: 'What is your AI experience level?', quizStep3: 'What interests you most?',
             quizNext: 'Next', quizBack: 'Back', quizFinish: 'Show My Routes',
             routeItems: 'items', viewItem: 'View', startRoute: 'Start Route', yourRoutes: 'Your Recommended Routes', completed: 'completed',
-            browseAll: 'Browse All Routes', orBrowse: 'or browse all routes', recommended: 'Recommended', backToRoutes: 'Back to routes', progress: 'Progress'
+            browseAll: 'Browse All Routes', orBrowse: 'or browse all routes', recommended: 'Recommended', backToRoutes: 'Back to routes', progress: 'Progress',
+            sharePage: 'Share', copyLink: 'Copy Link', linkCopied: 'Copied!'
         },
         fr: {
             things: "100+ \u00e0 faire", donts: '\u00c0 ne pas faire', logoText: "AI Do's et Don'ts", usingAI: "Utiliser l'IA", tips: 'Conseils', skills: 'Comp\u00e9tences utiles',
@@ -108,7 +109,8 @@
             quizStep1: 'Qu\u0027est-ce qui vous d\u00e9crit le mieux ?', quizStep2: 'Quel est votre niveau d\u0027exp\u00e9rience avec l\u0027IA ?', quizStep3: 'Qu\u0027est-ce qui vous int\u00e9resse le plus ?',
             quizNext: 'Suivant', quizBack: 'Retour', quizFinish: 'Voir mes routes',
             routeItems: '\u00e9l\u00e9ments', viewItem: 'Voir', startRoute: 'Commencer', yourRoutes: 'Vos routes recommand\u00e9es', completed: 'termin\u00e9',
-            browseAll: 'Toutes les routes', orBrowse: 'ou parcourir toutes les routes', recommended: 'Recommand\u00e9', backToRoutes: 'Retour aux routes', progress: 'Progr\u00e8s'
+            browseAll: 'Toutes les routes', orBrowse: 'ou parcourir toutes les routes', recommended: 'Recommand\u00e9', backToRoutes: 'Retour aux routes', progress: 'Progr\u00e8s',
+            sharePage: 'Partager', copyLink: 'Copier le lien', linkCopied: 'Copi\u00e9 !'
         },
         es: {
             things: '100+ S\u00ed', donts: 'Lo que no hacer', logoText: 'Qu\u00e9 hacer y no con IA', usingAI: 'Usar IA', tips: 'Consejos', skills: 'Habilidades \u00fatiles',
@@ -130,7 +132,8 @@
             quizStep1: '\u00bfQu\u00e9 te describe mejor?', quizStep2: '\u00bfCu\u00e1l es tu nivel de experiencia con IA?', quizStep3: '\u00bfQu\u00e9 te interesa m\u00e1s?',
             quizNext: 'Siguiente', quizBack: 'Atr\u00e1s', quizFinish: 'Ver mis rutas',
             routeItems: 'elementos', viewItem: 'Ver', startRoute: 'Comenzar', yourRoutes: 'Tus rutas recomendadas', completed: 'completado',
-            browseAll: 'Todas las rutas', orBrowse: 'o explorar todas las rutas', recommended: 'Recomendado', backToRoutes: 'Volver a rutas', progress: 'Progreso'
+            browseAll: 'Todas las rutas', orBrowse: 'o explorar todas las rutas', recommended: 'Recomendado', backToRoutes: 'Volver a rutas', progress: 'Progreso',
+            sharePage: 'Compartir', copyLink: 'Copiar enlace', linkCopied: '\u00a1Copiado!'
         },
         pt: {
             things: '100+ Sim', donts: 'O que n\u00e3o fazer', logoText: 'O que fazer e n\u00e3o com IA', usingAI: 'Usar IA', tips: 'Dicas', skills: 'Habilidades \u00fateis',
@@ -152,7 +155,8 @@
             quizStep1: 'O que melhor descreve voc\u00ea?', quizStep2: 'Qual \u00e9 seu n\u00edvel de experi\u00eancia com IA?', quizStep3: 'O que mais te interessa?',
             quizNext: 'Pr\u00f3ximo', quizBack: 'Voltar', quizFinish: 'Ver minhas rotas',
             routeItems: 'itens', viewItem: 'Ver', startRoute: 'Come\u00e7ar', yourRoutes: 'Suas rotas recomendadas', completed: 'conclu\u00eddo',
-            browseAll: 'Todas as rotas', orBrowse: 'ou explorar todas as rotas', recommended: 'Recomendado', backToRoutes: 'Voltar \u00e0s rotas', progress: 'Progresso'
+            browseAll: 'Todas as rotas', orBrowse: 'ou explorar todas as rotas', recommended: 'Recomendado', backToRoutes: 'Voltar \u00e0s rotas', progress: 'Progresso',
+            sharePage: 'Compartilhar', copyLink: 'Copiar link', linkCopied: 'Copiado!'
         },
         de: {
             things: "100+ Do's", donts: 'Don\u2019ts', logoText: 'KI: Dos und Don\u2019ts', usingAI: 'KI nutzen', tips: 'Tipps', skills: 'N\u00fctzliche F\u00e4higkeiten',
@@ -174,7 +178,8 @@
             quizStep1: 'Was beschreibt dich am besten?', quizStep2: 'Wie ist dein KI-Erfahrungslevel?', quizStep3: 'Was interessiert dich am meisten?',
             quizNext: 'Weiter', quizBack: 'Zur\u00fcck', quizFinish: 'Meine Routen zeigen',
             routeItems: 'Elemente', viewItem: 'Ansehen', startRoute: 'Starten', yourRoutes: 'Deine empfohlenen Routen', completed: 'abgeschlossen',
-            browseAll: 'Alle Routen', orBrowse: 'oder alle Routen durchsuchen', recommended: 'Empfohlen', backToRoutes: 'Zur\u00fcck zu Routen', progress: 'Fortschritt'
+            browseAll: 'Alle Routen', orBrowse: 'oder alle Routen durchsuchen', recommended: 'Empfohlen', backToRoutes: 'Zur\u00fcck zu Routen', progress: 'Fortschritt',
+            sharePage: 'Teilen', copyLink: 'Link kopieren', linkCopied: 'Kopiert!'
         },
         it: {
             things: "100+ S\u00ec", donts: 'Da non fare', logoText: "IA: da fare e non", usingAI: "Usare l'IA", tips: 'Consigli', skills: 'Competenze utili',
@@ -196,7 +201,8 @@
             quizStep1: 'Cosa ti descrive meglio?', quizStep2: 'Qual \u00e8 il tuo livello di esperienza con l\u0027IA?', quizStep3: 'Cosa ti interessa di pi\u00f9?',
             quizNext: 'Avanti', quizBack: 'Indietro', quizFinish: 'Mostra i miei percorsi',
             routeItems: 'elementi', viewItem: 'Vedi', startRoute: 'Inizia', yourRoutes: 'I tuoi percorsi consigliati', completed: 'completato',
-            browseAll: 'Tutti i percorsi', orBrowse: 'o sfoglia tutti i percorsi', recommended: 'Consigliato', backToRoutes: 'Torna ai percorsi', progress: 'Progressi'
+            browseAll: 'Tutti i percorsi', orBrowse: 'o sfoglia tutti i percorsi', recommended: 'Consigliato', backToRoutes: 'Torna ai percorsi', progress: 'Progressi',
+            sharePage: 'Condividi', copyLink: 'Copia link', linkCopied: 'Copiato!'
         },
         ja: {
             things: "100+ Do's", donts: '\u3084\u3063\u3066\u306f\u3044\u3051\u306a\u3044\u3053\u3068', logoText: 'AI\u306e\u3059\u3079\u304d\u3053\u3068\u30fb\u3059\u3079\u304d\u3067\u306a\u3044\u3053\u3068', usingAI: 'AI\u306e\u4f7f\u3044\u65b9', tips: '\u30d2\u30f3\u30c8', skills: '\u5f79\u7acb\u3064\u30b9\u30ad\u30eb',
@@ -218,7 +224,8 @@
             quizStep1: '\u3042\u306a\u305f\u306b\u6700\u3082\u5f53\u3066\u306f\u307e\u308b\u306e\u306f\uff1f', quizStep2: 'AI\u306e\u7d4c\u9a13\u30ec\u30d9\u30eb\u306f\uff1f', quizStep3: '\u6700\u3082\u8208\u5473\u304c\u3042\u308b\u306e\u306f\uff1f',
             quizNext: '\u6b21\u3078', quizBack: '\u623b\u308b', quizFinish: '\u304a\u3059\u3059\u3081\u3092\u8868\u793a',
             routeItems: '\u30a2\u30a4\u30c6\u30e0', viewItem: '\u898b\u308b', startRoute: '\u958b\u59cb', yourRoutes: '\u304a\u3059\u3059\u3081\u30eb\u30fc\u30c8', completed: '\u5b8c\u4e86',
-            browseAll: '\u3059\u3079\u3066\u306e\u30eb\u30fc\u30c8', orBrowse: '\u307e\u305f\u306f\u3059\u3079\u3066\u306e\u30eb\u30fc\u30c8\u3092\u95b2\u89a7', recommended: '\u304a\u3059\u3059\u3081', backToRoutes: '\u30eb\u30fc\u30c8\u306b\u623b\u308b', progress: '\u9032\u6357'
+            browseAll: '\u3059\u3079\u3066\u306e\u30eb\u30fc\u30c8', orBrowse: '\u307e\u305f\u306f\u3059\u3079\u3066\u306e\u30eb\u30fc\u30c8\u3092\u95b2\u89a7', recommended: '\u304a\u3059\u3059\u3081', backToRoutes: '\u30eb\u30fc\u30c8\u306b\u623b\u308b', progress: '\u9032\u6357',
+            sharePage: '\u5171\u6709', copyLink: '\u30ea\u30f3\u30af\u3092\u30b3\u30d4\u30fc', linkCopied: '\u30b3\u30d4\u30fc\u3057\u307e\u3057\u305f'
         },
         zh: {
             things: "100+ Do's", donts: '\u4e0d\u8981\u505a\u7684\u4e8b', logoText: 'AI\u8be5\u505a\u4e0e\u4e0d\u8be5\u505a', usingAI: '\u4f7f\u7528AI', tips: '\u6280\u5de7', skills: '\u5b9e\u7528\u6280\u80fd',
@@ -240,7 +247,8 @@
             quizStep1: '\u54ea\u4e2a\u6700\u80fd\u63cf\u8ff0\u4f60\uff1f', quizStep2: '\u4f60\u7684AI\u7ecf\u9a8c\u6c34\u5e73\u5982\u4f55\uff1f', quizStep3: '\u4f60\u6700\u611f\u5174\u8da3\u7684\u662f\u4ec0\u4e48\uff1f',
             quizNext: '\u4e0b\u4e00\u6b65', quizBack: '\u8fd4\u56de', quizFinish: '\u67e5\u770b\u63a8\u8350',
             routeItems: '\u9879\u76ee', viewItem: '\u67e5\u770b', startRoute: '\u5f00\u59cb', yourRoutes: '\u4f60\u7684\u63a8\u8350\u8def\u7ebf', completed: '\u5df2\u5b8c\u6210',
-            browseAll: '\u6240\u6709\u8def\u7ebf', orBrowse: '\u6216\u6d4f\u89c8\u6240\u6709\u8def\u7ebf', recommended: '\u63a8\u8350', backToRoutes: '\u8fd4\u56de\u8def\u7ebf', progress: '\u8fdb\u5ea6'
+            browseAll: '\u6240\u6709\u8def\u7ebf', orBrowse: '\u6216\u6d4f\u89c8\u6240\u6709\u8def\u7ebf', recommended: '\u63a8\u8350', backToRoutes: '\u8fd4\u56de\u8def\u7ebf', progress: '\u8fdb\u5ea6',
+            sharePage: '\u5206\u4eab', copyLink: '\u590d\u5236\u94fe\u63a5', linkCopied: '\u5df2\u590d\u5236'
         }
     };
 
@@ -360,7 +368,10 @@
             '<svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg></button>';
 
         // --- Fun Facts widget ---
-        var funFactHTML = '<div class="funfact-widget" id="funfact-widget">' +
+        var funFactHTML = '<button class="funfact-trigger" id="funfact-trigger" title="' + S.funFact + '">' +
+            '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"></path><path d="M9 18h6"></path><path d="M10 22h4"></path></svg>' +
+            '</button>' +
+            '<div class="funfact-widget" id="funfact-widget">' +
             '<div class="funfact-content">' +
             '<div class="funfact-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg> ' + S.funFact + '</div>' +
             '<p id="funfact-text"></p>' +
@@ -370,6 +381,12 @@
             '<a id="funfact-perplexity" class="funfact-btn" target="_blank" title="' + S.researchPerplexity + '"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></a>' +
             '<button id="funfact-close" class="funfact-btn funfact-close-btn" title="' + S.close + '"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>' +
             '</div></div></div>';
+
+        // --- Page Share button ---
+        var pageShareHTML = '<div class="page-share" id="page-share">' +
+            '<button class="page-share-btn" id="page-share-btn" title="' + S.sharePage + '">' +
+            '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>' +
+            '</button></div>';
 
         // --- Search Modal ---
         var searchModalHTML = '<div class="search-modal-overlay" id="search-modal-overlay">' +
@@ -382,8 +399,8 @@
             '<div class="search-modal-hint">' + S.searchHint + ' \u00b7 <span class="search-modal-shortcut">' + (navigator.platform.indexOf('Mac') > -1 ? '\u2318' : 'Ctrl') + '+K</span></div>' +
             '</div></div>';
 
-        // Insert footer, scroll-top, funfact, search modal at end of body
-        document.body.insertAdjacentHTML('beforeend', footerHTML + scrollTopHTML + funFactHTML + searchModalHTML);
+        // Insert footer, scroll-top, funfact, page-share, search modal at end of body
+        document.body.insertAdjacentHTML('beforeend', footerHTML + scrollTopHTML + funFactHTML + pageShareHTML + searchModalHTML);
 
         // --- Initialize fun facts (called after funfacts.js loads) ---
         function initFunFacts() {
@@ -395,6 +412,7 @@
             var nextBtn = document.getElementById('funfact-next');
             var closeBtn = document.getElementById('funfact-close');
             var widget = document.getElementById('funfact-widget');
+            var trigger = document.getElementById('funfact-trigger');
 
             function showFact() {
                 var idx;
@@ -408,21 +426,35 @@
 
             showFact();
             if (nextBtn) nextBtn.addEventListener('click', showFact);
-            if (closeBtn) closeBtn.addEventListener('click', function() {
-                widget.classList.add('hidden');
+
+            // Trigger opens widget
+            if (trigger) trigger.addEventListener('click', function() {
+                trigger.classList.remove('visible');
+                widget.classList.remove('hidden');
+                widget.classList.add('visible');
             });
 
-            // Show widget after slight delay
+            // Close collapses widget back to trigger
+            if (closeBtn) closeBtn.addEventListener('click', function() {
+                widget.classList.add('hidden');
+                widget.classList.remove('visible');
+                setTimeout(function() { trigger.classList.add('visible'); }, 300);
+            });
+
+            // Show trigger after slight delay
             setTimeout(function() {
-                if (widget) widget.classList.add('visible');
+                if (trigger) trigger.classList.add('visible');
             }, 2000);
         }
 
-        // === Dynamically load funfacts.js then main.js ===
+        // === Dynamically load funfacts.js, share.js, then main.js ===
         var ffScript = document.createElement('script');
         ffScript.src = 'funfacts.js';
         ffScript.onload = function() {
             initFunFacts();
+            var shScript = document.createElement('script');
+            shScript.src = 'share.js';
+            document.body.appendChild(shScript);
             var mjScript = document.createElement('script');
             mjScript.src = 'main.js';
             document.body.appendChild(mjScript);

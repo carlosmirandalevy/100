@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.7.0] - 2026-02-15
+
+### Added
+- Floating page share button (bottom-right) on every page via include.js
+- Email sharing option added to all share dropdowns (items and page-level)
+- Share dropdown now shows 6 options: Copy Link, Email, WhatsApp, X/Twitter, LinkedIn, Facebook
+- Translated email label in all 8 languages
+- Fun Fact widget now starts collapsed as a lightbulb icon; expands on click
+
+### Changed
+- Refactored page share to reuse share.js infrastructure instead of duplicating logic in include.js
+- share.js now loaded dynamically on all pages (not just things pages)
+- Added load guard to share.js to prevent double execution on things pages
+
 ## [2.6.1] - 2026-02-15
 
 ### Changed
