@@ -1,5 +1,25 @@
 # Changelog
 
+## [3.0.0] - 2026-02-15
+
+### Added
+- **User Suggestions**: Floating "+" button on every page opens a suggest modal for submitting new items, don'ts, categories, examples, requests, tips, skills, quick wins, showcase entries, tools, and FAQs
+- **Item Likes**: Heart button on each item in all 8 things pages with Firestore persistence and localStorage dedup; unlike support (toggle)
+- **Admin Dashboard** (`admin.html`): Firebase Auth login, submission review with filter/sort, status management (pending/reviewed/published/rejected)
+- **Firebase integration**: `firebase-config.js` (shared init), `likes.js` (like buttons), `suggest-app.js` (form with 11 submission types x 8 languages), `admin-app.js` (dashboard)
+- **Google Analytics** via Firebase Analytics SDK, loaded dynamically by `firebase-config.js`
+- Suggest form translations embedded in `suggest-app.js` for all 8 languages
+- Suggest link in footer quick links and about pages (opens modal via `#suggest`)
+- Community-driven messaging added to all 8 about pages ("not a static catalog")
+
+### Changed
+- Firebase SDK and page-specific scripts now loaded centrally from `include.js` (no manual `<script>` tags in HTML pages)
+- Suggest form is a modal (no standalone suggest.html pages) — loaded on demand when first opened
+- Toolkit pages updated across all 8 languages: added Step 0 (enable Markdown in Google Docs) and rewrote Step 2 (Paste from Markdown)
+
+### Removed
+- 8 standalone suggest.html pages replaced by modal approach
+
 ## [2.7.0] - 2026-02-15
 
 ### Added

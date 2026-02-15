@@ -87,7 +87,8 @@
             quizNext: 'Next', quizBack: 'Back', quizFinish: 'Show My Routes',
             routeItems: 'items', viewItem: 'View', startRoute: 'Start Route', yourRoutes: 'Your Recommended Routes', completed: 'completed',
             browseAll: 'Browse All Routes', orBrowse: 'or browse all routes', recommended: 'Recommended', backToRoutes: 'Back to routes', progress: 'Progress',
-            sharePage: 'Share', copyLink: 'Copy Link', linkCopied: 'Copied!'
+            sharePage: 'Share', copyLink: 'Copy Link', linkCopied: 'Copied!',
+            suggest: 'Suggest'
         },
         fr: {
             things: "100+ \u00e0 faire", donts: '\u00c0 ne pas faire', logoText: "AI Do's et Don'ts", usingAI: "Utiliser l'IA", tips: 'Conseils', skills: 'Comp\u00e9tences utiles',
@@ -110,7 +111,8 @@
             quizNext: 'Suivant', quizBack: 'Retour', quizFinish: 'Voir mes routes',
             routeItems: '\u00e9l\u00e9ments', viewItem: 'Voir', startRoute: 'Commencer', yourRoutes: 'Vos routes recommand\u00e9es', completed: 'termin\u00e9',
             browseAll: 'Toutes les routes', orBrowse: 'ou parcourir toutes les routes', recommended: 'Recommand\u00e9', backToRoutes: 'Retour aux routes', progress: 'Progr\u00e8s',
-            sharePage: 'Partager', copyLink: 'Copier le lien', linkCopied: 'Copi\u00e9 !'
+            sharePage: 'Partager', copyLink: 'Copier le lien', linkCopied: 'Copi\u00e9 !',
+            suggest: 'Sugg\u00e9rer'
         },
         es: {
             things: '100+ S\u00ed', donts: 'Lo que no hacer', logoText: 'Qu\u00e9 hacer y no con IA', usingAI: 'Usar IA', tips: 'Consejos', skills: 'Habilidades \u00fatiles',
@@ -133,7 +135,8 @@
             quizNext: 'Siguiente', quizBack: 'Atr\u00e1s', quizFinish: 'Ver mis rutas',
             routeItems: 'elementos', viewItem: 'Ver', startRoute: 'Comenzar', yourRoutes: 'Tus rutas recomendadas', completed: 'completado',
             browseAll: 'Todas las rutas', orBrowse: 'o explorar todas las rutas', recommended: 'Recomendado', backToRoutes: 'Volver a rutas', progress: 'Progreso',
-            sharePage: 'Compartir', copyLink: 'Copiar enlace', linkCopied: '\u00a1Copiado!'
+            sharePage: 'Compartir', copyLink: 'Copiar enlace', linkCopied: '\u00a1Copiado!',
+            suggest: 'Sugerir'
         },
         pt: {
             things: '100+ Sim', donts: 'O que n\u00e3o fazer', logoText: 'O que fazer e n\u00e3o com IA', usingAI: 'Usar IA', tips: 'Dicas', skills: 'Habilidades \u00fateis',
@@ -156,7 +159,8 @@
             quizNext: 'Pr\u00f3ximo', quizBack: 'Voltar', quizFinish: 'Ver minhas rotas',
             routeItems: 'itens', viewItem: 'Ver', startRoute: 'Come\u00e7ar', yourRoutes: 'Suas rotas recomendadas', completed: 'conclu\u00eddo',
             browseAll: 'Todas as rotas', orBrowse: 'ou explorar todas as rotas', recommended: 'Recomendado', backToRoutes: 'Voltar \u00e0s rotas', progress: 'Progresso',
-            sharePage: 'Compartilhar', copyLink: 'Copiar link', linkCopied: 'Copiado!'
+            sharePage: 'Compartilhar', copyLink: 'Copiar link', linkCopied: 'Copiado!',
+            suggest: 'Sugerir'
         },
         de: {
             things: "100+ Do's", donts: 'Don\u2019ts', logoText: 'KI: Dos und Don\u2019ts', usingAI: 'KI nutzen', tips: 'Tipps', skills: 'N\u00fctzliche F\u00e4higkeiten',
@@ -179,7 +183,8 @@
             quizNext: 'Weiter', quizBack: 'Zur\u00fcck', quizFinish: 'Meine Routen zeigen',
             routeItems: 'Elemente', viewItem: 'Ansehen', startRoute: 'Starten', yourRoutes: 'Deine empfohlenen Routen', completed: 'abgeschlossen',
             browseAll: 'Alle Routen', orBrowse: 'oder alle Routen durchsuchen', recommended: 'Empfohlen', backToRoutes: 'Zur\u00fcck zu Routen', progress: 'Fortschritt',
-            sharePage: 'Teilen', copyLink: 'Link kopieren', linkCopied: 'Kopiert!'
+            sharePage: 'Teilen', copyLink: 'Link kopieren', linkCopied: 'Kopiert!',
+            suggest: 'Vorschlagen'
         },
         it: {
             things: "100+ S\u00ec", donts: 'Da non fare', logoText: "IA: da fare e non", usingAI: "Usare l'IA", tips: 'Consigli', skills: 'Competenze utili',
@@ -202,7 +207,8 @@
             quizNext: 'Avanti', quizBack: 'Indietro', quizFinish: 'Mostra i miei percorsi',
             routeItems: 'elementi', viewItem: 'Vedi', startRoute: 'Inizia', yourRoutes: 'I tuoi percorsi consigliati', completed: 'completato',
             browseAll: 'Tutti i percorsi', orBrowse: 'o sfoglia tutti i percorsi', recommended: 'Consigliato', backToRoutes: 'Torna ai percorsi', progress: 'Progressi',
-            sharePage: 'Condividi', copyLink: 'Copia link', linkCopied: 'Copiato!'
+            sharePage: 'Condividi', copyLink: 'Copia link', linkCopied: 'Copiato!',
+            suggest: 'Suggerisci'
         },
         ja: {
             things: "100+ Do's", donts: '\u3084\u3063\u3066\u306f\u3044\u3051\u306a\u3044\u3053\u3068', logoText: 'AI\u306e\u3059\u3079\u304d\u3053\u3068\u30fb\u3059\u3079\u304d\u3067\u306a\u3044\u3053\u3068', usingAI: 'AI\u306e\u4f7f\u3044\u65b9', tips: '\u30d2\u30f3\u30c8', skills: '\u5f79\u7acb\u3064\u30b9\u30ad\u30eb',
@@ -225,7 +231,8 @@
             quizNext: '\u6b21\u3078', quizBack: '\u623b\u308b', quizFinish: '\u304a\u3059\u3059\u3081\u3092\u8868\u793a',
             routeItems: '\u30a2\u30a4\u30c6\u30e0', viewItem: '\u898b\u308b', startRoute: '\u958b\u59cb', yourRoutes: '\u304a\u3059\u3059\u3081\u30eb\u30fc\u30c8', completed: '\u5b8c\u4e86',
             browseAll: '\u3059\u3079\u3066\u306e\u30eb\u30fc\u30c8', orBrowse: '\u307e\u305f\u306f\u3059\u3079\u3066\u306e\u30eb\u30fc\u30c8\u3092\u95b2\u89a7', recommended: '\u304a\u3059\u3059\u3081', backToRoutes: '\u30eb\u30fc\u30c8\u306b\u623b\u308b', progress: '\u9032\u6357',
-            sharePage: '\u5171\u6709', copyLink: '\u30ea\u30f3\u30af\u3092\u30b3\u30d4\u30fc', linkCopied: '\u30b3\u30d4\u30fc\u3057\u307e\u3057\u305f'
+            sharePage: '\u5171\u6709', copyLink: '\u30ea\u30f3\u30af\u3092\u30b3\u30d4\u30fc', linkCopied: '\u30b3\u30d4\u30fc\u3057\u307e\u3057\u305f',
+            suggest: '\u63d0\u6848\u3059\u308b'
         },
         zh: {
             things: "100+ Do's", donts: '\u4e0d\u8981\u505a\u7684\u4e8b', logoText: 'AI\u8be5\u505a\u4e0e\u4e0d\u8be5\u505a', usingAI: '\u4f7f\u7528AI', tips: '\u6280\u5de7', skills: '\u5b9e\u7528\u6280\u80fd',
@@ -248,7 +255,8 @@
             quizNext: '\u4e0b\u4e00\u6b65', quizBack: '\u8fd4\u56de', quizFinish: '\u67e5\u770b\u63a8\u8350',
             routeItems: '\u9879\u76ee', viewItem: '\u67e5\u770b', startRoute: '\u5f00\u59cb', yourRoutes: '\u4f60\u7684\u63a8\u8350\u8def\u7ebf', completed: '\u5df2\u5b8c\u6210',
             browseAll: '\u6240\u6709\u8def\u7ebf', orBrowse: '\u6216\u6d4f\u89c8\u6240\u6709\u8def\u7ebf', recommended: '\u63a8\u8350', backToRoutes: '\u8fd4\u56de\u8def\u7ebf', progress: '\u8fdb\u5ea6',
-            sharePage: '\u5206\u4eab', copyLink: '\u590d\u5236\u94fe\u63a5', linkCopied: '\u5df2\u590d\u5236'
+            sharePage: '\u5206\u4eab', copyLink: '\u590d\u5236\u94fe\u63a5', linkCopied: '\u5df2\u590d\u5236',
+            suggest: '\u5efa\u8bae'
         }
     };
 
@@ -350,6 +358,7 @@
             '<li><a href="' + ph('things') + '">' + S.things + '</a></li>' +
             '<li><a href="' + ph('donts') + '">' + S.donts + '</a></li>' +
             '<li><a href="' + ph('explore') + '">' + S.explore + '</a></li>' +
+            '<li><a href="#suggest">' + S.suggest + '</a></li>' +
             '<li><a href="' + ph('about') + '">' + S.about + '</a></li>' +
             '</ul></div>' +
             '<div class="footer-col"><h4>' + S.connectWithUs + '</h4>' +
@@ -388,6 +397,20 @@
             '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>' +
             '</button></div>';
 
+        // --- Floating Suggest button + modal ---
+        var suggestBtnHTML = '<button class="suggest-fab" id="suggest-fab" title="' + S.suggest + '">' +
+            '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>' +
+            '</button>';
+        var suggestModalHTML = '<div class="suggest-modal-overlay" id="suggest-modal-overlay">' +
+            '<div class="suggest-modal">' +
+            '<button class="suggest-modal-close" id="suggest-modal-close" aria-label="' + S.close + '">' +
+            '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>' +
+            '</button>' +
+            '<div class="suggest-modal-body">' +
+            '<h2 class="gradient-text suggest-modal-title" id="suggest-title">' + S.suggest + '</h2>' +
+            '<div id="suggest-form-container" class="suggest-container"></div>' +
+            '</div></div></div>';
+
         // --- Search Modal ---
         var searchModalHTML = '<div class="search-modal-overlay" id="search-modal-overlay">' +
             '<div class="search-modal">' +
@@ -399,8 +422,54 @@
             '<div class="search-modal-hint">' + S.searchHint + ' \u00b7 <span class="search-modal-shortcut">' + (navigator.platform.indexOf('Mac') > -1 ? '\u2318' : 'Ctrl') + '+K</span></div>' +
             '</div></div>';
 
-        // Insert footer, scroll-top, funfact, page-share, search modal at end of body
-        document.body.insertAdjacentHTML('beforeend', footerHTML + scrollTopHTML + funFactHTML + pageShareHTML + searchModalHTML);
+        // Insert footer, scroll-top, funfact, page-share, suggest fab + modal, search modal at end of body
+        document.body.insertAdjacentHTML('beforeend', footerHTML + scrollTopHTML + funFactHTML + pageShareHTML + suggestBtnHTML + suggestModalHTML + searchModalHTML);
+
+        // --- Suggest modal open/close ---
+        var suggestOverlay = document.getElementById('suggest-modal-overlay');
+        var suggestClose = document.getElementById('suggest-modal-close');
+        var suggestLoaded = false;
+
+        function openSuggestModal() {
+            if (!suggestLoaded) {
+                // Load Firebase + suggest-app.js on first open
+                var fbBase = 'https://www.gstatic.com/firebasejs/10.14.1/';
+                var queue = [fbBase + 'firebase-app-compat.js', fbBase + 'firebase-firestore-compat.js', 'firebase-config.js', 'suggest-app.js'];
+                (function loadNext(i) {
+                    if (i >= queue.length) return;
+                    var s = document.createElement('script');
+                    s.src = queue[i];
+                    s.onload = function() { loadNext(i + 1); };
+                    document.body.appendChild(s);
+                })(0);
+                suggestLoaded = true;
+            }
+            suggestOverlay.classList.add('visible');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeSuggestModal() {
+            suggestOverlay.classList.remove('visible');
+            document.body.style.overflow = '';
+        }
+
+        // FAB click
+        var suggestFab = document.getElementById('suggest-fab');
+        if (suggestFab) suggestFab.addEventListener('click', openSuggestModal);
+
+        // Any #suggest link (footer, about pages, etc.)
+        document.addEventListener('click', function(e) {
+            var link = e.target.closest('a[href="#suggest"]');
+            if (link) { e.preventDefault(); openSuggestModal(); }
+        });
+
+        if (suggestClose) suggestClose.addEventListener('click', closeSuggestModal);
+        if (suggestOverlay) suggestOverlay.addEventListener('click', function(e) {
+            if (e.target === suggestOverlay) closeSuggestModal();
+        });
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && suggestOverlay.classList.contains('visible')) closeSuggestModal();
+        });
 
         // --- Initialize fun facts (called after funfacts.js loads) ---
         function initFunFacts() {
@@ -447,9 +516,10 @@
             }, 2000);
         }
 
-        // === Dynamically load funfacts.js, share.js, then main.js ===
+        // === Dynamically load funfacts.js (language-aware), share.js, then main.js ===
+        var ffFile = lang === 'en' ? 'funfacts.js' : 'funfacts-' + lang + '.js';
         var ffScript = document.createElement('script');
-        ffScript.src = 'funfacts.js';
+        ffScript.src = ffFile;
         ffScript.onload = function() {
             initFunFacts();
             var shScript = document.createElement('script');
@@ -460,5 +530,23 @@
             document.body.appendChild(mjScript);
         };
         document.body.appendChild(ffScript);
+
+        // === Conditionally load Firebase + page-specific scripts ===
+        if (page === 'things' || page === 'admin') {
+            var fbBase = 'https://www.gstatic.com/firebasejs/10.14.1/';
+            var fbQueue = [fbBase + 'firebase-app-compat.js', fbBase + 'firebase-firestore-compat.js'];
+            if (page === 'admin') fbQueue.push(fbBase + 'firebase-auth-compat.js');
+            fbQueue.push('firebase-config.js');
+            if (page === 'things') fbQueue.push('likes.js');
+            else if (page === 'admin') fbQueue.push('admin-app.js');
+
+            (function loadNext(i) {
+                if (i >= fbQueue.length) return;
+                var s = document.createElement('script');
+                s.src = fbQueue[i];
+                s.onload = function() { loadNext(i + 1); };
+                document.body.appendChild(s);
+            })(0);
+        }
     });
 })();
