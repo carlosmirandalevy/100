@@ -74,6 +74,8 @@
             btn.classList.remove('liked');
             btn.innerHTML = heartOutline + '<span class="like-count">' + (newCount > 0 ? newCount : '') + '</span>';
 
+            if (typeof gtag === 'function') gtag('event', 'unlike', { item_id: id });
+
             if (!window.__db) return;
             window.__db.collection('likes').doc(id).set({
                 count: firebase.firestore.FieldValue.increment(-1)
@@ -92,6 +94,8 @@
             likeCounts[id] = current + 1;
             btn.classList.add('liked');
             btn.innerHTML = heartFilled + '<span class="like-count">' + likeCounts[id] + '</span>';
+
+            if (typeof gtag === 'function') gtag('event', 'like', { item_id: id });
 
             if (!window.__db) return;
             window.__db.collection('likes').doc(id).set({

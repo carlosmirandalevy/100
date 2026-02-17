@@ -11,7 +11,7 @@
         storageBucket: "cemi-ai-100.firebasestorage.app",
         messagingSenderId: "97325080848",
         appId: "1:97325080848:web:d8ad9f77a6784fc9ee8595",
-        measurementId: "G-19802R80SQ"
+        measurementId: "G-5BQ9VNWRX5"
     };
 
     // Initialize Firebase (compat SDK)
@@ -24,10 +24,4 @@
     if (typeof firebase.auth === 'function') {
         window.__auth = firebase.auth();
     }
-
-    // Load and initialize Google Analytics dynamically
-    var s = document.createElement('script');
-    s.src = 'https://www.gstatic.com/firebasejs/10.14.1/firebase-analytics-compat.js';
-    s.onload = function() { firebase.analytics(); };
-    document.head.appendChild(s);
 })();

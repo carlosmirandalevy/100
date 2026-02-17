@@ -14,29 +14,35 @@ This project showcases 100 practical things you can do with AI, organized into 1
 
 ## Features
 
-- **120 AI use cases** across 10 categories: Writing, Learning, Art, Music, Video, Productivity, Coding, Business, Science, and Fun
+- **115+ AI use cases** across 14 categories: Writing, Learning, Art, Music, Video, Productivity, Coding, Business, Science, Fun, Quick Wins, Family, Social, and Job Hunting
 - **Ready-to-copy prompts** with one-click copy for each use case
 - **Step-by-step guides** for every item
+- **8 languages**: English, French, Spanish, Portuguese, German, Italian, Japanese, and Chinese
+- **User suggestions**: Floating "+" button to submit new items, categories, and more
+- **Item likes**: Heart button on each item with Firestore persistence
 - **Showcase section** with real AI projects by Carlos Miranda Levy
 - **Content & Format guide** covering Markdown and HTML as foundational AI skills
 - **Search and filter** by category or keywords
 - **Progress tracker** showing how many items you've explored
 - **Responsive design** optimized for mobile and desktop
 - **Three theme flavors** -- Pastel (default), Light, and Dark -- with a toggle in the nav bar, persisted via localStorage
+- **Google Analytics** (GA4) tracking page views, searches, likes, and suggestion submissions
 
 ## Tech Stack
 
 - Pure HTML, CSS, and vanilla JavaScript (no frameworks, no build step)
+- Firebase (Firestore for likes/suggestions, Auth for admin)
+- Google Analytics (GA4) via gtag.js
 - Google Fonts: MuseoModerno (display), Inter (body), Source Code Pro (code)
 - Inline SVG icons (Lucide-style)
-- Data-driven architecture with separate `data.js` for all items
+- Data-driven architecture with separate `data.js` (EN) and `data-{lang}.js` for translations
 - `include.js` dynamically injects shared components and loads scripts
 
 ## Project Structure
 
 ```
-index.html          # Home page
-things.html         # The 100+ things (search, filter, explore)
+index.html          # Home page (+ {lang}.html for each language)
+things.html         # The 100+ things (+ {lang}-things.html)
 tips.html           # Tips for using AI
 toolkit.html        # Useful skills (Markdown, HTML, Mermaid, GitHub Pages)
 tools.html          # Our favorite AI tools
@@ -44,13 +50,17 @@ quickwins.html      # Quick wins to try right now
 showcase.html       # Real AI projects showcase
 faq.html            # Frequently asked questions
 about.html          # About the project and curator
-fr.html             # French version (self-contained)
+admin.html          # Admin dashboard (Firebase Auth protected)
 include.js          # Shared components (nav, footer, widgets, script loading)
 styles.css          # Shared styles
 main.js             # Shared interactions (nav, search modal, scroll, FAQ)
 funfacts.js         # AI fun facts data
-data.js             # All 108 items data array (English)
-data-fr.js          # All items data array (French)
+data.js             # All 115 items data array (English)
+data-{lang}.js      # Translated items (fr, es, pt, de, it, ja, zh)
+firebase-config.js  # Firebase initialization (Firestore, Auth)
+likes.js            # Item like buttons with Firestore persistence
+suggest-app.js      # Suggestion form modal (11 types x 8 languages)
+admin-app.js        # Admin dashboard logic
 README.md           # This file
 CHANGELOG.md        # Version history
 resources/          # Reference materials
@@ -83,4 +93,4 @@ To test locally, just open `index.html` in a browser.
 
 ## License
 
-Copyright 2025 CEMI.AI. All rights reserved.
+Copyright 2025-2026 CEMI.AI. All rights reserved.

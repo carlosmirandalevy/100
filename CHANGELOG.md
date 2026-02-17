@@ -1,5 +1,18 @@
 # Changelog
 
+## [3.1.1] - 2026-02-17
+
+### Changed
+- **Consolidated Google Analytics**: Unified all analytics tracking under a single GA4 property (`G-5BQ9VNWRX5`), removing separate Firebase Analytics SDK
+- Updated `measurementId` in `firebase-config.js` to match the primary GA4 property
+
+### Added
+- **Like/unlike event tracking**: `likes.js` now fires `gtag('event', 'like/unlike')` with `item_id`
+- **Suggestion submission tracking**: `suggest-app.js` now fires `gtag('event', 'suggestion_submit')` with `type`, `category`, and `language`
+
+### Removed
+- Firebase Analytics compat SDK dynamic load from `firebase-config.js` (redundant with gtag.js in `include.js`)
+
 ## [3.1.0] - 2026-02-15
 
 ### Added
