@@ -1,5 +1,11 @@
 # Changelog
 
+## [3.1.2] - 2026-02-17
+
+### Added
+- **Launch plan** (`resources/launch-plan.md`): 4-week social media rollout with posts for LinkedIn, X, Instagram, and Facebook, plus standalone origin story article
+- **Hero image prompts** (`resources/hero-image-prompts.md`): MidJourney and Gemini prompts for site hero image
+
 ## [3.1.1] - 2026-02-17
 
 ### Changed
