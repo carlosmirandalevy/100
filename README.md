@@ -93,4 +93,4 @@ To test locally, just open `index.html` in a browser.
 
 ## License
 
-Copyright 2025-2026 CEMI.AI. All rights reserved.
+Copyright 2026 CEMI.AI. All rights reserved.
