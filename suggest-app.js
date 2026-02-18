@@ -401,7 +401,8 @@
         { value: 'fun', en: 'Fun', fr: 'Fun', es: 'Diversi\u00f3n', pt: 'Divers\u00e3o', de: 'Spa\u00df', it: 'Divertimento', ja: '\u304a\u697d\u3057\u307f', zh: '\u5a31\u4e50' },
         { value: 'quickwins', en: 'Quick Wins', fr: 'Gains Rapides', es: 'Victorias R\u00e1pidas', pt: 'Vit\u00f3rias R\u00e1pidas', de: 'Schnelle Erfolge', it: 'Vittorie Rapide', ja: '\u30af\u30a4\u30c3\u30af\u30a6\u30a3\u30f3', zh: '\u5feb\u901f\u4e0a\u624b' },
         { value: 'family', en: 'Family', fr: 'Famille', es: 'Familia', pt: 'Fam\u00edlia', de: 'Familie', it: 'Famiglia', ja: '\u30d5\u30a1\u30df\u30ea\u30fc', zh: '\u5bb6\u5ead' },
-        { value: 'social', en: 'Social', fr: 'Social', es: 'Social', pt: 'Social', de: 'Sozial', it: 'Sociale', ja: '\u30bd\u30fc\u30b7\u30e3\u30eb', zh: '\u793e\u4ea4' }
+        { value: 'social', en: 'Social', fr: 'Social', es: 'Social', pt: 'Social', de: 'Sozial', it: 'Sociale', ja: '\u30bd\u30fc\u30b7\u30e3\u30eb', zh: '\u793e\u4ea4' },
+        { value: 'legal', en: 'Legal', fr: 'Juridique', es: 'Legal', pt: 'Jur\u00eddico', de: 'Recht', it: 'Legale', ja: '\u6cd5\u5f8b', zh: '\u6cd5\u5f8b' }
     ];
 
     // Rate-limit state

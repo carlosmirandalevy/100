@@ -79,6 +79,7 @@
             connectWithUs: 'Connect With Us',
             connectDesc: 'Want to learn more about AI and how it can transform your work and learning?',
             developSkills: 'Want to develop new skills with AI?',
+            lawraDesc: 'AI for Law &mdash; our sister project',
             madeWith: 'Made with AI + Human Creativity',
             themePastel: 'Pastel', themeLight: 'Light', themeDark: 'Dark', themeLabel: 'Theme',
             explore: 'Explore', exploreTitle: 'Find Your AI Path', exploreSubtitle: 'Take a quick quiz or browse curated routes tailored to your goals.',
@@ -103,6 +104,7 @@
             connectWithUs: 'Contactez-nous',
             connectDesc: "Vous voulez en savoir plus sur l'IA et comment elle peut transformer votre travail et votre apprentissage ?",
             developSkills: "Vous voulez d\u00e9velopper de nouvelles comp\u00e9tences avec l'IA ?",
+            lawraDesc: "IA pour le Droit &mdash; notre projet s\u0153ur",
             madeWith: 'Fait avec IA + Cr\u00e9ativit\u00e9 Humaine',
             themePastel: 'Pastel', themeLight: 'Clair', themeDark: 'Sombre', themeLabel: 'Th\u00e8me',
             explore: 'Explorer', exploreTitle: 'Trouvez votre parcours IA', exploreSubtitle: 'Faites un quiz rapide ou parcourez des itin\u00e9raires adapt\u00e9s \u00e0 vos objectifs.',
@@ -127,6 +129,7 @@
             connectWithUs: 'Cont\u00e1ctanos',
             connectDesc: '\u00bfQuieres aprender m\u00e1s sobre IA y c\u00f3mo puede transformar tu trabajo y aprendizaje?',
             developSkills: '\u00bfQuieres desarrollar nuevas habilidades con IA?',
+            lawraDesc: 'IA para el Derecho &mdash; nuestro proyecto hermano',
             madeWith: 'Hecho con IA + Creatividad Humana',
             themePastel: 'Pastel', themeLight: 'Claro', themeDark: 'Oscuro', themeLabel: 'Tema',
             explore: 'Explorar', exploreTitle: 'Encuentra tu camino con IA', exploreSubtitle: 'Haz un quiz r\u00e1pido o explora rutas adaptadas a tus objetivos.',
@@ -151,6 +154,7 @@
             connectWithUs: 'Entre em contato',
             connectDesc: 'Quer saber mais sobre IA e como ela pode transformar seu trabalho e aprendizado?',
             developSkills: 'Quer desenvolver novas habilidades com IA?',
+            lawraDesc: 'IA para o Direito &mdash; nosso projeto irm\u00e3o',
             madeWith: 'Feito com IA + Criatividade Humana',
             themePastel: 'Pastel', themeLight: 'Claro', themeDark: 'Escuro', themeLabel: 'Tema',
             explore: 'Explorar', exploreTitle: 'Encontre seu caminho com IA', exploreSubtitle: 'Fa\u00e7a um quiz r\u00e1pido ou navegue por rotas adaptadas aos seus objetivos.',
@@ -175,6 +179,7 @@
             connectWithUs: 'Kontakt',
             connectDesc: 'M\u00f6chtest du mehr \u00fcber KI erfahren und wie sie deine Arbeit und dein Lernen ver\u00e4ndern kann?',
             developSkills: 'M\u00f6chtest du neue F\u00e4higkeiten mit KI entwickeln?',
+            lawraDesc: 'KI f\u00fcr Recht &mdash; unser Schwesterprojekt',
             madeWith: 'Gemacht mit KI + Menschlicher Kreativit\u00e4t',
             themePastel: 'Pastell', themeLight: 'Hell', themeDark: 'Dunkel', themeLabel: 'Design',
             explore: 'Entdecken', exploreTitle: 'Finde deinen KI-Weg', exploreSubtitle: 'Mach ein kurzes Quiz oder entdecke Lernpfade f\u00fcr deine Ziele.',
@@ -199,6 +204,7 @@
             connectWithUs: 'Contattaci',
             connectDesc: "Vuoi saperne di pi\u00f9 sull'IA e su come pu\u00f2 trasformare il tuo lavoro e apprendimento?",
             developSkills: "Vuoi sviluppare nuove competenze con l'IA?",
+            lawraDesc: "IA per il Diritto &mdash; il nostro progetto gemello",
             madeWith: 'Fatto con IA + Creativit\u00e0 Umana',
             themePastel: 'Pastello', themeLight: 'Chiaro', themeDark: 'Scuro', themeLabel: 'Tema',
             explore: 'Esplora', exploreTitle: 'Trova il tuo percorso IA', exploreSubtitle: 'Fai un quiz veloce o sfoglia i percorsi adatti ai tuoi obiettivi.',
@@ -223,6 +229,7 @@
             connectWithUs: '\u304a\u554f\u3044\u5408\u308f\u305b',
             connectDesc: 'AI\u306b\u3064\u3044\u3066\u3082\u3063\u3068\u77e5\u308a\u305f\u3044\u3067\u3059\u304b\uff1f\u4ed5\u4e8b\u3084\u5b66\u3073\u3092\u3069\u3046\u5909\u3048\u308b\u304b\u3092\u767a\u898b\u3057\u307e\u3057\u3087\u3046\u3002',
             developSkills: 'AI\u3067\u65b0\u3057\u3044\u30b9\u30ad\u30eb\u3092\u8eab\u306b\u3064\u3051\u305f\u3044\u3067\u3059\u304b\uff1f',
+            lawraDesc: '\u6cd5\u5f8b\u306e\u305f\u3081\u306eAI &mdash; \u59c9\u59b9\u30d7\u30ed\u30b8\u30a7\u30af\u30c8',
             madeWith: 'AI + \u4eba\u9593\u306e\u5275\u9020\u529b\u3067\u5236\u4f5c',
             themePastel: '\u30d1\u30b9\u30c6\u30eb', themeLight: '\u30e9\u30a4\u30c8', themeDark: '\u30c0\u30fc\u30af', themeLabel: '\u30c6\u30fc\u30de',
             explore: '\u63a2\u7d22', exploreTitle: '\u3042\u306a\u305f\u306eAI\u30d1\u30b9\u3092\u898b\u3064\u3051\u3088\u3046', exploreSubtitle: '\u30af\u30a4\u30ba\u306b\u7b54\u3048\u308b\u304b\u3001\u76ee\u6a19\u306b\u5408\u3063\u305f\u30eb\u30fc\u30c8\u3092\u95b2\u89a7\u3057\u307e\u3057\u3087\u3046\u3002',
@@ -247,6 +254,7 @@
             connectWithUs: '\u8054\u7cfb\u6211\u4eec',
             connectDesc: '\u60f3\u4e86\u89e3\u66f4\u591a\u5173\u4e8eAI\u4ee5\u53ca\u5b83\u5982\u4f55\u6539\u53d8\u4f60\u7684\u5de5\u4f5c\u548c\u5b66\u4e60\uff1f',
             developSkills: '\u60f3\u7528AI\u53d1\u5c55\u65b0\u6280\u80fd\uff1f',
+            lawraDesc: '\u6cd5\u5f8b\u7684AI &mdash; \u59ca\u59b9\u9879\u76ee',
             madeWith: 'AI + \u4eba\u7c7b\u521b\u610f\u5236\u4f5c',
             themePastel: '\u67d4\u548c', themeLight: '\u660e\u4eae', themeDark: '\u6697\u8272', themeLabel: '\u4e3b\u9898',
             explore: '\u63a2\u7d22', exploreTitle: '\u627e\u5230\u4f60\u7684AI\u8def\u5f84', exploreSubtitle: '\u505a\u4e2a\u5feb\u901f\u6d4b\u9a8c\u6216\u6d4f\u89c8\u9002\u5408\u4f60\u76ee\u6807\u7684\u8def\u7ebf\u3002',
@@ -367,6 +375,10 @@
             '<div style="margin-top:var(--space-lg);padding-top:var(--space-md);border-top:1px solid rgba(167,0,0,0.1)">' +
             '<p style="font-size:0.88rem;color:var(--accent-3);margin-bottom:var(--space-xs)">' + S.developSkills + '</p>' +
             '<a href="https://xperto.academy" target="_blank" style="display:inline-flex;align-items:center;gap:6px;color:var(--accent-4);font-weight:600;font-size:0.9rem">xperto.academy <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg></a>' +
+            '</div>' +
+            '<div style="margin-top:var(--space-lg);padding-top:var(--space-md);border-top:1px solid rgba(167,0,0,0.1)">' +
+            '<p style="font-size:0.88rem;color:var(--accent-3);margin-bottom:var(--space-xs)">' + S.lawraDesc + '</p>' +
+            '<a href="https://lawra.org" target="_blank" style="display:inline-flex;align-items:center;gap:6px;color:var(--accent-4);font-weight:600;font-size:0.9rem"><img src="assets/logos/external/lawra-logo-icon.png" alt="Lawra" width="20" height="20" style="border-radius:4px"> lawra.org <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg></a>' +
             '</div></div>' +
             '</div><div class="footer-bottom">' +
             '<p>' + S.madeWith + ' | &copy; 2026 <a href="https://cemi.ai" target="_blank">CEMI.ai</a> + <a href="https://thesocialentrepreneur.com" target="_blank">Carlos Miranda Levy</a></p>' +

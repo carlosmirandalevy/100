@@ -1,5 +1,16 @@
 # Changelog
 
+## [3.1.3] - 2026-02-17
+
+### Added
+- **Lawra.org (item 164)**: New "Legal" category with sister project link to lawra.org, added across all 6 data files (en, fr, es, de, ja, zh)
+- **Legal category styling**: New `--cat-legal` color variable in styles.css, filter pill on all 8 things pages, and category in suggest-app.js
+- **Lawra.org footer link**: Added lawra.org promotion section in footer via include.js with translations for all 8 languages
+- **Item icon support**: Items with an `icon` field now display a logo image instead of the item number in the card header
+
+### Changed
+- **Prompt/tip blocks now conditional**: The "Ready-to-Use Prompt" and "Customize it" blocks in all 8 things pages are now hidden when `prompt`/`promptTip` are empty, supporting non-prompt items like Lawra.org
+
 ## [3.1.2] - 2026-02-17
 
 ### Added
