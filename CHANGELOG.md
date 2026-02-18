@@ -1,5 +1,11 @@
 # Changelog
 
+## [3.1.4] - 2026-02-18
+
+### Added
+- **Open Graph & social sharing meta tags**: Added `og:image`, `og:type`, `og:image:width/height`, `twitter:card`, and `twitter:image` tags to all 88 site pages for rich social media previews
+- **OG hero image**: Created `assets/images/100-ai-og.png` (1200×630) optimized for social sharing, cropped from high-res hero image
+
 ## [3.1.3] - 2026-02-17
 
 ### Added
