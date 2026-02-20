@@ -67,7 +67,7 @@
     // === UI Strings for all supported languages ===
     var STRINGS = {
         en: {
-            things: "100+ Do's", donts: "Don'ts", logoText: "AI Do's and Don'ts", usingAI: 'Using AI', tips: 'Tips', skills: 'Useful Skills',
+            things: '100+ Things to Do', donts: "A Few Don'ts", logoText: "AI Do's and Don'ts", usingAI: 'Using AI', tips: 'Tips', skills: 'Useful Skills',
             quickWins: 'Quick Wins', tools: 'Tools', showcase: 'Showcase', about: 'About',
             searchLabel: 'Search (Ctrl+K)', searchPlaceholder: 'Search the 100+ things...',
             searchHint: 'Press Enter to search', scrollTop: 'Scroll to top',
@@ -89,10 +89,22 @@
             routeItems: 'items', viewItem: 'View', startRoute: 'Start Route', yourRoutes: 'Your Recommended Routes', completed: 'completed',
             browseAll: 'Browse All Routes', orBrowse: 'or browse all routes', recommended: 'Recommended', backToRoutes: 'Back to routes', progress: 'Progress',
             sharePage: 'Share', copyLink: 'Copy Link', linkCopied: 'Copied!',
-            suggest: 'Suggest'
+            suggest: 'Suggest',
+            resources: 'Resources',
+            sisterProjects: 'Sister Projects',
+            sisterLawra: 'AI in Law',
+            sisterIbizai: 'AI in Business',
+            sisterInsureversia: 'AI in Insurance',
+            newsletterTitle: 'Stay in the loop',
+            newsletterDesc: 'One email per week. No spam. Unsubscribe anytime.',
+            newsletterPlaceholder: 'Your email address',
+            newsletterBtn: 'Subscribe',
+            newsletterSuccess: "You're subscribed! Thank you.",
+            newsletterError: 'Something went wrong. Please try again.',
+            glossary: 'Glossary'
         },
         fr: {
-            things: "100+ Oui", donts: 'Non', logoText: "AI Do's et Don'ts", usingAI: "Utiliser l'IA", tips: 'Conseils', skills: 'Comp\u00e9tences utiles',
+            things: '100+ choses \u00e0 faire', donts: 'Quelques interdits', logoText: "AI Do's et Don'ts", usingAI: "Utiliser l'IA", tips: 'Conseils', skills: 'Comp\u00e9tences utiles',
             quickWins: 'Victoires rapides', tools: 'Outils', showcase: 'Vitrine', about: '\u00c0 propos',
             searchLabel: 'Rechercher (Ctrl+K)', searchPlaceholder: 'Rechercher les 100+ choses...',
             searchHint: 'Appuyez sur Entr\u00e9e pour rechercher', scrollTop: 'Retour en haut',
@@ -114,10 +126,22 @@
             routeItems: '\u00e9l\u00e9ments', viewItem: 'Voir', startRoute: 'Commencer', yourRoutes: 'Vos routes recommand\u00e9es', completed: 'termin\u00e9',
             browseAll: 'Toutes les routes', orBrowse: 'ou parcourir toutes les routes', recommended: 'Recommand\u00e9', backToRoutes: 'Retour aux routes', progress: 'Progr\u00e8s',
             sharePage: 'Partager', copyLink: 'Copier le lien', linkCopied: 'Copi\u00e9 !',
-            suggest: 'Sugg\u00e9rer'
+            suggest: 'Sugg\u00e9rer',
+            resources: 'Ressources',
+            sisterProjects: 'Projets partenaires',
+            sisterLawra: 'IA et Droit',
+            sisterIbizai: 'IA et Business',
+            sisterInsureversia: 'IA et Assurance',
+            newsletterTitle: 'Restez inform\u00e9',
+            newsletterDesc: 'Un email par semaine. Pas de spam. D\u00e9sabonnement \u00e0 tout moment.',
+            newsletterPlaceholder: 'Votre adresse email',
+            newsletterBtn: "S'abonner",
+            newsletterSuccess: 'Vous \u00eates abonn\u00e9 ! Merci.',
+            newsletterError: 'Une erreur est survenue. Veuillez r\u00e9essayer.',
+            glossary: 'Glossaire'
         },
         es: {
-            things: '100+ S\u00ed', donts: 'Qué No', logoText: 'Qu\u00e9 hacer y no con IA', usingAI: 'Usar IA', tips: 'Consejos', skills: 'Habilidades \u00fatiles',
+            things: '100+ cosas que hacer', donts: 'Algunas que no', logoText: 'Qu\u00e9 hacer y no con IA', usingAI: 'Usar IA', tips: 'Consejos', skills: 'Habilidades \u00fatiles',
             quickWins: 'Rápidas', tools: 'Herramientas', showcase: 'Vitrina', about: 'About',
             searchLabel: 'Buscar (Ctrl+K)', searchPlaceholder: 'Buscar las 100+ cosas...',
             searchHint: 'Presiona Enter para buscar', scrollTop: 'Volver arriba',
@@ -139,10 +163,22 @@
             routeItems: 'elementos', viewItem: 'Ver', startRoute: 'Comenzar', yourRoutes: 'Tus rutas recomendadas', completed: 'completado',
             browseAll: 'Todas las rutas', orBrowse: 'o explorar todas las rutas', recommended: 'Recomendado', backToRoutes: 'Volver a rutas', progress: 'Progreso',
             sharePage: 'Compartir', copyLink: 'Copiar enlace', linkCopied: '\u00a1Copiado!',
-            suggest: 'Sugerir'
+            suggest: 'Sugerir',
+            resources: 'Recursos',
+            sisterProjects: 'Proyectos hermanos',
+            sisterLawra: 'IA y Derecho',
+            sisterIbizai: 'IA y Negocios',
+            sisterInsureversia: 'IA y Seguros',
+            newsletterTitle: 'Mantente al d\u00eda',
+            newsletterDesc: 'Un email por semana. Sin spam. Cancela cuando quieras.',
+            newsletterPlaceholder: 'Tu direcci\u00f3n de email',
+            newsletterBtn: 'Suscribirse',
+            newsletterSuccess: '\u00a1Te has suscrito! Gracias.',
+            newsletterError: 'Algo sali\u00f3 mal. Int\u00e9ntalo de nuevo.',
+            glossary: 'Glosario'
         },
         pt: {
-            things: '100+ Sim', donts: 'Não', logoText: 'a fazer e não com IA', usingAI: 'Usar IA', tips: 'Dicas', skills: 'Habilidades úteis',
+            things: '100+ coisas para fazer', donts: 'Algumas que n\u00e3o', logoText: 'a fazer e n\u00e3o com IA', usingAI: 'Usar IA', tips: 'Dicas', skills: 'Habilidades úteis',
             quickWins: 'Vit\u00f3rias r\u00e1pidas', tools: 'Ferramentas', showcase: 'Vitrine', about: 'Sobre',
             searchLabel: 'Pesquisar (Ctrl+K)', searchPlaceholder: 'Pesquisar as 100+ coisas...',
             searchHint: 'Pressione Enter para pesquisar', scrollTop: 'Voltar ao topo',
@@ -164,10 +200,22 @@
             routeItems: 'itens', viewItem: 'Ver', startRoute: 'Come\u00e7ar', yourRoutes: 'Suas rotas recomendadas', completed: 'conclu\u00eddo',
             browseAll: 'Todas as rotas', orBrowse: 'ou explorar todas as rotas', recommended: 'Recomendado', backToRoutes: 'Voltar \u00e0s rotas', progress: 'Progresso',
             sharePage: 'Compartilhar', copyLink: 'Copiar link', linkCopied: 'Copiado!',
-            suggest: 'Sugerir'
+            suggest: 'Sugerir',
+            resources: 'Recursos',
+            sisterProjects: 'Projetos irm\u00e3os',
+            sisterLawra: 'IA e Direito',
+            sisterIbizai: 'IA e Neg\u00f3cios',
+            sisterInsureversia: 'IA e Seguros',
+            newsletterTitle: 'Fique por dentro',
+            newsletterDesc: 'Um email por semana. Sem spam. Cancele quando quiser.',
+            newsletterPlaceholder: 'Seu endere\u00e7o de email',
+            newsletterBtn: 'Inscrever-se',
+            newsletterSuccess: 'Voc\u00ea est\u00e1 inscrito! Obrigado.',
+            newsletterError: 'Algo deu errado. Tente novamente.',
+            glossary: 'Gloss\u00e1rio'
         },
         de: {
-            things: "100+ Do's", donts: 'Don\u2019ts', logoText: 'KI: Dos und Don\u2019ts', usingAI: 'KI nutzen', tips: 'Tipps', skills: 'N\u00fctzliche F\u00e4higkeiten',
+            things: '100+ Dinge', donts: 'Einige Don\u2019ts', logoText: 'KI: Dos und Don\u2019ts', usingAI: 'KI nutzen', tips: 'Tipps', skills: 'N\u00fctzliche F\u00e4higkeiten',
             quickWins: 'Schnelle Erfolge', tools: 'Werkzeuge', showcase: 'Vitrine', about: '\u00dcber uns',
             searchLabel: 'Suchen (Ctrl+K)', searchPlaceholder: 'Die 100+ Dinge durchsuchen...',
             searchHint: 'Enter dr\u00fccken zum Suchen', scrollTop: 'Nach oben',
@@ -189,10 +237,22 @@
             routeItems: 'Elemente', viewItem: 'Ansehen', startRoute: 'Starten', yourRoutes: 'Deine empfohlenen Routen', completed: 'abgeschlossen',
             browseAll: 'Alle Routen', orBrowse: 'oder alle Routen durchsuchen', recommended: 'Empfohlen', backToRoutes: 'Zur\u00fcck zu Routen', progress: 'Fortschritt',
             sharePage: 'Teilen', copyLink: 'Link kopieren', linkCopied: 'Kopiert!',
-            suggest: 'Vorschlagen'
+            suggest: 'Vorschlagen',
+            resources: 'Ressourcen',
+            sisterProjects: 'Schwesterprojekte',
+            sisterLawra: 'KI im Recht',
+            sisterIbizai: 'KI im Business',
+            sisterInsureversia: 'KI in der Versicherung',
+            newsletterTitle: 'Bleib auf dem Laufenden',
+            newsletterDesc: 'Eine E-Mail pro Woche. Kein Spam. Jederzeit abbestellbar.',
+            newsletterPlaceholder: 'Deine E-Mail-Adresse',
+            newsletterBtn: 'Abonnieren',
+            newsletterSuccess: 'Du bist angemeldet! Danke.',
+            newsletterError: 'Etwas ist schiefgelaufen. Bitte versuche es erneut.',
+            glossary: 'Glossar'
         },
         it: {
-            things: "100+ S\u00ec", donts: 'No', logoText: "IA: da fare e non", usingAI: "Usare l'IA", tips: 'Consigli', skills: 'Competenze utili',
+            things: '100+ cose da fare', donts: 'Alcune da non fare', logoText: "IA: da fare e non", usingAI: "Usare l'IA", tips: 'Consigli', skills: 'Competenze utili',
             quickWins: 'Vittorie rapide', tools: 'Strumenti', showcase: 'Vetrina', about: 'Chi siamo',
             searchLabel: 'Cerca (Ctrl+K)', searchPlaceholder: 'Cerca le 100+ cose...',
             searchHint: 'Premi Invio per cercare', scrollTop: 'Torna su',
@@ -214,10 +274,22 @@
             routeItems: 'elementi', viewItem: 'Vedi', startRoute: 'Inizia', yourRoutes: 'I tuoi percorsi consigliati', completed: 'completato',
             browseAll: 'Tutti i percorsi', orBrowse: 'o sfoglia tutti i percorsi', recommended: 'Consigliato', backToRoutes: 'Torna ai percorsi', progress: 'Progressi',
             sharePage: 'Condividi', copyLink: 'Copia link', linkCopied: 'Copiato!',
-            suggest: 'Suggerisci'
+            suggest: 'Suggerisci',
+            resources: 'Risorse',
+            sisterProjects: 'Progetti gemelli',
+            sisterLawra: 'IA e Diritto',
+            sisterIbizai: 'IA e Business',
+            sisterInsureversia: 'IA e Assicurazioni',
+            newsletterTitle: 'Resta aggiornato',
+            newsletterDesc: "Un'email a settimana. Niente spam. Cancellati quando vuoi.",
+            newsletterPlaceholder: 'Il tuo indirizzo email',
+            newsletterBtn: 'Iscriviti',
+            newsletterSuccess: 'Sei iscritto! Grazie.',
+            newsletterError: 'Qualcosa \u00e8 andato storto. Riprova.',
+            glossary: 'Glossario'
         },
         ja: {
-            things: '100+ はい', donts: 'NG', logoText: 'AIのすべきこと・すべきでないこと', usingAI: 'AI活用', tips: 'ヒント', skills: 'スキル',
+            things: '100+\u3084\u308b\u3079\u304d\u3053\u3068', donts: '\u3044\u304f\u3064\u304b\u306eNG', logoText: 'AI\u306e\u3059\u3079\u304d\u3053\u3068\u30fb\u3059\u3079\u304d\u3067\u306a\u3044\u3053\u3068', usingAI: 'AI活用', tips: 'ヒント', skills: 'スキル',
             quickWins: '即効', tools: 'ツール', showcase: '事例', about: '概要',
             searchLabel: '\u691c\u7d22 (Ctrl+K)', searchPlaceholder: '100\u306e\u3053\u3068\u3092\u691c\u7d22...',
             searchHint: 'Enter\u3067\u691c\u7d22', scrollTop: '\u30c8\u30c3\u30d7\u306b\u623b\u308b',
@@ -239,10 +311,22 @@
             routeItems: '\u30a2\u30a4\u30c6\u30e0', viewItem: '\u898b\u308b', startRoute: '\u958b\u59cb', yourRoutes: '\u304a\u3059\u3059\u3081\u30eb\u30fc\u30c8', completed: '\u5b8c\u4e86',
             browseAll: '\u3059\u3079\u3066\u306e\u30eb\u30fc\u30c8', orBrowse: '\u307e\u305f\u306f\u3059\u3079\u3066\u306e\u30eb\u30fc\u30c8\u3092\u95b2\u89a7', recommended: '\u304a\u3059\u3059\u3081', backToRoutes: '\u30eb\u30fc\u30c8\u306b\u623b\u308b', progress: '\u9032\u6357',
             sharePage: '\u5171\u6709', copyLink: '\u30ea\u30f3\u30af\u3092\u30b3\u30d4\u30fc', linkCopied: '\u30b3\u30d4\u30fc\u3057\u307e\u3057\u305f',
-            suggest: '\u63d0\u6848\u3059\u308b'
+            suggest: '\u63d0\u6848\u3059\u308b',
+            resources: '\u30ea\u30bd\u30fc\u30b9',
+            sisterProjects: '\u59c9\u59b9\u30d7\u30ed\u30b8\u30a7\u30af\u30c8',
+            sisterLawra: '\u6cd5\u5f8b\u306eAI',
+            sisterIbizai: '\u30d3\u30b8\u30cd\u30b9\u306eAI',
+            sisterInsureversia: '\u4fdd\u967a\u306eAI',
+            newsletterTitle: '\u6700\u65b0\u60c5\u5831\u3092\u53d7\u3051\u53d6\u308b',
+            newsletterDesc: '\u9031\u306b1\u901a\u306e\u30e1\u30fc\u30eb\u3002\u30b9\u30d1\u30e0\u306a\u3057\u3002\u3044\u3064\u3067\u3082\u89e3\u9664\u53ef\u80fd\u3002',
+            newsletterPlaceholder: '\u30e1\u30fc\u30eb\u30a2\u30c9\u30ec\u30b9',
+            newsletterBtn: '\u8cfc\u8aad\u3059\u308b',
+            newsletterSuccess: '\u8cfc\u8aad\u5b8c\u4e86\uff01\u3042\u308a\u304c\u3068\u3046\u3054\u3056\u3044\u307e\u3059\u3002',
+            newsletterError: '\u30a8\u30e9\u30fc\u304c\u767a\u751f\u3057\u307e\u3057\u305f\u3002\u3082\u3046\u4e00\u5ea6\u304a\u8a66\u3057\u304f\u3060\u3055\u3044\u3002',
+            glossary: '\u7528\u8a9e\u96c6'
         },
         zh: {
-            things: "100+ Do's", donts: '\u4e0d\u8981\u505a\u7684\u4e8b', logoText: 'AI\u8be5\u505a\u4e0e\u4e0d\u8be5\u505a', usingAI: '\u4f7f\u7528AI', tips: '\u6280\u5de7', skills: '\u5b9e\u7528\u6280\u80fd',
+            things: '100+\u8be5\u505a\u7684\u4e8b', donts: '\u4e00\u4e9b\u4e0d\u8be5\u505a\u7684\u4e8b', logoText: 'AI\u8be5\u505a\u4e0e\u4e0d\u8be5\u505a', usingAI: '\u4f7f\u7528AI', tips: '\u6280\u5de7', skills: '\u5b9e\u7528\u6280\u80fd',
             quickWins: '\u5feb\u901f\u4e0a\u624b', tools: '\u5de5\u5177', showcase: '\u5c55\u793a', about: '\u5173\u4e8e',
             searchLabel: '\u641c\u7d22 (Ctrl+K)', searchPlaceholder: '\u641c\u7d22100\u4ef6\u4e8b...',
             searchHint: '\u6309Enter\u641c\u7d22', scrollTop: '\u56de\u5230\u9876\u90e8',
@@ -264,7 +348,19 @@
             routeItems: '\u9879\u76ee', viewItem: '\u67e5\u770b', startRoute: '\u5f00\u59cb', yourRoutes: '\u4f60\u7684\u63a8\u8350\u8def\u7ebf', completed: '\u5df2\u5b8c\u6210',
             browseAll: '\u6240\u6709\u8def\u7ebf', orBrowse: '\u6216\u6d4f\u89c8\u6240\u6709\u8def\u7ebf', recommended: '\u63a8\u8350', backToRoutes: '\u8fd4\u56de\u8def\u7ebf', progress: '\u8fdb\u5ea6',
             sharePage: '\u5206\u4eab', copyLink: '\u590d\u5236\u94fe\u63a5', linkCopied: '\u5df2\u590d\u5236',
-            suggest: '\u5efa\u8bae'
+            suggest: '\u5efa\u8bae',
+            resources: '\u8d44\u6e90',
+            sisterProjects: '\u59ca\u59b9\u9879\u76ee',
+            sisterLawra: '\u6cd5\u5f8bAI',
+            sisterIbizai: '\u5546\u4e1aAI',
+            sisterInsureversia: '\u4fdd\u9669AI',
+            newsletterTitle: '\u4fdd\u6301\u8054\u7cfb',
+            newsletterDesc: '\u6bcf\u5468\u4e00\u5c01\u90ae\u4ef6\u3002\u65e0\u5783\u573e\u90ae\u4ef6\u3002\u968f\u65f6\u53d6\u6d88\u8ba2\u9605\u3002',
+            newsletterPlaceholder: '\u4f60\u7684\u90ae\u7bb1\u5730\u5740',
+            newsletterBtn: '\u8ba2\u9605',
+            newsletterSuccess: '\u8ba2\u9605\u6210\u529f\uff01\u8c22\u8c22\u3002',
+            newsletterError: '\u51fa\u4e86\u70b9\u95ee\u9898\u3002\u8bf7\u91cd\u8bd5\u3002',
+            glossary: '\u672f\u8bed\u8868'
         }
     };
 
@@ -319,19 +415,29 @@
             '<a href="' + ph('index') + '" class="nav-logo"><img src="assets/logos/favicon-32x32.png" alt="CEMI.AI" class="nav-logo-img"> 100+ <span>' + S.logoText + '</span></a>' +
             '<button class="nav-hamburger" id="nav-toggle-btn" aria-label="Menu"><span></span><span></span><span></span></button>' +
             '<div class="nav-links" id="nav-links">' +
-            '<a href="' + ph('things') + '" class="nav-link' + active('things') + '">' + S.things + '</a>' +
-            '<a href="' + ph('donts') + '" class="nav-link' + active('donts') + '">' + S.donts + '</a>' +
+            '<div class="nav-dropdown">' +
+            '<a href="' + ph('things') + '" class="nav-dropdown-trigger nav-link' + (page === 'things' || page === 'donts' ? ' active' : '') + '">100+ <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 4 5 7 8 4"></polyline></svg></a>' +
+            '<div class="nav-dropdown-menu">' +
+            '<a href="' + ph('things') + '" class="nav-dropdown-item' + active('things') + '">' + S.things + '</a>' +
+            '<a href="' + ph('donts') + '" class="nav-dropdown-item' + active('donts') + '">' + S.donts + '</a>' +
+            '</div></div>' +
             '<a href="' + ph('explore') + '" class="nav-link' + active('explore') + '">' + S.explore + '</a>' +
             '<div class="nav-dropdown">' +
-            '<a href="' + ph('tips') + '" class="nav-dropdown-trigger nav-link' + (page === 'tips' || page === 'toolkit' || page === 'quickwins' || page === 'tools' || page === 'showcase' ? ' active' : '') + '">' + S.usingAI + ' <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 4 5 7 8 4"></polyline></svg></a>' +
+            '<a href="' + ph('tips') + '" class="nav-dropdown-trigger nav-link' + (page === 'tips' || page === 'toolkit' || page === 'quickwins' || page === 'showcase' ? ' active' : '') + '">' + S.usingAI + ' <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 4 5 7 8 4"></polyline></svg></a>' +
             '<div class="nav-dropdown-menu">' +
             '<a href="' + ph('tips') + '" class="nav-dropdown-item' + active('tips') + '">' + S.tips + '</a>' +
             '<a href="' + ph('toolkit') + '" class="nav-dropdown-item' + active('toolkit') + '">' + S.skills + '</a>' +
             '<a href="' + ph('quickwins') + '" class="nav-dropdown-item' + active('quickwins') + '">' + S.quickWins + '</a>' +
             '<a href="' + ph('showcase') + '" class="nav-dropdown-item' + active('showcase') + '">' + S.showcase + '</a>' +
-            '<a href="' + ph('tools') + '" class="nav-dropdown-item' + active('tools') + '">' + S.tools + '</a>' +
             '</div></div>' +
-            '<a href="' + ph('faq') + '" class="nav-link' + active('faq') + '">FAQ</a>' +
+            '<div class="nav-dropdown">' +
+            '<a href="' + ph('faq') + '" class="nav-dropdown-trigger nav-link' + (page === 'faq' || page === 'tools' || page === 'glossary' || page === 'newsletter' ? ' active' : '') + '">' + S.resources + ' <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 4 5 7 8 4"></polyline></svg></a>' +
+            '<div class="nav-dropdown-menu">' +
+            '<a href="' + ph('faq') + '" class="nav-dropdown-item' + active('faq') + '">FAQ</a>' +
+            '<a href="' + ph('tools') + '" class="nav-dropdown-item' + active('tools') + '">' + S.tools + '</a>' +
+            '<a href="' + ph('glossary') + '" class="nav-dropdown-item' + active('glossary') + '">' + S.glossary + '</a>' +
+            '<a href="' + ph('newsletter') + '" class="nav-dropdown-item' + active('newsletter') + '">Newsletter</a>' +
+            '</div></div>' +
             '<a href="' + ph('about') + '" class="nav-link' + active('about') + '">' + S.about + '</a>' +
             '<button class="nav-search-btn" id="nav-search-btn" aria-label="' + S.searchLabel + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></button>' +
             '<div class="theme-toggle" id="theme-toggle">' +
@@ -355,6 +461,12 @@
             '<a href="' + ph('index') + '" class="nav-logo" style="display:inline-flex;align-items:center;gap:8px;margin-bottom:var(--space-md);font-size:1.3rem"><img src="assets/logos/favicon-32x32.png" alt="CEMI.AI" class="nav-logo-img"> 100+ <span>' + S.logoText + '</span></a>' +
             '<p class="footer-mantra">&ldquo;' + S.mantra + '&rdquo;</p>' +
             '<a href="https://cemi.ai" target="_blank">' + S.visit + ' CEMI.AI &rarr;</a>' +
+            '<div style="margin-top:var(--space-lg);padding-top:var(--space-md);border-top:1px solid rgba(167,0,0,0.1)">' +
+            '<h4 style="font-size:0.95rem;margin-bottom:var(--space-sm)">' + S.sisterProjects + '</h4>' +
+            '<a href="https://lawra.org" target="_blank" class="footer-sister-link"><img src="assets/logos/external/lawra-logo-icon.png" alt="Lawra" width="18" height="18" style="border-radius:3px"> Lawra &mdash; ' + S.sisterLawra + '</a>' +
+            '<a href="https://ibizai.io" target="_blank" class="footer-sister-link">Ibizai &mdash; ' + S.sisterIbizai + '</a>' +
+            '<a href="https://insureversia.com" target="_blank" class="footer-sister-link">Insureversia &mdash; ' + S.sisterInsureversia + '</a>' +
+            '</div>' +
             '</div>' +
             '<div class="footer-col"><h4>' + S.quickLinks + '</h4><ul class="footer-links footer-links-2col">' +
             '<li><a href="' + ph('index') + '">' + S.home + '</a></li>' +
@@ -375,12 +487,18 @@
             '<div style="margin-top:var(--space-lg);padding-top:var(--space-md);border-top:1px solid rgba(167,0,0,0.1)">' +
             '<p style="font-size:0.88rem;color:var(--accent-3);margin-bottom:var(--space-xs)">' + S.developSkills + '</p>' +
             '<a href="https://xperto.academy" target="_blank" style="display:inline-flex;align-items:center;gap:6px;color:var(--accent-4);font-weight:600;font-size:0.9rem">xperto.academy <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg></a>' +
-            '</div>' +
-            '<div style="margin-top:var(--space-lg);padding-top:var(--space-md);border-top:1px solid rgba(167,0,0,0.1)">' +
-            '<p style="font-size:0.88rem;color:var(--accent-3);margin-bottom:var(--space-xs)">' + S.lawraDesc + '</p>' +
-            '<a href="https://lawra.org" target="_blank" style="display:inline-flex;align-items:center;gap:6px;color:var(--accent-4);font-weight:600;font-size:0.9rem"><img src="assets/logos/external/lawra-logo-icon.png" alt="Lawra" width="20" height="20" style="border-radius:4px"> lawra.org <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg></a>' +
             '</div></div>' +
-            '</div><div class="footer-bottom">' +
+            '</div>' +
+            '<div class="footer-newsletter">' +
+            '<h4>' + S.newsletterTitle + '</h4>' +
+            '<p>' + S.newsletterDesc + '</p>' +
+            '<form class="footer-newsletter-form newsletter-subscribe-form">' +
+            '<input type="email" placeholder="' + S.newsletterPlaceholder + '" required>' +
+            '<button type="submit" class="btn btn-primary">' + S.newsletterBtn + '</button>' +
+            '</form>' +
+            '<p class="footer-newsletter-msg newsletter-msg"></p>' +
+            '</div>' +
+            '<div class="footer-bottom">' +
             '<p>' + S.madeWith + ' | &copy; 2026 <a href="https://cemi.ai" target="_blank">CEMI.ai</a> + <a href="https://thesocialentrepreneur.com" target="_blank">Carlos Miranda Levy</a></p>' +
             '</div></div></footer>';
 
@@ -482,6 +600,56 @@
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape' && suggestOverlay.classList.contains('visible')) closeSuggestModal();
         });
+
+        // --- Newsletter subscribe handler ---
+        function setupNewsletterForm(formEl) {
+            var msgEl = formEl.nextElementSibling;
+            formEl.addEventListener('submit', function(e) {
+                e.preventDefault();
+                var emailInput = formEl.querySelector('input[type="email"]');
+                var email = emailInput.value.trim();
+                if (!email) return;
+                var btn = formEl.querySelector('button');
+                btn.disabled = true;
+                if (msgEl) { msgEl.textContent = ''; msgEl.className = msgEl.className.replace(/ success| error/g, ''); }
+
+                function saveEmail() {
+                    window.__db.collection('newsletter').add({
+                        email: email,
+                        language: lang,
+                        page: page,
+                        subscribedAt: firebase.firestore.FieldValue.serverTimestamp()
+                    }).then(function() {
+                        if (msgEl) { msgEl.textContent = S.newsletterSuccess; msgEl.classList.add('success'); }
+                        emailInput.disabled = true;
+                        btn.disabled = true;
+                    }).catch(function() {
+                        if (msgEl) { msgEl.textContent = S.newsletterError; msgEl.classList.add('error'); }
+                        btn.disabled = false;
+                    });
+                }
+
+                if (window.__db) {
+                    saveEmail();
+                } else {
+                    var fbBase = 'https://www.gstatic.com/firebasejs/10.14.1/';
+                    var queue = [fbBase + 'firebase-app-compat.js', fbBase + 'firebase-firestore-compat.js', 'firebase-config.js'];
+                    (function loadNext(i) {
+                        if (i >= queue.length) { saveEmail(); return; }
+                        var s = document.createElement('script');
+                        s.src = queue[i];
+                        s.onload = function() { loadNext(i + 1); };
+                        s.onerror = function() {
+                            if (msgEl) { msgEl.textContent = S.newsletterError; msgEl.classList.add('error'); }
+                            btn.disabled = false;
+                        };
+                        document.body.appendChild(s);
+                    })(0);
+                    suggestLoaded = true;
+                }
+            });
+        }
+        document.querySelectorAll('.newsletter-subscribe-form').forEach(setupNewsletterForm);
 
         // --- Initialize fun facts (called after funfacts.js loads) ---
         function initFunFacts() {

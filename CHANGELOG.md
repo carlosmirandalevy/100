@@ -1,5 +1,19 @@
 # Changelog
 
+## [3.1.5] - 2026-02-20
+
+### Added
+- **AI Glossary page**: 31 essential AI terms (AGI through Transformer) across all 8 languages, with alphabetical letter headings and styled definition cards
+- **Glossary in Resources nav**: Added Glossary link between Tools and Newsletter in the Resources dropdown
+- **Glossary CSS**: New `.glossary-list`, `.glossary-letter`, `.glossary-term` styles with theme support (dark/pastel/light)
+- **CLAUDE.md**: Project guide for AI assistants with architecture, conventions, and critical rules
+- **sitemap.xml**: XML sitemap covering all 104 public pages across 8 languages
+
+### Changed
+- **Nav compaction**: Replaced standalone "100+ Do's" and "Don'ts" nav links with a "100+" dropdown menu containing "100+ Things to Do" and "A Few Don'ts"
+- **Renamed nav items**: "100+ Do's" → "100+ Things to Do", "Don'ts" → "A Few Don'ts" (with translations in all 8 languages)
+- **README.md**: Updated project structure with glossary, newsletter, donts, explore pages and sitemap/CLAUDE.md
+
 ## [3.1.4] - 2026-02-18
 
 ### Added

@@ -42,15 +42,21 @@ This project showcases 100 practical things you can do with AI, organized into 1
 
 ```
 index.html          # Home page (+ {lang}.html for each language)
-things.html         # The 100+ things (+ {lang}-things.html)
+things.html         # 100+ Things to Do with AI (+ {lang}-things.html)
+donts.html          # A Few Don'ts — common AI pitfalls (+ {lang}-donts.html)
+explore.html        # Personalized AI learning routes (+ {lang}-explore.html)
 tips.html           # Tips for using AI
 toolkit.html        # Useful skills (Markdown, HTML, Mermaid, GitHub Pages)
 tools.html          # Our favorite AI tools
 quickwins.html      # Quick wins to try right now
 showcase.html       # Real AI projects showcase
 faq.html            # Frequently asked questions
+glossary.html       # AI glossary — 31 essential terms (+ {lang}-glossary.html)
+newsletter.html     # Newsletter signup (+ {lang}-newsletter.html)
 about.html          # About the project and curator
 admin.html          # Admin dashboard (Firebase Auth protected)
+CLAUDE.md           # Project guide for AI assistants
+sitemap.xml         # XML sitemap (104 public pages)
 include.js          # Shared components (nav, footer, widgets, script loading)
 styles.css          # Shared styles
 main.js             # Shared interactions (nav, search modal, scroll, FAQ)
