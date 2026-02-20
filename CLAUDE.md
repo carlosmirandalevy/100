@@ -26,8 +26,23 @@ en, fr, es, pt, de, it, ja, zh (8 total)
 - `document.body.dataset.page` identifies current page
 - Footer appended with `document.body.insertAdjacentHTML('beforeend', ...)`
 
-## Pages (13 public + admin)
-index, things, donts, explore, tips, toolkit, tools, quickwins, showcase, faq, about, newsletter, glossary, admin
+## Pages (16 public + admin)
+index, things, donts, explore, tips, toolkit, tools, quickwins, showcase, faq, about, contact, program, ai-readiness, newsletter, glossary, admin
+
+## Navigation Structure
+```
+100+ ▾ (Explore 100+, 100+ Things, A Few Don'ts)
+Learn AI → program.html (also highlights for ai-readiness)
+Using AI ▾ (Tips, Skills, Quick Wins, Showcase)
+Resources ▾ (FAQ, Tools, Glossary, Newsletter)
+About ▾ (About 100+, Contact Us)
+```
+
+## Firebase / Firestore
+- `firebase-config.js` initializes Firebase app + Firestore (`window.__db`)
+- Collections: `likes`, `suggestions`, `newsletter`, `contacts`
+- Firestore rules in `firestore.rules` — deploy with `firebase deploy --only firestore:rules`
+- Contact form loads Firebase on-demand (not preloaded)
 
 ## Categories
 writing, learning, art, music, video, productivity, coding, business, science, fun, quickwins, family, social, jobs, legal

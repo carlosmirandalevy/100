@@ -16,6 +16,9 @@
   <url><loc>https://100.cemi.ai/about.html</loc></url>
   <url><loc>https://100.cemi.ai/newsletter.html</loc></url>
   <url><loc>https://100.cemi.ai/glossary.html</loc></url>
+  <url><loc>https://100.cemi.ai/program.html</loc></url>
+  <url><loc>https://100.cemi.ai/ai-readiness.html</loc></url>
+  <url><loc>https://100.cemi.ai/contact.html</loc></url>
 
   <!-- French -->
   <url><loc>https://100.cemi.ai/fr.html</loc></url>
@@ -31,6 +34,9 @@
   <url><loc>https://100.cemi.ai/fr-about.html</loc></url>
   <url><loc>https://100.cemi.ai/fr-newsletter.html</loc></url>
   <url><loc>https://100.cemi.ai/fr-glossary.html</loc></url>
+  <url><loc>https://100.cemi.ai/fr-program.html</loc></url>
+  <url><loc>https://100.cemi.ai/fr-ai-readiness.html</loc></url>
+  <url><loc>https://100.cemi.ai/fr-contact.html</loc></url>
 
   <!-- Spanish -->
   <url><loc>https://100.cemi.ai/es.html</loc></url>
@@ -46,6 +52,9 @@
   <url><loc>https://100.cemi.ai/es-about.html</loc></url>
   <url><loc>https://100.cemi.ai/es-newsletter.html</loc></url>
   <url><loc>https://100.cemi.ai/es-glossary.html</loc></url>
+  <url><loc>https://100.cemi.ai/es-program.html</loc></url>
+  <url><loc>https://100.cemi.ai/es-ai-readiness.html</loc></url>
+  <url><loc>https://100.cemi.ai/es-contact.html</loc></url>
 
   <!-- Portuguese -->
   <url><loc>https://100.cemi.ai/pt.html</loc></url>
@@ -61,6 +70,9 @@
   <url><loc>https://100.cemi.ai/pt-about.html</loc></url>
   <url><loc>https://100.cemi.ai/pt-newsletter.html</loc></url>
   <url><loc>https://100.cemi.ai/pt-glossary.html</loc></url>
+  <url><loc>https://100.cemi.ai/pt-program.html</loc></url>
+  <url><loc>https://100.cemi.ai/pt-ai-readiness.html</loc></url>
+  <url><loc>https://100.cemi.ai/pt-contact.html</loc></url>
 
   <!-- German -->
   <url><loc>https://100.cemi.ai/de.html</loc></url>
@@ -76,6 +88,9 @@
   <url><loc>https://100.cemi.ai/de-about.html</loc></url>
   <url><loc>https://100.cemi.ai/de-newsletter.html</loc></url>
   <url><loc>https://100.cemi.ai/de-glossary.html</loc></url>
+  <url><loc>https://100.cemi.ai/de-program.html</loc></url>
+  <url><loc>https://100.cemi.ai/de-ai-readiness.html</loc></url>
+  <url><loc>https://100.cemi.ai/de-contact.html</loc></url>
 
   <!-- Italian -->
   <url><loc>https://100.cemi.ai/it.html</loc></url>
@@ -91,6 +106,9 @@
   <url><loc>https://100.cemi.ai/it-about.html</loc></url>
   <url><loc>https://100.cemi.ai/it-newsletter.html</loc></url>
   <url><loc>https://100.cemi.ai/it-glossary.html</loc></url>
+  <url><loc>https://100.cemi.ai/it-program.html</loc></url>
+  <url><loc>https://100.cemi.ai/it-ai-readiness.html</loc></url>
+  <url><loc>https://100.cemi.ai/it-contact.html</loc></url>
 
   <!-- Japanese -->
   <url><loc>https://100.cemi.ai/ja.html</loc></url>
@@ -106,6 +124,9 @@
   <url><loc>https://100.cemi.ai/ja-about.html</loc></url>
   <url><loc>https://100.cemi.ai/ja-newsletter.html</loc></url>
   <url><loc>https://100.cemi.ai/ja-glossary.html</loc></url>
+  <url><loc>https://100.cemi.ai/ja-program.html</loc></url>
+  <url><loc>https://100.cemi.ai/ja-ai-readiness.html</loc></url>
+  <url><loc>https://100.cemi.ai/ja-contact.html</loc></url>
 
   <!-- Chinese -->
   <url><loc>https://100.cemi.ai/zh.html</loc></url>
@@ -121,5 +142,8 @@
   <url><loc>https://100.cemi.ai/zh-about.html</loc></url>
   <url><loc>https://100.cemi.ai/zh-newsletter.html</loc></url>
   <url><loc>https://100.cemi.ai/zh-glossary.html</loc></url>
+  <url><loc>https://100.cemi.ai/zh-program.html</loc></url>
+  <url><loc>https://100.cemi.ai/zh-ai-readiness.html</loc></url>
+  <url><loc>https://100.cemi.ai/zh-contact.html</loc></url>
 
 </urlset>

@@ -15,6 +15,9 @@ This project showcases 100 practical things you can do with AI, organized into 1
 ## Features
 
 - **115+ AI use cases** across 14 categories: Writing, Learning, Art, Music, Video, Productivity, Coding, Business, Science, Fun, Quick Wins, Family, Social, and Job Hunting
+- **AI Learning Program**: Comprehensive professional training page with core, optional, and specialized modules, multiple formats, and the Smoother Methodology
+- **AI Readiness Assessment**: Interactive 12-question assessment across 4 dimensions with personalized results and recommendations
+- **Contact form**: Firestore-backed contact form with subject routing, honeypot protection, and rate limiting
 - **Ready-to-copy prompts** with one-click copy for each use case
 - **Step-by-step guides** for every item
 - **8 languages**: English, French, Spanish, Portuguese, German, Italian, Japanese, and Chinese
@@ -53,10 +56,14 @@ showcase.html       # Real AI projects showcase
 faq.html            # Frequently asked questions
 glossary.html       # AI glossary — 31 essential terms (+ {lang}-glossary.html)
 newsletter.html     # Newsletter signup (+ {lang}-newsletter.html)
-about.html          # About the project and curator
+about.html          # About the project and curator (+ {lang}-about.html)
+contact.html        # Contact form with Firestore backend (+ {lang}-contact.html)
+program.html        # AI Learning Program landing page (+ {lang}-program.html)
+ai-readiness.html   # AI Readiness Assessment — interactive quiz (+ {lang}-ai-readiness.html)
 admin.html          # Admin dashboard (Firebase Auth protected)
 CLAUDE.md           # Project guide for AI assistants
-sitemap.xml         # XML sitemap (104 public pages)
+firestore.rules     # Firestore security rules (likes, suggestions, newsletter, contacts)
+sitemap.xml         # XML sitemap (128 public pages)
 include.js          # Shared components (nav, footer, widgets, script loading)
 styles.css          # Shared styles
 main.js             # Shared interactions (nav, search modal, scroll, FAQ)

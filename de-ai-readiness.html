@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Readiness Assessment | 100+ Things to Do with AI | CEMI.AI</title>
+    <meta name="description" content="Assess your AI readiness across 4 dimensions: Technical, Cultural, Policy, and Skills. Get personalized recommendations to accelerate your AI journey.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://100.cemi.ai/assets/images/100-ai-og.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://100.cemi.ai/assets/images/100-ai-og.png">
+    <script src="include.js"></script>
+</head>
+<body data-page="ai-readiness">
+
+<!-- Hero -->
+<section class="page-hero">
+    <div class="hero-orb hero-orb-1" style="width:300px;height:300px"></div>
+    <div class="hero-orb hero-orb-2" style="width:250px;height:250px"></div>
+    <div class="page-hero-content">
+        <h1><span class="gradient-text">AI Readiness Assessment</span></h1>
+        <p style="font-size:1.1rem;max-width:550px;margin:var(--space-md) auto 0">12 questions, 4 dimensions. Discover where you stand &mdash; and what to do next.</p>
+    </div>
+</section>
+
+<!-- Assessment -->
+<section class="section">
+    <div class="container ar-container" id="ar-app">
+
+        <!-- Progress Bar -->
+        <div class="ar-progress" id="ar-progress">
+            <div class="ar-progress-step"><div class="ar-progress-dot active" data-step="0">1</div></div>
+            <div class="ar-progress-line" data-line="0"></div>
+            <div class="ar-progress-step"><div class="ar-progress-dot" data-step="1">2</div></div>
+            <div class="ar-progress-line" data-line="1"></div>
+            <div class="ar-progress-step"><div class="ar-progress-dot" data-step="2">3</div></div>
+            <div class="ar-progress-line" data-line="2"></div>
+            <div class="ar-progress-step"><div class="ar-progress-dot" data-step="3">4</div></div>
+        </div>
+
+        <!-- Section 1: Technical Readiness -->
+        <div class="ar-section active" data-section="0">
+            <h2 class="ar-section-title">&#128187; Technical Readiness</h2>
+            <div class="ar-question" data-q="0">
+                <p>My organization has the digital infrastructure (reliable internet, modern devices, cloud access) needed to support AI tools.</p>
+                <div class="ar-scale">
+                    <button class="ar-scale-btn" data-val="1">Strongly Disagree</button>
+                    <button class="ar-scale-btn" data-val="2">Disagree</button>
+                    <button class="ar-scale-btn" data-val="3">Agree</button>
+                    <button class="ar-scale-btn" data-val="4">Strongly Agree</button>
+                </div>
+            </div>
+            <div class="ar-question" data-q="1">
+                <p>I have experience using digital tools for productivity (e.g., project management apps, cloud collaboration, automation).</p>
+                <div class="ar-scale">
+                    <button class="ar-scale-btn" data-val="1">Strongly Disagree</button>
+                    <button class="ar-scale-btn" data-val="2">Disagree</button>
+                    <button class="ar-scale-btn" data-val="3">Agree</button>
+                    <button class="ar-scale-btn" data-val="4">Strongly Agree</button>
+                </div>
+            </div>
+            <div class="ar-question" data-q="2">
+                <p>I feel comfortable experimenting with new software tools and can usually figure them out without extensive training.</p>
+                <div class="ar-scale">
+                    <button class="ar-scale-btn" data-val="1">Strongly Disagree</button>
+                    <button class="ar-scale-btn" data-val="2">Disagree</button>
+                    <button class="ar-scale-btn" data-val="3">Agree</button>
+                    <button class="ar-scale-btn" data-val="4">Strongly Agree</button>
+                </div>
+            </div>
+            <div class="ar-nav">
+                <span></span>
+                <button class="btn btn-primary ar-next-btn" data-next="1">Next: Cultural Readiness &#8594;</button>
+            </div>
+        </div>
+
+        <!-- Section 2: Cultural Readiness -->
+        <div class="ar-section" data-section="1">
+            <h2 class="ar-section-title">&#127793; Cultural Readiness</h2>
+            <div class="ar-question" data-q="3">
+                <p>Leadership at my organization actively supports and encourages the adoption of new technologies, including AI.</p>
+                <div class="ar-scale">
+                    <button class="ar-scale-btn" data-val="1">Strongly Disagree</button>
+                    <button class="ar-scale-btn" data-val="2">Disagree</button>
+                    <button class="ar-scale-btn" data-val="3">Agree</button>
+                    <button class="ar-scale-btn" data-val="4">Strongly Agree</button>
+                </div>
+            </div>
+            <div class="ar-question" data-q="4">
+                <p>My colleagues are generally open to changing their workflows and trying new approaches to their work.</p>
+                <div class="ar-scale">
+                    <button class="ar-scale-btn" data-val="1">Strongly Disagree</button>
+                    <button class="ar-scale-btn" data-val="2">Disagree</button>
+                    <button class="ar-scale-btn" data-val="3">Agree</button>
+                    <button class="ar-scale-btn" data-val="4">Strongly Agree</button>
+                </div>
+            </div>
+            <div class="ar-question" data-q="5">
+                <p>Our organization has a culture of continuous learning, where people are encouraged to develop new skills regularly.</p>
+                <div class="ar-scale">
+                    <button class="ar-scale-btn" data-val="1">Strongly Disagree</button>
+                    <button class="ar-scale-btn" data-val="2">Disagree</button>
+                    <button class="ar-scale-btn" data-val="3">Agree</button>
+                    <button class="ar-scale-btn" data-val="4">Strongly Agree</button>
+                </div>
+            </div>
+            <div class="ar-nav">
+                <button class="btn btn-outline ar-prev-btn" data-prev="0">&#8592; Back</button>
+                <button class="btn btn-primary ar-next-btn" data-next="2">Next: Policy Readiness &#8594;</button>
+            </div>
+        </div>
+
+        <!-- Section 3: Policy Readiness -->
+        <div class="ar-section" data-section="2">
+            <h2 class="ar-section-title">&#128220; Policy Readiness</h2>
+            <div class="ar-question" data-q="6">
+                <p>My organization has clear policies regarding data privacy, security, and the acceptable use of third-party digital tools.</p>
+                <div class="ar-scale">
+                    <button class="ar-scale-btn" data-val="1">Strongly Disagree</button>
+                    <button class="ar-scale-btn" data-val="2">Disagree</button>
+                    <button class="ar-scale-btn" data-val="3">Agree</button>
+                    <button class="ar-scale-btn" data-val="4">Strongly Agree</button>
+                </div>
+            </div>
+            <div class="ar-question" data-q="7">
+                <p>There are established guidelines or processes for evaluating and adopting new technology solutions in my workplace.</p>
+                <div class="ar-scale">
+                    <button class="ar-scale-btn" data-val="1">Strongly Disagree</button>
+                    <button class="ar-scale-btn" data-val="2">Disagree</button>
+                    <button class="ar-scale-btn" data-val="3">Agree</button>
+                    <button class="ar-scale-btn" data-val="4">Strongly Agree</button>
+                </div>
+            </div>
+            <div class="ar-question" data-q="8">
+                <p>I understand (or my organization addresses) the ethical considerations of using AI, such as bias, transparency, and accountability.</p>
+                <div class="ar-scale">
+                    <button class="ar-scale-btn" data-val="1">Strongly Disagree</button>
+                    <button class="ar-scale-btn" data-val="2">Disagree</button>
+                    <button class="ar-scale-btn" data-val="3">Agree</button>
+                    <button class="ar-scale-btn" data-val="4">Strongly Agree</button>
+                </div>
+            </div>
+            <div class="ar-nav">
+                <button class="btn btn-outline ar-prev-btn" data-prev="1">&#8592; Back</button>
+                <button class="btn btn-primary ar-next-btn" data-next="3">Next: Skills Readiness &#8594;</button>
+            </div>
+        </div>
+
+        <!-- Section 4: Skills Readiness -->
+        <div class="ar-section" data-section="3">
+            <h2 class="ar-section-title">&#128640; Skills Readiness</h2>
+            <div class="ar-question" data-q="9">
+                <p>I am confident in my digital literacy skills &mdash; I can effectively use digital platforms, evaluate online information, and communicate digitally.</p>
+                <div class="ar-scale">
+                    <button class="ar-scale-btn" data-val="1">Strongly Disagree</button>
+                    <button class="ar-scale-btn" data-val="2">Disagree</button>
+                    <button class="ar-scale-btn" data-val="3">Agree</button>
+                    <button class="ar-scale-btn" data-val="4">Strongly Agree</button>
+                </div>
+            </div>
+            <div class="ar-question" data-q="10">
+                <p>I have already experimented with at least one AI tool (e.g., ChatGPT, Copilot, Midjourney, Gemini) for work or personal use.</p>
+                <div class="ar-scale">
+                    <button class="ar-scale-btn" data-val="1">Strongly Disagree</button>
+                    <button class="ar-scale-btn" data-val="2">Disagree</button>
+                    <button class="ar-scale-btn" data-val="3">Agree</button>
+                    <button class="ar-scale-btn" data-val="4">Strongly Agree</button>
+                </div>
+            </div>
+            <div class="ar-question" data-q="11">
+                <p>I (or my organization) have the time and resources to invest in structured AI training and skills development.</p>
+                <div class="ar-scale">
+                    <button class="ar-scale-btn" data-val="1">Strongly Disagree</button>
+                    <button class="ar-scale-btn" data-val="2">Disagree</button>
+                    <button class="ar-scale-btn" data-val="3">Agree</button>
+                    <button class="ar-scale-btn" data-val="4">Strongly Agree</button>
+                </div>
+            </div>
+            <div class="ar-nav">
+                <button class="btn btn-outline ar-prev-btn" data-prev="2">&#8592; Back</button>
+                <button class="btn btn-primary" id="ar-submit">See My Results &#8594;</button>
+            </div>
+        </div>
+
+        <!-- Results -->
+        <div class="ar-results" id="ar-results">
+
+            <div class="ar-score-wrap">
+                <div class="ar-score-circle">
+                    <svg viewBox="0 0 200 200">
+                        <circle class="track" cx="100" cy="100" r="88"></circle>
+                        <circle class="fill" id="ar-ring" cx="100" cy="100" r="88" stroke-dasharray="553" stroke-dashoffset="553"></circle>
+                    </svg>
+                    <div class="ar-score-pct" id="ar-pct">0%</div>
+                </div>
+                <div class="ar-score-label" id="ar-level"></div>
+                <p class="ar-score-desc" id="ar-level-desc"></p>
+            </div>
+
+            <h3 class="reveal" style="text-align:center;margin-bottom:var(--space-lg);font-size:1.3rem">Dimension Breakdown</h3>
+            <div class="ar-dimensions" id="ar-dims"></div>
+
+            <div class="ar-insights" id="ar-insights"></div>
+
+            <h3 style="text-align:center;margin-bottom:var(--space-lg);font-size:1.3rem">Recommended Next Steps</h3>
+            <div class="ar-recs" id="ar-recs"></div>
+
+            <div class="prog-cta" style="margin-top:var(--space-2xl)">
+                <h2 class="gradient-text">Ready to Take the Next Step?</h2>
+                <p style="color:var(--text-secondary);max-width:500px;margin:0 auto var(--space-lg);font-size:1.05rem">Your assessment results help us design the perfect learning program for you.</p>
+                <div style="display:flex;gap:var(--space-md);justify-content:center;flex-wrap:wrap">
+                    <a href="program.html" class="btn btn-primary">Explore the Learning Program</a>
+                    <a href="things.html" class="btn btn-outline">Browse 100+ AI Use Cases</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<script>
+(function() {
+    'use strict';
+    var answers = new Array(12).fill(0);
+    var dims = [
+        { name: 'Technical Readiness', qs: [0,1,2], color: '#6a8fad' },
+        { name: 'Cultural Readiness', qs: [3,4,5], color: '#7ba887' },
+        { name: 'Policy Readiness', qs: [6,7,8], color: '#c9a84c' },
+        { name: 'Skills Readiness', qs: [9,10,11], color: '#d4726a' }
+    ];
+    var levels = [
+        { min: 75, label: 'Ready to Adopt', desc: 'You have a strong foundation for AI adoption. Focus on advanced applications and optimization.' },
+        { min: 50, label: 'Getting Ready', desc: 'You are well on your way. A few targeted improvements will unlock significant AI potential.' },
+        { min: 25, label: 'Building Foundation', desc: 'You are building the groundwork. Focused effort on key gaps will accelerate your readiness.' },
+        { min: 0, label: 'Early Stage', desc: 'You are at the beginning of your AI journey. Start with fundamentals and build progressively.' }
+    ];
+
+    // Scale button clicks
+    document.getElementById('ar-app').addEventListener('click', function(e) {
+        var btn = e.target.closest('.ar-scale-btn');
+        if (btn) {
+            var q = parseInt(btn.closest('.ar-question').dataset.q);
+            var val = parseInt(btn.dataset.val);
+            answers[q] = val;
+            var siblings = btn.parentElement.querySelectorAll('.ar-scale-btn');
+            siblings.forEach(function(b) { b.classList.remove('selected'); });
+            btn.classList.add('selected');
+        }
+
+        // Navigation
+        var nextBtn = e.target.closest('.ar-next-btn');
+        if (nextBtn) {
+            var nextIdx = parseInt(nextBtn.dataset.next);
+            var currentIdx = nextIdx - 1;
+            // Validate current section
+            var sectionQs = dims[currentIdx].qs;
+            var allAnswered = sectionQs.every(function(qi) { return answers[qi] > 0; });
+            if (!allAnswered) {
+                nextBtn.style.animation = 'none';
+                nextBtn.offsetHeight;
+                nextBtn.style.animation = '';
+                return;
+            }
+            showSection(nextIdx);
+        }
+        var prevBtn = e.target.closest('.ar-prev-btn');
+        if (prevBtn) {
+            showSection(parseInt(prevBtn.dataset.prev));
+        }
+    });
+
+    function showSection(idx) {
+        document.querySelectorAll('.ar-section').forEach(function(s) { s.classList.remove('active'); });
+        var target = document.querySelector('.ar-section[data-section="' + idx + '"]');
+        if (target) target.classList.add('active');
+        // Update progress
+        document.querySelectorAll('.ar-progress-dot').forEach(function(d) {
+            var si = parseInt(d.dataset.step);
+            d.classList.remove('active', 'done');
+            if (si < idx) d.classList.add('done');
+            else if (si === idx) d.classList.add('active');
+        });
+        document.querySelectorAll('.ar-progress-line').forEach(function(l) {
+            var li = parseInt(l.dataset.line);
+            l.classList.toggle('done', li < idx);
+        });
+        window.scrollTo({ top: document.getElementById('ar-app').offsetTop - 100, behavior: 'smooth' });
+    }
+
+    // Submit
+    document.getElementById('ar-submit').addEventListener('click', function() {
+        // Validate last section
+        var lastQs = dims[3].qs;
+        var allAnswered = lastQs.every(function(qi) { return answers[qi] > 0; });
+        if (!allAnswered) return;
+
+        var totalScore = answers.reduce(function(a, b) { return a + b; }, 0);
+        var maxScore = 48;
+        var pct = Math.round((totalScore / maxScore) * 100);
+
+        // Hide questions, show results
+        document.querySelectorAll('.ar-section').forEach(function(s) { s.classList.remove('active'); });
+        document.getElementById('ar-progress').style.display = 'none';
+        var results = document.getElementById('ar-results');
+        results.classList.add('visible');
+
+        // Animate ring
+        var ring = document.getElementById('ar-ring');
+        var circumference = 553;
+        var offset = circumference - (circumference * pct / 100);
+        var level = levels.find(function(l) { return pct >= l.min; });
+        var ringColor = pct >= 75 ? '#7ba887' : pct >= 50 ? '#c9a84c' : pct >= 25 ? '#6a8fad' : '#d4726a';
+        ring.style.stroke = ringColor;
+        setTimeout(function() {
+            ring.style.strokeDashoffset = offset;
+            document.getElementById('ar-pct').textContent = pct + '%';
+            document.getElementById('ar-level').textContent = level.label;
+            document.getElementById('ar-level').style.color = ringColor;
+            document.getElementById('ar-level-desc').textContent = level.desc;
+        }, 100);
+
+        // Dimension breakdown
+        var dimsHTML = '';
+        var dimScores = [];
+        dims.forEach(function(d) {
+            var ds = d.qs.reduce(function(a, qi) { return a + answers[qi]; }, 0);
+            var dp = Math.round((ds / 12) * 100);
+            dimScores.push({ name: d.name, score: ds, pct: dp, color: d.color });
+            dimsHTML += '<div class="ar-dim-card"><div class="ar-dim-name">' + d.name + '</div>' +
+                '<div class="ar-dim-bar-wrap"><div class="ar-dim-bar" style="width:0;background:' + d.color + '" data-width="' + dp + '%"></div></div>' +
+                '<div class="ar-dim-score">' + ds + ' / 12 (' + dp + '%)</div></div>';
+        });
+        document.getElementById('ar-dims').innerHTML = dimsHTML;
+        setTimeout(function() {
+            document.querySelectorAll('.ar-dim-bar').forEach(function(bar) {
+                bar.style.width = bar.dataset.width;
+            });
+        }, 200);
+
+        // Strengths & improvements
+        var sorted = dimScores.slice().sort(function(a, b) { return b.pct - a.pct; });
+        var strengths = sorted.filter(function(d) { return d.pct >= 50; });
+        var improvements = sorted.filter(function(d) { return d.pct < 50; });
+        if (strengths.length === 0) strengths = [sorted[0]];
+        if (improvements.length === 0) improvements = [sorted[sorted.length - 1]];
+        var insHTML = '<div class="ar-insight strengths"><h3>Your Strengths</h3><ul>' +
+            strengths.map(function(d) { return '<li>' + d.name + ' (' + d.pct + '%)'; }).join('') +
+            '</ul></div>' +
+            '<div class="ar-insight improvements"><h3>Areas for Improvement</h3><ul>' +
+            improvements.map(function(d) { return '<li>' + d.name + ' (' + d.pct + '%)'; }).join('') +
+            '</ul></div>';
+        document.getElementById('ar-insights').innerHTML = insHTML;
+
+        // Recommendations
+        var recs = [];
+        if (dimScores[0].pct < 75) recs.push({ title: 'Explore AI Tools', desc: 'Get hands-on with the most popular AI tools to build your technical comfort.', link: 'tools.html', linkText: 'Browse AI Tools' });
+        if (dimScores[1].pct < 75) recs.push({ title: 'Build AI Awareness', desc: 'Explore practical AI use cases that demonstrate value and build organizational buy-in.', link: 'things.html', linkText: 'See 100+ Use Cases' });
+        if (dimScores[2].pct < 75) recs.push({ title: 'Learn AI Best Practices', desc: 'Understand the do\'s and don\'ts of AI usage, from data privacy to ethical considerations.', link: 'donts.html', linkText: 'Read the Don\'ts' });
+        if (dimScores[3].pct < 75) recs.push({ title: 'Start with Quick Wins', desc: 'Begin with simple, high-impact AI applications that build confidence quickly.', link: 'quickwins.html', linkText: 'Try Quick Wins' });
+        recs.push({ title: 'Find Your Learning Path', desc: 'Take the guided quiz to discover curated AI learning routes tailored to your profile.', link: 'explore.html', linkText: 'Explore Routes' });
+        recs.push({ title: 'Sharpen Your Prompting', desc: 'Learn practical tips for getting better results from AI tools every day.', link: 'tips.html', linkText: 'Read AI Tips' });
+
+        var recsHTML = recs.map(function(r) {
+            return '<div class="ar-rec"><h4>' + r.title + '</h4><p>' + r.desc + '</p><a href="' + r.link + '">' + r.linkText + ' &rarr;</a></div>';
+        }).join('');
+        document.getElementById('ar-recs').innerHTML = recsHTML;
+
+        window.scrollTo({ top: results.offsetTop - 100, behavior: 'smooth' });
+    });
+})();
+</script>
+
+</body>
+</html>

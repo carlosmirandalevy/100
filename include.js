@@ -101,7 +101,12 @@
             newsletterBtn: 'Subscribe',
             newsletterSuccess: "You're subscribed! Thank you.",
             newsletterError: 'Something went wrong. Please try again.',
-            glossary: 'Glossary'
+            glossary: 'Glossary',
+            program: 'Learn AI',
+            aiReadiness: 'AI Readiness',
+            explore100: 'Explore 100+',
+            contact: 'Contact Us',
+            about100: 'About 100+'
         },
         fr: {
             things: '100+ choses \u00e0 faire', donts: 'Quelques interdits', logoText: "AI Do's et Don'ts", usingAI: "Utiliser l'IA", tips: 'Conseils', skills: 'Comp\u00e9tences utiles',
@@ -138,7 +143,12 @@
             newsletterBtn: "S'abonner",
             newsletterSuccess: 'Vous \u00eates abonn\u00e9 ! Merci.',
             newsletterError: 'Une erreur est survenue. Veuillez r\u00e9essayer.',
-            glossary: 'Glossaire'
+            glossary: 'Glossaire',
+            program: 'Apprendre l\u0027IA',
+            aiReadiness: 'Pr\u00e9paration IA',
+            explore100: 'Explorer les 100+',
+            contact: 'Nous contacter',
+            about100: '\u00c0 propos des 100+'
         },
         es: {
             things: '100+ cosas que hacer', donts: 'Algunas que no', logoText: 'Qu\u00e9 hacer y no con IA', usingAI: 'Usar IA', tips: 'Consejos', skills: 'Habilidades \u00fatiles',
@@ -175,7 +185,12 @@
             newsletterBtn: 'Suscribirse',
             newsletterSuccess: '\u00a1Te has suscrito! Gracias.',
             newsletterError: 'Algo sali\u00f3 mal. Int\u00e9ntalo de nuevo.',
-            glossary: 'Glosario'
+            glossary: 'Glosario',
+            program: 'Aprender IA',
+            aiReadiness: 'Preparaci\u00f3n IA',
+            explore100: 'Explorar las 100+',
+            contact: 'Cont\u00e1ctanos',
+            about100: 'Sobre las 100+'
         },
         pt: {
             things: '100+ coisas para fazer', donts: 'Algumas que n\u00e3o', logoText: 'a fazer e n\u00e3o com IA', usingAI: 'Usar IA', tips: 'Dicas', skills: 'Habilidades úteis',
@@ -212,7 +227,12 @@
             newsletterBtn: 'Inscrever-se',
             newsletterSuccess: 'Voc\u00ea est\u00e1 inscrito! Obrigado.',
             newsletterError: 'Algo deu errado. Tente novamente.',
-            glossary: 'Gloss\u00e1rio'
+            glossary: 'Gloss\u00e1rio',
+            program: 'Aprender IA',
+            aiReadiness: 'Prepara\u00e7\u00e3o IA',
+            explore100: 'Explorar as 100+',
+            contact: 'Fale conosco',
+            about100: 'Sobre as 100+'
         },
         de: {
             things: '100+ Dinge', donts: 'Einige Don\u2019ts', logoText: 'KI: Dos und Don\u2019ts', usingAI: 'KI nutzen', tips: 'Tipps', skills: 'N\u00fctzliche F\u00e4higkeiten',
@@ -249,7 +269,12 @@
             newsletterBtn: 'Abonnieren',
             newsletterSuccess: 'Du bist angemeldet! Danke.',
             newsletterError: 'Etwas ist schiefgelaufen. Bitte versuche es erneut.',
-            glossary: 'Glossar'
+            glossary: 'Glossar',
+            program: 'KI lernen',
+            aiReadiness: 'KI-Bereitschaft',
+            explore100: 'Die 100+ entdecken',
+            contact: 'Kontakt',
+            about100: '\u00dcber die 100+'
         },
         it: {
             things: '100+ cose da fare', donts: 'Alcune da non fare', logoText: "IA: da fare e non", usingAI: "Usare l'IA", tips: 'Consigli', skills: 'Competenze utili',
@@ -286,7 +311,12 @@
             newsletterBtn: 'Iscriviti',
             newsletterSuccess: 'Sei iscritto! Grazie.',
             newsletterError: 'Qualcosa \u00e8 andato storto. Riprova.',
-            glossary: 'Glossario'
+            glossary: 'Glossario',
+            program: 'Imparare l\u0027IA',
+            aiReadiness: 'Preparazione IA',
+            explore100: 'Esplora le 100+',
+            contact: 'Contattaci',
+            about100: 'Info sulle 100+'
         },
         ja: {
             things: '100+\u3084\u308b\u3079\u304d\u3053\u3068', donts: '\u3044\u304f\u3064\u304b\u306eNG', logoText: 'AI\u306e\u3059\u3079\u304d\u3053\u3068\u30fb\u3059\u3079\u304d\u3067\u306a\u3044\u3053\u3068', usingAI: 'AI活用', tips: 'ヒント', skills: 'スキル',
@@ -323,7 +353,12 @@
             newsletterBtn: '\u8cfc\u8aad\u3059\u308b',
             newsletterSuccess: '\u8cfc\u8aad\u5b8c\u4e86\uff01\u3042\u308a\u304c\u3068\u3046\u3054\u3056\u3044\u307e\u3059\u3002',
             newsletterError: '\u30a8\u30e9\u30fc\u304c\u767a\u751f\u3057\u307e\u3057\u305f\u3002\u3082\u3046\u4e00\u5ea6\u304a\u8a66\u3057\u304f\u3060\u3055\u3044\u3002',
-            glossary: '\u7528\u8a9e\u96c6'
+            glossary: '\u7528\u8a9e\u96c6',
+            program: 'AI\u3092\u5b66\u3076',
+            aiReadiness: 'AI\u6e96\u5099\u5ea6',
+            explore100: '100+\u3092\u63a2\u7d22',
+            contact: '\u304a\u554f\u3044\u5408\u308f\u305b',
+            about100: '100+\u306b\u3064\u3044\u3066'
         },
         zh: {
             things: '100+\u8be5\u505a\u7684\u4e8b', donts: '\u4e00\u4e9b\u4e0d\u8be5\u505a\u7684\u4e8b', logoText: 'AI\u8be5\u505a\u4e0e\u4e0d\u8be5\u505a', usingAI: '\u4f7f\u7528AI', tips: '\u6280\u5de7', skills: '\u5b9e\u7528\u6280\u80fd',
@@ -360,7 +395,12 @@
             newsletterBtn: '\u8ba2\u9605',
             newsletterSuccess: '\u8ba2\u9605\u6210\u529f\uff01\u8c22\u8c22\u3002',
             newsletterError: '\u51fa\u4e86\u70b9\u95ee\u9898\u3002\u8bf7\u91cd\u8bd5\u3002',
-            glossary: '\u672f\u8bed\u8868'
+            glossary: '\u672f\u8bed\u8868',
+            program: '\u5b66\u4e60AI',
+            aiReadiness: 'AI\u51c6\u5907\u5ea6',
+            explore100: '\u63a2\u7d22100+',
+            contact: '\u8054\u7cfb\u6211\u4eec',
+            about100: '\u5173\u4e8e100+'
         }
     };
 
@@ -416,12 +456,13 @@
             '<button class="nav-hamburger" id="nav-toggle-btn" aria-label="Menu"><span></span><span></span><span></span></button>' +
             '<div class="nav-links" id="nav-links">' +
             '<div class="nav-dropdown">' +
-            '<a href="' + ph('things') + '" class="nav-dropdown-trigger nav-link' + (page === 'things' || page === 'donts' ? ' active' : '') + '">100+ <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 4 5 7 8 4"></polyline></svg></a>' +
+            '<a href="' + ph('things') + '" class="nav-dropdown-trigger nav-link' + (page === 'things' || page === 'donts' || page === 'explore' ? ' active' : '') + '">100+ <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 4 5 7 8 4"></polyline></svg></a>' +
             '<div class="nav-dropdown-menu">' +
+            '<a href="' + ph('explore') + '" class="nav-dropdown-item' + active('explore') + '">' + S.explore100 + '</a>' +
             '<a href="' + ph('things') + '" class="nav-dropdown-item' + active('things') + '">' + S.things + '</a>' +
             '<a href="' + ph('donts') + '" class="nav-dropdown-item' + active('donts') + '">' + S.donts + '</a>' +
             '</div></div>' +
-            '<a href="' + ph('explore') + '" class="nav-link' + active('explore') + '">' + S.explore + '</a>' +
+            '<a href="' + ph('program') + '" class="nav-link' + (page === 'program' || page === 'ai-readiness' ? ' active' : '') + '">' + S.program + '</a>' +
             '<div class="nav-dropdown">' +
             '<a href="' + ph('tips') + '" class="nav-dropdown-trigger nav-link' + (page === 'tips' || page === 'toolkit' || page === 'quickwins' || page === 'showcase' ? ' active' : '') + '">' + S.usingAI + ' <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 4 5 7 8 4"></polyline></svg></a>' +
             '<div class="nav-dropdown-menu">' +
@@ -438,7 +479,12 @@
             '<a href="' + ph('glossary') + '" class="nav-dropdown-item' + active('glossary') + '">' + S.glossary + '</a>' +
             '<a href="' + ph('newsletter') + '" class="nav-dropdown-item' + active('newsletter') + '">Newsletter</a>' +
             '</div></div>' +
-            '<a href="' + ph('about') + '" class="nav-link' + active('about') + '">' + S.about + '</a>' +
+            '<div class="nav-dropdown">' +
+            '<a href="' + ph('about') + '" class="nav-dropdown-trigger nav-link' + (page === 'about' || page === 'contact' ? ' active' : '') + '">' + S.about + ' <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 4 5 7 8 4"></polyline></svg></a>' +
+            '<div class="nav-dropdown-menu">' +
+            '<a href="' + ph('about') + '" class="nav-dropdown-item' + active('about') + '">' + S.about100 + '</a>' +
+            '<a href="' + ph('contact') + '" class="nav-dropdown-item' + active('contact') + '">' + S.contact + '</a>' +
+            '</div></div>' +
             '<button class="nav-search-btn" id="nav-search-btn" aria-label="' + S.searchLabel + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></button>' +
             '<div class="theme-toggle" id="theme-toggle">' +
             '<button class="theme-toggle-btn" id="theme-toggle-btn" aria-label="' + S.themeLabel + '">' +
@@ -464,8 +510,8 @@
             '<div style="margin-top:var(--space-lg);padding-top:var(--space-md);border-top:1px solid rgba(167,0,0,0.1)">' +
             '<h4 style="font-size:0.95rem;margin-bottom:var(--space-sm)">' + S.sisterProjects + '</h4>' +
             '<a href="https://lawra.org" target="_blank" class="footer-sister-link"><img src="assets/logos/external/lawra-logo-icon.png" alt="Lawra" width="18" height="18" style="border-radius:3px"> Lawra &mdash; ' + S.sisterLawra + '</a>' +
-            '<a href="https://ibizai.io" target="_blank" class="footer-sister-link">Ibizai &mdash; ' + S.sisterIbizai + '</a>' +
-            '<a href="https://insureversia.com" target="_blank" class="footer-sister-link">Insureversia &mdash; ' + S.sisterInsureversia + '</a>' +
+            '<a href="https://ibizai.io" target="_blank" class="footer-sister-link"><img src="assets/logos/external/ibiza-logo-just-icon-circle.png" alt="Ibizai" width="18" height="18" style="border-radius:3px"> Ibizai &mdash; ' + S.sisterIbizai + '</a>' +
+            '<a href="https://insureversia.com" target="_blank" class="footer-sister-link"><img src="assets/logos/external/insureversia-just-logo-white-circle.png" alt="Insureversia" width="18" height="18" style="border-radius:3px"> Insureversia &mdash; ' + S.sisterInsureversia + '</a>' +
             '</div>' +
             '</div>' +
             '<div class="footer-col"><h4>' + S.quickLinks + '</h4><ul class="footer-links footer-links-2col">' +

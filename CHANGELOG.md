@@ -1,5 +1,21 @@
 # Changelog
 
+## [3.2.0] - 2026-02-20
+
+### Added
+- **AI Learning Program page** (`program.html`): Professional training landing page with hero, problem statement, 3 pillars, detailed curriculum (4 core + 5 optional + 6 specialized modules with activities), 5 format categories (18 sub-formats), 3 learning modalities, 4-step process, Smoother Methodology (6 task types), 3 case studies, and CTAs
+- **AI Readiness Assessment page** (`ai-readiness.html`): Interactive 12-question assessment across 4 dimensions (Technical, Cultural, Policy, Skills) with 4-point Likert scale, SVG progress ring, dimension breakdown bars, strengths/improvements analysis, and personalized recommendations
+- **Contact page** (`contact.html`): Firestore-backed contact form with 7 subject options (Learning Program, Assessment, Consulting, Products, Partnership, Suggest Content, General), honeypot spam protection, 30s rate limiting, URL param pre-fill (`?subject=program`), and on-demand Firebase loading
+- **Translated page shells**: 21 translated pages (7 langs × 3 pages) for contact, program, and ai-readiness
+- **Firestore `contacts` collection**: Security rules with field-level validation, subject whitelist, and admin-only read/update/delete
+- **Flyer prompts** (`resources/prompts-flyers.md`): Gemini image generation prompts for Learning Program flyers (vertical + horizontal)
+
+### Changed
+- **Nav restructure**: Moved Explore into 100+ dropdown as "Explore 100+"; added "Learn AI" standalone link; converted About from standalone link to dropdown with "About 100+" and "Contact Us"
+- **include.js STRINGS**: Added `program`, `aiReadiness`, `explore100`, `contact`, `about100` keys across all 8 languages
+- **Program CTAs**: Link to `contact.html?subject=program` instead of external URL
+- **sitemap.xml**: Added 24 new URLs (3 EN + 21 translated pages)
+
 ## [3.1.5] - 2026-02-20
 
 ### Added

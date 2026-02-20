@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | 100+ Things to Do with AI | CEMI.AI</title>
+    <meta name="description" content="Get in touch with CEMI.AI. Request a personalized AI learning program, ask about assessments, partnerships, or send us a general inquiry.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://100.cemi.ai/assets/images/100-ai-og.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://100.cemi.ai/assets/images/100-ai-og.png">
+    <script src="include.js"></script>
+</head>
+<body data-page="contact">
+
+<!-- Hero -->
+<section class="page-hero">
+    <div class="hero-orb hero-orb-1" style="width:300px;height:300px"></div>
+    <div class="hero-orb hero-orb-2" style="width:250px;height:250px"></div>
+    <div class="page-hero-content">
+        <h1><span class="gradient-text">Contact Us</span></h1>
+        <p style="font-size:1.1rem;max-width:550px;margin:var(--space-md) auto 0">Have a question, want to request a learning program, or explore a partnership? We&rsquo;d love to hear from you.</p>
+    </div>
+</section>
+
+<!-- Contact Form -->
+<section class="section">
+    <div class="container" style="max-width:700px">
+
+        <form id="contact-form" class="contact-form reveal" novalidate>
+            <!-- Honeypot -->
+            <div style="position:absolute;left:-9999px;top:-9999px" aria-hidden="true">
+                <input type="text" name="website" tabindex="-1" autocomplete="off">
+            </div>
+
+            <div class="contact-field">
+                <label for="cf-name">Name <span class="contact-required">*</span></label>
+                <input type="text" id="cf-name" maxlength="200" required placeholder="Your full name" autocomplete="name">
+                <div class="contact-error" id="cf-err-name"></div>
+            </div>
+
+            <div class="contact-field">
+                <label for="cf-email">Email <span class="contact-required">*</span></label>
+                <input type="email" id="cf-email" required placeholder="you@example.com" autocomplete="email">
+                <div class="contact-error" id="cf-err-email"></div>
+            </div>
+
+            <div class="contact-field">
+                <label for="cf-org">Organization <span style="color:var(--text-secondary);font-weight:400">(optional)</span></label>
+                <input type="text" id="cf-org" maxlength="200" placeholder="Company or institution" autocomplete="organization">
+            </div>
+
+            <div class="contact-field">
+                <label for="cf-subject">Subject <span class="contact-required">*</span></label>
+                <select id="cf-subject" required>
+                    <option value="">&#8212; Select a topic &#8212;</option>
+                    <option value="program">Learning Program Request</option>
+                    <option value="assessment">AI Readiness Assessment</option>
+                    <option value="consulting">Consulting Services</option>
+                    <option value="products">AI Products</option>
+                    <option value="partnership">Partnership Inquiry</option>
+                    <option value="suggest">Suggest Content</option>
+                    <option value="general">General Question</option>
+                </select>
+                <div class="contact-error" id="cf-err-subject"></div>
+            </div>
+
+            <div class="contact-field">
+                <label for="cf-message">Message <span class="contact-required">*</span></label>
+                <textarea id="cf-message" rows="6" maxlength="3000" required placeholder="Tell us what you need&hellip;"></textarea>
+                <div class="contact-char-count" id="cf-cc-message"></div>
+                <div class="contact-error" id="cf-err-message"></div>
+            </div>
+
+            <div class="contact-field">
+                <button type="submit" class="btn btn-primary" id="cf-submit" style="width:100%">Send Message</button>
+                <div class="contact-error contact-error-general" id="cf-err-general"></div>
+            </div>
+        </form>
+
+        <!-- Success State -->
+        <div class="contact-success reveal" id="contact-success" style="display:none">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="var(--accent-4)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+            <h2 class="gradient-text" style="margin:var(--space-md) 0 var(--space-sm)">Thank you!</h2>
+            <p style="color:var(--text-secondary);margin-bottom:var(--space-lg)">Your message has been sent. We&rsquo;ll get back to you as soon as possible.</p>
+            <button class="btn btn-outline" id="cf-another">Send Another Message</button>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="reveal" style="margin-top:var(--space-2xl);text-align:center">
+            <p style="color:var(--text-secondary);margin-bottom:var(--space-md)">Looking for something specific?</p>
+            <div style="display:flex;gap:var(--space-md);justify-content:center;flex-wrap:wrap">
+                <a href="program.html" class="btn btn-outline" style="font-size:0.9rem">Learning Program</a>
+                <a href="ai-readiness.html" class="btn btn-outline" style="font-size:0.9rem">AI Readiness Assessment</a>
+                <a href="about.html" class="btn btn-outline" style="font-size:0.9rem">About Us</a>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<script>
+(function() {
+    'use strict';
+
+    var COOLDOWN_MS = 30000;
+    var lastSubmitTime = 0;
+    var lang = document.documentElement.lang || 'en';
+
+    var form = document.getElementById('contact-form');
+    var submitBtn = document.getElementById('cf-submit');
+    var successEl = document.getElementById('contact-success');
+
+    // Pre-fill subject from URL param (e.g., ?subject=program)
+    var urlParams = new URLSearchParams(window.location.search);
+    var preSubject = urlParams.get('subject');
+    if (preSubject) {
+        var subjectSelect = document.getElementById('cf-subject');
+        if (subjectSelect.querySelector('option[value="' + preSubject + '"]')) {
+            subjectSelect.value = preSubject;
+        }
+    }
+
+    // Character counter for message
+    var msgInput = document.getElementById('cf-message');
+    var msgCounter = document.getElementById('cf-cc-message');
+    if (msgInput && msgCounter) {
+        msgInput.addEventListener('input', function() {
+            var remaining = 3000 - msgInput.value.length;
+            msgCounter.textContent = remaining + ' characters remaining';
+            msgCounter.classList.toggle('warn', remaining < 100);
+        });
+    }
+
+    function clearErrors() {
+        form.querySelectorAll('.contact-error').forEach(function(el) { el.textContent = ''; });
+        form.querySelectorAll('.contact-field').forEach(function(el) { el.classList.remove('has-error'); });
+    }
+
+    function showError(field, msg) {
+        var errEl = document.getElementById('cf-err-' + field);
+        if (errEl) errEl.textContent = msg;
+        var parent = errEl && errEl.closest('.contact-field');
+        if (parent) parent.classList.add('has-error');
+    }
+
+    function validate() {
+        clearErrors();
+        var valid = true;
+
+        var name = document.getElementById('cf-name').value.trim();
+        if (!name) { showError('name', 'Please enter your name.'); valid = false; }
+        else if (name.length > 200) { showError('name', 'Maximum 200 characters.'); valid = false; }
+
+        var email = document.getElementById('cf-email').value.trim();
+        if (!email) { showError('email', 'Please enter your email.'); valid = false; }
+        else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showError('email', 'Please enter a valid email.'); valid = false; }
+
+        var subject = document.getElementById('cf-subject').value;
+        if (!subject) { showError('subject', 'Please select a subject.'); valid = false; }
+
+        var message = document.getElementById('cf-message').value.trim();
+        if (!message) { showError('message', 'Please enter a message.'); valid = false; }
+        else if (message.length > 3000) { showError('message', 'Maximum 3000 characters.'); valid = false; }
+
+        return valid;
+    }
+
+    // Load Firebase on demand
+    var firebaseLoading = false;
+    var firebaseReady = false;
+
+    function loadFirebase(callback) {
+        if (window.__db) { callback(); return; }
+        if (firebaseLoading) {
+            var check = setInterval(function() {
+                if (window.__db) { clearInterval(check); callback(); }
+            }, 100);
+            return;
+        }
+        firebaseLoading = true;
+        var fbBase = 'https://www.gstatic.com/firebasejs/10.14.1/';
+        var queue = [fbBase + 'firebase-app-compat.js', fbBase + 'firebase-firestore-compat.js', 'firebase-config.js'];
+        (function loadNext(i) {
+            if (i >= queue.length) { firebaseReady = true; callback(); return; }
+            var s = document.createElement('script');
+            s.src = queue[i];
+            s.onload = function() { loadNext(i + 1); };
+            s.onerror = function() {
+                showError('general', 'Could not connect. Please try again.');
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Send Message';
+            };
+            document.body.appendChild(s);
+        })(0);
+    }
+
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        if (!validate()) return;
+
+        // Rate limiting
+        var now = Date.now();
+        if (now - lastSubmitTime < COOLDOWN_MS) {
+            showError('general', 'Please wait before sending again.');
+            return;
+        }
+
+        // Honeypot
+        var honeypot = form.querySelector('input[name="website"]');
+        if (honeypot && honeypot.value) return;
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Sending\u2026';
+
+        loadFirebase(function() {
+            if (!window.__db) {
+                showError('general', 'Something went wrong. Please try again.');
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Send Message';
+                return;
+            }
+
+            var data = {
+                name: document.getElementById('cf-name').value.trim(),
+                email: document.getElementById('cf-email').value.trim(),
+                organization: document.getElementById('cf-org').value.trim(),
+                subject: document.getElementById('cf-subject').value,
+                message: document.getElementById('cf-message').value.trim(),
+                language: lang,
+                page: document.body.dataset.page,
+                status: 'new',
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            };
+
+            window.__db.collection('contacts').add(data).then(function() {
+                if (typeof gtag === 'function') gtag('event', 'contact_submit', { subject: data.subject, language: data.language });
+                lastSubmitTime = Date.now();
+                form.style.display = 'none';
+                successEl.style.display = '';
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Send Message';
+            }).catch(function() {
+                showError('general', 'Something went wrong. Please try again.');
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Send Message';
+            });
+        });
+    });
+
+    // "Send Another" button
+    document.getElementById('cf-another').addEventListener('click', function() {
+        successEl.style.display = 'none';
+        form.style.display = '';
+        form.reset();
+        clearErrors();
+    });
+})();
+</script>
+
+</body>
+</html>

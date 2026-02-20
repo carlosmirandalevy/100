@@ -46,6 +46,27 @@ service cloud.firestore {
         && request.auth.uid == 'j10SieMUNeMJMtJGHWPUSYqvO8G3';
     }
 
+    // Contact form: public create, admin full access
+    match /contacts/{docId} {
+      allow create: if
+        request.resource.data.name is string
+        && request.resource.data.name.size() > 0
+        && request.resource.data.name.size() <= 200
+        && request.resource.data.email is string
+        && request.resource.data.email.size() > 0
+        && request.resource.data.email.size() <= 320
+        && request.resource.data.subject is string
+        && request.resource.data.subject in ['program', 'assessment', 'consulting', 'products', 'partnership', 'suggest', 'general']
+        && request.resource.data.message is string
+        && request.resource.data.message.size() > 0
+        && request.resource.data.message.size() <= 3000
+        && request.resource.data.status == 'new'
+        && request.resource.data.keys().hasAll(['name', 'email', 'subject', 'message', 'status', 'createdAt']);
+      allow read, update, delete: if
+        request.auth != null
+        && request.auth.uid == 'j10SieMUNeMJMtJGHWPUSYqvO8G3';
+    }
+
     // Deny everything else
     match /{document=**} {
       allow read, write: if false;
